@@ -160,7 +160,7 @@ export async function queryPagelist(params) {
 
 // 详情页表头
 export async function queryDetailPageConfig(params) {
-  const { isSuperUser = 'false' } = JSON.parse(localStorage.getItem('userData'));
+  const { isSuperUser = 'no' } = JSON.parse(localStorage.getItem('userData'));
   if (isSuperUser === 'Yes' && localStorage.getItem('developerMode')) {
     return request('/detailPageConfig/load2', {
       method: 'POST',
@@ -177,7 +177,7 @@ export async function queryDetailPageConfig(params) {
 
 // 详情页获取数据
 export async function queryDetailPage(params) {
-  const { isSuperUser = 'false' } = JSON.parse(localStorage.getItem('userData'));
+  const { isSuperUser = 'no' } = JSON.parse(localStorage.getItem('userData'));
   if (isSuperUser === 'Yes' && localStorage.getItem('developerMode')) {
     return request('/detailPage/loadTwo', {
       method: 'POST',
@@ -266,7 +266,7 @@ export async function queryAutocomplate(params) {
 
 // 获取子表数据
 export async function queryDetailChildPage(params) {
-  const { isSuperUser = 'false' } = JSON.parse(localStorage.getItem('userData'));
+  const { isSuperUser = 'no' } = JSON.parse(localStorage.getItem('userData'));
   if (isSuperUser === 'Yes' && localStorage.getItem('developerMode')) {
     return request('/detailChildPage/resultTwo', {
       method: 'POST',

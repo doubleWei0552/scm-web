@@ -259,7 +259,6 @@ class CustomerButtons extends PureComponent {
               return <HorizontalButtonGroup key={_.now()} data={data} />;
             }
           })}
-        {/*  */}
       </div>
     );
   }
