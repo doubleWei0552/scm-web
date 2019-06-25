@@ -24,7 +24,7 @@ class PersonalCenter extends Component {
     const { type, autoLogin } = this.state;
     return <div>
         <h1>个人主页</h1>
-        <RotationChart />
+        {/* <RotationChart /> */}
       </div>;
   }
 }

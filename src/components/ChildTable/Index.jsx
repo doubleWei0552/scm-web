@@ -402,7 +402,7 @@ export default class ChildTable extends React.Component {
                     );
                   },
                 };
-                if (!i.displayCondition) {
+                if (i.displayCondition) {
                   //表头添加管控
                   columns.push(columnsText);
                 }
@@ -549,7 +549,7 @@ export default class ChildTable extends React.Component {
                     );
                   },
                 };
-                if (!i.displayCondition) {
+                if (i.displayCondition) {
                   columns.push(columnsNumber);
                 }
                 break;
@@ -600,7 +600,7 @@ export default class ChildTable extends React.Component {
                       );
                   },
                 };
-                if (!i.displayCondition) {
+                if (i.displayCondition) {
                   columns.push(columnsMultiObjectSelector);
                 }
                 break;
@@ -774,7 +774,7 @@ export default class ChildTable extends React.Component {
                     );
                   },
                 };
-                if (!i.displayCondition) {
+                if (i.displayCondition) {
                   columns.push(columnsSelect);
                 }
                 break;
@@ -875,7 +875,7 @@ export default class ChildTable extends React.Component {
                     );
                   },
                 };
-                if (!i.displayCondition) {
+                if (i.displayCondition) {
                   columns.push(columnsDate);
                 }
                 break;
@@ -967,7 +967,7 @@ export default class ChildTable extends React.Component {
                     );
                   },
                 };
-                if (!i.displayCondition) {
+                if (i.displayCondition) {
                   columns.push(columnsTextarea);
                 }
                 break;
