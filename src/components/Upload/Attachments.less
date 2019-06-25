@@ -1,0 +1,87 @@
+.AttachmentsMain{
+    :global{
+        .disUpload-list-inline{
+            pointer-events: none;
+            cursor: not-allowed !important;
+            .anticon-close{
+                display: none;
+            }
+            .ant-upload-list-item{
+                background: #f9f9f9;
+            }
+        }
+        .upload-list-inline{
+            .ant-upload-list-item{
+
+            }
+        }
+    }
+    .fileButton{
+        width: 150px;
+        height: 150px;
+        margin: 5px;
+        font-size: 1.2rem;
+        span{
+            display: block;
+        }
+    }
+    .fileList{
+        width: 150px;
+        height: 150px;
+        margin: 5px;
+        float: left;
+        border-radius: 5px;
+        border:1px solid lightgray;
+        .fileImg{
+            width: 130px;
+            height: 100px;
+            display: block;
+            cursor: pointer;
+            margin: 0 10px 10px 10px;
+        }
+        .fileName{
+            width: 130px;
+            height: 21px;
+            margin-left: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .fileIcon{
+            cursor: pointer;
+            color: lightgray;
+            display: block;
+            text-align: right;
+            margin: 0;
+            position: relative;
+            top: -3px;
+            height: 14px;
+        }
+    }
+    .disFileList{
+        width: 150px;
+        height: 150px;
+        margin: 5px;
+        float: left;
+        border-radius: 5px;
+        background: #f9f9f9;
+        cursor: not-allowed !important;
+        border:1px solid lightgray;
+        .fileImg{
+            width: 130px;
+            height: 100px;
+            display: block;
+            margin: 0 10px 10px 10px;
+        }
+        .fileName{
+            width: 130px;
+            margin-left: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .fileIcon{
+            height: 14px;
+        }
+    }
+}
