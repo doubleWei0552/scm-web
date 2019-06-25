@@ -256,7 +256,7 @@ class CustomerButtons extends PureComponent {
                 </span>
               );
             } else {
-              return <HorizontalButtonGroup data={data} />;
+              return <HorizontalButtonGroup key={_.now()} data={data} />;
             }
           })}
         {/*  */}
