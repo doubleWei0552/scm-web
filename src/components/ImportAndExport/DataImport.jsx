@@ -32,6 +32,15 @@ export default class Import extends React.Component {
     });
   };
 
+  updateData = () =>{
+    const pageId = this.props.tableTemplate.pageId;
+    // 进入请求分页数据,参数为默认值
+    this.props.dispatch({
+      type: 'tableTemplate/getPagination',
+      payload: { pageId, current: 1, pageSize: 10 },
+    });
+  }
+
   callback = (key) => {
     console.log(key)
   }
@@ -48,10 +57,7 @@ export default class Import extends React.Component {
   onClick = (e) => {
     let { ImportType } = this.state
     let { importButton: { JAVA_SCRIPT_CONTENT = '' } } = this.props
-    console.log('importButton', (JAVA_SCRIPT_CONTENT))
     const obj = JSON.parse(JAVA_SCRIPT_CONTENT)
-    console.log('obj', JSON.stringify(obj.batchImport))
-    // return
     window.location.href = `${window.config.apiUrl}/batchImport/downLoad?downLoad=${encodeURIComponent(JSON.stringify(obj.batchImport))}`
     this.setState({ current: e })
   }
@@ -90,7 +96,7 @@ export default class Import extends React.Component {
       case 'upload':
         return (
           <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
-            <NormalUpload importButton={this.props.importButton} params={{ current: this.state.current, ImportType: this.state.ImportType }} disabled={this.state.current >= 3 ? false : true} />
+            <NormalUpload updateData={this.updateData} cancleModal={this.handleCancel} importButton={this.props.importButton} params={{ current: this.state.current, ImportType: this.state.ImportType }} disabled={this.state.current >= 3 ? false : true} />
           </div>
         )
         break

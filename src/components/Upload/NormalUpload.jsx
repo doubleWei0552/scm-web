@@ -1,9 +1,19 @@
-import { Upload, Button, Icon } from 'antd';
+import { Upload, Button, Icon,notification } from 'antd';
 import React from 'react';
 
 export default class NormalUpload extends React.Component {
+  handleChange = ({ fileList }) => {
+    let result = fileList[0].response
+    if(result && result !== 'success'){
+      this.props.updateData()
+      notification.error({ message: result.message, duration: 3 });
+    } else if(result && result == 'success'){
+      notification.success({ message: result.message, duration: 3 });
+      this.props.cancleModal() //关闭modal框
+      this.props.updateData()  //更新数据
+    }
+  };
   render() {
-    console.log('ssss', this.props);
     // let { importModelCode } = JSON.parse(this.props.importButton.JAVA_SCRIPT_CONTENT)
     let { objectType, importModelCode } = JSON.parse(
       this.props.importButton.JAVA_SCRIPT_CONTENT
@@ -30,7 +40,7 @@ export default class NormalUpload extends React.Component {
     };
     return (
       <div>
-        <Upload {...props} disabled={this.props.disabled}>
+        <Upload {...props} onChange={this.handleChange} disabled={this.props.disabled}>
           <Button disabled={this.props.disabled}>
             <Icon type="upload" /> 上传文件
           </Button>
