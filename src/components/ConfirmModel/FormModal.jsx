@@ -62,9 +62,9 @@ export default class FormModal extends React.Component{
     }
     
     showModal = () => {
-    this.setState({
-        visible: true,
-    });
+        this.setState({
+            visible: true,
+        });
     };
 
     handleOk = e => {
@@ -75,7 +75,7 @@ export default class FormModal extends React.Component{
     this.props.dispatch({type:'guidePage/getOpenAccount',payload:{id,userMessage,objectType,fieldGroup}})
     setTimeout(() => {
         this.setState({
-        visible: false,
+            visible: false,
         });
     }, 500);
     };
