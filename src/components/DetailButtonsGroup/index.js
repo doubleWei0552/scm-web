@@ -120,6 +120,7 @@ export default class DetailButtonGroup extends React.Component {
   };
 
   handleClickItem = item => {
+    console.log(item)
     const { FIELD_NAME, CONFIRM } = item;
     if (CONFIRM) {
       const div = document.createElement('div')
@@ -133,12 +134,12 @@ export default class DetailButtonGroup extends React.Component {
         message: item.CONFIRM_MESSAGE ? item.CONFIRM_MESSAGE : '确定执行本次操作?'
       }
       ReactDOM.render(<ComModal ref={dom => (this.ComModal = dom)} store={window.g_app._store} {...ComModalProps} />, div)
-    } else if (FIELD_NAME == 'newCustUser' || FIELD_NAME == 'newSupplier') {
+    // } else if (FIELD_NAME == 'newCustUser' || FIELD_NAME == 'newSupplier') {
+    } else if(item.TRANSACTION.relatedFieldGroup){
       this.openAccount(item)
     } else {
       this.onButtonEvent(item)
     }
-
   };
 
   showConfirmModal = (e, message) => {
