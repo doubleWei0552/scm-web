@@ -75,6 +75,7 @@ export default class TableModular extends React.Component{
     }
     //table数据改变
     onTableChange=(e,FIELD_NAME,tableIndex,index)=>{
+        console.log('数据',e,FIELD_NAME,tableIndex,index)
         let tableData
         if(this.props.guidePage.cacheTableData.length){
             tableData = this.props.guidePage.cacheTableData
@@ -342,7 +343,7 @@ export default class TableModular extends React.Component{
                             type="number"
                             style={{ minWidth: '150px',textAlign:'right' }}
                             onChange={(e)=>this.onTableChange(
-                                e,
+                                e.target.value,
                                 item.FIELD_NAME,
                                 tableIndex,
                                 index)}
