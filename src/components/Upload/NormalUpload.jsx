@@ -2,6 +2,10 @@ import { Upload, Button, Icon,notification } from 'antd';
 import React from 'react';
 
 export default class NormalUpload extends React.Component {
+  defaultProps={
+    cancleModal:()=>{},
+    updateData:()=>{},
+  }
   handleChange = ({ fileList }) => {
     let result = fileList[0].response
     if(result && result !== 'success'){
