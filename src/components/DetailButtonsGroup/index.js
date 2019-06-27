@@ -134,8 +134,8 @@ export default class DetailButtonGroup extends React.Component {
         message: item.CONFIRM_MESSAGE ? item.CONFIRM_MESSAGE : '确定执行本次操作?'
       }
       ReactDOM.render(<ComModal ref={dom => (this.ComModal = dom)} store={window.g_app._store} {...ComModalProps} />, div)
-    // } else if (FIELD_NAME == 'newCustUser' || FIELD_NAME == 'newSupplier') {
-    } else if(item.TRANSACTION.relatedFieldGroup){
+      // } else if (FIELD_NAME == 'newCustUser' || FIELD_NAME == 'newSupplier') {
+    } else if (item.TRANSACTION.relatedFieldGroup) {
       this.openAccount(item)
     } else {
       this.onButtonEvent(item)
@@ -202,7 +202,7 @@ export default class DetailButtonGroup extends React.Component {
                 {_.map(data.buttons, item => {
                   return (
                     <Button
-                      key={Math.random() }
+                      key={Math.random()}
                       disabled={item.READ_ONLY_CONDITION}
                       onClick={() => this.handleClickItem(item)}
                       style={{
@@ -296,7 +296,7 @@ export default class DetailButtonGroup extends React.Component {
               </Menu>
             )
             return (
-              <span className={styles.dropdownGroup} style={{ marginRight: '10px' }} ref={dom => this.ddom = dom} key={firstButton.ID}>
+              <span className={styles.dropdownGroup} style={{ marginRight: '10px' }} ref={dom => { index === 0 ? this.dom0 = dom : index === 1 ? this.dom1 = dom : index === 2 ? this.dom2 = dom : index === 3 ? this.dom3 = dom : index === 4 ? this.dom4 = dom : this.ddom = dom }} key={firstButton.ID}>
                 <Button
                   style={{
                     borderBottomRightRadius: 0,
@@ -312,7 +312,7 @@ export default class DetailButtonGroup extends React.Component {
                 </Button>
                 <Dropdown
                   overlay={menu}
-                  getPopupContainer={() => this.ddom}
+                  getPopupContainer={() => index === 0 ? this.dom0 : index === 1 ? this.dom1 : index === 2 ? this.dom2 : index === 3 ? this.dom3 : index === 4 ? this.dom4 : this.ddom}
                   style={{ borderTopLeftRadious: 0 }}
                   placement="bottomLeft"
                   overlayClassName="overlaybuttons"
