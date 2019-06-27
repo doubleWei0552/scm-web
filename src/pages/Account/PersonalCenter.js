@@ -5,6 +5,8 @@ import Link from 'umi/link';
 import { Checkbox, Alert, Icon, Button } from 'antd';
 import Login from '@/components/Login';
 import RotationChart from '@/components/Carousel/Index'
+import TreeSelect from '@/components/TreeSelect/Index'
+import Cascader from '@/components/Cascader/Index'
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
@@ -24,6 +26,8 @@ class PersonalCenter extends Component {
     const { type, autoLogin } = this.state;
     return <div>
         <h1>个人主页</h1>
+        {/* <TreeSelect />
+        <Cascader /> */}
         {/* <RotationChart /> */}
       </div>;
   }

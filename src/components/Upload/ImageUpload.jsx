@@ -63,7 +63,7 @@ export default class ImageUpload extends React.Component {
           listType="picture-card"
           disabled={this.props.disabled}
           fileList={fileList}
-          showUploadList={{showPreviewIcon : this.props.disabled ? false : true, showRemoveIcon: this.props.disabled ? false : true}}
+          showUploadList={{showPreviewIcon : this.props.disabled ? true : true, showRemoveIcon: this.props.disabled ? false : true}}
           headers={{sessionId :localStorage.getItem('sessionId')||''}}
           onPreview={this.handlePreview}
           onChange={this.handleChange}

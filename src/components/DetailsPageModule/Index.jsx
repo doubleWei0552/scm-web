@@ -65,6 +65,7 @@ export default class DetailsPageModule extends React.Component {
             />
             <div className="BasicEditSearch">
               <span style={{ fontSize: '1.2rem' }}>{this.props.subtitle}</span>
+              {/* 主表内容 */}
               <DetailPage
                 ref={dom => (this.DetailPage = dom)}
                 disabled={this.props.tableTemplate.disEditStyle}
