@@ -95,6 +95,7 @@ class DetailPage extends PureComponent {
   };
 
   handleImageChange = (e, i) => {
+    console.log('图片',e,i)
     this.props.form.setFieldsValue({
       [i]: e,
     });
