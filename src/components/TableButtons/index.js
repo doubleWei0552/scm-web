@@ -153,7 +153,6 @@ class CustomerButtons extends PureComponent {
     if (buttonList.length === 0) {
       return null;
     }
-    console.log('buttonLiseet', buttonList)
     return (
       <div className={styles.tableButtonPage}>
         {buttonList.length &&
