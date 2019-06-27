@@ -242,6 +242,7 @@ class DetailPage extends PureComponent {
                             case 'Select':
                             case 'Reference':
                             case 'ObjectSelector':
+                            case 'MultiObjectSelector':
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item
