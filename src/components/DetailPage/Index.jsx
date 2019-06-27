@@ -21,9 +21,9 @@ import moment from 'moment';
 import _ from 'lodash';
 import styles from './Index.less';
 import ShowImage from '@/components/Upload/ShowImage';
-import ImageUpload from '@/components/Upload/ImageUpload'
-import Attachments from '@/components/Upload/Attachments'
-import Editor from '@/components/BraftEditor/index'
+import ImageUpload from '@/components/Upload/ImageUpload';
+import Attachments from '@/components/Upload/Attachments';
+import Editor from '@/components/BraftEditor/index';
 import responsive from '../DescriptionList/responsive';
 import { formItemValid } from '@/utils/validate';
 
@@ -44,9 +44,9 @@ class DetailPage extends PureComponent {
     readOnlyFields: [],
   };
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillReceiveProps() { }
+  componentWillReceiveProps() {}
 
   onEditSearch = (value, searchData) => {
     this.props.dispatch({
@@ -98,15 +98,14 @@ class DetailPage extends PureComponent {
     this.props.form.setFieldsValue({
       [i]: e,
     });
-  }
+  };
 
   //富文本编辑器赋值
   onRichText = (value, FIELD_NAME) => {
-    console.log('传值', value, FIELD_NAME)
     this.props.form.setFieldsValue({
       [FIELD_NAME]: value,
-    })
-  }
+    });
+  };
 
   render() {
     const { tableTemplate } = this.props;
@@ -165,13 +164,7 @@ class DetailPage extends PureComponent {
                               <Form.Item>
                                 {getFieldDecorator(`${field.FIELD_NAME}`, {
                                   initialValue: _.get(field, 'FIELD_VALUE'),
-
-                                })(
-                                  <Input
-
-                                    type="hidden"
-                                  />
-                                )}
+                                })(<Input type="hidden" />)}
                               </Form.Item>
                             );
                           }
@@ -180,7 +173,11 @@ class DetailPage extends PureComponent {
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item
-                                    label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
                                     {...formItemLayout}
                                     style={{ width: '100%' }}
                                   >
@@ -211,7 +208,11 @@ class DetailPage extends PureComponent {
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item
-                                    label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
                                     {...formItemLayout}
                                     style={{ width: '100%' }}
                                   >
@@ -231,7 +232,7 @@ class DetailPage extends PureComponent {
                                         }
                                         // placeholder={`请输入${field.LABEL}`}
                                         onChange={e => e.preventDefault()}
-                                      // style={{ width: '165px', textOverflow: 'ellipsis' }}
+                                        // style={{ width: '165px', textOverflow: 'ellipsis' }}
                                       />
                                     )}
                                   </Form.Item>
@@ -246,7 +247,11 @@ class DetailPage extends PureComponent {
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item
-                                    label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
                                     style={{ width: '100%' }}
                                     {...formItemLayout}
                                   >
@@ -291,7 +296,11 @@ class DetailPage extends PureComponent {
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item
-                                    label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
                                     style={{ width: '100%' }}
                                     {...formItemLayout}
                                   >
@@ -326,7 +335,11 @@ class DetailPage extends PureComponent {
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item
-                                    label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
                                     style={{ width: '100%' }}
                                     {...formItemLayout}
                                   >
@@ -355,7 +368,11 @@ class DetailPage extends PureComponent {
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item
-                                    label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
                                     style={{ width: '100%' }}
                                     {...formItemLayout}
                                   >
@@ -380,13 +397,13 @@ class DetailPage extends PureComponent {
                                   </Form.Item>
                                 </Col>
                               );
-                            case 'RichText':  //富文本编辑器
+                            case 'RichText': //富文本编辑器
                               return (
                                 <Col span={22} offset={1} key={i}>
                                   <Form.Item
                                     // label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
                                     style={{ width: '100%' }}
-                                  // {...formItemLayout}
+                                    // {...formItemLayout}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
                                       initialValue: _.get(field, 'FIELD_VALUE'),
@@ -398,9 +415,15 @@ class DetailPage extends PureComponent {
                                         ...formItemValid(field.PATTERN, field.LABEL),
                                       ],
                                     })(
-                                      <Editor defaultData={field.DISPLAY_NAME} onRichText={(value) => this.onRichText(value, field.FIELD_NAME)} disabled={
-                                        this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                      } />
+                                      <Editor
+                                        defaultData={field.DISPLAY_NAME}
+                                        onRichText={value =>
+                                          this.onRichText(value, field.FIELD_NAME)
+                                        }
+                                        disabled={
+                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
+                                        }
+                                      />
                                     )}
                                   </Form.Item>
                                 </Col>
@@ -409,7 +432,11 @@ class DetailPage extends PureComponent {
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item
-                                    label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
                                     style={{ width: '100%', height: '123px' }}
                                     {...formItemLayout}
                                   >
@@ -423,21 +450,29 @@ class DetailPage extends PureComponent {
                                         ...formItemValid(field.PATTERN, field.LABEL),
                                       ],
                                     })(
-                                      <ImageUpload handleImageChange={(e) => this.handleImageChange(e, field.FIELD_NAME)}
+                                      <ImageUpload
+                                        handleImageChange={e =>
+                                          this.handleImageChange(e, field.FIELD_NAME)
+                                        }
                                         field={field}
                                         {...this.props}
                                         disabled={
                                           this.props.disabled ? true : item.READ_ONLY_CONDITION
-                                        } />
+                                        }
+                                      />
                                     )}
                                   </Form.Item>
                                 </Col>
                               );
-                            case 'Attachment':  //附件
+                            case 'Attachment': //附件
                               return (
                                 <Col span={22} offset={1} key={i}>
                                   <Form.Item
-                                    label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
                                     style={{ width: '100%', minHeight: '123px', display: 'block' }}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
@@ -450,12 +485,16 @@ class DetailPage extends PureComponent {
                                         ...formItemValid(field.PATTERN, field.LABEL),
                                       ],
                                     })(
-                                      <Attachments handleImageChange={(e) => this.handleImageChange(e, field.FIELD_NAME)}
+                                      <Attachments
+                                        handleImageChange={e =>
+                                          this.handleImageChange(e, field.FIELD_NAME)
+                                        }
                                         field={field}
                                         {...this.props}
                                         disabled={
                                           this.props.disabled ? true : item.READ_ONLY_CONDITION
-                                        } />
+                                        }
+                                      />
                                     )}
                                   </Form.Item>
                                 </Col>

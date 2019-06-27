@@ -19,7 +19,7 @@ class SearchBar extends PureComponent {
     end: null,
   };
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   componentWillReceiveProps(newProps) {
     if (newProps.tableTemplate.tableColumns !== this.props.tableTemplate.tableColumns) {
@@ -84,7 +84,7 @@ class SearchBar extends PureComponent {
   onDateChange = (field, value) => {
     this.setState({
       [field]: value,
-    })
+    });
   };
 
   onStartChange = (e, value) => {
@@ -124,12 +124,14 @@ class SearchBar extends PureComponent {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       _.mapKeys(values, (value, key) => {
-        var objKeys = Object.keys(values)
+        var objKeys = Object.keys(values);
         for (var i = 0; i < objKeys.length; i++) {
-          var keys = objKeys[i].split('-')
-          if (!searchParams[keys[0]] && typeof (searchParams[keys[0]]) !== 'number') searchParams[keys[0]] = { start: null, end: null }
-          if (keys.length > 1) searchParams[keys[0]][keys[1]] = moment(values[objKeys[i]]).valueOf()
-          else searchParams[objKeys[i]] = values[objKeys[i]]
+          var keys = objKeys[i].split('-');
+          if (!searchParams[keys[0]] && typeof searchParams[keys[0]] !== 'number')
+            searchParams[keys[0]] = { start: null, end: null };
+          if (keys.length > 1)
+            searchParams[keys[0]][keys[1]] = moment(values[objKeys[i]]).valueOf();
+          else searchParams[objKeys[i]] = values[objKeys[i]];
         }
         return;
       });
@@ -153,9 +155,8 @@ class SearchBar extends PureComponent {
     const count = expand ? searchItems.length : 2;
     const { getFieldDecorator } = this.props.form;
     const dateIdx = _.findIndex(searchItems, item => {
-
-      return (item.widgetType === 'DateTime' || item.widgetType === 'Date')
-    })
+      return item.widgetType === 'DateTime' || item.widgetType === 'Date';
+    });
     return (
       <div>
         <Row>
@@ -178,7 +179,17 @@ class SearchBar extends PureComponent {
                       <Form.Item
                         label={value.title}
                         // style={{ display: 'flex' }}
-                        style={{ display: expand ? 'flex' : dateIdx === 0 ? index + 1 < count ? '' : 'none' : index < count ? '' : 'none' }}
+                        style={{
+                          display: expand
+                            ? 'flex'
+                            : dateIdx === 0
+                            ? index + 1 < count
+                              ? ''
+                              : 'none'
+                            : index < count
+                            ? ''
+                            : 'none',
+                        }}
                         key={value.dataIndex}
                       >
                         {getFieldDecorator(`${value.dataIndex}`, {
@@ -192,28 +203,28 @@ class SearchBar extends PureComponent {
                             filterOption={(inputValue, option) =>
                               _.includes(option.props.children, inputValue)
                             }
-                          // suffixIcon={
-                          //   value.widgetType !== 'Select' && <Icon type="search" />
-                          // }
-                          // onFocus={this.selectClick.bind(this, {
-                          //   text: value.dataIndex,
-                          //   key: currentKey,
-                          //   value: null,
-                          // })}
+                            // suffixIcon={
+                            //   value.widgetType !== 'Select' && <Icon type="search" />
+                            // }
+                            // onFocus={this.selectClick.bind(this, {
+                            //   text: value.dataIndex,
+                            //   key: currentKey,
+                            //   value: null,
+                            // })}
                           >
                             {SearchOptions[value.dataIndex] &&
-                              SearchOptions[value.dataIndex].length > 0
+                            SearchOptions[value.dataIndex].length > 0
                               ? _.map(SearchOptions[value.dataIndex], (item, index) => {
-                                return (
-                                  <Select.Option
-                                    title={item.text}
-                                    key={item.value + item.text}
-                                    value={item.value}
-                                  >
-                                    {item.text}
-                                  </Select.Option>
-                                );
-                              })
+                                  return (
+                                    <Select.Option
+                                      title={item.text}
+                                      key={item.value + item.text}
+                                      value={item.value}
+                                    >
+                                      {item.text}
+                                    </Select.Option>
+                                  );
+                                })
                               : null}
                           </Select>
                         )}
@@ -232,17 +243,17 @@ class SearchBar extends PureComponent {
                       title: `结束${value.title}`,
                       FIELD_VALUE: null,
                       DateType: 'end',
-                    }
-                  ]
+                    },
+                  ];
                   return Date.map((kk, gg) => {
-                    let type = kk.DateType
+                    let type = kk.DateType;
                     switch (type) {
                       case 'start':
                         return (
                           <Col style={{ textAlign: 'left' }} key={kk.sequence + gg}>
                             <Form.Item
                               label={kk.title}
-                              style={{ display: expand ? 'flex' : index + i < count ? '' : 'none' }}
+                              style={{ display: expand ? 'flex' : index + 1 < count ? '' : 'none' }}
                             >
                               {getFieldDecorator(`${value.dataIndex}-${kk.DateType}`, {
                                 initialValue: null,
@@ -253,23 +264,23 @@ class SearchBar extends PureComponent {
                                   placeholder={`请选择${kk.title}`}
                                   showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                                   style={{ width: '195px' }}
-                                  onChange={(e) => {
-                                    this.handleChange(e, kk.title)
-                                    this.onStartChange(e, kk)
+                                  onChange={e => {
+                                    this.handleChange(e, kk.title);
+                                    this.onStartChange(e, kk);
                                   }}
-                                  disabledDate={(e) => this.disabledStartDate(e, kk)}
+                                  disabledDate={e => this.disabledStartDate(e, kk)}
                                 />
                               )}
                             </Form.Item>
                           </Col>
                         );
-                        break
+                        break;
                       case 'end':
                         return (
                           <Col style={{ textAlign: 'left' }} key={kk.sequence + gg}>
                             <Form.Item
                               label={kk.title}
-                              style={{ display: expand ? 'flex' : index + i < count ? '' : 'none' }}
+                              style={{ display: expand ? 'flex' : index + 1 < count ? '' : 'none' }}
                             >
                               {getFieldDecorator(`${value.dataIndex}-${kk.DateType}`, {
                                 initialValue: null,
@@ -281,23 +292,23 @@ class SearchBar extends PureComponent {
                                   style={{ width: '195px' }}
                                   allowClear
                                   onChange={e => {
-                                    console.log(e)
-                                    this.handleChange(e, kk.title)
-                                    this.onEndChange(e, kk)
+                                    console.log(e);
+                                    this.handleChange(e, kk.title);
+                                    this.onEndChange(e, kk);
                                   }}
-                                  disabledDate={(e) => this.disabledEndDate(e, kk)}
-                                // value={this.state[`${kk.FIELD_NAME}-end`]}
-                                // onChange={(e)=>this.onEndChange(e,kk)}
+                                  disabledDate={e => this.disabledEndDate(e, kk)}
+                                  // value={this.state[`${kk.FIELD_NAME}-end`]}
+                                  // onChange={(e)=>this.onEndChange(e,kk)}
                                 />
                               )}
                             </Form.Item>
                           </Col>
                         );
-                        break
+                        break;
                       default:
-                        break
+                        break;
                     }
-                  })
+                  });
                   // const rangeTime = [
                   //   { label: `起始${value.title}`, value: `${value.dataIndex}start` },
                   //   { label: `结束${value.title}`, value: `${value.dataIndex}end` },
@@ -330,7 +341,17 @@ class SearchBar extends PureComponent {
                         label={value.title}
                         key={value.dataIndex}
                         // {...formItemLayout}
-                        style={{ display: expand ? 'flex' : dateIdx === 0 ? index + 1 < count ? '' : 'none' : index < count ? '' : 'none' }}
+                        style={{
+                          display: expand
+                            ? 'flex'
+                            : dateIdx === 0
+                            ? index + 1 < count
+                              ? ''
+                              : 'none'
+                            : index < count
+                            ? ''
+                            : 'none',
+                        }}
                       >
                         {getFieldDecorator(`${value.dataIndex}`, {
                           initialValue: '',
@@ -350,7 +371,17 @@ class SearchBar extends PureComponent {
                         label={value.title}
                         key={value.dataIndex}
                         // {...formItemLayout}
-                        style={{ display: expand ? 'flex' : dateIdx === 0 ? index + 1 < count ? '' : 'none' : index < count ? '' : 'none' }}
+                        style={{
+                          display: expand
+                            ? 'flex'
+                            : dateIdx === 0
+                            ? index + 1 < count
+                              ? ''
+                              : 'none'
+                            : index < count
+                            ? ''
+                            : 'none',
+                        }}
                       >
                         {getFieldDecorator(`${value.dataIndex}`, {
                           initialValue: '',
@@ -380,11 +411,22 @@ class SearchBar extends PureComponent {
                     <Icon type="search" />
                   </Button>
 
-
                   <span style={{ display: 'inlineblock', padding: '8px' }}>
                     <a
-                      style={{ marginLeft: 8, fontSize: 12, cursor: (searchItems.length === 1 || (searchItems.length === 2 && dateIdx === -1)) ? 'not-allowed' : 'pointer' }}
-                      onClick={!(searchItems.length === 1 || (searchItems.length === 2 && dateIdx === -1)) && this.toggle}
+                      style={{
+                        marginLeft: 8,
+                        fontSize: 12,
+                        cursor:
+                          searchItems.length === 1 || (searchItems.length === 2 && dateIdx === -1)
+                            ? 'not-allowed'
+                            : 'pointer',
+                      }}
+                      onClick={
+                        !(
+                          searchItems.length === 1 ||
+                          (searchItems.length === 2 && dateIdx === -1)
+                        ) && this.toggle
+                      }
                     >
                       <Icon type={this.state.expand ? 'up' : 'down'} />
                     </a>
