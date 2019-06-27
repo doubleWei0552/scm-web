@@ -138,125 +138,125 @@ class CustomerButtons extends PureComponent {
     const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
     const buttonList = [];
     _.map(tableButtons, item => {
-      const index = _.findIndex(buttonList, l => l.groupName === item.BUTTON_GROUP);
-      if (index > -1) {
-        buttonList[index].buttons.push(item);
+      if (!item.BUTTON_GROUP) {
+        buttonList.push(item)
       } else {
-        buttonList.push({ groupName: item.BUTTON_GROUP, buttons: [item] });
+        const index = _.findIndex(buttonList, l => l.BUTTON_GROUP === item.BUTTON_GROUP);
+        if (index > -1) {
+          buttonList[index].buttons.push(item);
+        } else {
+          buttonList.push({ BUTTON_GROUP: item.BUTTON_GROUP, buttons: [item] });
+        }
       }
+
     });
     if (buttonList.length === 0) {
       return null;
     }
+    console.log('buttonLiseet', buttonList)
     return (
       <div className={styles.tableButtonPage}>
         {buttonList.length &&
-          _.map(buttonList, (data,index) => {
-            if (!data.groupName) {
-              return (
-                <span key={index}>
-                  {data.buttons.map(item => {
-                    const obj = JSON.parse(item.JAVA_SCRIPT_CONTENT || '{}') || {};
-                    if (obj && obj.batchImport) {
-                      return (
-                        <Button
-                          key={item.ID}
-                          disabled={item.READ_ONLY_CONDITION}
-                          onClick={() => this.tableImport(item)}
-                          style={{
-                            marginRight: '5px',
-                            display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
-                          }}
-                        >
-                          {item.LABEL}
-                        </Button>
-                      );
-                    }
-                    switch (item.FIELD_NAME) {
-                      case 'ADD_SUMMARY':
-                        return (
-                          <Button
-                            disabled={item.READ_ONLY_CONDITION}
-                            key={item.ID}
-                            onClick={this.tableCreate}
-                            style={{
-                              marginRight: '5px',
-                              display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
-                            }}
-                            type="primary"
-                          >
-                            {item.LABEL}
-                          </Button>
-                        );
-                        break;
-                      case 'DELETED_SUMMARY':
-                        return (
-                          <Button
-                            key={item.ID}
-                            disabled={selectedRowKeys.length > 0 ? item.READ_ONLY_CONDITION : true}
-                            onClick={() =>
-                              this.showConfirmModal('tableDelete', '确定要删除这些数据么？')
-                            }
-                            style={{
-                              marginRight: '5px',
-                              display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
-                            }}
-                          >
-                            {item.LABEL}
-                          </Button>
-                        );
-                        break;
-                      case 'DAORU':
-                        return (
-                          <Button
-                            key={item.ID}
-                            disabled={item.READ_ONLY_CONDITION}
-                            onClick={() => this.tableImport(item)}
-                            style={{
-                              marginRight: '5px',
-                              display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
-                            }}
-                          >
-                            {item.LABEL}
-                          </Button>
-                        );
-                        break;
-                      case 'DAOCHU':
-                        return (
-                          <Button
-                            key={item.ID}
-                            // disabled={item.READ_ONLY_CONDITION}
-                            onClick={this.tableExport}
-                            style={{
-                              marginRight: '5px',
-                              // display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
-                            }}
-                          >
-                            {item.LABEL}
-                          </Button>
-                        );
-                        break;
-                      default:
-                        return (
-                          <Button
-                            key={item.ID}
-                            style={{
-                              marginRight: '5px',
-                              display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
-                            }}
-                            disabled={item.READ_ONLY_CONDITION}
-                            onClick={() => this.onTableButtonEvent(item)}
-                          >
-                            {item.LABEL}
-                          </Button>
-                        );
-                        break;
-                    }
-                  })}
-                </span>
-              );
+          _.map(buttonList, (item, index) => {
+            if (!item.BUTTON_GROUP) {
+              const obj = JSON.parse(item.JAVA_SCRIPT_CONTENT || '{}') || {};
+              if (obj && obj.batchImport) {
+                return (
+                  <Button
+                    key={item.ID}
+                    disabled={item.READ_ONLY_CONDITION}
+                    onClick={() => this.tableImport(item)}
+                    style={{
+                      marginRight: '5px',
+                      display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
+                    }}
+                  >
+                    {item.LABEL}
+                  </Button>
+                );
+              }
+              switch (item.FIELD_NAME) {
+                case 'ADD_SUMMARY':
+                  return (
+                    <Button
+                      disabled={item.READ_ONLY_CONDITION}
+                      key={item.ID}
+                      onClick={this.tableCreate}
+                      style={{
+                        marginRight: '5px',
+                        display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
+                      }}
+                      type="primary"
+                    >
+                      {item.LABEL}
+                    </Button>
+                  );
+                  break;
+                case 'DELETED_SUMMARY':
+                  return (
+                    <Button
+                      key={item.ID}
+                      disabled={selectedRowKeys.length > 0 ? item.READ_ONLY_CONDITION : true}
+                      onClick={() =>
+                        this.showConfirmModal('tableDelete', '确定要删除这些数据么？')
+                      }
+                      style={{
+                        marginRight: '5px',
+                        display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
+                      }}
+                    >
+                      {item.LABEL}
+                    </Button>
+                  );
+                  break;
+                case 'DAORU':
+                  return (
+                    <Button
+                      key={item.ID}
+                      disabled={item.READ_ONLY_CONDITION}
+                      onClick={() => this.tableImport(item)}
+                      style={{
+                        marginRight: '5px',
+                        display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
+                      }}
+                    >
+                      {item.LABEL}
+                    </Button>
+                  );
+                  break;
+                case 'DAOCHU':
+                  return (
+                    <Button
+                      key={item.ID}
+                      // disabled={item.READ_ONLY_CONDITION}
+                      onClick={this.tableExport}
+                      style={{
+                        marginRight: '5px',
+                        // display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
+                      }}
+                    >
+                      {item.LABEL}
+                    </Button>
+                  );
+                  break;
+                default:
+                  return (
+                    <Button
+                      key={item.ID}
+                      style={{
+                        marginRight: '5px',
+                        display: item.DISPLAY_CONDITION ? 'none' : 'inline-block',
+                      }}
+                      disabled={item.READ_ONLY_CONDITION}
+                      onClick={() => this.onTableButtonEvent(item)}
+                    >
+                      {item.LABEL}
+                    </Button>
+                  );
+                  break;
+              }
             } else {
-              return <HorizontalButtonGroup key={_.now()} data={data} />;
+              return <HorizontalButtonGroup key={_.now()} data={item} />;
             }
           })}
       </div>
