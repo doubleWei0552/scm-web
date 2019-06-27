@@ -223,7 +223,7 @@ class DetailButtons extends PureComponent {
 
   // 返回
   editBack = () => {
-    this.props.detailForm.resetFields(); // 待测
+    this.props.detailForm && this.props.detailForm.resetFields(); // 待测
     this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); // 新增时，清空输入框内的内容
     this.props.dispatch({
       type: 'tableTemplate/changeState',
@@ -273,7 +273,7 @@ class DetailButtons extends PureComponent {
     const { isNewSave } = this.props.tableTemplate;
     let fileList = _.get(this.props.tableTemplate, 'fileList')
     let fileKey = _.get(this.props.tableTemplate, 'fileKey')
-    console.log('详情页',this.props.detailForm.getFieldsValue())
+    console.log('详情页', this.props.detailForm.getFieldsValue())
     this.props.detailForm.validateFields((err, fieldValues) => {
       if (!err) {
         _.mapKeys(fieldValues, (value, key) => {
