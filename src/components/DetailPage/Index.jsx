@@ -95,7 +95,6 @@ class DetailPage extends PureComponent {
   };
 
   handleImageChange = (e, i) => {
-    console.log('图片',e,i)
     this.props.form.setFieldsValue({
       [i]: e,
     });
@@ -103,7 +102,6 @@ class DetailPage extends PureComponent {
 
   //富文本编辑器赋值
   onRichText = (value, FIELD_NAME) => {
-    console.log('传值', value, FIELD_NAME)
     this.props.form.setFieldsValue({
       [FIELD_NAME]: value,
     })

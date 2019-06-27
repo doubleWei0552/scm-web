@@ -242,7 +242,7 @@ class SearchBar extends PureComponent {
                           <Col style={{ textAlign: 'left' }} key={kk.sequence + gg}>
                             <Form.Item
                               label={kk.title}
-                              style={{ display: expand ? 'flex' : index + i < count ? '' : 'none' }}
+                              style={{ display: expand ? 'flex' : index + 1 < count ? '' : 'none' }}
                             >
                               {getFieldDecorator(`${value.dataIndex}-${kk.DateType}`, {
                                 initialValue: null,
@@ -269,7 +269,7 @@ class SearchBar extends PureComponent {
                           <Col style={{ textAlign: 'left' }} key={kk.sequence + gg}>
                             <Form.Item
                               label={kk.title}
-                              style={{ display: expand ? 'flex' : index + i < count ? '' : 'none' }}
+                              style={{ display: expand ? 'flex' : index + 1 < count ? '' : 'none' }}
                             >
                               {getFieldDecorator(`${value.dataIndex}-${kk.DateType}`, {
                                 initialValue: null,
