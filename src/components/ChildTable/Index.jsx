@@ -465,7 +465,8 @@ export default class ChildTable extends React.Component {
                             })(
                               <Input
                                 type="number"
-                                onChange={e =>
+                                onChange={()=>{if(specificData.RELATED_FIELDS){
+                                  e =>
                                   this.onChildChang(
                                     e.target.value,
                                     record,
@@ -475,7 +476,9 @@ export default class ChildTable extends React.Component {
                                     index,
                                     value.Columns, //表头数据
                                     value
-                                  )
+                                    )
+                                  }
+                                }
                                 }
                                 onBlur={e => {
                                   this.autoFocusChange()
@@ -515,7 +518,8 @@ export default class ChildTable extends React.Component {
                                   <Input
                                     // ref={this.ref}
                                     type="number"
-                                    onChange={e =>
+                                    onChange={()=>{if(specificData.RELATED_FIELDS){
+                                      e =>
                                       this.onChildChang(
                                         e.target.value,
                                         record,
@@ -525,7 +529,9 @@ export default class ChildTable extends React.Component {
                                         index,
                                         value.Columns, //表头数据
                                         value
-                                      )
+                                        )
+                                      }
+                                    }
                                     }
                                     autoFocus={this.state.autoFocus}
                                     onBlur={e => {

@@ -25,6 +25,7 @@ import ImageUpload from '@/components/Upload/ImageUpload';
 import Attachments from '@/components/Upload/Attachments';
 import Editor from '@/components/BraftEditor/index';
 import responsive from '../DescriptionList/responsive';
+import TreeSelectCom from '@/components/TreeSelect/Index'
 import { formItemValid } from '@/utils/validate';
 
 const { Option } = Select;
@@ -464,6 +465,42 @@ class DetailPage extends PureComponent {
                                   </Form.Item>
                                 </Col>
                               );
+                              case 'TreeSelector':
+                              return (
+                                <Col span={10} offset={1} key={i}>
+                                  <Form.Item
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
+                                    style={{ width: '100%' }}
+                                    {...formItemLayout}
+                                  >
+                                    {getFieldDecorator(`${field.FIELD_NAME}`, {
+                                      initialValue: _.get(field, 'FIELD_VALUE'),
+                                      rules: [
+                                        {
+                                          required: field.REQUIRED_CONDITION,
+                                          message: `${field.LABEL}不能为空`,
+                                        },
+                                        ...formItemValid(field.PATTERN, field.LABEL),
+                                      ],
+                                    })(
+                                      <TreeSelectCom
+                                      defaultData={field.FIELD_VALUE}
+                                      treeData={field.children}
+                                      handleImageChange={e =>
+                                        this.handleImageChange(e, field.FIELD_NAME)
+                                      }
+                                      style={{ width: '200px' }}
+                                      disabled={
+                                        this.props.disabled ? true : item.READ_ONLY_CONDITION
+                                      } />
+                                    )}
+                                  </Form.Item>
+                                </Col>
+                            );
                             case 'Attachment': //附件
                               return (
                                 <Col span={22} offset={1} key={i}>
