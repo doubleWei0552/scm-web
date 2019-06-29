@@ -292,6 +292,8 @@ export default class ChildTable extends React.Component {
                   </Tooltip>,
                   dataIndex: i.text,
                   readOnlyCondition: i.readOnlyCondition, //只读管控
+                  defaultValue:i.defaultValue,  //默认值
+                  requiredCondition:i.requiredCondition, //是否必填
                   key: j + i.value,
                   text: i.text,
                   type: i.type,
@@ -414,6 +416,8 @@ export default class ChildTable extends React.Component {
                   </Tooltip>,
                   dataIndex: i.text,
                   readOnlyCondition: i.readOnlyCondition,
+                  defaultValue:i.defaultValue,  //默认值
+                  requiredCondition:i.requiredCondition, //是否必填
                   key: j + i.value,
                   text: i.text,
                   type: i.type,
@@ -567,6 +571,8 @@ export default class ChildTable extends React.Component {
                   </Tooltip>,
                   dataIndex: i.text,
                   readOnlyCondition: i.readOnlyCondition,
+                  defaultValue:i.defaultValue,  //默认值
+                  requiredCondition:i.requiredCondition, //是否必填
                   key: j + i.value,
                   text: i.text,
                   type: i.type,
@@ -619,6 +625,8 @@ export default class ChildTable extends React.Component {
                   </Tooltip>,
                   dataIndex: i.text,
                   readOnlyCondition: i.readOnlyCondition,
+                  defaultValue:i.defaultValue,  //默认值
+                  requiredCondition:i.requiredCondition, //是否必填
                   options: i.options,
                   key: j + i.value,
                   text: i.text,
@@ -792,6 +800,8 @@ export default class ChildTable extends React.Component {
                   </Tooltip>,
                   dataIndex: i.text,
                   readOnlyCondition: i.readOnlyCondition, //只读管控
+                  defaultValue:i.defaultValue,  //默认值
+                  requiredCondition:i.requiredCondition, //是否必填
                   key: j + i.value,
                   text: i.text,
                   type: i.type,
@@ -892,6 +902,8 @@ export default class ChildTable extends React.Component {
                   </Tooltip>,
                   dataIndex: i.text,
                   readOnlyCondition: i.readOnlyCondition, //只读管控
+                  defaultValue:i.defaultValue,  //默认值
+                  requiredCondition:i.requiredCondition, //是否必填
                   key: j + i.value,
                   text: i.text,
                   type: i.type,
