@@ -35,6 +35,7 @@ export default class ListForm extends React.Component {
     let DISPLAY_NAME 
     let addData = [];
     this.props.form.validateFields((err, values) => {
+      console.log('canshu1',values)
       if (!err) {
         for(let i in values){
           if(values[i] && typeof(values[i]) == 'string'){
@@ -43,60 +44,61 @@ export default class ListForm extends React.Component {
           }
         }
         Data = values
+          if (this.props.ChildData.length == 0) {
+          //新增的情况
+          for (let i in Data) {
+            let current = {}
+            this.props.columns.map(item => {
+              if(i == item.dataIndex && item.type == "Select" || item.type == 'Reference'){
+                current.options = item.options
+              }
+            })
+            current.FIELD_NAME = i
+            current.FIELD_VALUE = Data[i]
+            current.DISPLAY_NAME = Data[i + 'DISPLAY_NAME']
+            current.OBJECT_TYPE = this.props.value.Data.objectType
+            current.id = null
+            current.key = i + Data[i] + this.props.value.Data.objectType
+            addData.push(current)
+          }
+          let ChildData = []
+          this.props.detailColumns.child.map((n)=>{
+            let cacheData = {}
+            let cacheChildData = {}
+            cacheData.Columns = n
+            cacheChildData.objectType = n.objectType
+            cacheChildData.records = []
+            if(n.objectType == this.props.value.Data.objectType){
+              cacheChildData.records.push(addData)
+            }
+            cacheData.Data = cacheChildData
+            ChildData.push(cacheData)
+          })
+          this.props.dispatch({ type: 'tableTemplate/save',payload:{ChildData}});
+          } else {
+            // 编辑情况
+            for (let i in Data) { //再加判断是不是select类型，添加options属性
+              let current = {};
+              this.props.columns.map(item => {
+                if(i == item.dataIndex && item.type == "Select" || item.type == 'Reference'){
+                  current.options = item.options
+                }
+              })
+              current.FIELD_NAME = i;
+              current.DISPLAY_NAME = Data[i + 'DISPLAY_NAME']
+              current.FIELD_VALUE = moment(Data[i]).valueOf() ? moment(Data[i]).valueOf() : Data[i];
+              current.OBJECT_TYPE = this.props.value.Data.objectType;
+              current.key = i + Data[i] + this.props.value.Data.objectType
+              current.id = null;
+              addData.push(current);
+            }
+            this.props.value.Data.records.push(addData)
+            this.props.dispatch({ type: 'tableTemplate/save' }); //刷新model值
+          }
+          this.props.handleCancel()
       }
     })
-    if (this.props.ChildData.length == 0) {
-      //新增的情况
-      for (let i in Data) {
-        let current = {}
-        this.props.columns.map(item => {
-          if(i == item.dataIndex && item.type == "Select" || item.type == 'Reference'){
-            current.options = item.options
-          }
-        })
-        current.FIELD_NAME = i
-        current.FIELD_VALUE = Data[i]
-        current.DISPLAY_NAME = Data[i + 'DISPLAY_NAME']
-        current.OBJECT_TYPE = this.props.value.Data.objectType
-        current.id = null
-        current.key = i + Data[i] + this.props.value.Data.objectType
-        addData.push(current)
-      }
-      let ChildData = []
-      this.props.detailColumns.child.map((n)=>{
-        let cacheData = {}
-        let cacheChildData = {}
-        cacheData.Columns = n
-        cacheChildData.objectType = n.objectType
-        cacheChildData.records = []
-        if(n.objectType == this.props.value.Data.objectType){
-          cacheChildData.records.push(addData)
-        }
-        cacheData.Data = cacheChildData
-        ChildData.push(cacheData)
-      })
-      this.props.dispatch({ type: 'tableTemplate/save',payload:{ChildData}});
-    } else {
-      // 编辑情况
-      for (let i in Data) { //再加判断是不是select类型，添加options属性
-        let current = {};
-        this.props.columns.map(item => {
-          if(i == item.dataIndex && item.type == "Select" || item.type == 'Reference'){
-            current.options = item.options
-          }
-        })
-        current.FIELD_NAME = i;
-        current.DISPLAY_NAME = Data[i + 'DISPLAY_NAME']
-        current.FIELD_VALUE = typeof(Data[i]) == 'object' ? moment(Data[i]).valueOf() : Data[i];
-        current.OBJECT_TYPE = this.props.value.Data.objectType;
-        current.key = i + Data[i] + this.props.value.Data.objectType
-        current.id = null;
-        addData.push(current);
-      }
-      this.props.value.Data.records.push(addData)
-      this.props.dispatch({ type: 'tableTemplate/save' }); //刷新model值
-    }
-    this.props.handleCancel()
+      
   };
   handleResetClick = e => {
     this.props.form.resetFields();
@@ -145,7 +147,8 @@ export default class ListForm extends React.Component {
                       </span>
                       <Form.Item style={{ width: '70%', float: 'left' }}>
                         {getFieldDecorator(values.text, {
-                          rules: [{ required: false, message: `这是必填项,请录入${values.value}` }],
+                          initialValue: values.defaultValue,
+                          rules: [{ required: values.requiredCondition, message: `这是必填项,请录入${values.value}` }],
                         })(<Input placeholder={`请录入${values.value}`} />)}
                       </Form.Item>
                     </Col>
@@ -173,7 +176,8 @@ export default class ListForm extends React.Component {
                       </span>
                       <Form.Item style={{ width: '70%', float: 'left' }}>
                         {getFieldDecorator(values.text, {
-                          rules: [{ required: false, message: `这是必填项,请选择${values.value}` }],
+                          initialValue: values.defaultValue,
+                          rules: [{ required: values.requiredCondition, message: `这是必填项,请选择${values.value}` }],
                         })(<DatePicker style={{width:'100%'}}
                           format={values.type == 'Date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss' }
                         />)}
@@ -202,7 +206,8 @@ export default class ListForm extends React.Component {
                       </span>
                       <Form.Item style={{ width: '70%', float: 'left' }}>
                         {getFieldDecorator(values.text, {
-                          rules: [{ required: false, message: `这是必填项,请录入${values.value}` }],
+                          initialValue: values.defaultValue,
+                          rules: [{ required: values.requiredCondition,message: `这是必填项,请录入${values.value}` }],
                         })(<TextArea rows={1} placeholder={`请录入${values.value}`} />)}
                       </Form.Item>
                     </Col>
@@ -229,7 +234,8 @@ export default class ListForm extends React.Component {
                     </span>
                     <Form.Item style={{ width: '70%', float: 'left' }}>
                       {getFieldDecorator(values.text, {
-                        rules: [{ required: false, message: `这是必填项,请录入${values.value}` }],
+                        initialValue: values.defaultValue,
+                        rules: [{ required: values.requiredCondition,message: `这是必填项,请录入${values.value}` }],
                       })(<InputNumber style={{width:'100%'}} placeholder={`请录入${values.value}`} />)}
                     </Form.Item>
                   </Col>
@@ -238,10 +244,12 @@ export default class ListForm extends React.Component {
                 case 'Select':
                 case 'Reference':
                 case 'ObjectType':
+                  console.log(values)
                   if(values.readOnlyCondition) return null
                   if (!this.props.selectOption) return;
                   let optionChild
                   if(values.type == 'Reference'){
+                    console.log('reference',this.props.selectOption)
                     optionChild = this.props.selectOption.map((v, s) => {
                       return (
                         <Select.Option value={`${v.text}--${v.value}`} key={v.text + s}>
@@ -250,6 +258,7 @@ export default class ListForm extends React.Component {
                       );
                     });
                   }else{
+                    console.log('select',values.options)
                     optionChild = values.options.map((v, s) => {
                       return (
                         <Select.Option value={`${v.text}--${v.value}`} key={v.text + s}>
@@ -278,7 +287,8 @@ export default class ListForm extends React.Component {
                       </span>
                       <Form.Item style={{ width: '70%', float: 'left' }}>
                         {getFieldDecorator(values.text, {
-                          rules: [{ required: false, message: `这是必填项,请选择${values.value}` }],
+                          initialValue: values.defaultValue,
+                          rules: [{ required: values.requiredCondition,message: `这是必填项,请选择${values.value}` }],
                         })(
                           <Select
                             onFocus={() => {

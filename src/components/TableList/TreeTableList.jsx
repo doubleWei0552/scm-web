@@ -6,7 +6,6 @@ import {
   Table, Tooltip
 } from 'antd';
 
-
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
   loadingTable: loading.effects['tableTemplate/getPagination'],
@@ -16,7 +15,7 @@ import {
     loading.effects['tableTemplate/getDetailPage'] ||
     loading.effects['tableTemplate/getSummaryPageConfig'],
 }))
-class TableList extends PureComponent {
+class TreeTableList extends PureComponent {
   state = {
     selectedRowKeys: [],
 }
