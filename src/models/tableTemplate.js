@@ -72,6 +72,8 @@ export default {
 
     isEditSave: false, //判断是不是详情页的新增，默认是false 不是
     isOperate: false, //用于记录取消时，用户有没有进行过操作，默认没有操作（fasle）
+
+    sorterData:{}, //用于记录列表排序
     // ------------------------------------------------
   },
   subscriptions: {
@@ -488,13 +490,14 @@ export default {
     // 分页
     *getPagination({ payload }, { select, call, put }) {
       const { pageId, searchParams = {} } = payload;
-      const { pageSize, summarySort } = payload;
+      const { pageSize, summarySort,sorterData } = payload;
       const pageNum = payload.current;
       const params = {
         pageId,
         summarySort,
         pageSize,
         pageNum,
+        sorterData,
         ...searchParams,
       };
       const result = yield call(queryPagination, params);

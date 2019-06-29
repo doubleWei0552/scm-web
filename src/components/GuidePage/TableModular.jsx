@@ -282,8 +282,8 @@ export default class TableModular extends React.Component{
     render(){
         let columns = [] 
         const { getFieldDecorator } = this.props.form;
-        let data = this.props.guidePage.cacheTableData.length ? this.props.guidePage.cacheTableData.list :
-        _.get(this.props.guidePage.guidePageData,'list',[]) 
+        // let data = this.props.guidePage.cacheTableData.length ? this.props.guidePage.cacheTableData.list :
+        let data =  _.get(this.props.guidePage.guidePageData,'list',[]) 
         let guidePageColumns = _.get(this.props.guidePage.guidePageColumns,'policyFormFields',[]).map((item,index)=>{
             if(item.READ_ONLY_CONDITION){
                 let obj 
@@ -341,6 +341,7 @@ export default class TableModular extends React.Component{
                         render:(text, record, tableIndex)=>{
                             return <Input
                             type="number"
+                            max={text}
                             style={{ minWidth: '150px',textAlign:'right' }}
                             onChange={(e)=>this.onTableChange(
                                 e.target.value,

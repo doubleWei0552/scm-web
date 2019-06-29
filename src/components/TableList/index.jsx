@@ -19,18 +19,20 @@ import {
 class TableList extends PureComponent {
   state = {
     selectedRowKeys: [],
-  }
+}
 
   // table排序方法
   handleChange = (pagination, filters, sorter) => {
-    const { current = 1, pageSize } = pagination;
+    this.props.dispatch({type:'tableTemplate/save',payload:{sorterData:sorter}})
+    const { current, pageSize=10 } = pagination;
     let obj = {
       descend: 'DESC',
       ascend: 'ASC',
       undefined: null,
     }
-    let { searchParams, pageId } = this.props.tableTemplate
-    let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null
+    let { searchParams, pageId,sorterData } = this.props.tableTemplate
+    let value = sorterData.field ? sorterData.field + ' ' + obj[sorterData.order] : null
+    // let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
       payload: { pageId, current, pageSize, summarySort: value, searchParams },
@@ -122,24 +124,25 @@ class TableList extends PureComponent {
 
   // 分页的函数
   onShowSizeChange = (current, pageSize) => {
-    const { pageId } = this.props.tableTemplate;
+    const { pageId,sorterData } = this.props.tableTemplate;
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
-      payload: { pageId, current, pageSize },
+      payload: { pageId, current, pageSize,sorterData },
     });
   };
 
   onPageChange = (current, pageSize) => {
-    const { pageId, searchParams } = this.props.tableTemplate;
+    const { pageId, searchParams,sorterData } = this.props.tableTemplate;
     // const { searchParams } = this.state;
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
-      payload: { pageId, current, pageSize, searchParams },
+      payload: { pageId, current, pageSize, searchParams,sorterData },
     });
   }
 
 
   render() {
+    console.log('列表页',this.props.tableTemplate)
     const { loadingTable = false, loadingG = false } = this.props
     let listColumnData = [];
     _.get(this.props.tableTemplate, 'tableColumns').map((item, index) => {
