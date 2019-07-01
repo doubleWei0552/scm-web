@@ -4,6 +4,7 @@ import {
   Table,
   Button,
   Form,
+  Row,
   Card,
   Col,
   Input,
@@ -16,6 +17,8 @@ import {
   Icon,
   Tabs,
   Tooltip,
+  Radio,
+  Checkbox,
 } from 'antd';
 import moment from 'moment';
 import _ from 'lodash';
@@ -25,7 +28,7 @@ import ImageUpload from '@/components/Upload/ImageUpload';
 import Attachments from '@/components/Upload/Attachments';
 import Editor from '@/components/BraftEditor/index';
 import responsive from '../DescriptionList/responsive';
-import TreeSelectCom from '@/components/TreeSelect/Index'
+import TreeSelectCom from '@/components/TreeSelect/Index';
 import { formItemValid } from '@/utils/validate';
 
 const { Option } = Select;
@@ -292,6 +295,122 @@ class DetailPage extends PureComponent {
                                 </Col>
                               );
                               break;
+                            // 单选框
+                            // case 'Select':
+                            // case 'Reference':
+                            // case 'ObjectSelector':
+                            // case 'MultiObjectSelector':
+                            //   return (
+                            //     <Col span={10} offset={1} key={i}>
+                            //       <Form.Item
+                            //         label={
+                            //           <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                            //             {field.LABEL}
+                            //           </Tooltip>
+                            //         }
+                            //         style={{ width: '100%' }}
+                            //         {...formItemLayout}
+                            //       >
+                            //         {getFieldDecorator(`${field.FIELD_NAME}`, {
+                            //           initialValue: _.get(field, 'FIELD_VALUE'),
+                            //           rules: [
+                            //             {
+                            //               required: field.REQUIRED_CONDITION,
+                            //               message: `${field.LABEL}不能为空`,
+                            //             },
+                            //             ...formItemValid(field.PATTERN, field.LABEL),
+                            //           ],
+                            //         })(
+                            //           <Radio.Group
+                            //             disabled={
+                            //               this.props.disabled ? true : field.READ_ONLY_CONDITION
+                            //             }
+                            //           >
+                            //             {_.map(field.options, (v, i) => {
+                            //               return (
+                            //                 <Radio value={v.value} key={v.value}>
+                            //                   {v.text}
+                            //                 </Radio>
+                            //               );
+                            //             })}
+                            //           </Radio.Group>
+                            //           // <Select
+                            //           //   // placeholder={`请选择${field.LABEL}`}
+                            //           //   showSearch={field.WIDGET_TYPE !== 'Select'}
+                            //           //   allowClear
+                            //           //   onSearch={e => this.onEditSearch(field, e)}
+                            //           //   onSelect={e => this.handleSelect(e, field)}
+                            //           //   filterOption={(inputValue, option) =>
+                            //           //     _.includes(option.props.children, inputValue)
+                            //           //   }
+                            //           //   disabled={
+                            //           //     this.props.disabled ? true : field.READ_ONLY_CONDITION
+                            //           //   }
+                            //           // >
+                            //           //   {_.map(field.options, (v, i) => {
+                            //           //     return (
+                            //           //       <Option value={v.value} key={v.value}>
+                            //           //         {v.text}
+                            //           //       </Option>
+                            //           //     );
+                            //           //   })}
+                            //           // </Select>
+                            //         )}
+                            //       </Form.Item>
+                            //     </Col>
+                            //   );
+                            //   break;
+                            // 复选框
+                            // case 'Select':
+                            // case 'Reference':
+                            // case 'ObjectSelector':
+                            // case 'MultiObjectSelector':
+                            //   return (
+                            //     <Col span={10} offset={1} key={i}>
+                            //       <Form.Item
+                            //         label={
+                            //           <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                            //             {field.LABEL}
+                            //           </Tooltip>
+                            //         }
+                            //         style={{ width: '100%' }}
+                            //         {...formItemLayout}
+                            //       >
+                            //         {getFieldDecorator(`${field.FIELD_NAME}`, {
+                            //           initialValue: [_.get(field, 'FIELD_VALUE')],
+                            //           rules: [
+                            //             {
+                            //               required: field.REQUIRED_CONDITION,
+                            //               message: `${field.LABEL}不能为空`,
+                            //             },
+                            //             ...formItemValid(field.PATTERN, field.LABEL),
+                            //           ],
+                            //         })(
+                            //           <Checkbox.Group
+                            //             disabled={
+                            //               this.props.disabled ? true : field.READ_ONLY_CONDITION
+                            //             }
+                            //           >
+                            //             {field.options.length > 0 && (
+                            //               <Row>
+                            //                 {_.map(field.options, (v, i) => {
+                            //                   return (
+
+                            //                     <Checkbox value={v.value} key={v.value}>
+                            //                       {v.text}
+                            //                     </Checkbox>
+                            //                   );
+                            //                 })}
+                            //               </Row>
+                            //             )}
+
+                            //           </Checkbox.Group>
+
+                            //         )}
+                            //       </Form.Item>
+                            //     </Col>
+                            //   );
+                            //   break;
                             case 'Date':
                             case 'DateTime':
                               return (
@@ -465,7 +584,7 @@ class DetailPage extends PureComponent {
                                   </Form.Item>
                                 </Col>
                               );
-                              case 'TreeSelector':
+                            case 'TreeSelector':
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item
@@ -488,19 +607,20 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <TreeSelectCom
-                                      defaultData={field.FIELD_VALUE}
-                                      treeData={field.children}
-                                      handleImageChange={e =>
-                                        this.handleImageChange(e, field.FIELD_NAME)
-                                      }
-                                      style={{ width: '200px' }}
-                                      disabled={
-                                        this.props.disabled ? true : item.READ_ONLY_CONDITION
-                                      } />
+                                        defaultData={field.FIELD_VALUE}
+                                        treeData={field.children}
+                                        handleImageChange={e =>
+                                          this.handleImageChange(e, field.FIELD_NAME)
+                                        }
+                                        style={{ width: '200px' }}
+                                        disabled={
+                                          this.props.disabled ? true : item.READ_ONLY_CONDITION
+                                        }
+                                      />
                                     )}
                                   </Form.Item>
                                 </Col>
-                            );
+                              );
                             case 'Attachment': //附件
                               return (
                                 <Col span={22} offset={1} key={i}>
