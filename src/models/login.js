@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import _ from 'lodash';
-import { fakeAccountLogin, getFakeCaptcha, queryRSLogin, queryRSLogOut } from '@/services/api';
+import { fakeAccountLogin, getFakeCaptcha, queryRSLogin, queryRSLogOut,queryLogoParameter } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
@@ -35,6 +35,13 @@ export default {
       } else {
         notification.error({ message: result.message, duration: 3 });
       }
+    },
+    *getLogoParameter({payload},{call,put,select}){
+      let params = payload
+      const result = yield call(queryLogoParameter,params)
+      localStorage.setItem('logoImgPath',result.logoImgPath)
+      localStorage.setItem('title',result.title)
+      localStorage.setItem('subTitle',result.subTitle)
     },
 
     *queryRSLogOut({ payload }, { call, put }) {

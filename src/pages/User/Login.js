@@ -19,6 +19,11 @@ class LoginPage extends Component {
     type: 'account',
     autoLogin: true,
   };
+  componentWillMount=()=>{
+    this.props.dispatch({type:'login/getLogoParameter',payload:{data:{
+      LOGO_TYPE:"First"
+    }}})
+  }
 
   componentDidMount = () => {
     this.changeSetting();
@@ -81,6 +86,8 @@ class LoginPage extends Component {
   };
 
   render() {
+    console.log('用户设置',localStorage.getItem('logoImgPath'),localStorage.getItem('subTitle'),localStorage.getItem('title'))
+
     const { login, submitting } = this.props;
     const { type, autoLogin } = this.state;
     return (

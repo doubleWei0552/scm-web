@@ -391,3 +391,11 @@ export async function queryButtonGuideClean() {
   });
 }
 
+// 获取用户配置的基本信息
+export async function queryLogoParameter(params) {
+  return request('/app/work/queryLogoParameter', {
+    method: 'POST',
+    body: params,
+  });
+}
+
