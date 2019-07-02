@@ -19,6 +19,9 @@ class LoginPage extends Component {
     type: 'account',
     autoLogin: true,
   };
+  componentWillMount=()=>{
+    this.props.dispatch({type:'login/getLogoParameter'})
+  }
 
   componentDidMount = () => {
     this.changeSetting();

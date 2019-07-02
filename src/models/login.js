@@ -36,10 +36,17 @@ export default {
         notification.error({ message: result.message, duration: 3 });
       }
     },
+    *getLogoParameter({payload},{call,put,select}){
+      let params = {}
+      const result = yield call(queryLogoParameter)
+      localStorage.setItem('loginLogoImg',result.loginLogoImg)
+      localStorage.setItem('loginSubTitle',result.loginSubTitle)
+      localStorage.setItem('loginMainTitle',result.loginMainTitle)
+      localStorage.setItem('mainLogoImg',result.mainLogoImg)
+    },
 
     *queryRSLogOut({ payload }, { call, put }) {
       const result = yield call(queryRSLogOut);
-      console.log('result', result);
       if (result.status === 'success') {
         router.push('/user/login');
       }

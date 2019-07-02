@@ -10,10 +10,17 @@ import {
   Select,
   Icon,
   Modal,
+  Spin,
 } from 'antd';
+import {connect} from'dva'
 import ListPage from '../ListPage/Index';
 import ListForm from '../ListPage/ListForm';
 import styles from './Index.less'
+
+@connect(({ tableTemplate, loading }) => ({
+  tableTemplate,
+  loadingG: loading.effects['tableTemplate/childUpdateFields'],
+}))
 
 export default class TableForm extends React.Component {
   state = {
@@ -230,6 +237,7 @@ export default class TableForm extends React.Component {
     };
     return (
       <div className={styles.childTable}>
+        <Spin spinning={this.props.loadingG || false}>
         <Table style={{ whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}
           className={this.state.isEdit ? styles.TableFormTableAddStyle : styles.TableFormTableStyle}
           scroll={{ x: true }}
@@ -239,6 +247,7 @@ export default class TableForm extends React.Component {
           pagination={false}
           bordered
         />
+        </Spin>
         <Button
           style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
           type={this.props.disEditStyle ? 'dashed' : 'primary'}
