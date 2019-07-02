@@ -614,15 +614,15 @@ export default {
       // const params = _.assign(value, selectValue);
 
       const detailData = yield select(({ tableTemplate }) => tableTemplate.detailData);
-      // detailData.policyFormFields.map((val, index) => {
-      //   // if(editValue){
-      //   // 判断是否修改和用户是否选择清空选项，如果修改了，就赋值，没有修改不变,注：null == undefined,区分他们要用 ===
-      //   if (params[val.FIELD_NAME]) {
-      //     val.FIELD_VALUE = params[val.FIELD_NAME];
-      //   } else if (params[val.FIELD_NAME] === null && params[val.FIELD_NAME] !== undefined) {
-      //     val.FIELD_VALUE = null;
-      //   }
-      // });
+      detailData.policyFormFields.map((val, index) => {
+        // if(editValue){
+        // 判断是否修改和用户是否选择清空选项，如果修改了，就赋值，没有修改不变,注：null == undefined,区分他们要用 ===
+        if (params[val.FIELD_NAME]) {
+          val.FIELD_VALUE = params[val.FIELD_NAME];
+        } else if (params[val.FIELD_NAME] === null && params[val.FIELD_NAME] !== undefined) {
+          val.FIELD_VALUE = null;
+        }
+      });
 
       const postData = {
         list: [
