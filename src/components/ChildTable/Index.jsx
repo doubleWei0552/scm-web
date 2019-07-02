@@ -124,6 +124,7 @@ export default class ChildTable extends React.Component {
       case 'NumberInput':
         //增加rtlink功能
         // specificData.FIELD_VALUE = e;
+        console.log('数字传过来的值',e)
         this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
           if (p.FIELD_NAME == specificData.FIELD_NAME) {
             p.FIELD_VALUE = e;
@@ -487,8 +488,7 @@ export default class ChildTable extends React.Component {
                               })(
                                 <Input
                                   type="number"
-                                  onChange={() => {
-                                    if (specificData.RELATED_FIELDS) {
+                                  onChange={
                                       e =>
                                         this.onChildChang(
                                           e.target.value,
@@ -499,9 +499,8 @@ export default class ChildTable extends React.Component {
                                           index,
                                           value.Columns, //表头数据
                                           value
-                                        );
-                                    }
-                                  }}
+                                        )
+                                  }
                                   onBlur={e => {
                                     this.autoFocusChange();
                                   }}
@@ -540,8 +539,7 @@ export default class ChildTable extends React.Component {
                                 <Input
                                   // ref={this.ref}
                                   type="number"
-                                  onChange={() => {
-                                    if (specificData.RELATED_FIELDS) {
+                                  onChange={
                                       e =>
                                         this.onChildChang(
                                           e.target.value,
@@ -552,9 +550,8 @@ export default class ChildTable extends React.Component {
                                           index,
                                           value.Columns, //表头数据
                                           value
-                                        );
-                                    }
-                                  }}
+                                        )
+                                  }
                                   autoFocus={this.state.autoFocus}
                                   onBlur={e => {
                                     this.autoFocusChange();

@@ -9,7 +9,7 @@ import { urlToList } from '../_utils/pathTools';
 export const getFlatMenuKeys = menuData => {
   let keys = [];
   menuData.forEach(item => {
-    const index = item.path.lastIndexOf("\?");
+    const index = 0;
     const path = index > 0 ? item.path.substring(0, index) : item.path;
     keys.push(path);
     if (item.children) {
