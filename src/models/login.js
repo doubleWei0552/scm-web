@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import _ from 'lodash';
-import { fakeAccountLogin, getFakeCaptcha, queryRSLogin, queryRSLogOut,queryLogoParameter } from '@/services/api';
+import { fakeAccountLogin, getFakeCaptcha, queryRSLogin, queryRSLogOut } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
@@ -36,17 +36,17 @@ export default {
         notification.error({ message: result.message, duration: 3 });
       }
     },
-    *getLogoParameter({payload},{call,put,select}){
-      let params = payload
-      const result = yield call(queryLogoParameter,params)
-      localStorage.setItem('logoImgPath',result.logoImgPath)
-      localStorage.setItem('title',result.title)
-      localStorage.setItem('subTitle',result.subTitle)
+    *getLogoParameter({ payload }, { call, put, select }) {
+      let params = {};
+      const result = yield call(queryLogoParameter);
+      localStorage.setItem('loginLogoImg', result.loginLogoImg);
+      localStorage.setItem('loginSubTitle', result.loginSubTitle);
+      localStorage.setItem('loginMainTitle', result.loginMainTitle);
+      localStorage.setItem('mainLogoImg', result.mainLogoImg);
     },
 
     *queryRSLogOut({ payload }, { call, put }) {
       const result = yield call(queryRSLogOut);
-      console.log('result', result);
       if (result.status === 'success') {
         router.push('/user/login');
       }

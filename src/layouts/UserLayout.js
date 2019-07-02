@@ -64,8 +64,12 @@ class UserLayout extends Component {
                 {/* <Link to="/"> */}
                 {/* <img alt="logo" className={styles.logo} src="./logo.png" />
                 <span className={styles.title}>精诚供应链系统</span> */}
-                <img alt="logo" className={styles.logo} src={localStorage.getItem('logoImgPath')} />
-                <span className={styles.title}>{localStorage.getItem('title')}</span>
+                <img
+                  alt="logo"
+                  className={styles.logo}
+                  src={localStorage.getItem('loginLogoImg')}
+                />
+                <span className={styles.title}>{localStorage.getItem('loginSubTitle')}</span>
                 {/* </Link> */}
               </div>
               {/* <div className={styles.desc}>上海市最具影响力的 Web 设计规范</div> */}

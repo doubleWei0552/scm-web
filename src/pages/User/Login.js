@@ -8,7 +8,7 @@ import styles from './Login.less';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
-@connect(({ login, setting, loading,user }) => ({
+@connect(({ login, setting, loading, user }) => ({
   login,
   setting,
   user,
@@ -19,11 +19,9 @@ class LoginPage extends Component {
     type: 'account',
     autoLogin: true,
   };
-  componentWillMount=()=>{
-    this.props.dispatch({type:'login/getLogoParameter',payload:{data:{
-      LOGO_TYPE:"First"
-    }}})
-  }
+  componentWillMount = () => {
+    this.props.dispatch({ type: 'login/getLogoParameter' });
+  };
 
   componentDidMount = () => {
     this.changeSetting();
@@ -86,8 +84,6 @@ class LoginPage extends Component {
   };
 
   render() {
-    console.log('用户设置',localStorage.getItem('logoImgPath'),localStorage.getItem('subTitle'),localStorage.getItem('title'))
-
     const { login, submitting } = this.props;
     const { type, autoLogin } = this.state;
     return (

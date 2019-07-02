@@ -172,7 +172,6 @@ export async function queryDetailPageConfig(params) {
       body: params,
     });
   }
-
 }
 
 // 详情页获取数据
@@ -189,7 +188,6 @@ export async function queryDetailPage(params) {
       body: params,
     });
   }
-
 }
 
 // 详情页数据保存
@@ -278,7 +276,6 @@ export async function queryDetailChildPage(params) {
       body: params,
     });
   }
-
 }
 
 // 登陆接口
@@ -371,7 +368,7 @@ export async function queryOpenAccount(params) {
 //导出方法
 export async function queryExport(params = {}) {
   return request(`/summary/export?${stringify(params)}`, {
-    method: 'GET'
+    method: 'GET',
   });
 }
 
@@ -395,7 +392,6 @@ export async function queryButtonGuideClean() {
 export async function queryLogoParameter(params) {
   return request('/app/work/queryLogoParameter', {
     method: 'POST',
-    body: params,
+    body: {},
   });
 }
-
