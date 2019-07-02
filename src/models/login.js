@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import _ from 'lodash';
-import { fakeAccountLogin, getFakeCaptcha, queryRSLogin, queryRSLogOut } from '@/services/api';
+import { fakeAccountLogin, getFakeCaptcha, queryRSLogin, queryRSLogOut,queryLogoParameter } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
