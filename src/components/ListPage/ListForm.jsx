@@ -77,6 +77,7 @@ export default class ListForm extends React.Component {
           this.props.dispatch({ type: 'tableTemplate/save',payload:{ChildData}});
           } else {
             // 编辑情况
+            console.log('bainji Data',Data)
             for (let i in Data) { //再加判断是不是select类型，添加options属性
               let current = {};
               this.props.columns.map(item => {
@@ -86,7 +87,7 @@ export default class ListForm extends React.Component {
               })
               current.FIELD_NAME = i;
               current.DISPLAY_NAME = Data[i + 'DISPLAY_NAME']
-              current.FIELD_VALUE = moment(Data[i]).valueOf() ? moment(Data[i]).valueOf() : Data[i];
+              current.FIELD_VALUE = (typeof(values[i]) == 'object' && values[i]) ? moment(Data[i]).valueOf() : Data[i];
               current.OBJECT_TYPE = this.props.value.Data.objectType;
               current.key = i + Data[i] + this.props.value.Data.objectType
               current.id = null;
@@ -244,12 +245,10 @@ export default class ListForm extends React.Component {
                 case 'Select':
                 case 'Reference':
                 case 'ObjectType':
-                  console.log(values)
                   if(values.readOnlyCondition) return null
                   if (!this.props.selectOption) return;
                   let optionChild
                   if(values.type == 'Reference'){
-                    console.log('reference',this.props.selectOption)
                     optionChild = this.props.selectOption.map((v, s) => {
                       return (
                         <Select.Option value={`${v.text}--${v.value}`} key={v.text + s}>
@@ -258,7 +257,6 @@ export default class ListForm extends React.Component {
                       );
                     });
                   }else{
-                    console.log('select',values.options)
                     optionChild = values.options.map((v, s) => {
                       return (
                         <Select.Option value={`${v.text}--${v.value}`} key={v.text + s}>
