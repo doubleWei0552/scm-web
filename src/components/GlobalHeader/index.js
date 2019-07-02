@@ -45,14 +45,21 @@ export default class GlobalHeader extends PureComponent {
           selectItem = checkChild(menuData[0]);
 
           if (selectItem.path) {
-            router.push(selectItem.path);
+            let path = selectItem.path;
+            const index = path.lastIndexOf("\?");
+            if (index > 0) {
+              path = path.substring(0, index) + '/list' + path.substring(index, path.length)
+              router.push(path);
+            } else {
+              router.push(selectItem.path);
+            }
           }
           dispatch({
             type: 'tableTemplate/cleanClildData',
           });
           dispatch({
-            type:'tableTemplate/save',
-            payload:{defaultActiveKey:'0'}
+            type: 'tableTemplate/save',
+            payload: { defaultActiveKey: '0' }
           })
         }
       },

@@ -73,7 +73,7 @@ export default {
     isEditSave: false, //判断是不是详情页的新增，默认是false 不是
     isOperate: false, //用于记录取消时，用户有没有进行过操作，默认没有操作（fasle）
 
-    sorterData:{}, //用于记录列表排序
+    sorterData: {}, //用于记录列表排序
     // ------------------------------------------------
   },
   subscriptions: {
@@ -490,7 +490,7 @@ export default {
     // 分页
     *getPagination({ payload }, { select, call, put }) {
       const { pageId, searchParams = {} } = payload;
-      const { pageSize, summarySort,sorterData } = payload;
+      const { pageSize, summarySort, sorterData } = payload;
       const pageNum = payload.current;
       const params = {
         pageId,
@@ -614,15 +614,15 @@ export default {
       // const params = _.assign(value, selectValue);
 
       const detailData = yield select(({ tableTemplate }) => tableTemplate.detailData);
-      detailData.policyFormFields.map((val, index) => {
-        // if(editValue){
-        // 判断是否修改和用户是否选择清空选项，如果修改了，就赋值，没有修改不变,注：null == undefined,区分他们要用 ===
-        if (params[val.FIELD_NAME]) {
-          val.FIELD_VALUE = params[val.FIELD_NAME];
-        } else if (params[val.FIELD_NAME] === null && params[val.FIELD_NAME] !== undefined) {
-          val.FIELD_VALUE = null;
-        }
-      });
+      // detailData.policyFormFields.map((val, index) => {
+      //   // if(editValue){
+      //   // 判断是否修改和用户是否选择清空选项，如果修改了，就赋值，没有修改不变,注：null == undefined,区分他们要用 ===
+      //   if (params[val.FIELD_NAME]) {
+      //     val.FIELD_VALUE = params[val.FIELD_NAME];
+      //   } else if (params[val.FIELD_NAME] === null && params[val.FIELD_NAME] !== undefined) {
+      //     val.FIELD_VALUE = null;
+      //   }
+      // });
 
       const postData = {
         list: [

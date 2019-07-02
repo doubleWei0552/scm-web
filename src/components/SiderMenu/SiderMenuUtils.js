@@ -10,20 +10,18 @@ export const getFlatMenuKeys = menuData => {
   let keys = [];
   menuData.forEach(item => {
     const index = item.path.lastIndexOf("\?");
-    const path = item.path.substring(0, index);
-    keys.push(item.path);
+    const path = index > 0 ? item.path.substring(0, index) : item.path;
+    keys.push(path);
     if (item.children) {
       keys = keys.concat(getFlatMenuKeys(item.children));
     }
   });
-  console.log('keys', keys)
   return keys;
 
 };
 
 export const getMenuMatches = (flatMenuKeys, path) =>
   flatMenuKeys.filter(item => {
-    console.log('item', item, path)
     if (item) {
       return pathToRegexp(item).test(path);
     }

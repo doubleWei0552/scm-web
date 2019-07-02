@@ -44,8 +44,10 @@ export default class BaseMenu extends PureComponent {
   componentWillReceiveProps(newProps) {
     const { location } = newProps;
     const { pathname = '', search = '' } = location;
+    const index = pathname.lastIndexOf("\/list") || pathname.lastIndexOf("\/detail");
+    const path = index > 0 ? pathname.substring(0, index) : pathname;
     this.setState({
-      current: `${pathname}${search}`,
+      current: path,
     });
   }
 
@@ -70,9 +72,14 @@ export default class BaseMenu extends PureComponent {
    */
   getSubMenuOrItem = item => {
     // doc: add hideChildrenInMenu
+    const { name, path } = item;
+    const index = path.lastIndexOf("\?");
+    const keyPath = index > 0 ? path.substring(0, index) : path;
+
     if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
-      const { name } = item;
       const { collapsed } = this.props;
+      // const index = path.lastIndexOf("\/list") || path.lastIndexOf("\/detail");
+      // const keyPath = index > 0 ? path.substring(0, index) : path;
       return (
         <SubMenu
           title={
@@ -95,13 +102,13 @@ export default class BaseMenu extends PureComponent {
                 name
               )
           }
-          key={item.path}
+          key={keyPath}
         >
           {this.getNavMenuItems(item.children)}
         </SubMenu>
       );
     }
-    return <Menu.Item key={item.path}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return <Menu.Item key={keyPath} path={path}>{this.getMenuItemPath(item)}</Menu.Item>;
   };
 
   // 点击左侧菜单，获取pageId的方法，存到database
@@ -119,6 +126,7 @@ export default class BaseMenu extends PureComponent {
   getMenuItemPath = item => {
     const { name } = item;
     const itemPath = this.conversionPath(item.path);
+
     const icon = getIcon(item.icon);
     const { target } = item;
     // Is it a http link
@@ -147,11 +155,16 @@ export default class BaseMenu extends PureComponent {
   };
 
   handleClick = e => {
+    let path = _.get(e.item.props, 'path');
+    const index = path.lastIndexOf("\?");
+    if (index > 0) {
+      path = path.substring(0, index) + '/list' + path.substring(index, path.length)
+    }
     const { dispatch } = this.props;
     this.setState({
       current: e.key,
     });
-    router.push(e.key);
+    router.push(path);
     dispatch({
       type: 'tableTemplate/cleanClildData',
     });
@@ -171,6 +184,8 @@ export default class BaseMenu extends PureComponent {
       collapsed,
     } = this.props;
     // if pathname can't match, use the nearest parent's key
+    // const index = pathname.lastIndexOf("\?");
+    // const aa = pathname.substring(0, index);
     let selectedKeys = this.getSelectedMenuKeys(pathname);
     if (!selectedKeys.length && openKeys) {
       selectedKeys = [openKeys[openKeys.length - 1]];

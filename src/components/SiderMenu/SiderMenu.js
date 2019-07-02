@@ -57,7 +57,6 @@ export default class SiderMenu extends PureComponent {
     const { logo, collapsed, onCollapse, fixSiderbar, theme, isMobile } = this.props;
     const { openKeys } = this.state;
     const defaultProps = collapsed ? {} : { openKeys };
-
     const siderClassName = classNames(styles.sider, {
       [styles.fixSiderBar]: fixSiderbar,
       [styles.light]: theme === 'light',
@@ -82,7 +81,7 @@ export default class SiderMenu extends PureComponent {
             {/* <img src="logo.png" style={{ width: 40, height: 40 }} />
             <h1 style={{ position: 'relative', top: 2 }}>精诚供应链系统</h1> */}
             <img src={localStorage.getItem('logoImgPath')} style={{ width: 40, height: 40 }} />
-            <span style={{ fontSize:'1.1rem',marginLeft:'5px' }}>{localStorage.getItem('title')}</span>
+            <span style={{ fontSize: '1.1rem', marginLeft: '5px' }}>{localStorage.getItem('title')}</span>
           </Link>
         </div>
         <Suspense fallback={<PageLoading />}>

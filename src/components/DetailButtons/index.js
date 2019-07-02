@@ -92,7 +92,7 @@ class DetailButtons extends PureComponent {
     let hasChanged = false;
     const fieldValues = this.props.detailForm.getFieldsValue()
     _.map(initPolicyFormFields, field => {
-      if (field.FIELD_VALUE != fieldValues[field.FIELD_NAME]) {
+      if (field.FIELD_VALUE !== fieldValues[field.FIELD_NAME]) {
         hasChanged = true
       }
     })
