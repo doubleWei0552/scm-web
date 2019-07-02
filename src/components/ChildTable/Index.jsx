@@ -149,19 +149,16 @@ export default class ChildTable extends React.Component {
           cacheNumberData.policyFormFields.push(obj);
         }
         cacheNumberData.fieldGroupName = Columns.fieldGroupName;
-        if(specificData.RELATED_FIELDS){
-          this.props.dispatch({
-            type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheNumberData] } },
-            callback: res => {
-              if (res.status == 'success') {
-                // this.specificData.inputNumberRef.onFocus()
-                // this.ref.current.props.autoFocus = true
-              }
-            },
-          });
-        }
-        
+        this.props.dispatch({
+          type: 'tableTemplate/childUpdateFields',
+          payload: { params: { list: [cacheNumberData] } },
+          callback: res => {
+            if (res.status == 'success') {
+              // this.specificData.inputNumberRef.onFocus()
+              // this.ref.current.props.autoFocus = true
+            }
+          },
+        });
         this.setState({
           autoFocus: true,
         });
@@ -472,7 +469,7 @@ export default class ChildTable extends React.Component {
                             })(
                               <Input
                                 type="number"
-                                onChange={
+                                onChange={()=>{if(specificData.RELATED_FIELDS){
                                   e =>
                                   this.onChildChang(
                                     e.target.value,
@@ -485,6 +482,8 @@ export default class ChildTable extends React.Component {
                                     value
                                     )
                                   }
+                                }
+                                }
                                 onBlur={e => {
                                   this.autoFocusChange()
                                 }}
@@ -523,7 +522,7 @@ export default class ChildTable extends React.Component {
                                   <Input
                                     // ref={this.ref}
                                     type="number"
-                                    onChange={
+                                    onChange={()=>{if(specificData.RELATED_FIELDS){
                                       e =>
                                       this.onChildChang(
                                         e.target.value,
@@ -536,7 +535,8 @@ export default class ChildTable extends React.Component {
                                         value
                                         )
                                       }
-                                    
+                                    }
+                                    }
                                     autoFocus={this.state.autoFocus}
                                     onBlur={e => {
                                       this.autoFocusChange()
