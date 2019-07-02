@@ -81,8 +81,10 @@ export default class SiderMenu extends PureComponent {
           {/* <a> */}
           {/* <img src={logo} alt="logo" /> */}
           <Link to="/account">
-            <img src="logo.png" style={{ width: 40, height: 40 }} />
-            <h1 style={{ position: 'relative', top: 2 }}>精诚供应链系统</h1>
+            {/* <img src="logo.png" style={{ width: 40, height: 40 }} />
+            <h1 style={{ position: 'relative', top: 2 }}>精诚供应链系统</h1> */}
+            <img src={localStorage.getItem('loginLogoImg')} style={{ width: 40, height: 40 }} />
+            <h1 style={{ position: 'relative', top: 2 }}>{localStorage.getItem('loginMainTitle')}</h1> 
           </Link>
 
 

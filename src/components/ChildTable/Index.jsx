@@ -149,16 +149,20 @@ export default class ChildTable extends React.Component {
           cacheNumberData.policyFormFields.push(obj);
         }
         cacheNumberData.fieldGroupName = Columns.fieldGroupName;
-        this.props.dispatch({
-          type: 'tableTemplate/childUpdateFields',
-          payload: { params: { list: [cacheNumberData] } },
-          callback: res => {
-            if (res.status == 'success') {
-              // this.specificData.inputNumberRef.onFocus()
-              // this.ref.current.props.autoFocus = true
-            }
-          },
-        });
+        let isIndex = Columns.rtLinks.includes(specificData.FIELD_NAME)
+        if(isIndex){
+          this.props.dispatch({
+            type: 'tableTemplate/childUpdateFields',
+            payload: { params: { list: [cacheNumberData] } },
+            callback: res => {
+              if (res.status == 'success') {
+                // this.specificData.inputNumberRef.onFocus()
+                // this.ref.current.props.autoFocus = true
+              }
+            },
+          });
+        }
+        
         this.setState({
           autoFocus: true,
         });
