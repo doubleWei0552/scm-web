@@ -61,6 +61,9 @@ export default class SiderMenu extends PureComponent {
       [styles.fixSiderBar]: fixSiderbar,
       [styles.light]: theme === 'light',
     });
+    const Title = localStorage.getItem('mainTitle')
+    const loginLogo = JSON.parse(localStorage.getItem('mainLogoImg')) || [];
+    console.log('TitleTitle', Title)
     return (
       <Sider
         trigger={null}
@@ -82,9 +85,9 @@ export default class SiderMenu extends PureComponent {
           <Link to="/account">
             {/* <img src="logo.png" style={{ width: 40, height: 40 }} />
             <h1 style={{ position: 'relative', top: 2 }}>精诚供应链系统</h1> */}
-            <img src={localStorage.getItem('loginLogoImg')} style={{ width: 40, height: 40 }} />
-            <h1 style={{ position: 'relative', top: 2 }}>
-              {localStorage.getItem('loginMainTitle')}
+            <img src={loginLogo.length ? loginLogo[0].url : ''} style={{ width: 40, height: 40 }} />
+            <h1 title={Title} style={{ position: 'absolute', top: 2, width: '180px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {Title}
             </h1>
           </Link>
 

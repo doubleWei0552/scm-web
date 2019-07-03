@@ -17,12 +17,12 @@ export default class ImageUpload extends React.Component {
     fileList: this.props.field.FIELD_VALUE,
   };
 
-  componentWillReceiveProps =(newProps) => {
-    const {fileList} = this.state
-    if(!newProps.field.FIELD_VALUE){
-      this.setState({fileList:[]})
+  componentWillReceiveProps = (newProps) => {
+    const { fileList } = this.state
+    if (!newProps.field.FIELD_VALUE) {
+      this.setState({ fileList: [] })
     } else {
-      this.setState({fileList:newProps.field.FIELD_VALUE})
+      this.setState({ fileList: newProps.field.FIELD_VALUE })
     }
   }
 
@@ -39,17 +39,17 @@ export default class ImageUpload extends React.Component {
     });
   };
 
-  handleChange = ({ fileList }) => {
+  handleChange = ({ fileList, file }) => {
     fileList = fileList.slice(-1); //限制只保留一张图片
     this.props.handleImageChange(fileList)
-    this.props.dispatch({type:'tableTemplate/save',payload:{fileList,fileKey:this.props.field.FIELD_NAME}})
+    this.props.dispatch({ type: 'tableTemplate/save', payload: { fileList, fileKey: this.props.field.FIELD_NAME } })
     this.setState({ fileList });
   }
-  
+
   render() {
     const { previewVisible, previewImage } = this.state;
     // const fileList  = this.props.field.FIELD_VALUE
-    const {fileList} = this.state
+    const { fileList } = this.state
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -57,14 +57,14 @@ export default class ImageUpload extends React.Component {
       </div>
     );
     return (
-      <div className="clearfix" style={{cursor:this.props.disabled ? 'not-allowed' : ''}}>
+      <div className="clearfix" style={{ cursor: this.props.disabled ? 'not-allowed' : '' }}>
         <Upload
           action={window.config.apiUrl + '/rs/uploadImage'}
           listType="picture-card"
           disabled={this.props.disabled}
           fileList={fileList}
-          showUploadList={{showPreviewIcon : this.props.disabled ? true : true, showRemoveIcon: this.props.disabled ? false : true}}
-          headers={{sessionId :localStorage.getItem('sessionId')||''}}
+          showUploadList={{ showPreviewIcon: this.props.disabled ? true : true, showRemoveIcon: this.props.disabled ? false : true }}
+          headers={{ sessionId: localStorage.getItem('sessionId') || '' }}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
         >

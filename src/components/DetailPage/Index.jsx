@@ -99,9 +99,12 @@ class DetailPage extends PureComponent {
   };
 
   handleImageChange = (e, i) => {
-    this.props.form.setFieldsValue({
-      [i]: e,
-    });
+    const url = _.get(e[0], 'response.data');
+    if (url) {
+      this.props.form.setFieldsValue({
+        [i]: [url],
+      });
+    }
   };
 
   //富文本编辑器赋值
@@ -171,6 +174,10 @@ class DetailPage extends PureComponent {
                                 })(<Input type="hidden" />)}
                               </Form.Item>
                             );
+                          }
+                          // 解决多个上传组件的图片展示问题
+                          if (field.WIDGET_TYPE === 'Image') {
+                            field.FIELD_VALUE = this.props.form.getFieldValue(field.FIELD_NAME)
                           }
                           switch (field.WIDGET_TYPE) {
                             case 'Password':
@@ -571,6 +578,7 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <ImageUpload
+                                        key={field.LABEL}
                                         handleImageChange={e =>
                                           this.handleImageChange(e, field.FIELD_NAME)
                                         }

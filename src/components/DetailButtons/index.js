@@ -273,11 +273,10 @@ class DetailButtons extends PureComponent {
     const { isNewSave } = this.props.tableTemplate;
     let fileList = _.get(this.props.tableTemplate, 'fileList')
     let fileKey = _.get(this.props.tableTemplate, 'fileKey')
-    console.log('详情页', this.props.detailForm.getFieldsValue())
     this.props.detailForm.validateFields((err, fieldValues) => {
       if (!err) {
         _.mapKeys(fieldValues, (value, key) => {
-          if (typeof value === 'object') {
+          if (typeof value === 'object' && !_.isArray(value)) {
             const _value = moment(value).valueOf();
             this.state[key] = _value;
           } else {

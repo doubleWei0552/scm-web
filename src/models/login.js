@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import _ from 'lodash';
-import { fakeAccountLogin, getFakeCaptcha, queryRSLogin, queryRSLogOut,queryLogoParameter } from '@/services/api';
+import { fakeAccountLogin, getFakeCaptcha, queryRSLogin, queryRSLogOut, queryLogoParameter } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
@@ -42,6 +42,7 @@ export default {
       localStorage.setItem('loginLogoImg', result.loginLogoImg);
       localStorage.setItem('loginSubTitle', result.loginSubTitle);
       localStorage.setItem('loginMainTitle', result.loginMainTitle);
+      localStorage.setItem('mainTitle', result.mainTitle);
       localStorage.setItem('mainLogoImg', result.mainLogoImg);
     },
 
