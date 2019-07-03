@@ -68,7 +68,7 @@ class UserLayout extends Component {
                 <img
                   alt="logo"
                   className={styles.logo}
-                  src={loginLogo[0].url}
+                  src={loginLogo.length ? loginLogo[0].url : ''}
                 />
                 <span className={styles.title}>{localStorage.getItem('loginMainTitle')}</span>
                 {/* </Link> */}
