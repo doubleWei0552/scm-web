@@ -135,7 +135,7 @@ export default class DetailButtonGroup extends React.Component {
       }
       ReactDOM.render(<ComModal ref={dom => (this.ComModal = dom)} store={window.g_app._store} {...ComModalProps} />, div)
       // } else if (FIELD_NAME == 'newCustUser' || FIELD_NAME == 'newSupplier') {
-    } else if (item.TRANSACTION.relatedFieldGroup) {
+    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup')) {
       this.openAccount(item)
     } else {
       this.onButtonEvent(item)
