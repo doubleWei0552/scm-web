@@ -50,6 +50,9 @@ export default class ImageUpload extends React.Component {
     const { previewVisible, previewImage } = this.state;
     // const fileList  = this.props.field.FIELD_VALUE
     const { fileList } = this.state
+    const { apiUrl: _apiUrl } = window.config;
+    const origin = localStorage.getItem('origin') || '';
+    const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -59,7 +62,7 @@ export default class ImageUpload extends React.Component {
     return (
       <div className="clearfix" style={{ cursor: this.props.disabled ? 'not-allowed' : '' }}>
         <Upload
-          action={window.config.apiUrl + '/rs/uploadImage'}
+          action={apiUrl + '/rs/uploadImage'}
           listType="picture-card"
           disabled={this.props.disabled}
           fileList={fileList}
