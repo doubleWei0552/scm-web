@@ -89,7 +89,7 @@ export default class ListForm extends React.Component {
             });
             current.FIELD_NAME = i;
             current.DISPLAY_NAME = Data[i + 'DISPLAY_NAME'];
-            current.FIELD_VALUE = moment(Data[i]).valueOf() ? moment(Data[i]).valueOf() : Data[i];
+            current.FIELD_VALUE = (typeof Data[i] == 'object' && Data[i]) ? moment(Data[i]).valueOf() : Data[i];
             current.OBJECT_TYPE = this.props.value.Data.objectType;
             current.key = i + Data[i] + this.props.value.Data.objectType;
             current.id = null;
