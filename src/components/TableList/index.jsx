@@ -19,24 +19,29 @@ import {
 class TableList extends PureComponent {
   state = {
     selectedRowKeys: [],
-}
+  }
 
   // table排序方法
   handleChange = (pagination, filters, sorter) => {
-    this.props.dispatch({type:'tableTemplate/save',payload:{sorterData:sorter}})
-    const { current, pageSize=10 } = pagination;
+    this.props.dispatch({ type: 'tableTemplate/save', payload: { sorterData: sorter } })
+    const { current, pageSize = 10 } = pagination;
     let obj = {
       descend: 'DESC',
       ascend: 'ASC',
       undefined: null,
     }
-    let { searchParams, pageId,sorterData } = this.props.tableTemplate
-    let value = sorterData.field ? sorterData.field + ' ' + obj[sorterData.order] : null
+    console.log('sorter', sorter)
+    let { searchParams, pageId, sorterData } = this.props.tableTemplate
+    let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null
     // let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
       payload: { pageId, current, pageSize, summarySort: value, searchParams },
     });
+    this.props.dispatch({
+      type: 'tableTemplate/changeState',
+      payload: { summarySort: value, }
+    })
   };
 
   // 列表页数据选择
@@ -124,20 +129,28 @@ class TableList extends PureComponent {
 
   // 分页的函数
   onShowSizeChange = (current, pageSize) => {
-    const { pageId,sorterData } = this.props.tableTemplate;
+    const { pageId, sorterData, summarySort, searchParams } = this.props.tableTemplate;
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
-      payload: { pageId, current, pageSize,sorterData },
+      payload: { pageId, current, pageSize, summarySort, searchParams },
     });
+    this.props.dispatch({
+      type: 'tableTemplate/changeState',
+      payload: { pageSize }
+    })
   };
 
   onPageChange = (current, pageSize) => {
-    const { pageId, searchParams,sorterData } = this.props.tableTemplate;
+    const { pageId, searchParams, sorterData, summarySort } = this.props.tableTemplate;
     // const { searchParams } = this.state;
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
-      payload: { pageId, current, pageSize, searchParams,sorterData },
+      payload: { pageId, current, pageSize, searchParams, summarySort },
     });
+    this.props.dispatch({
+      type: 'tableTemplate/changeState',
+      payload: { pageSize }
+    })
   }
 
 

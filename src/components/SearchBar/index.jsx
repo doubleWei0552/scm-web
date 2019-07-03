@@ -19,7 +19,7 @@ class SearchBar extends PureComponent {
     end: null,
   };
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   componentWillReceiveProps(newProps) {
     if (newProps.tableTemplate.tableColumns !== this.props.tableTemplate.tableColumns) {
@@ -109,7 +109,7 @@ class SearchBar extends PureComponent {
 
   handleSearch = e => {
     const { pageId } = this.props.tableTemplate;
-    const { tableColumns = [] } = this.props.tableTemplate;
+    const { tableColumns = [], summarySort, pageSize } = this.props.tableTemplate;
     const { start, end } = this.state;
     let searchParams = {};
     const idx = _.findIndex(
@@ -137,7 +137,7 @@ class SearchBar extends PureComponent {
       });
       this.props.dispatch({
         type: 'tableTemplate/getPagination',
-        payload: { pageId, current: 1, pageSize: 10, searchParams },
+        payload: { pageId, current: 1, pageSize, searchParams, summarySort },
       });
       // this.props.searchParamsChange(searchParams)
       this.props.dispatch({
@@ -183,12 +183,12 @@ class SearchBar extends PureComponent {
                           display: expand
                             ? 'flex'
                             : dateIdx === 0
-                            ? index + 1 < count
-                              ? ''
-                              : 'none'
-                            : index < count
-                            ? ''
-                            : 'none',
+                              ? index + 1 < count
+                                ? ''
+                                : 'none'
+                              : index < count
+                                ? ''
+                                : 'none',
                         }}
                         key={value.dataIndex}
                       >
@@ -203,28 +203,28 @@ class SearchBar extends PureComponent {
                             filterOption={(inputValue, option) =>
                               _.includes(option.props.children, inputValue)
                             }
-                            // suffixIcon={
-                            //   value.widgetType !== 'Select' && <Icon type="search" />
-                            // }
-                            // onFocus={this.selectClick.bind(this, {
-                            //   text: value.dataIndex,
-                            //   key: currentKey,
-                            //   value: null,
-                            // })}
+                          // suffixIcon={
+                          //   value.widgetType !== 'Select' && <Icon type="search" />
+                          // }
+                          // onFocus={this.selectClick.bind(this, {
+                          //   text: value.dataIndex,
+                          //   key: currentKey,
+                          //   value: null,
+                          // })}
                           >
                             {SearchOptions[value.dataIndex] &&
-                            SearchOptions[value.dataIndex].length > 0
+                              SearchOptions[value.dataIndex].length > 0
                               ? _.map(SearchOptions[value.dataIndex], (item, index) => {
-                                  return (
-                                    <Select.Option
-                                      title={item.text}
-                                      key={item.value + item.text}
-                                      value={item.value}
-                                    >
-                                      {item.text}
-                                    </Select.Option>
-                                  );
-                                })
+                                return (
+                                  <Select.Option
+                                    title={item.text}
+                                    key={item.value + item.text}
+                                    value={item.value}
+                                  >
+                                    {item.text}
+                                  </Select.Option>
+                                );
+                              })
                               : null}
                           </Select>
                         )}
@@ -297,8 +297,8 @@ class SearchBar extends PureComponent {
                                     this.onEndChange(e, kk);
                                   }}
                                   disabledDate={e => this.disabledEndDate(e, kk)}
-                                  // value={this.state[`${kk.FIELD_NAME}-end`]}
-                                  // onChange={(e)=>this.onEndChange(e,kk)}
+                                // value={this.state[`${kk.FIELD_NAME}-end`]}
+                                // onChange={(e)=>this.onEndChange(e,kk)}
                                 />
                               )}
                             </Form.Item>
@@ -345,12 +345,12 @@ class SearchBar extends PureComponent {
                           display: expand
                             ? 'flex'
                             : dateIdx === 0
-                            ? index + 1 < count
-                              ? ''
-                              : 'none'
-                            : index < count
-                            ? ''
-                            : 'none',
+                              ? index + 1 < count
+                                ? ''
+                                : 'none'
+                              : index < count
+                                ? ''
+                                : 'none',
                         }}
                       >
                         {getFieldDecorator(`${value.dataIndex}`, {
@@ -375,12 +375,12 @@ class SearchBar extends PureComponent {
                           display: expand
                             ? 'flex'
                             : dateIdx === 0
-                            ? index + 1 < count
-                              ? ''
-                              : 'none'
-                            : index < count
-                            ? ''
-                            : 'none',
+                              ? index + 1 < count
+                                ? ''
+                                : 'none'
+                              : index < count
+                                ? ''
+                                : 'none',
                         }}
                       >
                         {getFieldDecorator(`${value.dataIndex}`, {

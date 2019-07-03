@@ -69,11 +69,12 @@ export default {
     disEditStyle: true, // 默认都不可编辑
     searchParams: {}, // 列表页的查询参数 
     selectedRowKeys: [], // 选择的那个表格行数据
-
+    pageSize: 10,
     isEditSave: false, //判断是不是详情页的新增，默认是false 不是
     isOperate: false, //用于记录取消时，用户有没有进行过操作，默认没有操作（fasle）
 
     sorterData: {}, //用于记录列表排序
+    summarySort: null,
     // ------------------------------------------------
   },
   subscriptions: {
