@@ -48,9 +48,9 @@ class DetailPage extends PureComponent {
     readOnlyFields: [],
   };
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillReceiveProps() { }
+  componentWillReceiveProps() {}
 
   onEditSearch = (value, searchData) => {
     this.props.dispatch({
@@ -176,8 +176,11 @@ class DetailPage extends PureComponent {
                             );
                           }
                           // 解决多个上传组件的图片展示问题
-                          if (field.WIDGET_TYPE === 'Image') {
-                            field.FIELD_VALUE = this.props.form.getFieldValue(field.FIELD_NAME)
+                          if (
+                            field.WIDGET_TYPE === 'Image' &&
+                            this.props.form.getFieldValue(field.FIELD_NAME)
+                          ) {
+                            field.FIELD_VALUE = this.props.form.getFieldValue(field.FIELD_NAME);
                           }
                           switch (field.WIDGET_TYPE) {
                             case 'Password':
@@ -243,7 +246,7 @@ class DetailPage extends PureComponent {
                                         }
                                         // placeholder={`请输入${field.LABEL}`}
                                         onChange={e => e.preventDefault()}
-                                      // style={{ width: '165px', textOverflow: 'ellipsis' }}
+                                        // style={{ width: '165px', textOverflow: 'ellipsis' }}
                                       />
                                     )}
                                   </Form.Item>
@@ -530,7 +533,7 @@ class DetailPage extends PureComponent {
                                   <Form.Item
                                     // label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
                                     style={{ width: '100%' }}
-                                  // {...formItemLayout}
+                                    // {...formItemLayout}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
                                       initialValue: _.get(field, 'FIELD_VALUE'),
