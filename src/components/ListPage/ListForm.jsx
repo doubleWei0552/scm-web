@@ -19,6 +19,7 @@ import {
   Spin,
 } from 'antd';
 import moment from 'moment';
+import _ from 'lodash'
 import { string } from 'prop-types';
 
 const { TextArea } = Input;
@@ -124,6 +125,7 @@ export default class ListForm extends React.Component {
     });
   };
   render() {
+    console.log('biaotou1',this.props.columns)
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
@@ -277,12 +279,10 @@ export default class ListForm extends React.Component {
                 case 'Select':
                 case 'Reference':
                 case 'ObjectType':
-                  console.log(values);
                   if (values.readOnlyCondition) return null;
                   if (!this.props.selectOption) return;
                   let optionChild;
                   if (values.type == 'Reference') {
-                    console.log('reference', this.props.selectOption);
                     optionChild = this.props.selectOption.map((v, s) => {
                       return (
                         <Select.Option value={`${v.text}--${v.value}`} key={v.text + s}>
@@ -291,10 +291,9 @@ export default class ListForm extends React.Component {
                       );
                     });
                   } else {
-                    console.log('select', values.options);
                     optionChild = values.options.map((v, s) => {
                       return (
-                        <Select.Option value={`${v.text}--${v.value}`} key={v.text + s}>
+                        <Select.Option value={v.value} key={v.text + s}>
                           {v.text}
                         </Select.Option>
                       );
