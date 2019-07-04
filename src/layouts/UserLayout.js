@@ -52,7 +52,10 @@ class UserLayout extends Component {
       location: { pathname },
       breadcrumbNameMap,
     } = this.props;
-    const loginLogo = JSON.parse(localStorage.getItem('loginLogoImg')) || [];
+    const loginLogo =
+      localStorage.getItem('loginLogoImg') !== 'undefined'
+        ? JSON.parse(localStorage.getItem('loginLogoImg'))
+        : [];
     return (
       <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
         <div className={styles.container}>
@@ -70,7 +73,11 @@ class UserLayout extends Component {
                   className={styles.logo}
                   src={loginLogo.length ? loginLogo[0].url : ''}
                 />
-                <span className={styles.title}>{localStorage.getItem('loginMainTitle')}</span>
+                <span className={styles.title}>
+                  {localStorage.getItem('loginMainTitle') !== 'undefined'
+                    ? localStorage.getItem('loginMainTitle')
+                    : ''}
+                </span>
                 {/* </Link> */}
               </div>
               {/* <div className={styles.desc}>上海市最具影响力的 Web 设计规范</div> */}
