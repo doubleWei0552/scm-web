@@ -52,8 +52,9 @@ class UserLayout extends Component {
       location: { pathname },
       breadcrumbNameMap,
     } = this.props;
+    console.log('llll', localStorage.getItem('loginLogoImg'))
     const loginLogo =
-      localStorage.getItem('loginLogoImg') !== 'undefined'
+      localStorage.getItem('loginLogoImg') && localStorage.getItem('loginLogoImg') !== 'undefined'
         ? JSON.parse(localStorage.getItem('loginLogoImg'))
         : [];
     return (
@@ -71,10 +72,10 @@ class UserLayout extends Component {
                 <img
                   alt="logo"
                   className={styles.logo}
-                  src={loginLogo.length ? loginLogo[0].url : ''}
+                  src={loginLogo.length > 0 ? loginLogo[0].url : ''}
                 />
                 <span className={styles.title}>
-                  {localStorage.getItem('loginMainTitle') !== 'undefined'
+                  {localStorage.getItem('loginMainTitle') && localStorage.getItem('loginMainTitle') !== 'undefined'
                     ? localStorage.getItem('loginMainTitle')
                     : ''}
                 </span>
