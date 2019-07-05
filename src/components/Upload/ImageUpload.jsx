@@ -53,6 +53,7 @@ export default class ImageUpload extends React.Component {
     const { apiUrl: _apiUrl } = window.config;
     const origin = localStorage.getItem('origin') || '';
     const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
+    console.log('process.env.NODE_ENV', process.env.NODE_ENV)
     const uploadButton = (
       <div>
         <Icon type="plus" />
