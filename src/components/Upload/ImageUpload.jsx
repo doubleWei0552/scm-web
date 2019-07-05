@@ -1,4 +1,5 @@
 import { Upload, Icon, Modal } from 'antd';
+import {onGetImageUrl} from '@/utils/FunctionSet';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -32,18 +33,25 @@ export default class ImageUpload extends React.Component {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-
+    let url = onGetImageUrl(file)
     this.setState({
-      previewImage: file.url || file.preview,
+      // previewImage: file.url || file.preview,
+      previewImage: url,
       previewVisible: true,
     });
   };
 
   handleChange = ({ fileList, file }) => {
+    let url = onGetImageUrl(file)
     fileList = fileList.slice(-1); //限制只保留一张图片
+    console.log('tupian',fileList)
+    // fileList[0].response.data.url = fileList[0].response.data ?  = url : 
     this.props.handleImageChange(fileList)
     this.props.dispatch({ type: 'tableTemplate/save', payload: { fileList, fileKey: this.props.field.FIELD_NAME } })
-    this.setState({ fileList });
+    this.setState({ 
+      fileList,
+      previewImage: url,
+     });
   }
 
   render() {

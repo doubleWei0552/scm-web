@@ -30,6 +30,7 @@ import Editor from '@/components/BraftEditor/index';
 import responsive from '../DescriptionList/responsive';
 import TreeSelectCom from '@/components/TreeSelect/Index';
 import { formItemValid } from '@/utils/validate';
+import { onGetImageUrl } from "@/utils/FunctionSet";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -101,6 +102,8 @@ class DetailPage extends PureComponent {
   handleImageChange = (e, i) => {
     const url = _.get(e[0], 'response.data');
     if (url) {
+      let newUrl = onGetImageUrl(url)
+      url.url = newUrl
       this.props.form.setFieldsValue({
         [i]: [url],
       });

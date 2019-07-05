@@ -1,6 +1,7 @@
 import { Upload, Button, Icon } from 'antd';
 import ReactDOM from 'react-dom'
 import { notification,Modal } from 'antd'
+import { onGetImageUrl } from "@/utils/FunctionSet";
 import styles from './Attachments.less'
 
 export default class Attachments extends React.Component{
@@ -8,13 +9,17 @@ export default class Attachments extends React.Component{
     previewImage:'',
     previewVisible:false,
   }
+
   handleChange = ({ fileList }) => {
+    console.log('fileList',fileList)
     this.props.handleImageChange(fileList)
     this.props.dispatch({type:'tableTemplate/save',payload:{fileList,fileKey:this.props.field.FIELD_NAME}})
   }
+
   // 图片渲染的方法
   renderImg=(item)=>{
-    let url = item.url ? item.url : item.response ? item.response.data.url : ''
+    let url = onGetImageUrl(item)
+    // let url = item.url ? item.url : item.response ? item.response.data.url : ''
     var pos=url.lastIndexOf(".");
     let Suffix = url.substring(pos+1); //获取文件后缀
     if(Suffix!="bmp"&&Suffix!="jpg"&&Suffix!="jpeg"&&Suffix!="png"&&Suffix!="gif"){
@@ -55,7 +60,7 @@ export default class Attachments extends React.Component{
     const props = {
       action: `${window.config.apiUrl}/rs/uploadImage`,
       listType: 'picture',
-      fileList: this.props.value,
+      defaultFileList: this.props.value,
       className: this.props.disabled ? 'disUpload-list-inline' : 'upload-list-inline',
     };
     return (

@@ -1,4 +1,5 @@
 import { Upload, Icon, Modal } from 'antd';
+import {onGetImageUrl} from '@/utils/FunctionSet'
 
 export default class ImageUpdate extends React.Component {
   state = {
@@ -15,8 +16,10 @@ export default class ImageUpdate extends React.Component {
   handleCancel = () => this.setState({ previewVisible: false })
 
   handlePreview = (file) => {
+    let url = onGetImageUrl(file)
     this.setState({
-      previewImage: file.response.data.url || file.url || file.thumbUrl,
+      // previewImage: file.response.data.url || file.url || file.thumbUrl,
+      previewImage: url,
       previewVisible: true,
     });
   }
