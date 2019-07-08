@@ -102,8 +102,11 @@ class DetailPage extends PureComponent {
   handleImageChange = (e, i) => {
     const url = _.get(e[0], 'response.data');
     if (url) {
-      let newUrl = onGetImageUrl(url)
-      url.url = newUrl
+      _.get(this.props.tableTemplate.detailData,'policyFormFields').map(item=>{
+        if(item.FIELD_NAME == i ){
+          item.FIELD_VALUE = [e[0].response.data]
+        }
+      })
       this.props.form.setFieldsValue({
         [i]: [url],
       });
@@ -122,6 +125,19 @@ class DetailPage extends PureComponent {
     const { getFieldDecorator } = this.props.form;
     const { policyFormFields = [] } = _.get(tableTemplate, 'detailData');
     const { readOnlyFields } = this.state;
+    _.map(policyFormFields, (item,index)=>{
+      if(item.WIDGET_TYPE == "Image"){
+        if(item.FIELD_VALUE){
+          item.FIELD_VALUE.map(ii=>{
+            if(!ii.url.includes('http:')){
+              let newUrl = onGetImageUrl(ii)
+              ii.url = newUrl
+            }
+          })
+        }
+        
+      }
+    })
     let tabFields = [];
     _.map(policyFormFields, (field, index) => {
       const i = _.findIndex(tabFields, item => item.tabName === field.PAGE_FIELD_TAB_NAME);
@@ -179,12 +195,12 @@ class DetailPage extends PureComponent {
                             );
                           }
                           // 解决多个上传组件的图片展示问题
-                          if (
-                            field.WIDGET_TYPE === 'Image' &&
-                            this.props.form.getFieldValue(field.FIELD_NAME)
-                          ) {
-                            field.FIELD_VALUE = this.props.form.getFieldValue(field.FIELD_NAME);
-                          }
+                          // if (
+                          //   field.WIDGET_TYPE === 'Image' &&
+                          //   this.props.form.getFieldValue(field.FIELD_NAME)
+                          // ) {
+                          //   field.FIELD_VALUE = this.props.form.getFieldValue(field.FIELD_NAME);
+                          // }
                           switch (field.WIDGET_TYPE) {
                             case 'Password':
                               return (
@@ -562,6 +578,7 @@ class DetailPage extends PureComponent {
                                 </Col>
                               );
                             case 'Image':
+                              // console.log('field',field)
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   <Form.Item

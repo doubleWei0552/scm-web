@@ -21,6 +21,7 @@ import {
 } from '@/services/api';
 import _ from 'lodash';
 import { notification } from 'antd';
+import {onGetImageUrl} from '@/utils/FunctionSet'
 
 export default {
   namespace: 'tableTemplate',
@@ -141,6 +142,7 @@ export default {
     },
     // 获取详情页数据
     *getDetailPage({ payload, callback }, { call, put, select }) {
+      console.log('详情页数据')
       const { type } = payload; // 判断是不是点击子表删除进来的刷新页面
       const deleteParams = payload.params; // 子表删除时指定删除的数据参数
       // ------判断子表删除的参数 ⬆️------
@@ -258,6 +260,17 @@ export default {
           detailData.child = child;
           params = detailData;
         });
+        params.policyFormFields.map(item=>{
+          if(item.WIDGET_TYPE == "Image"){
+            item.FIELD_VALUE.map(ii=>{
+              if(ii.url.includes('http:')){
+                let str = ii.url.match(/:(\S*)/)[1];
+                let lastStr = str.match(/:(\S*)/)[1];
+                ii.url = `:${lastStr}`
+              }
+            })
+          }
+        })
         const result = yield call(queryDetailEdit, params);
         if (callback) callback(result);
         if (result.status == 'success') {
@@ -292,11 +305,6 @@ export default {
             child.push(i);
           });
         });
-        // detailData.policyFormFields.map((value, index) => {
-        //   if (editValue[value.FIELD_NAME]) {
-        //     value.FIELD_VALUE = editValue[value.FIELD_NAME];
-        //   }
-        // });
         detailData.policyFormFields.map((value, index) => {
           // if(editValue){
           // 判断是否修改和用户是否选择清空选项，如果修改了，就赋值，没有修改不变,注：null == undefined,区分他们要用 ===
@@ -656,7 +664,6 @@ export default {
     },
     // 子表的rtlink功能
     *childUpdateFields({ payload, callback }, { select, put, call }) {
-      console.log('payload', payload)
       const ChildData = yield select(({ tableTemplate }) => tableTemplate.ChildData);
       const { params } = payload;
       const { list = [] } = params;

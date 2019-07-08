@@ -44,7 +44,6 @@ export default class ImageUpload extends React.Component {
   handleChange = ({ fileList, file }) => {
     let url = onGetImageUrl(file)
     fileList = fileList.slice(-1); //限制只保留一张图片
-    console.log('tupian',fileList)
     // fileList[0].response.data.url = fileList[0].response.data ?  = url : 
     this.props.handleImageChange(fileList)
     this.props.dispatch({ type: 'tableTemplate/save', payload: { fileList, fileKey: this.props.field.FIELD_NAME } })
@@ -61,7 +60,6 @@ export default class ImageUpload extends React.Component {
     const { apiUrl: _apiUrl } = window.config;
     const origin = localStorage.getItem('origin') || '';
     const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
-    console.log('process.env.NODE_ENV', process.env.NODE_ENV)
     const uploadButton = (
       <div>
         <Icon type="plus" />
