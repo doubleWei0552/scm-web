@@ -156,7 +156,6 @@ class DetailPage extends PureComponent {
       if(item.WIDGET_TYPE == "Image" || item.WIDGET_TYPE == "Attachment"){
         if(item.FIELD_VALUE){
           item.FIELD_VALUE.map(ii=>{
-            console.log('ii',ii)
             if(ii.url){
               if(!ii.url.includes('http:')){
                 let newUrl = onGetImageUrl(ii)

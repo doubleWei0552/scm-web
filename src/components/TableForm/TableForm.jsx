@@ -251,6 +251,7 @@ export default class TableForm extends React.Component {
   };
 
   render() {
+    let add_d = this.props.HeaderData.add_d //新增按钮管控，true为只读
     const listPageProps = {
       frameSelectedRowKeys: this.state.frameSelectedRowKeys,
       onSelectChange: this.onSelectChange,
@@ -279,7 +280,7 @@ export default class TableForm extends React.Component {
         <Button
           style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
           type={this.props.disEditStyle ? 'dashed' : 'primary'}
-          disabled={this.props.disEditStyle}
+          disabled={this.props.disEditStyle || add_d}
           onClick={this.showModal}
           icon="plus"
         >

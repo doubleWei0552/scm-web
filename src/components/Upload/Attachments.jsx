@@ -58,8 +58,11 @@ export default class Attachments extends React.Component{
   }
 
   render(){
+    const { apiUrl: _apiUrl } = window.config;
+    const origin = localStorage.getItem('origin') || '';
+    const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
     const props = {
-      action: `${window.config.apiUrl}/rs/uploadImage`,
+      action: `${apiUrl}/rs/uploadImage`,
       listType: 'picture',
       defaultFileList: this.props.value,
       className: this.props.disabled ? 'disUpload-list-inline' : 'upload-list-inline',
