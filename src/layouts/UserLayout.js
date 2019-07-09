@@ -54,8 +54,10 @@ class UserLayout extends Component {
       breadcrumbNameMap,
     } = this.props;
     let logoImg = JSON.parse(localStorage.getItem('loginLogoImg'))
-    let newUrl = onGetImageUrl(logoImg[0])
-    logoImg[0].url = newUrl
+    if(logoImg){
+      let newUrl = onGetImageUrl(logoImg[0])
+      logoImg[0].url = newUrl
+    }
     const loginLogo =
     logoImg && logoImg !== 'undefined'
         ? logoImg

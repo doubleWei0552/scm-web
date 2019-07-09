@@ -113,6 +113,22 @@ class DetailPage extends PureComponent {
     }
   };
 
+  // 多个图片情况
+  handleAttachmentsChange =(e,i)=>{
+    console.log('修改',e,i)
+    const url = _.get(e[0], 'response.data');
+    if (url) {
+      _.get(this.props.tableTemplate.detailData,'policyFormFields').map(item=>{
+        if(item.FIELD_NAME == i ){
+          item.FIELD_VALUE = [e[0].response.data]
+        }
+      })
+      this.props.form.setFieldsValue({
+        [i]: [url],
+      });
+    }
+  }
+
   //富文本编辑器赋值
   onRichText = (value, FIELD_NAME) => {
     this.props.form.setFieldsValue({
@@ -126,8 +142,9 @@ class DetailPage extends PureComponent {
     const { policyFormFields = [] } = _.get(tableTemplate, 'detailData');
     const { readOnlyFields } = this.state;
     _.map(policyFormFields, (item,index)=>{
-      if(item.WIDGET_TYPE == "Image"){
+      if(item.WIDGET_TYPE == "Image" || item.WIDGET_TYPE == "Attachment"){
         if(item.FIELD_VALUE){
+          console.log(item.FIELD_VALUE)
           item.FIELD_VALUE.map(ii=>{
             if(!ii.url.includes('http:')){
               let newUrl = onGetImageUrl(ii)
@@ -135,7 +152,6 @@ class DetailPage extends PureComponent {
             }
           })
         }
-        
       }
     })
     let tabFields = [];
@@ -674,8 +690,8 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <Attachments
-                                        handleImageChange={e =>
-                                          this.handleImageChange(e, field.FIELD_NAME)
+                                        handleAttachmentsChange={e =>
+                                          this.handleAttachmentsChange(e, field.FIELD_NAME)
                                         }
                                         field={field}
                                         {...this.props}
