@@ -196,12 +196,14 @@ export default class GlobalHeaderRight extends PureComponent {
             showViewMore
           />
         </NoticeIcon> */}
-        <a href="https://www.yuque.com/fushengruomeng-eswck/pyc52a/mvvtl5" target="_blank">
-          <Icon
-            style={{ fontSize: '18px', position: 'relative', top: '2px', cursor: 'pointer' }}
-            type="book"
-          />
-        </a>
+        <Tooltip title="使用文档">
+          <a href="https://www.yuque.com/fushengruomeng-eswck/pyc52a/vc7bfw" target="_blank">
+            <Icon
+              style={{ fontSize: '18px', position: 'relative', top: '2px', cursor: 'pointer' }}
+              type="question-circle-o"
+            />
+          </a>
+        </Tooltip>
         {currentUser && currentUser.username && (
           <HeaderDropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
