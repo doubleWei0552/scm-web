@@ -136,6 +136,7 @@ export default {
       const showMenuData = [];
       const { id } = payload;
       const allMenuData = yield select(({ menu }) => menu.allMenuData);
+      console.log('allMenudata', allMenuData);
       for (let i = 0; i < allMenuData.length; i++) {
         if (allMenuData[i].moduleId == id) {
           showMenuData.push(allMenuData[i]);

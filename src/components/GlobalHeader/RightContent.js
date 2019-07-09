@@ -14,6 +14,7 @@ import UserCenter from './UserCenter';
 import styles from './index.less';
 import router from 'umi/router';
 import { notification } from 'antd';
+import noHead from './images/noHead.svg';
 
 @connect(({ login }) => ({
   login,
@@ -84,7 +85,6 @@ export default class GlobalHeaderRight extends PureComponent {
     if (item.key === 'userCenter') {
       this.changePassword();
     } else if (item.key === 'logout') {
-      console.log('key', this.props);
       dispatch({
         type: 'login/queryRSLogOut',
         payload: {},
@@ -196,19 +196,20 @@ export default class GlobalHeaderRight extends PureComponent {
             showViewMore
           />
         </NoticeIcon> */}
-        {/* <Link to="/account/book">
-          <Icon style={{fontSize: '18px', position: 'relative', top: '2px', cursor: 'pointer'}} type="book" />
-        </Link> */}
+        <a href="https://www.yuque.com/fushengruomeng-eswck/pyc52a/mvvtl5" target="_blank">
+          <Icon
+            style={{ fontSize: '18px', position: 'relative', top: '2px', cursor: 'pointer' }}
+            type="book"
+          />
+        </a>
         {currentUser && currentUser.username && (
           <HeaderDropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
                 size="small"
                 className={styles.avatar}
-                src={
-                  currentUser.avatar ||
-                  'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
-                }
+                src={currentUser.avatar || noHead}
+                icon="user"
                 alt="avatar"
               />
               <span className={styles.name}>{currentUser.username}</span>

@@ -13,8 +13,10 @@ export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
   }
+  componentDidMount() {}
+
   handleClick = e => {
-    localStorage.setItem('menuItem', e.key)
+    localStorage.setItem('menuItem', e.key);
   };
   /* eslint-disable*/
   @Debounce(600)
@@ -46,9 +48,9 @@ export default class GlobalHeader extends PureComponent {
 
           if (selectItem.path) {
             let path = selectItem.path;
-            const index = path.lastIndexOf("\?");
+            const index = path.lastIndexOf('?');
             if (index > 0) {
-              path = path.substring(0, index) + '/list' + path.substring(index, path.length)
+              path = path.substring(0, index) + '/list' + path.substring(index, path.length);
               router.push(path);
             } else {
               router.push(selectItem.path);
@@ -59,8 +61,8 @@ export default class GlobalHeader extends PureComponent {
           });
           dispatch({
             type: 'tableTemplate/save',
-            payload: { defaultActiveKey: '0' }
-          })
+            payload: { defaultActiveKey: '0' },
+          });
         }
       },
     });
@@ -95,7 +97,7 @@ export default class GlobalHeader extends PureComponent {
           <Menu
             onClick={this.handleClick}
             mode="horizontal"
-          // defaultSelectedKeys={[localStorage.getItem('menuItem') ? localStorage.getItem('menuItem') : '0']}
+            // defaultSelectedKeys={[localStorage.getItem('menuItem') ? localStorage.getItem('menuItem') : '0']}
           >
             {NavChildren}
           </Menu>
