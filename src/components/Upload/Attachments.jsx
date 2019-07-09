@@ -2,6 +2,7 @@ import { Upload, Button, Icon } from 'antd';
 import ReactDOM from 'react-dom'
 import { notification,Modal } from 'antd'
 import { onGetImageUrl } from "@/utils/FunctionSet";
+import fileImg from '@/assets/file.png'
 import styles from './Attachments.less'
 
 export default class Attachments extends React.Component{
@@ -18,12 +19,12 @@ export default class Attachments extends React.Component{
 
   // 图片渲染的方法
   renderImg=(item)=>{
-    let url = onGetImageUrl(item)
+    let url = onGetImageUrl(item) || ''
     // let url = item.url ? item.url : item.response ? item.response.data.url : ''
     var pos=url.lastIndexOf(".");
     let Suffix = url.substring(pos+1); //获取文件后缀
     if(Suffix!="bmp"&&Suffix!="jpg"&&Suffix!="jpeg"&&Suffix!="png"&&Suffix!="gif"){
-      return '../../assets/file.png'
+      return fileImg
     } else {
       return url
     }
