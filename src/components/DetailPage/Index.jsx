@@ -116,15 +116,26 @@ class DetailPage extends PureComponent {
   // 多个图片情况
   handleAttachmentsChange =(e,i)=>{
     console.log('修改',e,i)
-    const url = _.get(e[0], 'response.data');
-    if (url) {
+    let value = []
+    if(e){
+      e.map(item=>{
+        if(item.response){
+          value.push(item.response.data)
+        }else{
+          value.push(item)
+        }
+      })
+    }
+    console.log('value',value)
+    // const url = _.get(e[0], 'response.data');
+    if (value.length) {
       _.get(this.props.tableTemplate.detailData,'policyFormFields').map(item=>{
         if(item.FIELD_NAME == i ){
-          item.FIELD_VALUE = [e[0].response.data]
+          item.FIELD_VALUE = value
         }
       })
       this.props.form.setFieldsValue({
-        [i]: [url],
+        [i]: value,
       });
     }
   }
@@ -144,11 +155,13 @@ class DetailPage extends PureComponent {
     _.map(policyFormFields, (item,index)=>{
       if(item.WIDGET_TYPE == "Image" || item.WIDGET_TYPE == "Attachment"){
         if(item.FIELD_VALUE){
-          console.log(item.FIELD_VALUE)
           item.FIELD_VALUE.map(ii=>{
-            if(!ii.url.includes('http:')){
-              let newUrl = onGetImageUrl(ii)
-              ii.url = newUrl
+            console.log('ii',ii)
+            if(ii.url){
+              if(!ii.url.includes('http:')){
+                let newUrl = onGetImageUrl(ii)
+                ii.url = newUrl
+              }
             }
           })
         }
