@@ -261,12 +261,15 @@ export default {
           params = detailData;
         });
         params.policyFormFields.map(item=>{
-          if(item.WIDGET_TYPE == "Image"){
+          if(item.WIDGET_TYPE == "Image" || item.WIDGET_TYPE == "Attachment"){
+            console.log('item参数',item)
             item.FIELD_VALUE.map(ii=>{
-              if(ii.url.includes('http:')){
-                let str = ii.url.match(/:(\S*)/)[1];
-                let lastStr = str.match(/:(\S*)/)[1];
-                ii.url = `:${lastStr}`
+              if(ii.url){
+                if(ii.url.includes('http:')){
+                  let str = ii.url.match(/:(\S*)/)[1];
+                  let lastStr = str.match(/:(\S*)/)[1];
+                  ii.url = `:${lastStr}`
+                }
               }
             })
           }

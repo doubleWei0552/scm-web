@@ -12,9 +12,16 @@ export function onRegex(pattern,value){
 
 //获取图片的地址
 export function onGetImageUrl(value){
-    const { apiUrl: _apiUrl } = window.config;
-    const origin = localStorage.getItem('origin') || '';
-    const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
-    let newUrl = apiUrl.split(':')
-    return `${newUrl[0]}:${newUrl[1]}${value.url}`
+    console.log(value)
+    if(value.url){
+        if(!value.url.includes('http:')){
+            const { apiUrl: _apiUrl } = window.config;
+            const origin = localStorage.getItem('origin') || '';
+            const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
+            let newUrl = apiUrl.split(':')
+            return `${newUrl[0]}:${newUrl[1]}${value.url}`
+        } else {
+            return value.url
+        }
+    }
 }
