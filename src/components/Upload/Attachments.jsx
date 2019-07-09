@@ -12,7 +12,7 @@ export default class Attachments extends React.Component{
 
   handleChange = ({ fileList }) => {
     console.log('fileList',fileList)
-    this.props.handleImageChange(fileList)
+    this.props.handleAttachmentsChange(fileList)
     this.props.dispatch({type:'tableTemplate/save',payload:{fileList,fileKey:this.props.field.FIELD_NAME}})
   }
 
@@ -23,7 +23,7 @@ export default class Attachments extends React.Component{
     var pos=url.lastIndexOf(".");
     let Suffix = url.substring(pos+1); //获取文件后缀
     if(Suffix!="bmp"&&Suffix!="jpg"&&Suffix!="jpeg"&&Suffix!="png"&&Suffix!="gif"){
-      return 'http://192.168.60.205/images/502e215bafc82045b16db57f6c65f10c.jpeg'
+      return '../../assets/file.png'
     } else {
       return url
     }
@@ -49,7 +49,7 @@ export default class Attachments extends React.Component{
   // 点击icon删除图片
   deleteImg=(index)=>{
     let data = this.props.value.splice(index,1)
-    this.props.handleImageChange(this.props.value)
+    this.props.handleAttachmentsChange(this.props.value)
     this.props.dispatch({type:'tableTemplate/save',payload:{
       fileList:this.props.value,
       fileKey:this.props.field.FIELD_NAME

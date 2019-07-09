@@ -64,8 +64,10 @@ export default class SiderMenu extends PureComponent {
     });
     const Title = localStorage.getItem('mainTitle')
     let logoImg = JSON.parse(localStorage.getItem('mainLogoImg'))
-    let newUrl = onGetImageUrl(logoImg[0])
-    logoImg[0].url = newUrl
+    if(logoImg){
+      let newUrl = onGetImageUrl(logoImg[0])
+      logoImg[0].url = newUrl
+    }
     const loginLogo = logoImg || [];
     return (
       <Sider
