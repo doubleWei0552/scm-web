@@ -5,6 +5,7 @@ import Link from 'umi/link';
 import styles from './index.less';
 import PageLoading from '../PageLoading';
 import { getDefaultCollapsedSubMenus } from './SiderMenuUtils';
+import { onGetImageUrl } from "@/utils/FunctionSet";
 import { title } from '../../defaultSettings';
 
 const BaseMenu = React.lazy(() => import('./BaseMenu'));
@@ -62,8 +63,10 @@ export default class SiderMenu extends PureComponent {
       [styles.light]: theme === 'light',
     });
     const Title = localStorage.getItem('mainTitle')
-    const loginLogo = JSON.parse(localStorage.getItem('mainLogoImg')) || [];
-    console.log('TitleTitle', Title)
+    let logoImg = JSON.parse(localStorage.getItem('mainLogoImg'))
+    let newUrl = onGetImageUrl(logoImg[0])
+    logoImg[0].url = newUrl
+    const loginLogo = logoImg || [];
     return (
       <Sider
         trigger={null}

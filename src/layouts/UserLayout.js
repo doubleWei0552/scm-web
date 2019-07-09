@@ -9,6 +9,7 @@ import SelectLang from '@/components/SelectLang';
 import styles from './UserLayout.less';
 import logo from '../assets/logo.svg';
 import getPageTitle from '@/utils/getPageTitle';
+import { onGetImageUrl } from "@/utils/FunctionSet";
 
 const links = [
   {
@@ -52,10 +53,12 @@ class UserLayout extends Component {
       location: { pathname },
       breadcrumbNameMap,
     } = this.props;
-    console.log('llll', localStorage.getItem('loginLogoImg'))
+    let logoImg = JSON.parse(localStorage.getItem('loginLogoImg'))
+    let newUrl = onGetImageUrl(logoImg[0])
+    logoImg[0].url = newUrl
     const loginLogo =
-      localStorage.getItem('loginLogoImg') && localStorage.getItem('loginLogoImg') !== 'undefined'
-        ? JSON.parse(localStorage.getItem('loginLogoImg'))
+    logoImg && logoImg !== 'undefined'
+        ? logoImg
         : [];
     return (
       <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
