@@ -91,7 +91,7 @@ export default class SiderMenu extends PureComponent {
             {/* <img src="logo.png" style={{ width: 40, height: 40 }} />
             <h1 style={{ position: 'relative', top: 2 }}>精诚供应链系统</h1> */}
             <img src={loginLogo.length ? loginLogo[0].url : ''} style={{ width: 40, height: 40 }} />
-            <h1 title={Title} style={{ position: 'absolute', top: 2, width: '180px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <h1 title={Title} style={{ marginLeft:'16px',position: 'absolute', top: 2, width: '180px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {Title}
             </h1>
           </Link>
