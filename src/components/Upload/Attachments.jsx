@@ -12,18 +12,23 @@ export default class Attachments extends React.Component{
   }
 
   handleChange = ({ fileList }) => {
-    console.log('fileList',fileList)
     this.props.handleAttachmentsChange(fileList)
     this.props.dispatch({type:'tableTemplate/save',payload:{fileList,fileKey:this.props.field.FIELD_NAME}})
   }
 
   // 图片渲染的方法
   renderImg=(item)=>{
-    let url = onGetImageUrl(item) || ''
+    let urlItem = {}
+    if(item.response){
+      urlItem = item.response.data
+    } else {
+      urlItem = item
+    }
+    let url = onGetImageUrl(urlItem) || ''
     // let url = item.url ? item.url : item.response ? item.response.data.url : ''
     var pos=url.lastIndexOf(".");
     let Suffix = url.substring(pos+1); //获取文件后缀
-    if(Suffix!="bmp"&&Suffix!="jpg"&&Suffix!="jpeg"&&Suffix!="png"&&Suffix!="gif"){
+    if(Suffix!="bmp"&&Suffix!="jpg"&&Suffix!="jpeg"&&Suffix!="png"&&Suffix!="ico"&&Suffix!="gif"){
       return fileImg
     } else {
       return url
@@ -49,10 +54,11 @@ export default class Attachments extends React.Component{
 
   // 点击icon删除图片
   deleteImg=(index)=>{
-    let data = this.props.value.splice(index,1)
-    this.props.handleAttachmentsChange(this.props.value)
+    let data = this.props.value
+    data.splice(index,1)
+    this.props.handleAttachmentsChange(data)
     this.props.dispatch({type:'tableTemplate/save',payload:{
-      fileList:this.props.value,
+      fileList:data,
       fileKey:this.props.field.FIELD_NAME
     }})
   }
@@ -81,19 +87,19 @@ export default class Attachments extends React.Component{
               </div>
             )
           }) : null}
+          <Upload onChange={this.handleChange}
+          listType="picture-card"
+          showUploadList={false}
+          {...props} style={{display:'block',float:'left'}}>
+            <Button className={styles.fileButton} disabled={this.props.disabled} >
+              <Icon type="upload" /> 
+              <span>附件上传</span>
+            </Button>
+          </Upload>
+          <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
+            <img alt="file" style={{ width: '100%' }} src={this.state.previewImage} />
+          </Modal>
         </div>
-        <Upload onChange={this.handleChange}
-        listType="picture-card"
-        showUploadList={false}
-        {...props} style={{display:'block',float:'left'}}>
-          <Button className={styles.fileButton} disabled={this.props.disabled} >
-            <Icon type="upload" /> 
-            <span>附件上传</span>
-          </Button>
-        </Upload>
-        <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="file" style={{ width: '100%' }} src={this.state.previewImage} />
-        </Modal>
       </div>
     )
   }

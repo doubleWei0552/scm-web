@@ -115,27 +115,14 @@ class DetailPage extends PureComponent {
 
   // 多个图片情况
   handleAttachmentsChange =(e,i)=>{
-    console.log('修改',e,i)
-    let value = []
-    if(e){
-      e.map(item=>{
-        if(item.response){
-          value.push(item.response.data)
-        }else{
-          value.push(item)
-        }
-      })
-    }
-    console.log('value',value)
-    // const url = _.get(e[0], 'response.data');
-    if (value.length) {
+    if (e) {
       _.get(this.props.tableTemplate.detailData,'policyFormFields').map(item=>{
         if(item.FIELD_NAME == i ){
-          item.FIELD_VALUE = value
+          item.FIELD_VALUE = e
         }
       })
       this.props.form.setFieldsValue({
-        [i]: value,
+        [i]: e,
       });
     }
   }
@@ -706,7 +693,7 @@ class DetailPage extends PureComponent {
                                           this.handleAttachmentsChange(e, field.FIELD_NAME)
                                         }
                                         field={field}
-                                        {...this.props}
+                                        dispatch={this.props.dispatch}
                                         disabled={
                                           this.props.disabled ? true : item.READ_ONLY_CONDITION
                                         }

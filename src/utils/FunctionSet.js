@@ -12,7 +12,6 @@ export function onRegex(pattern,value){
 
 //获取图片的地址
 export function onGetImageUrl(value){
-    console.log(value)
     if(value.url){
         if(!value.url.includes('http:')){
             const { apiUrl: _apiUrl } = window.config;
