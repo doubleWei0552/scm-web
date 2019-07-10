@@ -248,7 +248,6 @@ export async function queryTransactionProcessTest(params) {
 
 // 请求分页
 export async function queryPagination(params) {
-  console.log('params', params)
   return request('/summaryPage/queryResult', {
     method: 'POST',
     body: params,
