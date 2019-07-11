@@ -621,7 +621,7 @@ export default class ChildTable extends React.Component {
                           {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
                         </span>
                       ) : (
-                        <Button
+                        <span
                           disabled={
                             specificData.READ_ONLY_CONDITION
                               ? specificData.READ_ONLY_CONDITION
@@ -631,7 +631,7 @@ export default class ChildTable extends React.Component {
                           type="primary"
                         >
                           {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
-                        </Button>
+                        </span>
                       );
                     },
                   };
