@@ -44,6 +44,7 @@ export default {
       localStorage.setItem('loginMainTitle', result.loginMainTitle);
       localStorage.setItem('mainTitle', result.mainTitle);
       localStorage.setItem('mainLogoImg', result.mainLogoImg);
+      localStorage.setItem('helpLink', result.helpLink || '')
     },
 
     *queryRSLogOut({ payload }, { call, put }) {

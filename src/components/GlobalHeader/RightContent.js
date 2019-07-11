@@ -95,6 +95,7 @@ export default class GlobalHeaderRight extends PureComponent {
   render() {
     const { fetchingNotices, onNoticeVisibleChange, onNoticeClear, theme } = this.props;
     const currentUser = JSON.parse(localStorage.getItem('userData'));
+    const helpLink = localStorage.getItem('helpLink')
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
         <Menu.Item key="userCenter">
@@ -196,14 +197,17 @@ export default class GlobalHeaderRight extends PureComponent {
             showViewMore
           />
         </NoticeIcon> */}
-        <Tooltip title="使用文档">
-          <a href="https://www.yuque.com/fushengruomeng-eswck/pyc52a/vc7bfw" target="_blank">
-            <Icon
-              style={{ fontSize: '18px', position: 'relative', top: '2px', cursor: 'pointer' }}
-              type="question-circle-o"
-            />
-          </a>
-        </Tooltip>
+        {helpLink && (
+          <Tooltip title="使用文档">
+            <a href={localStorage.getItem('helpLinK')} target="_blank">
+              <Icon
+                style={{ fontSize: '18px', position: 'relative', top: '2px', cursor: 'pointer' }}
+                type="question-circle-o"
+              />
+            </a>
+          </Tooltip>
+        )}
+
         {currentUser && currentUser.username && (
           <HeaderDropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
