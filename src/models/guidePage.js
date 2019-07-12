@@ -120,7 +120,7 @@ export default {
       if(callback) callback (result.data)
     },
     // 开户提交的方法
-    *getOpenAccount({ payload }, { select, put, call }) {
+    *getOpenAccount({ payload,callback }, { select, put, call }) {
       let params = {
         id:payload.id,
         userMessage:payload.userMessage,
@@ -128,6 +128,7 @@ export default {
         fieldGroup:payload.fieldGroup,
       }
       let result = yield call(queryOpenAccount,params)
+      if(callback) callback(result)
       if(result.status == 'success') {
         notification.success({ message: result.message, duration: 3 });
       } else {

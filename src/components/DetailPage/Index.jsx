@@ -31,6 +31,7 @@ import responsive from '../DescriptionList/responsive';
 import TreeSelectCom from '@/components/TreeSelect/Index';
 import { formItemValid } from '@/utils/validate';
 import { onGetImageUrl } from "@/utils/FunctionSet";
+import { file } from '@babel/types';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -61,6 +62,7 @@ class DetailPage extends PureComponent {
   };
 
   handleSelect = (e, field) => {
+    console.log('treeSelect',e,field)
     const { FIELD_NAME, OBJECT_TYPE } = field;
     const fieldValues = this.props.form.getFieldsValue();
     fieldValues[field.FIELD_NAME] = e;
@@ -133,6 +135,13 @@ class DetailPage extends PureComponent {
       [FIELD_NAME]: value,
     });
   };
+
+  //树状选择
+  onTreeSelector=(value,FIELD_NAME)=>{
+    this.props.form.setFieldsValue({
+      [FIELD_NAME]: value,
+    });
+  }
 
   render() {
     const { tableTemplate } = this.props;
@@ -655,9 +664,7 @@ class DetailPage extends PureComponent {
                                       <TreeSelectCom
                                         defaultData={field.FIELD_VALUE}
                                         treeData={field.children}
-                                        handleImageChange={e =>
-                                          this.handleImageChange(e, field.FIELD_NAME)
-                                        }
+                                        onChange={e => this.onTreeSelector(e, field.FIELD_NAME)}
                                         style={{ width: '200px' }}
                                         disabled={
                                           this.props.disabled ? true : item.READ_ONLY_CONDITION
