@@ -198,14 +198,16 @@ export default class GlobalHeaderRight extends PureComponent {
           />
         </NoticeIcon> */}
         {helpLink && (
-          <Tooltip title="使用文档">
-            <a href={localStorage.getItem('helpLinK')} target="_blank">
+
+          <a href={helpLink} target="_blank">
+            <Tooltip title="使用文档">
               <Icon
                 style={{ fontSize: '18px', position: 'relative', top: '2px', cursor: 'pointer' }}
                 type="question-circle-o"
               />
-            </a>
-          </Tooltip>
+            </Tooltip>
+          </a>
+
         )}
 
         {currentUser && currentUser.username && (
