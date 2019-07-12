@@ -72,7 +72,12 @@ export default class FormModal extends React.Component{
     let id = this.props.tableTemplate.detailData.thisComponentUid
     let objectType = this.props.guidePage.guidePageFormData.tableName
     let userMessage = this.props.form.getFieldsValue()
-    this.props.dispatch({type:'guidePage/getOpenAccount',payload:{id,userMessage,objectType,fieldGroup}})
+    this.props.dispatch({type:'guidePage/getOpenAccount',payload:{id,userMessage,objectType,fieldGroup},
+    callback:res=>{
+        if(res.executeScript){
+            this.props.dispatch({type:'tableTemplate/save',payload:{reportFormURL:res.executeScript}})
+        }
+    }})
     setTimeout(() => {
         this.setState({
             visible: false,
