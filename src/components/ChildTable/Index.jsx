@@ -763,7 +763,7 @@ export default class ChildTable extends React.Component {
                               }
                               filterOption={false}
                               placeholder="请输入查询内容!"
-                              style={{ minWidth: '100px' }}
+                              style={{ minWidth: '170px' }}
                               disabled={
                                 specificData.READ_ONLY_CONDITION
                                   ? specificData.READ_ONLY_CONDITION
@@ -802,7 +802,7 @@ export default class ChildTable extends React.Component {
                               //   specificData,
                               //   value.Columns.key
                               // )}
-                              style={{ minWidth: '100px' }}
+                              style={{ minWidth: '170px' }}
                               defaultValue={
                                 specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
                               }

@@ -43,7 +43,6 @@ import styles from './Index.less'
 export default class DetailsPageModule extends React.Component {
 
   render() {
-    console.log('报表的url',this.props.tableTemplate.reportFormURL)
     return (
       <div>
         {/* 报表部分 */}
