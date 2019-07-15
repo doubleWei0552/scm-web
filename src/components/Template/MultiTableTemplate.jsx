@@ -91,6 +91,9 @@ export default class MultiTableTemplate extends React.Component {
   componentDidMount = () => {
     this.props.dispatch({ type: 'tableTemplate/getDetailPageConfig' });
     this.props.dispatch({ type: 'tableTemplate/getSummaryPageConfig' });
+    this.props.dispatch({ type: 'tableTemplate/save',payload:{
+      reportFormURL:this.props.location.query.url
+    } });
   };
   componentWillReceiveProps = newProps => {
     const currentPageId = _.get(this.props.tableTemplate, 'pageId');
@@ -139,7 +142,7 @@ export default class MultiTableTemplate extends React.Component {
             </CatchError>
             {/* 详情页 */}
             <CatchError>
-              <DetailsPageModule />
+              <DetailsPageModule/>
             </CatchError>
           </div>
         </Spin >

@@ -117,7 +117,7 @@ export default class ChildTable extends React.Component {
       case 'DateInput':
         this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
           if (p.FIELD_NAME == specificData.FIELD_NAME) {
-            p.FIELD_VALUE = e.valueOf();
+            p.FIELD_VALUE = e ? e.valueOf() : e;
           }
         });
         break;
