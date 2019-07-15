@@ -7,7 +7,9 @@ import DataImport from '@/components/ImportAndExport/DataImport'; // 导入组�
 import Export from '@/components/ImportAndExport/Export'; // 导出组件
 import GuidePage from '@/components/GuidePage'; // 导向页组件
 import FormModals from '@/components/ConfirmModel/FormModal'
+import TableModals from '@/components/ConfirmModel/TableModal';
 import styles from './style.less';
+import CountDown from '../CountDown';
 
 const ButtonGroup = Button.Group;
 
@@ -120,7 +122,6 @@ export default class DetailButtonGroup extends React.Component {
   };
 
   handleClickItem = item => {
-    console.log(item)
     const { FIELD_NAME, CONFIRM } = item;
     if (CONFIRM) {
       const div = document.createElement('div')
@@ -135,8 +136,10 @@ export default class DetailButtonGroup extends React.Component {
       }
       ReactDOM.render(<ComModal ref={dom => (this.ComModal = dom)} store={window.g_app._store} {...ComModalProps} />, div)
       // } else if (FIELD_NAME == 'newCustUser' || FIELD_NAME == 'newSupplier') {
-    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup')) {
+    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup')=='OPEN') {
       this.openAccount(item)
+    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup')=='CREATESALES') {
+      this.tableModal(item)
     } else {
       this.onButtonEvent(item)
     }
@@ -167,6 +170,16 @@ export default class DetailButtonGroup extends React.Component {
       tableButton: e,
     }
     ReactDOM.render(<FormModals store={window.g_app._store} {...ComModalProps} />, div)
+  }
+
+  //table类型的模态框
+  tableModal =(e)=>{
+    const div = document.createElement('div')
+    document.body.appendChild(div)
+    const ComTableModalProps = {
+      tableButton: e,
+    }
+    ReactDOM.render(<TableModals store={window.g_app._store} {...ComTableModalProps} />, div)
   }
 
   //详情页的自定义按钮事件

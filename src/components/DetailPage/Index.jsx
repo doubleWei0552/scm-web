@@ -50,7 +50,9 @@ class DetailPage extends PureComponent {
     readOnlyFields: [],
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    
+  }
 
   componentWillReceiveProps() {}
 
@@ -62,7 +64,6 @@ class DetailPage extends PureComponent {
   };
 
   handleSelect = (e, field) => {
-    console.log('treeSelect',e,field)
     const { FIELD_NAME, OBJECT_TYPE } = field;
     const fieldValues = this.props.form.getFieldsValue();
     fieldValues[field.FIELD_NAME] = e;
