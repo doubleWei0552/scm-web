@@ -140,6 +140,8 @@ export default class DetailButtonGroup extends React.Component {
       this.openAccount(item)
     } else if (_.get(item, 'TRANSACTION.relatedFieldGroup')=='CREATESALES') {
       this.tableModal(item)
+    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup')==null) {
+      this.openGuidePage(item)
     } else {
       this.onButtonEvent(item)
     }
@@ -170,6 +172,17 @@ export default class DetailButtonGroup extends React.Component {
       tableButton: e,
     }
     ReactDOM.render(<FormModals store={window.g_app._store} {...ComModalProps} />, div)
+  }
+  //导向页
+  openGuidePage =(e)=>{
+    console.log('导向页',e)
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const tableButton = {
+      tableButton: e,
+      ...this.props,
+    };
+    ReactDOM.render(<GuidePage key={_.now()} store={window.g_app._store} {...tableButton} />, div);
   }
 
   //table类型的模态框

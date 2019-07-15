@@ -34,7 +34,7 @@ class GuidePage extends React.Component {
     isLoading:false,
   };
   componentWillMount = () => {
-    let params = this.props.tableButton.buttonGuide[0];
+    let params = this.props.tableButton.BUTTON_GUIDE[0];
     this.props.dispatch({ type: 'guidePage/detailButtonGuide', payload: { params } });
     this.props.dispatch({ type: 'guidePage/getButtonGuideClean' });
   };
@@ -66,7 +66,7 @@ class GuidePage extends React.Component {
         return
       } else {
         const current = this.state.current + 1;
-        let params = this.props.tableButton.buttonGuide[current];
+        let params = this.props.tableButton.BUTTON_GUIDE[current];
         const formData = _.flatten(this.props.guidePage.cacheFormData)
         switch (params.BUTTON_GUIDE_TYPE) {
           case 'Detail':
@@ -151,7 +151,7 @@ class GuidePage extends React.Component {
 
   prev() {
     const current = this.state.current - 1;
-    let params = this.props.tableButton.buttonGuide[current];
+    let params = this.props.tableButton.BUTTON_GUIDE[current];
     switch (params.BUTTON_GUIDE_TYPE) {
       case 'Detail':
         this.props.dispatch({ type: 'guidePage/detailButtonGuide', payload: { params } });
@@ -210,10 +210,11 @@ class GuidePage extends React.Component {
   };
 
   render() {
+    console.log('dayin',this.props)
     const { current } = this.state; //当前步骤条数
-    const pageStructure = this.props.tableButton.buttonGuide;
+    const pageStructure = this.props.tableButton.BUTTON_GUIDE;
     let { guidePageData } = this.props.guidePage;
-    // console.log(this.props)
+    console.log('current',current,'pageStructure',pageStructure)
     return (
       <Modal
         footer={null}
@@ -233,12 +234,12 @@ class GuidePage extends React.Component {
           ))}
         </Steps>
         {/* 显示的内容 */}
-        {this.props.tableButton.buttonGuide[current].BUTTON_GUIDE_TYPE && (
+        {this.props.tableButton.BUTTON_GUIDE[current].BUTTON_GUIDE_TYPE && (
           <div className="steps-content" style={{ margin: '1rem 0', width: '100%' }}>
             <Row>
               {this.setStepsContent(
-                this.props.tableButton.buttonGuide[current].BUTTON_GUIDE_TYPE,
-                this.props.tableButton.buttonGuide[current]
+                this.props.tableButton.BUTTON_GUIDE[current].BUTTON_GUIDE_TYPE,
+                this.props.tableButton.BUTTON_GUIDE[current]
               )}
             </Row>
           </div>
