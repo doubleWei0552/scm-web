@@ -6,7 +6,7 @@ import { connect } from 'dva';
 import DataImport from '@/components/ImportAndExport/DataImport'; // 导入组件
 import Export from '@/components/ImportAndExport/Export'; // 导出组件
 import GuidePage from '@/components/GuidePage'; // 导向页组件
-import FormModals from '@/components/ConfirmModel/FormModal'
+import FormModals from '@/components/ConfirmModel/FormModal';
 import TableModals from '@/components/ConfirmModel/TableModal';
 import styles from './style.less';
 import CountDown from '../CountDown';
@@ -124,58 +124,64 @@ export default class DetailButtonGroup extends React.Component {
   handleClickItem = item => {
     const { FIELD_NAME, CONFIRM } = item;
     if (CONFIRM) {
-      const div = document.createElement('div')
-      document.body.appendChild(div)
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const ComModalProps = {
         handleOk: () => {
-          this.onButtonEvent(item)
-          this.handleCancel()
+          this.onButtonEvent(item);
+          this.handleCancel();
         },
         handleCancel: this.handleCancel,
-        message: item.CONFIRM_MESSAGE ? item.CONFIRM_MESSAGE : '确定执行本次操作?'
-      }
-      ReactDOM.render(<ComModal ref={dom => (this.ComModal = dom)} store={window.g_app._store} {...ComModalProps} />, div)
+        message: item.CONFIRM_MESSAGE ? item.CONFIRM_MESSAGE : '确定执行本次操作?',
+      };
+      ReactDOM.render(
+        <ComModal
+          ref={dom => (this.ComModal = dom)}
+          store={window.g_app._store}
+          {...ComModalProps}
+        />,
+        div
+      );
       // } else if (FIELD_NAME == 'newCustUser' || FIELD_NAME == 'newSupplier') {
-    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup')=='OPEN') {
-      this.openAccount(item)
-    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup')=='CREATESALES') {
-      this.tableModal(item)
-    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup')==null) {
-      this.openGuidePage(item)
+    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup') == 'OPEN') {
+      this.openAccount(item);
+    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup') == 'CREATESALES') {
+      this.tableModal(item);
+    } else if (_.get(item, 'TRANSACTION.relatedFieldGroup') == 'XIANGDAO') {
+      this.openGuidePage(item);
     } else {
-      this.onButtonEvent(item)
+      this.onButtonEvent(item);
     }
   };
 
   showConfirmModal = (e, message) => {
-    const div = document.createElement('div')
-    document.body.appendChild(div)
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const ComModalProps = {
       handleOk: () => {
-        this.handleOk(e)
+        this.handleOk(e);
       },
       message,
-    }
-    ReactDOM.render(<ComModal store={window.g_app._store} {...ComModalProps} />, div)
-  }
+    };
+    ReactDOM.render(<ComModal store={window.g_app._store} {...ComModalProps} />, div);
+  };
 
   handleCancel = () => {
-    this.ComModal.handleCancel()
-  }
-
+    this.ComModal.handleCancel();
+  };
 
   // 开户
-  openAccount = (e) => {
-    const div = document.createElement('div')
-    document.body.appendChild(div)
+  openAccount = e => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const ComModalProps = {
       tableButton: e,
-    }
-    ReactDOM.render(<FormModals store={window.g_app._store} {...ComModalProps} />, div)
-  }
+    };
+    ReactDOM.render(<FormModals store={window.g_app._store} {...ComModalProps} />, div);
+  };
   //导向页
-  openGuidePage =(e)=>{
-    console.log('导向页',e)
+  openGuidePage = e => {
+    console.log('导向页', e);
     const div = document.createElement('div');
     document.body.appendChild(div);
     const tableButton = {
@@ -183,17 +189,17 @@ export default class DetailButtonGroup extends React.Component {
       ...this.props,
     };
     ReactDOM.render(<GuidePage key={_.now()} store={window.g_app._store} {...tableButton} />, div);
-  }
+  };
 
   //table类型的模态框
-  tableModal =(e)=>{
-    const div = document.createElement('div')
-    document.body.appendChild(div)
+  tableModal = e => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const ComTableModalProps = {
       tableButton: e,
-    }
-    ReactDOM.render(<TableModals store={window.g_app._store} {...ComTableModalProps} />, div)
-  }
+    };
+    ReactDOM.render(<TableModals store={window.g_app._store} {...ComTableModalProps} />, div);
+  };
 
   //详情页的自定义按钮事件
   onButtonEvent = e => {
@@ -217,8 +223,6 @@ export default class DetailButtonGroup extends React.Component {
     // const firstButton = data.buttons[0];
     // const otherButtons = _.tail(data.buttons);
 
-
-
     return (
       <span>
         {_.map(buttonList, (data, index) => {
@@ -241,10 +245,14 @@ export default class DetailButtonGroup extends React.Component {
                   );
                 })}
               </span>
-            )
+            );
           } else if (data.buttons[0].HORIZONTAL == 'true') {
             return (
-              <div key={Math.random()} style={{ display: 'inline-block', marginRight: '10px' }} className={styles.horizontalButtons}>
+              <div
+                key={Math.random()}
+                style={{ display: 'inline-block', marginRight: '10px' }}
+                className={styles.horizontalButtons}
+              >
                 <ButtonGroup>
                   {data.buttons.map(item => {
                     const obj = JSON.parse(item.JAVA_SCRIPT_CONTENT || '{}');
@@ -274,7 +282,7 @@ export default class DetailButtonGroup extends React.Component {
                             // marginRight: '5px',
                             display: item.DISPLAY_CONDITION ? 'inline-block' : 'none',
                           }}
-                        // type="primary"
+                          // type="primary"
                         >
                           {item.LABEL}
                         </Button>
@@ -311,7 +319,7 @@ export default class DetailButtonGroup extends React.Component {
                           key={item.ID}
                           onClick={() => this.handleClickItem(item)}
                           style={{ border: 'none', background: 'transparent', height: '20px' }}
-                        // type="primary"
+                          // type="primary"
                         >
                           {item.LABEL}
                         </Button>
@@ -320,16 +328,32 @@ export default class DetailButtonGroup extends React.Component {
                   }
                 })}
               </Menu>
-            )
+            );
             return (
-              <span className={styles.dropdownGroup} style={{ marginRight: '10px' }} ref={dom => { index === 0 ? this.dom0 = dom : index === 1 ? this.dom1 = dom : index === 2 ? this.dom2 = dom : index === 3 ? this.dom3 = dom : index === 4 ? this.dom4 = dom : this.ddom = dom }} key={firstButton.ID}>
+              <span
+                className={styles.dropdownGroup}
+                style={{ marginRight: '10px' }}
+                ref={dom => {
+                  index === 0
+                    ? (this.dom0 = dom)
+                    : index === 1
+                    ? (this.dom1 = dom)
+                    : index === 2
+                    ? (this.dom2 = dom)
+                    : index === 3
+                    ? (this.dom3 = dom)
+                    : index === 4
+                    ? (this.dom4 = dom)
+                    : (this.ddom = dom);
+                }}
+                key={firstButton.ID}
+              >
                 <Button
                   style={{
                     borderBottomRightRadius: 0,
                     borderTopRightRadius: 0,
                     borderRightWidth: '0.5px',
                   }}
-
                   disabled={firstButton.READ_ONLY_CONDITION}
                   onClick={() => this.handleClickItem(firstButton)}
                   className={firstButton.READ_ONLY_CONDITION ? 'disabledBtn' : 'mainBtn'}
@@ -338,12 +362,24 @@ export default class DetailButtonGroup extends React.Component {
                 </Button>
                 <Dropdown
                   overlay={menu}
-                  getPopupContainer={() => index === 0 ? this.dom0 : index === 1 ? this.dom1 : index === 2 ? this.dom2 : index === 3 ? this.dom3 : index === 4 ? this.dom4 : this.ddom}
+                  getPopupContainer={() =>
+                    index === 0
+                      ? this.dom0
+                      : index === 1
+                      ? this.dom1
+                      : index === 2
+                      ? this.dom2
+                      : index === 3
+                      ? this.dom3
+                      : index === 4
+                      ? this.dom4
+                      : this.ddom
+                  }
                   style={{ borderTopLeftRadious: 0 }}
                   placement="bottomLeft"
                   overlayClassName="overlaybuttons"
                   trigger={['click']}
-                // triggersubmenuaction
+                  // triggersubmenuaction
                 >
                   <Button
                     style={{
@@ -362,7 +398,6 @@ export default class DetailButtonGroup extends React.Component {
           }
         })}
       </span>
-    )
-
+    );
   }
 }
