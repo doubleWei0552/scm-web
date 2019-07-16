@@ -30,7 +30,7 @@ import Editor from '@/components/BraftEditor/index';
 import responsive from '../DescriptionList/responsive';
 import TreeSelectCom from '@/components/TreeSelect/Index';
 import { formItemValid } from '@/utils/validate';
-import { onGetImageUrl } from "@/utils/FunctionSet";
+import { onGetImageUrl } from '@/utils/FunctionSet';
 import { file } from '@babel/types';
 
 const { Option } = Select;
@@ -50,9 +50,7 @@ class DetailPage extends PureComponent {
     readOnlyFields: [],
   };
 
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
 
   componentWillReceiveProps() {}
 
@@ -105,11 +103,11 @@ class DetailPage extends PureComponent {
   handleImageChange = (e, i) => {
     const url = _.get(e[0], 'response.data');
     if (url) {
-      _.get(this.props.tableTemplate.detailData,'policyFormFields').map(item=>{
-        if(item.FIELD_NAME == i ){
-          item.FIELD_VALUE = [e[0].response.data]
+      _.get(this.props.tableTemplate.detailData, 'policyFormFields').map(item => {
+        if (item.FIELD_NAME == i) {
+          item.FIELD_VALUE = [e[0].response.data];
         }
-      })
+      });
       this.props.form.setFieldsValue({
         [i]: [url],
       });
@@ -117,18 +115,18 @@ class DetailPage extends PureComponent {
   };
 
   // 多个图片情况
-  handleAttachmentsChange =(e,i)=>{
+  handleAttachmentsChange = (e, i) => {
     if (e) {
-      _.get(this.props.tableTemplate.detailData,'policyFormFields').map(item=>{
-        if(item.FIELD_NAME == i ){
-          item.FIELD_VALUE = e
+      _.get(this.props.tableTemplate.detailData, 'policyFormFields').map(item => {
+        if (item.FIELD_NAME == i) {
+          item.FIELD_VALUE = e;
         }
-      })
+      });
       this.props.form.setFieldsValue({
         [i]: e,
       });
     }
-  }
+  };
 
   //富文本编辑器赋值
   onRichText = (value, FIELD_NAME) => {
@@ -138,31 +136,31 @@ class DetailPage extends PureComponent {
   };
 
   //树状选择
-  onTreeSelector=(value,FIELD_NAME)=>{
+  onTreeSelector = (value, FIELD_NAME) => {
     this.props.form.setFieldsValue({
       [FIELD_NAME]: value,
     });
-  }
+  };
 
   render() {
     const { tableTemplate } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { policyFormFields = [] } = _.get(tableTemplate, 'detailData');
     const { readOnlyFields } = this.state;
-    _.map(policyFormFields, (item,index)=>{
-      if(item.WIDGET_TYPE == "Image" || item.WIDGET_TYPE == "Attachment"){
-        if(item.FIELD_VALUE){
-          item.FIELD_VALUE.map(ii=>{
-            if(ii.url){
-              if(!ii.url.includes('http:')){
-                let newUrl = onGetImageUrl(ii)
-                ii.url = newUrl
+    _.map(policyFormFields, (item, index) => {
+      if (item.WIDGET_TYPE == 'Image' || item.WIDGET_TYPE == 'Attachment') {
+        if (item.FIELD_VALUE) {
+          item.FIELD_VALUE.map(ii => {
+            if (ii.url) {
+              if (!ii.url.includes('http:')) {
+                let newUrl = onGetImageUrl(ii);
+                ii.url = newUrl;
               }
             }
-          })
+          });
         }
       }
-    })
+    });
     let tabFields = [];
     _.map(policyFormFields, (field, index) => {
       const i = _.findIndex(tabFields, item => item.tabName === field.PAGE_FIELD_TAB_NAME);
@@ -350,121 +348,122 @@ class DetailPage extends PureComponent {
                               );
                               break;
                             // 单选框
-                            // case 'Select':
-                            // case 'Reference':
-                            // case 'ObjectSelector':
-                            // case 'MultiObjectSelector':
-                            //   return (
-                            //     <Col span={10} offset={1} key={i}>
-                            //       <Form.Item
-                            //         label={
-                            //           <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
-                            //             {field.LABEL}
-                            //           </Tooltip>
-                            //         }
-                            //         style={{ width: '100%' }}
-                            //         {...formItemLayout}
-                            //       >
-                            //         {getFieldDecorator(`${field.FIELD_NAME}`, {
-                            //           initialValue: _.get(field, 'FIELD_VALUE'),
-                            //           rules: [
-                            //             {
-                            //               required: field.REQUIRED_CONDITION,
-                            //               message: `${field.LABEL}不能为空`,
-                            //             },
-                            //             ...formItemValid(field.PATTERN, field.LABEL),
-                            //           ],
-                            //         })(
-                            //           <Radio.Group
-                            //             disabled={
-                            //               this.props.disabled ? true : field.READ_ONLY_CONDITION
-                            //             }
-                            //           >
-                            //             {_.map(field.options, (v, i) => {
-                            //               return (
-                            //                 <Radio value={v.value} key={v.value}>
-                            //                   {v.text}
-                            //                 </Radio>
-                            //               );
-                            //             })}
-                            //           </Radio.Group>
-                            //           // <Select
-                            //           //   // placeholder={`请选择${field.LABEL}`}
-                            //           //   showSearch={field.WIDGET_TYPE !== 'Select'}
-                            //           //   allowClear
-                            //           //   onSearch={e => this.onEditSearch(field, e)}
-                            //           //   onSelect={e => this.handleSelect(e, field)}
-                            //           //   filterOption={(inputValue, option) =>
-                            //           //     _.includes(option.props.children, inputValue)
-                            //           //   }
-                            //           //   disabled={
-                            //           //     this.props.disabled ? true : field.READ_ONLY_CONDITION
-                            //           //   }
-                            //           // >
-                            //           //   {_.map(field.options, (v, i) => {
-                            //           //     return (
-                            //           //       <Option value={v.value} key={v.value}>
-                            //           //         {v.text}
-                            //           //       </Option>
-                            //           //     );
-                            //           //   })}
-                            //           // </Select>
-                            //         )}
-                            //       </Form.Item>
-                            //     </Col>
-                            //   );
-                            //   break;
+                            case 'Radio':
+                              return (
+                                <Col span={10} offset={1} key={i}>
+                                  <Form.Item
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
+                                    style={{ width: '100%' }}
+                                    {...formItemLayout}
+                                  >
+                                    {getFieldDecorator(`${field.FIELD_NAME}`, {
+                                      initialValue: _.get(field, 'FIELD_VALUE'),
+                                      rules: [
+                                        {
+                                          required: field.REQUIRED_CONDITION,
+                                          message: `${field.LABEL}不能为空`,
+                                        },
+                                        ...formItemValid(field.PATTERN, field.LABEL),
+                                      ],
+                                    })(
+                                      <Radio.Group
+                                        disabled={
+                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
+                                        }
+                                      >
+                                        {_.map(field.options, (v, i) => {
+                                          return (
+                                            <Radio
+                                              style={{ width: 90 }}
+                                              value={v.value}
+                                              key={v.value}
+                                            >
+                                              {v.text}
+                                            </Radio>
+                                          );
+                                        })}
+                                      </Radio.Group>
+                                      // <Select
+                                      //   // placeholder={`请选择${field.LABEL}`}
+                                      //   showSearch={field.WIDGET_TYPE !== 'Select'}
+                                      //   allowClear
+                                      //   onSearch={e => this.onEditSearch(field, e)}
+                                      //   onSelect={e => this.handleSelect(e, field)}
+                                      //   filterOption={(inputValue, option) =>
+                                      //     _.includes(option.props.children, inputValue)
+                                      //   }
+                                      //   disabled={
+                                      //     this.props.disabled ? true : field.READ_ONLY_CONDITION
+                                      //   }
+                                      // >
+                                      //   {_.map(field.options, (v, i) => {
+                                      //     return (
+                                      //       <Option value={v.value} key={v.value}>
+                                      //         {v.text}
+                                      //       </Option>
+                                      //     );
+                                      //   })}
+                                      // </Select>
+                                    )}
+                                  </Form.Item>
+                                </Col>
+                              );
+                              break;
                             // 复选框
-                            // case 'Select':
-                            // case 'Reference':
-                            // case 'ObjectSelector':
-                            // case 'MultiObjectSelector':
-                            //   return (
-                            //     <Col span={10} offset={1} key={i}>
-                            //       <Form.Item
-                            //         label={
-                            //           <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
-                            //             {field.LABEL}
-                            //           </Tooltip>
-                            //         }
-                            //         style={{ width: '100%' }}
-                            //         {...formItemLayout}
-                            //       >
-                            //         {getFieldDecorator(`${field.FIELD_NAME}`, {
-                            //           initialValue: [_.get(field, 'FIELD_VALUE')],
-                            //           rules: [
-                            //             {
-                            //               required: field.REQUIRED_CONDITION,
-                            //               message: `${field.LABEL}不能为空`,
-                            //             },
-                            //             ...formItemValid(field.PATTERN, field.LABEL),
-                            //           ],
-                            //         })(
-                            //           <Checkbox.Group
-                            //             disabled={
-                            //               this.props.disabled ? true : field.READ_ONLY_CONDITION
-                            //             }
-                            //           >
-                            //             {field.options.length > 0 && (
-                            //               <Row>
-                            //                 {_.map(field.options, (v, i) => {
-                            //                   return (
-
-                            //                     <Checkbox value={v.value} key={v.value}>
-                            //                       {v.text}
-                            //                     </Checkbox>
-                            //                   );
-                            //                 })}
-                            //               </Row>
-                            //             )}
-
-                            //           </Checkbox.Group>
-
-                            //         )}
-                            //       </Form.Item>
-                            //     </Col>
-                            //   );
-                            //   break;
+                            case 'Checkbox':
+                              return (
+                                <Col span={10} offset={1} key={i}>
+                                  <Form.Item
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
+                                    style={{ width: '100%' }}
+                                    {...formItemLayout}
+                                  >
+                                    {getFieldDecorator(`${field.FIELD_NAME}`, {
+                                      initialValue: _.get(field, 'FIELD_VALUE')
+                                        ? _.get(field, 'FIELD_VALUE')
+                                        : [],
+                                      rules: [
+                                        {
+                                          required: field.REQUIRED_CONDITION,
+                                          message: `${field.LABEL}不能为空`,
+                                        },
+                                        ...formItemValid(field.PATTERN, field.LABEL),
+                                      ],
+                                    })(
+                                      <Checkbox.Group
+                                        disabled={
+                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
+                                        }
+                                      >
+                                        {field.options.length > 0 && (
+                                          <Row>
+                                            {_.map(field.options, (v, i) => {
+                                              return (
+                                                <Checkbox
+                                                  style={{ width: 90, marginLeft: 8 }}
+                                                  value={v.value}
+                                                  key={v.value}
+                                                >
+                                                  {v.text}
+                                                </Checkbox>
+                                              );
+                                            })}
+                                          </Row>
+                                        )}
+                                      </Checkbox.Group>
+                                    )}
+                                  </Form.Item>
+                                </Col>
+                              );
+                              break;
                             case 'Date':
                             case 'DateTime':
                               return (
@@ -563,7 +562,7 @@ class DetailPage extends PureComponent {
                                       <TextArea
                                         rows={3}
                                         disabled={
-                                          this.props.disabled ? true : item.READ_ONLY_CONDITION
+                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }
                                         style={{ width: '100%' }}
                                       />
