@@ -27,6 +27,7 @@ const Step = Steps.Step;
       loading.effects['guidePage/getButtonGuideConfig'] ||
       loading.effects['guidePage/getButtonGuideData']
 }))
+@Form.create()
 class GuidePage extends React.Component {
   state = {
     current: 0,

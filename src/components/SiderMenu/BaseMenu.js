@@ -90,7 +90,7 @@ export default class BaseMenu extends PureComponent {
                   type={item.menuIcon || "setting"}
                   style={{ fontSize: '1.0rem', marginRight: '10px', color: `${localStorage.getItem('primaryColor')}`, opacity: 0.5 }}
                 /> */}
-                <i
+                <i 
                   className={`iconfont icon-${item.menuIcon}`}
                   style={{ fontSize: '1.0rem', marginRight: '10px', fontWeight: 'bold', color: `${localStorage.getItem('primaryColor')}`, opacity: 0.5 }}
                 ></i>
@@ -108,14 +108,15 @@ export default class BaseMenu extends PureComponent {
         </SubMenu>
       );
     }
-    return <Menu.Item key={keyPath} path={path}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return <Menu.Item onClick={()=>this.onMenuClick(item)} key={keyPath} path={path}>{this.getMenuItemPath(item)}</Menu.Item>;
   };
 
-  // 点击左侧菜单，获取pageId的方法，存到database
+  // 点击左侧菜单，获取报表路径，并跳转
   onMenuClick = item => {
-    const pageId = item.pageForeignKey;
-    this.props.dispatch({ type: 'table/save', payload: { pageId } });
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId } });
+    console.log('item',item)
+    // if(item.reportUrl){
+    router.push(item.path)
+    // }
   };
 
   /**
@@ -156,9 +157,11 @@ export default class BaseMenu extends PureComponent {
 
   handleClick = e => {
     let path = _.get(e.item.props, 'path');
-    const index = path.lastIndexOf("\?");
-    if (index > 0) {
-      path = path.substring(0, index) + '/list' + path.substring(index, path.length)
+    if(!path.includes('reportForm')){
+      const index = path.lastIndexOf("\?");
+      if (index > 0) {
+        path = path.substring(0, index) + '/list' + path.substring(index, path.length)
+      }
     }
     const { dispatch } = this.props;
     this.setState({

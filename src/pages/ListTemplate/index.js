@@ -10,6 +10,7 @@ import { connect } from 'dva';
 //DeliveryOreer
 export default class TemplatePage extends React.Component {
   render() {
+    console.log('list', this.props)
     const pageId = this.props.location.query.PageId;
     return <MultiTableTemplate key={pageId} {...this.props} />;
   }
