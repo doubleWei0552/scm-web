@@ -282,7 +282,7 @@ export default class DetailButtonGroup extends React.Component {
                             // marginRight: '5px',
                             display: item.DISPLAY_CONDITION ? 'inline-block' : 'none',
                           }}
-                          // type="primary"
+                        // type="primary"
                         >
                           {item.LABEL}
                         </Button>
@@ -319,7 +319,7 @@ export default class DetailButtonGroup extends React.Component {
                           key={item.ID}
                           onClick={() => this.handleClickItem(item)}
                           style={{ border: 'none', background: 'transparent', height: '20px' }}
-                          // type="primary"
+                        // type="primary"
                         >
                           {item.LABEL}
                         </Button>
@@ -337,14 +337,14 @@ export default class DetailButtonGroup extends React.Component {
                   index === 0
                     ? (this.dom0 = dom)
                     : index === 1
-                    ? (this.dom1 = dom)
-                    : index === 2
-                    ? (this.dom2 = dom)
-                    : index === 3
-                    ? (this.dom3 = dom)
-                    : index === 4
-                    ? (this.dom4 = dom)
-                    : (this.ddom = dom);
+                      ? (this.dom1 = dom)
+                      : index === 2
+                        ? (this.dom2 = dom)
+                        : index === 3
+                          ? (this.dom3 = dom)
+                          : index === 4
+                            ? (this.dom4 = dom)
+                            : (this.ddom = dom);
                 }}
                 key={firstButton.ID}
               >
@@ -366,20 +366,20 @@ export default class DetailButtonGroup extends React.Component {
                     index === 0
                       ? this.dom0
                       : index === 1
-                      ? this.dom1
-                      : index === 2
-                      ? this.dom2
-                      : index === 3
-                      ? this.dom3
-                      : index === 4
-                      ? this.dom4
-                      : this.ddom
+                        ? this.dom1
+                        : index === 2
+                          ? this.dom2
+                          : index === 3
+                            ? this.dom3
+                            : index === 4
+                              ? this.dom4
+                              : this.ddom
                   }
                   style={{ borderTopLeftRadious: 0 }}
                   placement="bottomLeft"
                   overlayClassName="overlaybuttons"
                   trigger={['click']}
-                  // triggersubmenuaction
+                // triggersubmenuaction
                 >
                   <Button
                     style={{

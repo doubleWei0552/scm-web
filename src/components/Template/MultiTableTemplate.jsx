@@ -142,7 +142,7 @@ export default class MultiTableTemplate extends React.Component {
             </CatchError>
             {/* 详情页 */}
             <CatchError>
-              <DetailsPageModule/>
+              <DetailsPageModule />
             </CatchError>
           </div>
         </Spin >

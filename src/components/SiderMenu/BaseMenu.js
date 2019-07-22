@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { Menu, Icon } from 'antd';
 import Link from 'umi/link';
+import { connect } from 'dva';
 import router from 'umi/router';
 import { urlToList } from '../_utils/pathTools';
 import { getMenuMatches } from './SiderMenuUtils';
@@ -28,6 +29,10 @@ const getIcon = icon => {
   }
   return icon;
 };
+@connect(({ tableTemplate, loading }) => ({
+  tableTemplate,
+  loadingG: loading.models.tableTemplate,
+}))
 
 export default class BaseMenu extends PureComponent {
   state = {
@@ -71,13 +76,14 @@ export default class BaseMenu extends PureComponent {
    * get SubMenu or Item
    */
   getSubMenuOrItem = item => {
+    const { loadingG = false } = this.props
     // doc: add hideChildrenInMenu
     const { name, path } = item;
     const index = path.lastIndexOf("\?");
     const keyPath = index > 0 ? path.substring(0, index) : path;
 
     if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
-      const { collapsed } = this.props;
+      const { collapsed, loadingG = false } = this.props;
       // const index = path.lastIndexOf("\/list") || path.lastIndexOf("\/detail");
       // const keyPath = index > 0 ? path.substring(0, index) : path;
       return (
@@ -90,7 +96,7 @@ export default class BaseMenu extends PureComponent {
                   type={item.menuIcon || "setting"}
                   style={{ fontSize: '1.0rem', marginRight: '10px', color: `${localStorage.getItem('primaryColor')}`, opacity: 0.5 }}
                 /> */}
-                <i 
+                <i
                   className={`iconfont icon-${item.menuIcon}`}
                   style={{ fontSize: '1.0rem', marginRight: '10px', fontWeight: 'bold', color: `${localStorage.getItem('primaryColor')}`, opacity: 0.5 }}
                 ></i>
@@ -108,12 +114,11 @@ export default class BaseMenu extends PureComponent {
         </SubMenu>
       );
     }
-    return <Menu.Item onClick={()=>this.onMenuClick(item)} key={keyPath} path={path}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return <Menu.Item disabled={loadingG} onClick={() => this.onMenuClick(item)} key={keyPath} path={path}>{this.getMenuItemPath(item)}</Menu.Item>;
   };
 
   // 点击左侧菜单，获取报表路径，并跳转
   onMenuClick = item => {
-    console.log('item',item)
     // if(item.reportUrl){
     router.push(item.path)
     // }
@@ -157,7 +162,7 @@ export default class BaseMenu extends PureComponent {
 
   handleClick = e => {
     let path = _.get(e.item.props, 'path');
-    if(!path.includes('reportForm')){
+    if (!path.includes('reportForm')) {
       const index = path.lastIndexOf("\?");
       if (index > 0) {
         path = path.substring(0, index) + '/list' + path.substring(index, path.length)
