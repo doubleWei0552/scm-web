@@ -97,7 +97,9 @@ export default class GlobalHeader extends PureComponent {
           <Menu
             onClick={this.handleClick}
             mode="horizontal"
-            // defaultSelectedKeys={[localStorage.getItem('menuItem') ? localStorage.getItem('menuItem') : '0']}
+            defaultSelectedKeys={[
+              localStorage.getItem('menuItem') ? localStorage.getItem('menuItem') : '0',
+            ]}
           >
             {NavChildren}
           </Menu>
