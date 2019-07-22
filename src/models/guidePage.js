@@ -20,24 +20,46 @@ export default {
     guidePageColumns: [], //向导页展示的table表头
     guidePageData: [], //向导页展示的table数据
 
-    cacheFormData: [], //导向页展示的form表单的缓存数据
-    cacheTableData: [], //导向页展示的table表格的缓存数据
-    cacheSelectData: [], //向导页选中展示的table缓存数据
+    allGuideData:{}, //展示的所有数据
+    sendGuideData:{}, //向后端发送的数据
+
+    // cacheFormData: [], //导向页展示的form表单的缓存数据
+    // cacheTableData: [], //导向页展示的table表格的缓存数据
+    // cacheSelectData: [], //向导页选中展示的table缓存数据
 
     resultPageData: {}, //结果页的数据
   },
 
   effects: {
+    // 用于保存要发送后端的数据
+    *getSaveData({payload,callback},{select,put,call}){
+      let {relatedFieldGroup,data} = payload
+      let sendGuideData = yield select(({guidePage})=>guidePage.sendGuideData) 
+      sendGuideData[relatedFieldGroup] = data
+      yield put({type:'save',payload:{
+        sendGuideData
+      }})
+    },
+
+
+
+    // --------------------------------old-----------------------------
     *getButtonGuideClean({payload},{call,select,put}){
       yield call(queryButtonGuideClean)
     },
     //获取导向页数据的方法
-    *detailButtonGuide({ payload }, { call, select, put }) {
-      let { OBJECT_TYPE, RELATED_FIELD_GROUP,id } = payload.params;
-      let params = { objectType: OBJECT_TYPE, relatedFieldGroup: RELATED_FIELD_GROUP,id };
+    *detailButtonGuide({ payload,callback }, { call, select, put }) {
+      let allGuideData = yield select(({guidePage})=>guidePage.allGuideData)
+      let params = { 
+        objectType: payload.OBJECT_TYPE, 
+        relatedFieldGroup: payload.RELATED_FIELD_GROUP,
+        id: payload.id 
+      };
       const result = yield call(detailButtonGuide, params);
+      if(callback) callback(result.data)
       if (result.status == 'success') {
-        yield put({ type: 'save', payload: { guidePageFormData: result.data } });
+        allGuideData[result.data.relatedFieldGroup] = result.data
+        yield put({ type: 'save', payload: { allGuideData }});
       } else {
         notification.error({ message: '导向页获取数据方法出现错误！', duration: 3 });
       }
@@ -53,10 +75,33 @@ export default {
         notification.error({ message: '导向页table类型获取表头数据方法出现错误！', duration: 3 });
       }
     },
+    //获取导向页table类型的数据
+    *getButtonGuideData({ payload }, { call, put, select }) {
+      let { OBJECT_TYPE, RELATED_FIELD_GROUP, METHOD_BODY } = payload.params;
+      let { pageNum, pageSize, searchData } = payload;
+      let formData = yield select(({guidePage})=>guidePage.sendGuideData)
+      let params = {
+        objectType: OBJECT_TYPE,
+        relatedFieldGroup: RELATED_FIELD_GROUP,
+        methodBody: METHOD_BODY,
+        pageNum,
+        pageSize,
+        ...searchData,
+        formData
+      };
+      const result = yield call(queryButtonGuideData, params);
+      if (result.status == 'success') {
+        console.log('数据')
+        yield put({ type: 'save', payload: { guidePageData: result.data }});
+      } else {
+        notification.error({ message: '导向页table类型获取数据方法出现错误！', duration: 3 });
+      }
+    },
     //导向页下一步额外执行的方法
     *getGuideBean({payload,callback},{call,put,select}){
       let { OBJECT_TYPE, RELATED_FIELD_GROUP, METHOD_BODY } = payload.params;
-      let { pageNum, pageSize, searchData, formData = [] } = payload;
+      let { pageNum, pageSize, searchData } = payload;
+      let formData = yield select(({guidePage})=>guidePage.sendGuideData)
       let params = {
         objectType: OBJECT_TYPE,
         relatedFieldGroup: RELATED_FIELD_GROUP,
@@ -73,26 +118,6 @@ export default {
         notification.error({ message: '导向页table类型获取数据方法出现错误！', duration: 3 });
       }
       if (callback) callback(result);
-    },
-    //获取导向页table类型的数据
-    *getButtonGuideData({ payload }, { call, put, select }) {
-      let { OBJECT_TYPE, RELATED_FIELD_GROUP, METHOD_BODY } = payload.params;
-      let { pageNum, pageSize, searchData, formData = [] } = payload;
-      let params = {
-        objectType: OBJECT_TYPE,
-        relatedFieldGroup: RELATED_FIELD_GROUP,
-        methodBody: METHOD_BODY,
-        pageNum,
-        pageSize,
-        ...searchData,
-        // formData
-      };
-      const result = yield call(queryButtonGuideData, params);
-      if (result.status == 'success') {
-        yield put({ type: 'save', payload: { guidePageData: result.data } });
-      } else {
-        notification.error({ message: '导向页table类型获取数据方法出现错误！', duration: 3 });
-      }
     },
     //提交按钮执行的方法
     *TransactionProcess({ payload, callback }, { call, select, put }) {

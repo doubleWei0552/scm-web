@@ -211,11 +211,9 @@ class GuidePage extends React.Component {
   };
 
   render() {
-    console.log('dayin',this.props)
     const { current } = this.state; //当前步骤条数
     const pageStructure = this.props.tableButton.BUTTON_GUIDE;
     let { guidePageData } = this.props.guidePage;
-    console.log('current',current,'pageStructure',pageStructure)
     return (
       <Modal
         footer={null}
