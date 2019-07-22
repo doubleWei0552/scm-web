@@ -9,6 +9,7 @@ import ComModal from '@/components/ConfirmModel/index';
 import DataImport from '@/components/ImportAndExport/DataImport'; // 导入组件
 import Export from '@/components/ImportAndExport/Export'; // 导出组件
 import GuidePage from '@/components/GuidePage'; // 导向页组件
+import NewGuidePage from '@/components/GuidePage/NewIndex'; // 导向页组件
 import ButtonGroup from '@/components/ButtonGroup';
 import HorizontalButtonGroup from '@/components/TableButtonGroup';
 
@@ -17,8 +18,9 @@ import styles from './style.less';
 // const ButtonGroup = Button.Group;
 
 @Form.create()
-@connect(({ tableTemplate, loading }) => ({
+@connect(({ tableTemplate,guidePage, loading }) => ({
   tableTemplate,
+  guidePage,
   loadingG: loading.effects['tableTemplate/getDetailPage'],
 }))
 class CustomerButtons extends PureComponent {
@@ -111,7 +113,7 @@ class CustomerButtons extends PureComponent {
           tableButton: e,
           ...this.props,
         };
-        ReactDOM.render(<GuidePage store={window.g_app._store} {...tableButton} />, div);
+        ReactDOM.render(<NewGuidePage store={window.g_app._store} {...tableButton} />, div);
         break;
       case 'ExecuteMethod': // 执行按钮的方法
         this.props.dispatch({
