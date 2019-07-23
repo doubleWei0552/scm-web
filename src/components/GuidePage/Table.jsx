@@ -31,6 +31,7 @@ import moment from 'moment';
         loading.effects['guidePage/getButtonGuideConfig'] ||
         loading.effects['guidePage/getButtonGuideData']
   }))
+@Form.create()
 
 export default class TableModulars extends React.Component{
     state={
@@ -71,7 +72,7 @@ export default class TableModulars extends React.Component{
         });
     }
     onShowSizeChange = (current, pageSize) => {
-        let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
+        let params = this.props.CurrentData
         this.props.dispatch({
           type: 'guidePage/getButtonGuideData',
           payload: {  pageNum:current, pageSize,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
@@ -84,7 +85,7 @@ export default class TableModulars extends React.Component{
 
     onPageChange = (page, pageSize) => {
         let current = page;
-        let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
+        let params = this.props.CurrentData
         this.props.dispatch({
           type: 'guidePage/getButtonGuideData',
           payload: { pageNum:current, pageSize,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
@@ -95,7 +96,6 @@ export default class TableModulars extends React.Component{
         })
       };
     onSelectChange = (selectedRowKeys,selectedRow) => {
-        console.log('选择的数据',selectedRowKeys,selectedRow)
         this.setState({ selectedRowKeys,selectedRow })
     }
     //table数据改变
@@ -108,19 +108,18 @@ export default class TableModulars extends React.Component{
         const { expand } = this.state;
         this.setState({ expand: !expand });
       };
-    onSearchData = (e,FIELD_NAME) => {
-        let FieldsValue = this.state.FieldsValue
-        FieldsValue[FIELD_NAME] = e
-        this.setState({
-            FieldsValue
-        })
-    }
     handleSearch = e => {
         let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
         let {page,pageSize} = this.state
         this.props.dispatch({
             type: 'guidePage/getButtonGuideData',
-            payload: { pageNum:this.state.page, pageSize:this.state.pageSize,searchData:this.state.FieldsValue,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
+            payload: { 
+                pageNum:this.state.page, 
+                pageSize:this.state.pageSize,
+                searchData:this.props.form.getFieldsValue(),
+                params,
+                id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null 
+            },
         });
       };
     componentWillUnmount=()=>{
@@ -143,7 +142,6 @@ export default class TableModulars extends React.Component{
             <LocaleProvider locale={zhCN}>
                 <Row>
                 <Form
-                    // style={{ flexWrap: 'wrap', justifyContent: 'flex-end' }}
                     onSubmit={this.handleSearch}
                     layout="inline"
                     className="login-form"
@@ -163,31 +161,26 @@ export default class TableModulars extends React.Component{
                                 style={{ display: index < count ? '' : 'none',marginRight:'0' }}
                                 key={value.SEQUENCE + index}
                             >
-                                {/* {getFieldDecorator(`${value.FIELD_NAME}`, {
-                                initialValue: '',
-                                })( */}
-                                    <div key={value.FIELD_NAME}>
+                                    {getFieldDecorator(`${value.FIELD_NAME}`, {})(
                                         <Select
-                                            placeholder={`请选择${value.LABEL}`}
-                                            style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
-                                            onChange={(e)=>this.onSearchData(e,value.FIELD_NAME)}
-                                        >
-                                            {value.options.length && value.options.length > 0
-                                            ? _.map(value.options, (item, index) => {
-                                                return (
-                                                    <Select.Option
-                                                    title={item.text}
-                                                    key={item.value + item.text}
-                                                    value={item.value}
-                                                    >
-                                                    {item.text}
-                                                    </Select.Option>
-                                                );
-                                                })
-                                            : null}
-                                        </Select>
-                                    </div>
-                                {/* )} */}
+                                                placeholder={`请选择${value.LABEL}`}
+                                                style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
+                                            >
+                                                {value.options.length && value.options.length > 0
+                                                ? _.map(value.options, (item, index) => {
+                                                    return (
+                                                        <Select.Option
+                                                        title={item.text}
+                                                        key={item.value + item.text}
+                                                        value={item.value}
+                                                        >
+                                                        {item.text}
+                                                        </Select.Option>
+                                                    );
+                                                    })
+                                                : null}
+                                            </Select>
+                                      )}
                             </Form.Item>
                             </Col>
                         );
@@ -198,18 +191,13 @@ export default class TableModulars extends React.Component{
                             <Form.Item
                                 label={value.LABEL}
                                 key={value.SEQUENCE + index}
-                                // {...formItemLayout}
                                 style={{ marginRight: 0 }}
                             >
-                                {/* {getFieldDecorator(`${value.FIELD_NAME}`, {
-                                initialValue: '',
-                                })( */}
-                                    <div>
-                                        <RangePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm"
-                                        style={{width:'195px'}}
-                                        onChange={(e)=>this.onSearchData(moment(e).valueOf(),value.FIELD_NAME)} />
-                                    </div>
-                                {/* )} */}
+                                {getFieldDecorator(`${value.FIELD_NAME}`, {})(
+                                    <RangePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm"
+                                    style={{width:'195px'}}
+                                    />
+                                )}
                             </Form.Item>
                             </Col>
                         );
@@ -220,19 +208,14 @@ export default class TableModulars extends React.Component{
                             <Form.Item
                                 label={value.LABEL}
                                 key={value.SEQUENCE + index}
-                                // {...formItemLayout}
                                 style={{ marginRight: 0 }}
                             >
-                                {/* {getFieldDecorator(`${value.FIELD_NAME}`, {
-                                initialValue: '',
-                                })( */}
-                                    <div>
-                                        <DatePicker placeholder={`请选择${value.LABEL}`} 
-                                        style={{width:'195px'}}
-                                        format="YYYY-MM-DD" showTime={{ format: 'YYYY/MM/DD' }} 
-                                        onChange={(e)=>this.onSearchData(moment(e).valueOf(),value.FIELD_NAME)}/>
-                                    </div>
-                                {/* )} */}
+                                {getFieldDecorator(`${value.FIELD_NAME}`, {})(
+                                    <DatePicker placeholder={`请选择${value.LABEL}`} 
+                                    style={{width:'195px'}}
+                                    format="YYYY-MM-DD" showTime={{ format: 'YYYY/MM/DD' }} 
+                                    />
+                                )}
                             </Form.Item>
                             </Col>
                         );
@@ -243,20 +226,16 @@ export default class TableModulars extends React.Component{
                             <Form.Item
                                 label={value.LABEL}
                                 key={value.SEQUENCE + index}
-                                // {...formItemLayout}
                                 style={{ marginRight: 0}}
                             >
-                                {/* {getFieldDecorator(`${value.FIELD_NAME}`, {
+                                {getFieldDecorator(`${value.FIELD_NAME}`, {
                                 initialValue: '',
-                                })( */}
-                                    <div>
-                                        <Input
-                                            placeholder={`请输入${value.LABEL}`}
-                                            style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
-                                            onChange={(e)=>this.onSearchData(e.target.value,value.FIELD_NAME)}
-                                        />
-                                    </div>
-                                {/* )} */}
+                                })(
+                                    <Input
+                                        placeholder={`请输入${value.LABEL}`}
+                                        style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
+                                    />
+                                 )}
                             </Form.Item>
                             </Col>
                         );
@@ -266,21 +245,15 @@ export default class TableModulars extends React.Component{
                             <Form.Item
                                 label={value.LABEL}
                                 key={value.SEQUENCE + index}
-                                // {...formItemLayout}
                                 style={{ marginRight: 0 }}
                             >
-                                {/* {getFieldDecorator(`${value.FIELD_NAME}`, {
-                                initialValue: '',
-                                })( */}
-                                    <div>
-                                        <Input
-                                            type="number"
-                                            placeholder={`请输入${value.LABEL}`}
-                                            style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
-                                            onChange={(e)=>this.onSearchData(e.target.value,value.FIELD_NAME)}
-                                        />
-                                    </div>
-                                {/* )} */}
+                                {getFieldDecorator(`${value.FIELD_NAME}`, {})(
+                                    <Input
+                                        type="number"
+                                        placeholder={`请输入${value.LABEL}`}
+                                        style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
+                                    />
+                                )}
                             </Form.Item>
                             </Col>
                         );

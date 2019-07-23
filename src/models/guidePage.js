@@ -23,10 +23,6 @@ export default {
     allGuideData:{}, //展示的所有数据
     sendGuideData:{}, //向后端发送的数据
 
-    // cacheFormData: [], //导向页展示的form表单的缓存数据
-    // cacheTableData: [], //导向页展示的table表格的缓存数据
-    // cacheSelectData: [], //向导页选中展示的table缓存数据
-
     resultPageData: {}, //结果页的数据
   },
 
@@ -78,6 +74,7 @@ export default {
     },
     //获取导向页table类型的数据
     *getButtonGuideData({ payload }, { call, put, select }) {
+      console.log('payload',payload)
       let { OBJECT_TYPE, RELATED_FIELD_GROUP, METHOD_BODY } = payload.params;
       let { pageNum, pageSize, searchData,id } = payload;
       let formData = yield select(({guidePage})=>guidePage.sendGuideData)
@@ -91,6 +88,7 @@ export default {
         ...searchData,
         formData
       };
+      console.log('params',params)
       const result = yield call(queryButtonGuideData, params);
       if (result.status == 'success') {
         console.log('数据')
