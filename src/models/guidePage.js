@@ -66,8 +66,9 @@ export default {
     },
     //获取导向页table类型的表头数据
     *getButtonGuideConfig({ payload }, { call, put, select }) {
-      let { OBJECT_TYPE, RELATED_FIELD_GROUP } = payload.params;
-      let params = { objectType: OBJECT_TYPE, relatedFieldGroup: RELATED_FIELD_GROUP };
+      let { OBJECT_TYPE, RELATED_FIELD_GROUP} = payload.params;
+      let {id} = payload
+      let params = { objectType: OBJECT_TYPE, relatedFieldGroup: RELATED_FIELD_GROUP,id };
       const result = yield call(queryButtonGuideConfig, params);
       if (result.status == 'success') {
         yield put({ type: 'save', payload: { guidePageColumns: result.data } });
@@ -78,7 +79,7 @@ export default {
     //获取导向页table类型的数据
     *getButtonGuideData({ payload }, { call, put, select }) {
       let { OBJECT_TYPE, RELATED_FIELD_GROUP, METHOD_BODY } = payload.params;
-      let { pageNum, pageSize, searchData } = payload;
+      let { pageNum, pageSize, searchData,id } = payload;
       let formData = yield select(({guidePage})=>guidePage.sendGuideData)
       let params = {
         objectType: OBJECT_TYPE,
@@ -86,6 +87,7 @@ export default {
         methodBody: METHOD_BODY,
         pageNum,
         pageSize,
+        id,
         ...searchData,
         formData
       };
@@ -100,13 +102,14 @@ export default {
     //导向页下一步额外执行的方法
     *getGuideBean({payload,callback},{call,put,select}){
       let { OBJECT_TYPE, RELATED_FIELD_GROUP, METHOD_BODY } = payload.params;
-      let { pageNum, pageSize, searchData } = payload;
+      let { pageNum, pageSize, searchData,id } = payload;
       let formData = yield select(({guidePage})=>guidePage.sendGuideData)
       let params = {
         objectType: OBJECT_TYPE,
         relatedFieldGroup: RELATED_FIELD_GROUP,
         methodBody: METHOD_BODY,
         pageNum,
+        id,
         pageSize,
         ...searchData,
         formData
