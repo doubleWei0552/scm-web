@@ -15,12 +15,15 @@ import {
   } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
-import ResultCom from './Result'
-import FormCom from './Form'
-import TableCom from './Table'
+import ResultCom from './Result.jsx'
+import FormCom from './Form.jsx'
+import TableCom from './Table.jsx'
 
 const { Step } = Steps;
 @Form.create()
+@connect(({ guidePage }) => ({
+    guidePage,
+  }))
 export default class NewGuidePage extends React.Component {
   constructor(props) {
     super(props);
@@ -42,8 +45,6 @@ export default class NewGuidePage extends React.Component {
   };
 
   submit =()=>{
-    const current = this.state.current + 1;
-    this.setState({ current });
     let ButtonName = this.props.tableButton.FIELD_NAME
     setTimeout(()=>{this.props.dispatch({
         type: 'guidePage/TransactionProcess',
@@ -52,6 +53,9 @@ export default class NewGuidePage extends React.Component {
                 ButtonName,
                 AllData:this.props.guidePage.sendGuideData
             }
+        },callback:res=>{
+            const current = this.state.current + 1;
+            this.setState({ current });
         }
     })},1000)
   }
@@ -60,7 +64,7 @@ export default class NewGuidePage extends React.Component {
     switch(value.BUTTON_GUIDE_TYPE){
         case "Detail":  //form类型的页面
             return <div>
-                <FormCom dispatch={this.props.dispatch} tableButton={this.props.tableButton}
+                <FormCom store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
                 tableTemplate={this.props.tableTemplate} current={this.state.current}
                 guidePage={this.props.guidePage} />
             </div>
@@ -68,13 +72,13 @@ export default class NewGuidePage extends React.Component {
         case "EditDetail":  //table类型的页面
             return <div>
                 <TableCom store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
-                tableTemplate={this.props.tableTemplate} current={this.state.current} form={this.props.form}
+                tableTemplate={this.props.tableTemplate} current={this.state.current} 
                 />
             </div>
         break
         case "Result":  //结果页
             return <div>
-                <ResultCom dispatch={this.props.dispatch} tableButton={this.props.tableButton}
+                <ResultCom store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
                 tableTemplate={this.props.tableTemplate} current={this.state.current}
                 guidePage={this.props.guidePage}/>
             </div>
@@ -85,7 +89,6 @@ export default class NewGuidePage extends React.Component {
   }
 
   render() {
-    console.log('newIndex',this.props)
     const steps = this.props.tableButton.BUTTON_GUIDE
     const { current } = this.state;
     return (
