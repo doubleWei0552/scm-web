@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import DataImport from '@/components/ImportAndExport/DataImport'; // 导入组件
 import Export from '@/components/ImportAndExport/Export'; // 导出组件
-import GuidePage from '@/components/GuidePage'; // 导向页组件
+import GuidePage from '@/components/GuidePage/NewIndex.jsx'; // 导向页组件
 import FormModals from '@/components/ConfirmModel/FormModal';
 import TableModals from '@/components/ConfirmModel/TableModal';
 import styles from './style.less';
