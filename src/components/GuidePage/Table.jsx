@@ -49,9 +49,12 @@ export default class TableModulars extends React.Component{
               pageNum: 1,
               pageSize: 10,
               METHOD_BODY: params.METHOD_BODY,
+              id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null
             }, callback: res => {
               if (res.status == 'success') {
-                this.props.dispatch({ type: 'guidePage/getButtonGuideConfig', payload: { params } });
+                this.props.dispatch({ type: 'guidePage/getButtonGuideConfig', payload: { 
+                    params,
+                    id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null } });
                 this.props.dispatch({
                   type: 'guidePage/getButtonGuideData',
                   payload: {
@@ -59,7 +62,8 @@ export default class TableModulars extends React.Component{
                     pageNum: 1,
                     pageSize: 10,
                     METHOD_BODY: params.METHOD_BODY,
-                    formData: this.props.guidePage.sendGuideData
+                    formData: this.props.guidePage.sendGuideData,
+                    id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null
                   },
                 });
               }
@@ -67,10 +71,10 @@ export default class TableModulars extends React.Component{
         });
     }
     onShowSizeChange = (current, pageSize) => {
-        let params = this.props.CurrentData
+        let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
         this.props.dispatch({
           type: 'guidePage/getButtonGuideData',
-          payload: {  pageNum:current, pageSize,params },
+          payload: {  pageNum:current, pageSize,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
         });
         this.setState({
             page:current,
@@ -80,10 +84,10 @@ export default class TableModulars extends React.Component{
 
     onPageChange = (page, pageSize) => {
         let current = page;
-        let params = this.props.CurrentData
+        let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
         this.props.dispatch({
           type: 'guidePage/getButtonGuideData',
-          payload: { pageNum:current, pageSize,params },
+          payload: { pageNum:current, pageSize,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
         });
         this.setState({
             page,
@@ -112,11 +116,11 @@ export default class TableModulars extends React.Component{
         })
     }
     handleSearch = e => {
-        let params = this.props.CurrentData
+        let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
         let {page,pageSize} = this.state
         this.props.dispatch({
             type: 'guidePage/getButtonGuideData',
-            payload: { pageNum:this.state.page, pageSize:this.state.pageSize,searchData:this.state.FieldsValue,params },
+            payload: { pageNum:this.state.page, pageSize:this.state.pageSize,searchData:this.state.FieldsValue,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
         });
       };
     componentWillUnmount=()=>{
