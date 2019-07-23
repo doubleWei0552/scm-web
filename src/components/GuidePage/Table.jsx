@@ -24,7 +24,6 @@ import {connect} from 'dva'
 import CurrencySearchBar from '@/components/SearchBar/CurrencySearchBar'
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import moment from 'moment';
-const { TextArea } = Input;
 
 @connect(({ guidePage,loading }) => ({
     guidePage,
@@ -303,6 +302,7 @@ export default class TableModulars extends React.Component{
         );
     };
     render(){
+        const { TextArea } = Input;
         let columns = [] 
         const { getFieldDecorator } = this.props.form;
         let data =  _.get(this.props.guidePage.guidePageData,'list',[]) 
@@ -450,7 +450,7 @@ export default class TableModulars extends React.Component{
                         dataIndex:item.FIELD_NAME,
                         key:item.FIELD_NAME + item.SEQUENCE,
                         render:(text, record, tableIndex)=>{
-                            return <Textarea style={{ minWidth: '150px' }}
+                            return <TextArea style={{ minWidth: '150px' }}
                             onChange={(e)=>this.onTableChange(
                                 e.target.value,
                                 item.FIELD_NAME,
