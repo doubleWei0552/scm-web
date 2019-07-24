@@ -1,12 +1,11 @@
 import React from 'react'
-import {Icon,Result,Button} from 'antd'
+import {Icon,Result,Button,Spin,} from 'antd'
 import {connect} from 'dva'
 
 @connect(({ guidePage,loading }) => ({
     guidePage,
     loadingG:
-        loading.effects['guidePage/getButtonGuideConfig'] ||
-        loading.effects['guidePage/getButtonGuideData']
+        loading.effects['guidePage/TransactionProcess']
   }))
 
 export default class ResultModular extends React.Component{
@@ -14,11 +13,13 @@ export default class ResultModular extends React.Component{
         let {status,message,debugInfo} = this.props.guidePage.resultPageData
         return(
             <div>
-                <Result
-                    status={status == 'fail' ? 'error' : status}
-                    title={message}
-                    subTitle={debugInfo}
-                />
+                <Spin spinning={this.props.loadingG || false}>
+                    <Result
+                        status={status == 'fail' ? 'error' : status}
+                        title={message}
+                        subTitle={debugInfo}
+                    />
+                </Spin>
             </div>
         )
     }

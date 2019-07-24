@@ -142,7 +142,7 @@ export default {
     },
     // 获取详情页数据
     *getDetailPage({ payload, callback }, { call, put, select }) {
-      console.log('详情页数据')
+      console.log('获取数据方法执行')
       const { type } = payload; // 判断是不是点击子表删除进来的刷新页面
       const deleteParams = payload.params; // 子表删除时指定删除的数据参数
       // ------判断子表删除的参数 ⬆️------

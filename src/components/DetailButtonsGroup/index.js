@@ -172,12 +172,13 @@ export default class DetailButtonGroup extends React.Component {
 
   // 开户
   openAccount = e => {
+    console.log('开户',e)
     const div = document.createElement('div');
     document.body.appendChild(div);
     const ComModalProps = {
       tableButton: e,
     };
-    ReactDOM.render(<FormModals store={window.g_app._store} {...ComModalProps} />, div);
+    ReactDOM.render(<GuidePage store={window.g_app._store} {...ComModalProps} />, div);
   };
   //导向页
   openGuidePage = e => {

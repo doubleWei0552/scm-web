@@ -133,7 +133,6 @@ export default class MultiTableTemplate extends React.Component {
       <CatchError>
         <Spin spinning={this.props.loadingG || false}>
           <div
-            // style={{ display: this.props.tableTemplate.reportFormURL ? 'none' : 'block' }}
             className={styles.SingleTableTemplateMain}
           >
             {/* 列表页 */}

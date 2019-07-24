@@ -146,6 +146,7 @@ class DetailPage extends PureComponent {
   };
 
   render() {
+    const { SHOW_PARENT } = TreeSelectCom
     const { tableTemplate } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { policyFormFields = [] } = _.get(tableTemplate, 'detailData');
@@ -208,12 +209,12 @@ class DetailPage extends PureComponent {
                 <TabPane tab={item.tabName} key={index}>
                   <div key={index} style={{ border: 'none', borderBottom: '1px solid #e8e8e8' }}>
                     {_.map(gFields, gField => (
-                      <Card key={gField.groupName}>
+                      <Card key={gField.groupName + Math.random()}>
                         <h3>{gField.groupName}</h3>
                         {_.map(gField.fields, (field, i) => {
                           if (!field.DISPLAY_CONDITION) {
                             return (
-                              <Form.Item>
+                              <Form.Item key={field.FIELD_NAME + Math.random()}>
                                 {getFieldDecorator(`${field.FIELD_NAME}`, {
                                   initialValue: _.get(field, 'FIELD_VALUE'),
                                 })(<Input type="hidden" />)}
@@ -230,7 +231,7 @@ class DetailPage extends PureComponent {
                           switch (field.WIDGET_TYPE) {
                             case 'Password':
                               return (
-                                <Col span={10} offset={1} key={i}>
+                                <Col span={10} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
@@ -265,7 +266,7 @@ class DetailPage extends PureComponent {
 
                             case 'Text':
                               return (
-                                <Col span={10} offset={1} key={i}>
+                                <Col span={10} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
@@ -304,8 +305,9 @@ class DetailPage extends PureComponent {
                             case 'ObjectSelector':
                             case 'MultiObjectSelector':
                               return (
-                                <Col span={10} offset={1} key={i}>
-                                  <Form.Item
+                                <Col span={10} offset={1} key={i + Math.random()}>
+                                  {
+                                    field.IS_MULTI ? <Form.Item //判断是不是多选
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
                                         {field.LABEL}
@@ -326,6 +328,48 @@ class DetailPage extends PureComponent {
                                     })(
                                       <Select
                                         // placeholder={`请选择${field.LABEL}`}
+                                        mode="multiple"
+                                        showSearch={field.WIDGET_TYPE !== 'Select'}
+                                        allowClear
+                                        onSearch={e => this.onEditSearch(field, e)}
+                                        onSelect={e => this.handleSelect(e, field)}
+                                        filterOption={(inputValue, option) =>
+                                          _.includes(option.props.children, inputValue)
+                                        }
+                                        disabled={
+                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
+                                        }
+                                      >
+                                        {_.map(field.options, (v, i) => {
+                                          return (
+                                            <Option value={v.value} key={v.value}>
+                                              {v.text}
+                                            </Option>
+                                          );
+                                        })}
+                                      </Select>
+                                    )}
+                                  </Form.Item> : <Form.Item
+                                    label={
+                                      <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                        {field.LABEL}
+                                      </Tooltip>
+                                    }
+                                    style={{ width: '100%' }}
+                                    {...formItemLayout}
+                                  >
+                                    {getFieldDecorator(`${field.FIELD_NAME}`, {
+                                      initialValue: _.get(field, 'FIELD_VALUE'),
+                                      rules: [
+                                        {
+                                          required: field.REQUIRED_CONDITION,
+                                          message: `${field.LABEL}不能为空`,
+                                        },
+                                        ...formItemValid(field.PATTERN, field.LABEL),
+                                      ],
+                                    })(
+                                      <Select
+                                        placeholder={`请选择${field.LABEL}`}
                                         showSearch={field.WIDGET_TYPE !== 'Select'}
                                         allowClear
                                         onSearch={e => this.onEditSearch(field, e)}
@@ -347,13 +391,14 @@ class DetailPage extends PureComponent {
                                       </Select>
                                     )}
                                   </Form.Item>
+                                  }
                                 </Col>
                               );
                               break;
                             // 单选框
                             case 'Radio':
                               return (
-                                <Col span={10} offset={1} key={i}>
+                                <Col span={10} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
@@ -419,7 +464,7 @@ class DetailPage extends PureComponent {
                             // 复选框
                             case 'Checkbox':
                               return (
-                                <Col span={10} offset={1} key={i}>
+                                <Col span={10} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
@@ -470,7 +515,7 @@ class DetailPage extends PureComponent {
                             case 'Date':
                             case 'DateTime':
                               return (
-                                <Col span={10} offset={1} key={i}>
+                                <Col span={10} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
@@ -509,7 +554,7 @@ class DetailPage extends PureComponent {
                               break;
                             case 'Number':
                               return (
-                                <Col span={10} offset={1} key={i}>
+                                <Col span={10} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
@@ -542,7 +587,7 @@ class DetailPage extends PureComponent {
                               );
                             case 'Textarea':
                               return (
-                                <Col span={10} offset={1} key={i}>
+                                <Col span={10} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
@@ -575,7 +620,7 @@ class DetailPage extends PureComponent {
                               );
                             case 'RichText': //富文本编辑器
                               return (
-                                <Col span={22} offset={1} key={i}>
+                                <Col span={22} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     // label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
                                     style={{ width: '100%' }}
@@ -605,9 +650,8 @@ class DetailPage extends PureComponent {
                                 </Col>
                               );
                             case 'Image':
-                              // console.log('field',field)
                               return (
-                                <Col span={10} offset={1} key={i}>
+                                <Col span={10} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
@@ -644,8 +688,9 @@ class DetailPage extends PureComponent {
                               );
                             case 'TreeSelector':
                               return (
-                                <Col span={10} offset={1} key={i}>
-                                  <Form.Item
+                                <Col span={10} offset={1} key={i + Math.random()}>
+                                  {
+                                    field.IS_MULTI ? <Form.Item  //判断是不是多选
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
                                         {field.LABEL}
@@ -664,7 +709,39 @@ class DetailPage extends PureComponent {
                                         ...formItemValid(field.PATTERN, field.LABEL),
                                       ],
                                     })(
-                                      <TreeSelectCom
+                                      <TreeSelectCom key={field.FIELD_NAME}
+                                      defaultData={field.FIELD_VALUE}
+                                      treeData={field.children}
+                                      treeCheckable={true}
+                                      showCheckedStrategy={SHOW_PARENT}
+                                      onChange={e => this.onTreeSelector(e, field.FIELD_NAME)}
+                                      style={{ width: '200px' }}
+                                      disabled={
+                                        this.props.disabled ? true : item.READ_ONLY_CONDITION
+                                      }
+                                    />
+                                    )}
+                                  </Form.Item> :
+                                  <Form.Item
+                                  label={
+                                    <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                      {field.LABEL}
+                                    </Tooltip>
+                                  }
+                                  style={{ width: '100%' }}
+                                  {...formItemLayout}
+                                >
+                                  {getFieldDecorator(`${field.FIELD_NAME}`, {
+                                    initialValue: _.get(field, 'FIELD_VALUE'),
+                                    rules: [
+                                      {
+                                        required: field.REQUIRED_CONDITION,
+                                        message: `${field.LABEL}不能为空`,
+                                      },
+                                      ...formItemValid(field.PATTERN, field.LABEL),
+                                    ],
+                                  })(
+                                    <TreeSelectCom
                                         defaultData={field.FIELD_VALUE}
                                         treeData={field.children}
                                         onChange={e => this.onTreeSelector(e, field.FIELD_NAME)}
@@ -673,13 +750,14 @@ class DetailPage extends PureComponent {
                                           this.props.disabled ? true : item.READ_ONLY_CONDITION
                                         }
                                       />
-                                    )}
-                                  </Form.Item>
+                                  )}
+                                </Form.Item>
+                                  }
                                 </Col>
                               );
                             case 'Attachment': //附件
                               return (
-                                <Col span={22} offset={1} key={i}>
+                                <Col span={22} offset={1} key={i + Math.random()}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
