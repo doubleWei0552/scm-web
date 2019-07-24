@@ -42,6 +42,7 @@
     "classnames": "^2.2.6",
     "dragula": "^3.7.2",
     "dva": "^2.4.1",
+    "echarts": "^4.2.1",
     "enquire-js": "^0.2.1",
     "hash.js": "^1.1.7",
     "intl": "^1.2.5",

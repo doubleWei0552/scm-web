@@ -21,8 +21,9 @@ import TableCom from './Table.jsx'
 
 const { Step } = Steps;
 @Form.create()
-@connect(({ guidePage }) => ({
+@connect(({ guidePage,tableTemplate }) => ({
     guidePage,
+    tableTemplate,
   }))
 export default class NewGuidePage extends React.Component {
   constructor(props) {
@@ -46,6 +47,8 @@ export default class NewGuidePage extends React.Component {
 
   submit =()=>{
     let ButtonName = this.props.tableButton.FIELD_NAME
+    const current = this.state.current + 1;
+    this.setState({ current });
     setTimeout(()=>{this.props.dispatch({
         type: 'guidePage/TransactionProcess',
         payload:{
@@ -54,8 +57,14 @@ export default class NewGuidePage extends React.Component {
                 AllData:this.props.guidePage.sendGuideData
             }
         },callback:res=>{
-            const current = this.state.current + 1;
-            this.setState({ current });
+          if (res.status == 'success') {
+            this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
+            this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
+              ID:this.props.tableTemplate.selectDate.ID,
+              ObjectType:this.props.tableTemplate.detailColumns.objectType,
+              pageId:this.props.tableTemplate.pageId,
+            }})
+          }
         }
     })},1000)
   }

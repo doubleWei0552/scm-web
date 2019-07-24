@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
 import ComModal from '@/components/ConfirmModel/index'
 import FormModals from '@/components/ConfirmModel/FormModal'
+import GuidePage from '@/components/GuidePage/NewIndex'
 import ButtonGroup from '@/components/ButtonGroup';
 import DetailButtonGroup from '@/components/DetailButtonsGroup';
 
