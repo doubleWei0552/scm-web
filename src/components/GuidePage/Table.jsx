@@ -109,6 +109,12 @@ export default class TableModulars extends React.Component{
         this.setState({ expand: !expand });
       };
     handleSearch = e => {
+        let formData = _.cloneDeep(this.props.form.getFieldsValue())
+        for(let i in formData){
+            if(typeof(formData[i]) == 'object' && formData[i]){
+                formData[i] = formData[i].valueOf()
+            } 
+        }
         let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
         let {page,pageSize} = this.state
         this.props.dispatch({
@@ -116,7 +122,7 @@ export default class TableModulars extends React.Component{
             payload: { 
                 pageNum:this.state.page, 
                 pageSize:this.state.pageSize,
-                searchData:this.props.form.getFieldsValue(),
+                searchData:formData,
                 params,
                 id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null 
             },
