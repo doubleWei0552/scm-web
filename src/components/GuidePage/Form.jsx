@@ -81,10 +81,16 @@ export default class FormModular extends React.Component {
     this.onDateChange(`${value.FIELD_NAME}-end`, e);
   };
   componentWillUnmount=()=>{
-      this.props.dispatch({
-          type:'guidePage/getSaveData',
-          payload:{relatedFieldGroup:this.state.showData.relatedFieldGroup,data:this.props.form.getFieldsValue()}
-      })
+    let formData = _.cloneDeep(this.props.form.getFieldsValue())
+    for(let i in formData){
+      if(typeof(formData[i]) == 'object' && formData[i]){
+        formData[i] = formData[i].valueOf()
+      } 
+    }
+    this.props.dispatch({
+        type:'guidePage/getSaveData',
+        payload:{relatedFieldGroup:this.state.showData.relatedFieldGroup,data:formData}
+    })
   }
 
 
