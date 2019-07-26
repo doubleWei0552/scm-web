@@ -132,7 +132,7 @@ export default class FormModular extends React.Component {
                               style={{ width: '100%' }}
                             >
                               {getFieldDecorator(`${values.FIELD_NAME}`, {
-                                initialValue: cacheFormData ? cacheFormData[index].DISPLAY_NAME : values.DISPLAY_NAME,
+                                initialValue: values.DISPLAY_NAME,
                                 rules: [
                                   {
                                     required: values.REQUIRED_CONDITION,
@@ -283,7 +283,7 @@ export default class FormModular extends React.Component {
                               {...formItemLayout}
                             >
                               {getFieldDecorator(`${values.DISPLAY_NAME}`, {
-                                initialValue: cacheFormData ? cacheFormData[index].DISPLAY_NAME : values.DISPLAY_NAME,
+                                initialValue: values.DISPLAY_NAME,
                                 rules: [
                                   {
                                     required: values.REQUIRED_CONDITION,
@@ -312,7 +312,7 @@ export default class FormModular extends React.Component {
                                   rows={3}
                                   style={{ width: '100%' }}
                                   placeholder={`请录入${values.LABEL}`}
-                                  defaultValue={cacheFormData ? cacheFormData[index].DISPLAY_NAME : values.DISPLAY_NAME}
+                                  defaultValue={values.DISPLAY_NAME}
                                 />
                               </div>
                             </Form.Item>

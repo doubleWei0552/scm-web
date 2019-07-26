@@ -61,6 +61,52 @@ class DetailPage extends PureComponent {
     });
   };
 
+  //树状选择
+  onTreeSelector = (value, field) => {
+    let isHave =  this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME)
+    const { FIELD_NAME, OBJECT_TYPE } = field;
+    const fieldValues = this.props.form.getFieldsValue();
+    fieldValues[field.FIELD_NAME] = value;
+    // this.props.form.setFieldsValue({
+    //   [field.FIELD_NAME]: value,
+    // });
+    if(isHave){
+      this.props.dispatch({
+        type: 'tableTemplate/updateFields',
+        payload: {
+          updatedField: FIELD_NAME,
+          objectType: OBJECT_TYPE,
+          params: fieldValues,
+          value: value,
+        },
+        callback: data => {
+          const { readOnlyFields } = this.state;
+          _.map(data, item => {
+            const index = _.findIndex(item.changes, change => change.field === 'FIELD_VALUE');
+            const index2 = _.findIndex(
+              item.changes,
+              change => change.field === 'READ_ONLY_CONDITION' && change.value == true
+            );
+            if (index > -1) {
+              this.props.form.setFieldsValue({
+                [item.field]: item.changes[index].value,
+              });
+            }
+            if (index2 > -1) {
+              const i = _.findIndex(readOnlyFields, f => f === item.field);
+              if (i < 0) {
+                readOnlyFields.push(item.field);
+                this.setState({
+                  readOnlyFields,
+                });
+              }
+            }
+          });
+        },
+      });
+    }
+  };
+
   handleSelect = (e, field) => {
     let isHave =  this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME)
     const { FIELD_NAME, OBJECT_TYPE } = field;
@@ -133,13 +179,6 @@ class DetailPage extends PureComponent {
 
   //富文本编辑器赋值
   onRichText = (value, FIELD_NAME) => {
-    this.props.form.setFieldsValue({
-      [FIELD_NAME]: value,
-    });
-  };
-
-  //树状选择
-  onTreeSelector = (value, FIELD_NAME) => {
     this.props.form.setFieldsValue({
       [FIELD_NAME]: value,
     });
@@ -687,7 +726,7 @@ class DetailPage extends PureComponent {
                                 </Col>
                               );
                             case 'TreeSelector':
-                              console.log('树状选择',field)
+                              // console.log('树状选择',field)
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   {
@@ -715,7 +754,7 @@ class DetailPage extends PureComponent {
                                       treeData={field.children}
                                       treeCheckable={true}
                                       showCheckedStrategy={SHOW_PARENT}
-                                      onChange={e => this.onTreeSelector(e, field.FIELD_NAME)}
+                                      onChange={e => this.onTreeSelector(e, field)}
                                       style={{ width: '200px' }}
                                       disabled={
                                         this.props.disabled ? true : item.READ_ONLY_CONDITION
@@ -745,7 +784,7 @@ class DetailPage extends PureComponent {
                                     <TreeSelectCom
                                         defaultData={field.FIELD_VALUE}
                                         treeData={field.children}
-                                        onChange={e => this.onTreeSelector(e, field.FIELD_NAME)}
+                                        onChange={e => this.onTreeSelector(e, field)}
                                         style={{ width: '200px' }}
                                         disabled={
                                           this.props.disabled ? true : item.READ_ONLY_CONDITION

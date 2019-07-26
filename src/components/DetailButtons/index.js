@@ -155,7 +155,7 @@ class DetailButtons extends PureComponent {
     const ComModalProps = {
       tableButton: e,
     }
-    ReactDOM.render(<FormModals store={window.g_app._store} {...ComModalProps} />, div)
+    ReactDOM.render(<GuidePage store={window.g_app._store} {...ComModalProps} />, div)
   }
 
   // 新增
