@@ -292,6 +292,7 @@ export default class TableModulars extends React.Component{
         let data =  _.get(this.props.guidePage.guidePageData,'list',[]) 
         let guidePageColumns = _.get(this.props.guidePage.guidePageColumns,'policyFormFields',[]).map((item,index)=>{
             if(item.READ_ONLY_CONDITION){
+                console.log('item',item)
                 let obj 
                 obj = {
                     title:<Tooltip title={item.LABEL + '[' + item.FIELD_NAME + ']'}>
