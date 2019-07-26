@@ -43,33 +43,37 @@ export default class TableModulars extends React.Component{
         FieldsValue:{}, //记录搜索条件
     }
     componentWillMount=()=>{
-        let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
-        this.props.dispatch({
-            type: 'guidePage/getGuideBean', payload: {
-              params,
-              pageNum: 1,
-              pageSize: 10,
-              METHOD_BODY: params.METHOD_BODY,
-              id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null
-            }, callback: res => {
-              if (res.status == 'success') {
-                this.props.dispatch({ type: 'guidePage/getButtonGuideConfig', payload: { 
-                    params,
-                    id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null } });
-                this.props.dispatch({
-                  type: 'guidePage/getButtonGuideData',
-                  payload: {
-                    params,
-                    pageNum: 1,
-                    pageSize: 10,
-                    METHOD_BODY: params.METHOD_BODY,
-                    formData: this.props.guidePage.sendGuideData,
-                    id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null
-                  },
-                });
-              }
-            }
-        });
+        setTimeout(()=>{
+            let { sendGuideData } = this.props.guidePage
+            let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
+            this.props.dispatch({
+                type: 'guidePage/getGuideBean', payload: {
+                  params,
+                  pageNum: 1,
+                  pageSize: 10,
+                  METHOD_BODY: params.METHOD_BODY,
+                  AllData:sendGuideData,
+                  id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null
+                }, callback: res => {
+                  if (res.status == 'success') {
+                    this.props.dispatch({ type: 'guidePage/getButtonGuideConfig', payload: { 
+                        params,
+                        id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null } });
+                    this.props.dispatch({
+                      type: 'guidePage/getButtonGuideData',
+                      payload: {
+                        params,
+                        pageNum: 1,
+                        pageSize: 10,
+                        METHOD_BODY: params.METHOD_BODY,
+                        formData: this.props.guidePage.sendGuideData,
+                        id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null
+                      },
+                    });
+                  }
+                }
+            });
+        },1000)
     }
     onShowSizeChange = (current, pageSize) => {
         let params = this.props.CurrentData
