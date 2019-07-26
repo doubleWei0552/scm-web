@@ -171,6 +171,7 @@ export default class TableModulars extends React.Component{
                                     {getFieldDecorator(`${value.FIELD_NAME}`, {})(
                                         <Select
                                                 placeholder={`请选择${value.LABEL}`}
+                                                disabled={value.READ_ONLY_CONDITION}
                                                 style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
                                             >
                                                 {value.options.length && value.options.length > 0
@@ -201,7 +202,7 @@ export default class TableModulars extends React.Component{
                                 style={{ marginRight: 0 }}
                             >
                                 {getFieldDecorator(`${value.FIELD_NAME}`, {})(
-                                    <RangePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm"
+                                    <RangePicker showTime={{ format: 'HH:mm' }}disabled={value.READ_ONLY_CONDITION} format="YYYY-MM-DD HH:mm"
                                     style={{width:'195px'}}
                                     />
                                 )}
@@ -219,7 +220,7 @@ export default class TableModulars extends React.Component{
                             >
                                 {getFieldDecorator(`${value.FIELD_NAME}`, {})(
                                     <DatePicker placeholder={`请选择${value.LABEL}`} 
-                                    style={{width:'195px'}}
+                                    style={{width:'195px'}} disabled={value.READ_ONLY_CONDITION}
                                     format="YYYY-MM-DD" showTime={{ format: 'YYYY/MM/DD' }} 
                                     />
                                 )}
@@ -239,6 +240,7 @@ export default class TableModulars extends React.Component{
                                 initialValue: '',
                                 })(
                                     <Input
+                                        disabled={value.READ_ONLY_CONDITION}
                                         placeholder={`请输入${value.LABEL}`}
                                         style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
                                     />
@@ -256,6 +258,7 @@ export default class TableModulars extends React.Component{
                             >
                                 {getFieldDecorator(`${value.FIELD_NAME}`, {})(
                                     <Input
+                                        disabled={value.READ_ONLY_CONDITION}
                                         type="number"
                                         placeholder={`请输入${value.LABEL}`}
                                         style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
@@ -355,6 +358,7 @@ export default class TableModulars extends React.Component{
                                 item.FIELD_NAME,
                                 tableIndex,
                                 index)}
+                            disabled={item.READ_ONLY_CONDITION}
                             defaultValue={text} />
                         }
                     }
@@ -369,6 +373,7 @@ export default class TableModulars extends React.Component{
                         key:item.FIELD_NAME + item.SEQUENCE,
                         render:(text, record, tableIndex)=>{
                             return <Input style={{ minWidth: '150px' }}
+                                disabled={item.READ_ONLY_CONDITION}
                                 onChange={(e)=>this.onTableChange(
                                 e.target.value,
                                 item.FIELD_NAME,
@@ -388,7 +393,7 @@ export default class TableModulars extends React.Component{
                         dataIndex:item.FIELD_NAME,
                         key:item.FIELD_NAME + item.SEQUENCE,
                         render:(text, record, tableIndex)=>{
-                            return <Select style={{ minWidth: '150px' }} defaultValue={text} onChange={(e)=>this.onTableChange(
+                            return <Select style={{ minWidth: '150px' }} disabled={item.READ_ONLY_CONDITION} defaultValue={text} onChange={(e)=>this.onTableChange(
                                 e,
                                 item.FIELD_NAME,
                                 tableIndex,
@@ -415,6 +420,7 @@ export default class TableModulars extends React.Component{
                         key:item.FIELD_NAME + item.SEQUENCE,
                         render:(text, record, tableIndex)=>{
                             return <DatePicker
+                            disabled={item.READ_ONLY_CONDITION}
                             style={{ minWidth: '150px' }}
                             format={item.WIDGET_TYPE == 'Date' ? 'YYYY/MM/DD' : 'YYYY-MM-DD HH:mm:ss'}
                             onChange={(e)=>this.onTableChange(
@@ -436,6 +442,7 @@ export default class TableModulars extends React.Component{
                         key:item.FIELD_NAME + item.SEQUENCE,
                         render:(text, record, tableIndex)=>{
                             return <TextArea style={{ minWidth: '150px' }}
+                            disabled={item.READ_ONLY_CONDITION}
                             onChange={(e)=>this.onTableChange(
                                 e.target.value,
                                 item.FIELD_NAME,
