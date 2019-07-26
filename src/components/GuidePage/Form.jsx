@@ -141,6 +141,7 @@ export default class FormModular extends React.Component {
                                 ]
                               })(
                                 <Input
+                                  disabled={values.READ_ONLY_CONDITION}
                                   style={{width:'100%'}}
                                   placeholder={`请录入${values.LABEL}`}
                                 />
@@ -152,6 +153,7 @@ export default class FormModular extends React.Component {
                       case 'Select':
                       case 'Reference':
                       case 'ObjectSelector':
+                        console.log('values',values)
                         return (
                           <Col span={10} offset={1} key={values.SEQUENCE + values.NAME}>
                             <Item
@@ -173,6 +175,7 @@ export default class FormModular extends React.Component {
                                   placeholder={`请选择${values.LABEL}`}
                                   allowClear
                                   style={{width:'100%'}}
+                                  disabled={values.READ_ONLY_CONDITION}
                                   showSearch={values.widgetType !== 'Select'}
                                   filterOption={(inputValue, option) =>
                                     _.includes(option.props.children, inputValue)
@@ -227,6 +230,7 @@ export default class FormModular extends React.Component {
                                         ]
                                       })(
                                         <DatePicker
+                                          disabled={values.READ_ONLY_CONDITION}
                                           placeholder={`请选择${kk.LABEL}`}
                                           format="YYYY-MM-DD"
                                           placeholder=''
@@ -260,6 +264,7 @@ export default class FormModular extends React.Component {
                                     placeholder={`请选择${kk.LABEL}`}
                                     format="YYYY-MM-DD"
                                     placeholder=''
+                                    disabled={values.READ_ONLY_CONDITION}
                                     showTime={{defaultValue: moment('23:59:59', 'HH:mm:ss')}}
                                     style={{ width: '100%' }}
                                     disabledDate={(e)=>this.disabledEndDate(e,kk)}
@@ -292,6 +297,7 @@ export default class FormModular extends React.Component {
                                 ],
                               })(
                                 <InputNumber
+                                  disabled={values.READ_ONLY_CONDITION}
                                   onBlur={this.onInputBlur}
                                   style={{ width: '100%' }}
                                   placeholder={`请录入${values.LABEL}`}
@@ -311,6 +317,7 @@ export default class FormModular extends React.Component {
                                 <TextArea
                                   rows={3}
                                   style={{ width: '100%' }}
+                                  disabled={values.READ_ONLY_CONDITION}
                                   placeholder={`请录入${values.LABEL}`}
                                   defaultValue={values.DISPLAY_NAME}
                                 />
