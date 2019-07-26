@@ -55,16 +55,18 @@ export default class FormModular extends React.Component {
     })
     },1000)
 }
+
+
   disabledStartDate = (startValue,e) => {
-    const endValue  = this.state[e.FIELD_NAME-'end'];
+    const endValue  = this.state[`${e.FIELD_NAME}-end`];
     if (!startValue || !endValue) {
       return false;
     }
-    return startValue.valueOf() < endValue.valueOf();
+    return startValue.valueOf() > endValue.valueOf();
   };
 
   disabledEndDate = (endValue,e) => {
-    const startValue = this.state[e.FIELD_NAME-'start'];
+    const startValue = this.state[`${e.FIELD_NAME}-start`]
     if (!endValue || !startValue) {
       return false;
     }
@@ -78,12 +80,13 @@ export default class FormModular extends React.Component {
   };
 
   onStartChange = (e,value) => {
-    this.onChange([value.FIELD_NAME-'start'], e);
+    this.onChange([`${value.FIELD_NAME}-start`], e);
   };
 
   onEndChange = (e,value) => {
-    this.onChange([value.FIELD_NAME-'end'], e);
+    this.onChange([`${value.FIELD_NAME}-end`], e);
   };
+
 
   componentWillUnmount=()=>{
     let formData = _.cloneDeep(this.props.form.getFieldsValue())
@@ -238,7 +241,7 @@ export default class FormModular extends React.Component {
                                           placeholder={`请选择${kk.LABEL}`}
                                           format="YYYY-MM-DD"
                                           placeholder='请选择开始时间'
-                                          // onChange={(e)=>this.onStartChange(e,kk)}
+                                          onChange={(e)=>this.onStartChange(e,kk)}
                                           showTime={{defaultValue: moment('00:00:00', 'HH:mm:ss')}}
                                           style={{ width: '100%' }}
                                           disabledDate={(e)=>this.disabledStartDate(e,kk)}
@@ -269,7 +272,7 @@ export default class FormModular extends React.Component {
                                     placeholder={`请选择${kk.LABEL}`}
                                     format="YYYY-MM-DD"
                                     placeholder='请选择结束时间'
-                                    // onChange={this.onEndChange}
+                                    onChange={(e)=>this.onEndChange(e,kk)}
                                     // disabled={values.READ_ONLY_CONDITION}
                                     showTime={{defaultValue: moment('23:59:59', 'HH:mm:ss')}}
                                     style={{ width: '100%' }}
