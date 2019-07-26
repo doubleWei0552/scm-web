@@ -29,13 +29,16 @@ export default class FormModular extends React.Component {
   }
 
   componentWillMount=()=>{
-    let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
-    this.props.dispatch({
+    setTimeout(()=>{
+      let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
+      let { sendGuideData } = this.props.guidePage
+      this.props.dispatch({
         type: 'guidePage/getGuideBean', payload: {
           params,
           pageNum: 1,
           pageSize: 10,
           METHOD_BODY: params.METHOD_BODY,
+          AllData:sendGuideData,
         },callback:res=>{
             if (res.status == 'success') {
                 this.props.dispatch({type:'guidePage/detailButtonGuide',payload:{
@@ -49,37 +52,39 @@ export default class FormModular extends React.Component {
                 }})
             }
         }
-  })
+    })
+    },1000)
 }
-  disabledStartDate = (e,value) => {
-    const endValue = this.state[`${value.FIELD_NAME}-end`];
-    if (!e || !endValue) {
+  disabledStartDate = (startValue,e) => {
+    const endValue  = this.state[e.FIELD_NAME-'end'];
+    if (!startValue || !endValue) {
       return false;
     }
-    return e.valueOf() > endValue.valueOf();
+    return startValue.valueOf() < endValue.valueOf();
   };
 
-  disabledEndDate = (e,value) => {
-    const startValue = this.state[`${value.FIELD_NAME}-start`];
-    if (!e || !startValue) {
+  disabledEndDate = (endValue,e) => {
+    const startValue = this.state[e.FIELD_NAME-'start'];
+    if (!endValue || !startValue) {
       return false;
     }
-    return e.valueOf() <= startValue.valueOf();
+    return endValue.valueOf() <= startValue.valueOf();
   };
 
-  onDateChange = (field, value) => {
+  onChange = (field, value) => {
     this.setState({
       [field]: value,
-    })
+    });
   };
 
   onStartChange = (e,value) => {
-    this.onDateChange(`${value.FIELD_NAME}-start`, e);
+    this.onChange([value.FIELD_NAME-'start'], e);
   };
 
   onEndChange = (e,value) => {
-    this.onDateChange(`${value.FIELD_NAME}-end`, e);
+    this.onChange([value.FIELD_NAME-'end'], e);
   };
+
   componentWillUnmount=()=>{
     let formData = _.cloneDeep(this.props.form.getFieldsValue())
     for(let i in formData){
@@ -153,7 +158,6 @@ export default class FormModular extends React.Component {
                       case 'Select':
                       case 'Reference':
                       case 'ObjectSelector':
-                        console.log('values',values)
                         return (
                           <Col span={10} offset={1} key={values.SEQUENCE + values.NAME}>
                             <Item
@@ -230,10 +234,11 @@ export default class FormModular extends React.Component {
                                         ]
                                       })(
                                         <DatePicker
-                                          disabled={values.READ_ONLY_CONDITION}
+                                          // disabled={values.READ_ONLY_CONDITION}
                                           placeholder={`请选择${kk.LABEL}`}
                                           format="YYYY-MM-DD"
-                                          placeholder=''
+                                          placeholder='请选择开始时间'
+                                          // onChange={(e)=>this.onStartChange(e,kk)}
                                           showTime={{defaultValue: moment('00:00:00', 'HH:mm:ss')}}
                                           style={{ width: '100%' }}
                                           disabledDate={(e)=>this.disabledStartDate(e,kk)}
@@ -263,8 +268,9 @@ export default class FormModular extends React.Component {
                                   <DatePicker
                                     placeholder={`请选择${kk.LABEL}`}
                                     format="YYYY-MM-DD"
-                                    placeholder=''
-                                    disabled={values.READ_ONLY_CONDITION}
+                                    placeholder='请选择结束时间'
+                                    // onChange={this.onEndChange}
+                                    // disabled={values.READ_ONLY_CONDITION}
                                     showTime={{defaultValue: moment('23:59:59', 'HH:mm:ss')}}
                                     style={{ width: '100%' }}
                                     disabledDate={(e)=>this.disabledEndDate(e,kk)}
