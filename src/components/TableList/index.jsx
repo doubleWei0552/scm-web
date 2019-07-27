@@ -23,6 +23,7 @@ class TableList extends PureComponent {
 
   // table排序方法
   handleChange = (pagination, filters, sorter) => {
+    console.log('list排序',pagination, filters, sorter)
     this.props.dispatch({ type: 'tableTemplate/save', payload: { sorterData: sorter } })
     const { current, pageSize = 10 } = pagination;
     let obj = {
@@ -33,7 +34,6 @@ class TableList extends PureComponent {
     console.log('sorter', sorter)
     let { searchParams, pageId, sorterData } = this.props.tableTemplate
     let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null
-    // let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
       payload: { pageId, current, pageSize, summarySort: value, searchParams },
@@ -237,7 +237,7 @@ class TableList extends PureComponent {
             pageSize: _.get(this.props.tableTemplate, 'pagination.pageSize'),
             pageSizeOptions: ['10', '20', '50', '100', '300'],
             onShowSizeChange: this.onShowSizeChange,
-            onChange: this.onPageChange,
+            // onChange: ()=>this.onPageChange(), 
             showTotal: total => `共${this.props.tableTemplate.pagination.totalRecord}条数据`,
           }}
         />

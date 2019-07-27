@@ -140,9 +140,8 @@ export default {
         notification.error({ message: result.message, duration: 3 });
       }
     },
-    // 获取详情页数据
+    // 获取详情页数据(已废弃，保存还在用)
     *getDetailPage({ payload, callback }, { call, put, select }) {
-      console.log('获取数据方法执行')
       const { type } = payload; // 判断是不是点击子表删除进来的刷新页面
       const deleteParams = payload.params; // 子表删除时指定删除的数据参数
       // ------判断子表删除的参数 ⬆️------
@@ -164,6 +163,7 @@ export default {
         };
       }
       const result = yield call(queryDetailPage, params);
+      if(callback) callback (result)
       yield put({ type: 'save', payload: { detailData: result.data, initPolicyFormFields: result.data.policyFormFields } });
       // 区分是否是新增的情况
       if (result.status == 'success') {
@@ -200,6 +200,8 @@ export default {
         }
         if (callback) callback(childResult);
       } else {
+        console.log('获取数据报错',result)
+        yield put({ type: 'save', payload: { detailData: [], initPolicyFormFields: [] } });
         notification.error({ message: result.message, duration: 3 });
       }
     },
@@ -262,7 +264,6 @@ export default {
         });
         params.policyFormFields.map(item=>{
           if(item.WIDGET_TYPE == "Image" || item.WIDGET_TYPE == "Attachment"){
-            console.log('item参数',item)
             item.FIELD_VALUE.map(ii=>{
               if(ii.url){
                 if(ii.url.includes('http:')){
@@ -278,12 +279,9 @@ export default {
         if (callback) callback(result);
         if (result.status == 'success') {
           // 用最新的值替换selectDate，确保数据永远是最新的，不会出错
-          // const params = { pageId };
-          // const pageData = yield call(queryPagelist, params);
-          // // const tableData = pageData.data.list;
-          if (result.message) {
-            notification.success({ message: result.message, duration: 3 });
-          }
+          // if (result.message) {
+          //   notification.success({ message: result.message, duration: 3 });
+          // }
           let selectDate;
           let objectType = pagination.objectType;
           pagination.list.map((value, index) => {
@@ -296,7 +294,11 @@ export default {
             type: 'getDetailPage',
             payload: { ID: selectDate.ID, pageId, ObjectType: objectType },
           });
-          yield put({ type: 'getPagelist', payload: { pageId } });
+          yield put({ type: 'getPagelist', payload: { pageId },callback:res=>{
+            if(res.status == 'success' && result.message){
+              notification.success({ message: result.message, duration: 3 });
+            }
+          } });
         } else {
           notification.error({ message: result.message, duration: 3 });
         }
@@ -499,10 +501,9 @@ export default {
         notification.error({ message: result.message, duration: 3 });
       }
     },
-    // 分页
+    // 分页 （列表页获取数据）
     *getPagination({ payload }, { select, call, put }) {
-      const { pageId, searchParams = {} } = payload;
-      const { pageSize, summarySort, sorterData } = payload;
+      const { pageId, searchParams = {},pageSize, summarySort, sorterData } = payload;
       const pageNum = payload.current;
       const params = {
         pageId,
@@ -516,6 +517,7 @@ export default {
       if (result.status == 'success') {
         yield put({ type: 'save', payload: { pagination: result.data } });
       } else {
+        yield put({ type: 'save', payload: { pagination: {} } });
         notification.error({ message: result.message, duration: 3 });
       }
     },
