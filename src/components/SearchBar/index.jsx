@@ -123,6 +123,11 @@ class SearchBar extends PureComponent {
     // }
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+      for(let gg in values){  //去除前后的空格
+        if(values[gg] && typeof(values[gg]) == 'string'){
+          values[gg] = values[gg].replace(/(^\s*)|(\s*$)/g, "")
+        }
+      }
       _.mapKeys(values, (value, key) => {
         var objKeys = Object.keys(values);
         for (var i = 0; i < objKeys.length; i++) {
@@ -198,7 +203,7 @@ class SearchBar extends PureComponent {
                           <Select
                             placeholder={`请选择${value.title}`}
                             showSearch={value.widgetType !== 'Select'}
-                            allowClear
+                            allowClear={true}
                             style={{ width: '195px', textOverflow: 'ellipsis' }}
                             filterOption={(inputValue, option) =>
                               _.includes(option.props.children, inputValue)
@@ -259,6 +264,7 @@ class SearchBar extends PureComponent {
                                 initialValue: null,
                               })(
                                 <DatePicker
+                                  allowClear={true}
                                   placeholder={`请选择${kk.title}`}
                                   format="YYYY-MM-DD"
                                   placeholder={`请选择${kk.title}`}
@@ -290,7 +296,7 @@ class SearchBar extends PureComponent {
                                   format="YYYY-MM-DD"
                                   showTime={{ defaultValue: moment('23:59:59', 'HH:mm:ss') }}
                                   style={{ width: '195px' }}
-                                  allowClear
+                                  allowClear={true}
                                   onChange={e => {
                                     console.log(e);
                                     this.handleChange(e, kk.title);
@@ -357,6 +363,7 @@ class SearchBar extends PureComponent {
                           initialValue: '',
                         })(
                           <Input
+                            allowClear={true}
                             placeholder={`请输入${value.title}`}
                             style={{ width: '195px', textOverflow: 'ellipsis' }}
                           />
@@ -388,6 +395,7 @@ class SearchBar extends PureComponent {
                         })(
                           <Input
                             type="number"
+                            allowClear={true}
                             placeholder={`请输入${value.title}`}
                             style={{ width: '195px', textOverflow: 'ellipsis' }}
                           />
