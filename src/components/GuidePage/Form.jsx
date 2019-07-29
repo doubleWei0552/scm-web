@@ -56,7 +56,6 @@ export default class FormModular extends React.Component {
     },1000)
 }
 
-
   disabledStartDate = (startValue,e) => {
     const endValue  = this.state[`${e.FIELD_NAME}-end`];
     if (!startValue || !endValue) {
@@ -87,6 +86,13 @@ export default class FormModular extends React.Component {
     this.onChange([`${value.FIELD_NAME}-end`], e);
   };
 
+  check = () => {  //外面掉验证方法，通过再走下一步
+    this.props.form.validateFields(err => {
+      if (!err) {
+        console.info('success');
+      }
+    });
+  };
 
   componentWillUnmount=()=>{
     let formData = _.cloneDeep(this.props.form.getFieldsValue())

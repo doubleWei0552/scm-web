@@ -299,7 +299,6 @@ export default class TableModulars extends React.Component{
         let data =  _.get(this.props.guidePage.guidePageData,'list',[]) 
         let guidePageColumns = _.get(this.props.guidePage.guidePageColumns,'policyFormFields',[]).map((item,index)=>{
             if(item.READ_ONLY_CONDITION){
-                console.log('item',item)
                 let obj 
                 obj = {
                     title:<Tooltip title={item.LABEL + '[' + item.FIELD_NAME + ']'}>
@@ -318,8 +317,8 @@ export default class TableModulars extends React.Component{
                         render:(text)=>{
                             return (
                                 <div>{item.WIDGET_TYPE == 'Date'
-                                    ? moment(text * 1).format('YYYY/MM/DD')
-                                    : moment(text * 1).format('YYYY/MM/DD  HH:mm:ss')}</div>
+                                    ? moment(text).format('YYYY/MM/DD')
+                                    : moment(text).format('YYYY/MM/DD  HH:mm:ss')}</div>
                             )
                         }
                     }
@@ -432,7 +431,7 @@ export default class TableModulars extends React.Component{
                                 item.FIELD_NAME,
                                 tableIndex,
                                 index)}
-                            defaultValue={text ? moment(text * 1) : null} />
+                            defaultValue={text ? moment(text) : null} />
                         }
                     }
                     columns.push(DateObj)

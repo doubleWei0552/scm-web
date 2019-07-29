@@ -35,11 +35,15 @@ export default class NewGuidePage extends React.Component {
   }
 
   next() {
-    const current = this.state.current + 1;
-    this.setState({ current });
+    this.childForm.validateFields(err => {
+      if (!err) {
+        const current = this.state.current + 1;
+        this.setState({ current });
+      }
+    });
   }
 
-  close = () => {
+  close = () => { 
     this.setState({
       visible: false,
     });
@@ -73,8 +77,8 @@ export default class NewGuidePage extends React.Component {
     switch(value.BUTTON_GUIDE_TYPE){
         case "Detail":  //form类型的页面
             return <div>
-                <FormCom store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
-                tableTemplate={this.props.tableTemplate} current={this.state.current}
+                <FormCom ref={dom=> this.childForm =dom}  store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
+                tableTemplate={this.props.tableTemplate} current={this.state.current} 
                 guidePage={this.props.guidePage} />
             </div>
         break
