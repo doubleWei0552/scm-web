@@ -36,7 +36,8 @@ import styles from './Index.less'
     loading.effects['tableTemplate/getDetailPageConfig'] ||
     loading.effects['tableTemplate/save'] ||
     loading.effects['tableTemplate/getDetailPage'] ||
-    loading.effects['tableTemplate/getSummaryPageConfig'],
+    loading.effects['tableTemplate/getSummaryPageConfig'] ||
+    loading.effects['tableTemplate/getDetailSave']
 }))
 
 //详情页模块

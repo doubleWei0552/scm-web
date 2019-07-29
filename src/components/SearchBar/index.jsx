@@ -424,6 +424,8 @@ class SearchBar extends PureComponent {
                       style={{
                         marginLeft: 8,
                         fontSize: 12,
+                        display:searchItems.length === 1 || (searchItems.length === 2 && dateIdx === -1) 
+                        ? 'none' : null,
                         cursor:
                           searchItems.length === 1 || (searchItems.length === 2 && dateIdx === -1)
                             ? 'not-allowed'
