@@ -317,8 +317,8 @@ export default class TableModulars extends React.Component{
                         render:(text)=>{
                             return (
                                 <div>{item.WIDGET_TYPE == 'Date'
-                                    ? moment(text).format('YYYY/MM/DD')
-                                    : moment(text).format('YYYY/MM/DD  HH:mm:ss')}</div>
+                                    ? (text ? moment(text).format('YYYY/MM/DD') : text)
+                                    : (text ? moment(text).format('YYYY/MM/DD  HH:mm:ss') : text)}</div>
                             )
                         }
                     }
