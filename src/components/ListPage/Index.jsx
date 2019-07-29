@@ -230,7 +230,7 @@ export default class ListPage extends React.Component {
                                 >
                                   {item.text}
                                 </Select.Option>
-                              );
+                              )
                             })
                             : null}
                         </Select>

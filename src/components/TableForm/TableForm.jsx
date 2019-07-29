@@ -15,6 +15,7 @@ import {
 import { connect } from 'dva';
 import ListPage from '../ListPage/Index';
 import ListForm from '../ListPage/ListForm';
+import _ from 'lodash'
 import styles from './Index.less';
 
 @connect(({ tableTemplate, loading }) => ({
@@ -228,7 +229,7 @@ export default class TableForm extends React.Component {
       });
       this.props.dispatch({ type: 'tableTemplate/save' }); //刷新model值
     }
-    this.setState({ visible: false, frameSelectedRowKeys: [], isEdit: true });
+    this.setState({ visible: false,frameSelectedRows:[], frameSelectedRowKeys: [], isEdit: true });
   };
 
   handleCancel = e => {
@@ -247,7 +248,15 @@ export default class TableForm extends React.Component {
   };
 
   onSelectChange = (selectedRowKeys, selectedRows) => {
-    this.setState({ frameSelectedRowKeys: selectedRowKeys, frameSelectedRows: selectedRows });
+    let { frameSelectedRows } = this.state
+    selectedRows.map((value,index)=>{
+      let ind = _.findIndex(frameSelectedRows,item =>item.ID == value.ID)
+      if(ind < 0) {
+        frameSelectedRows.push(value)
+      } 
+    })
+    console.log('处理后的值',frameSelectedRows)
+    this.setState({ frameSelectedRowKeys: selectedRowKeys, frameSelectedRows });
   };
 
   render() {
