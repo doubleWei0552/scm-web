@@ -45,6 +45,7 @@ export default class ListPage extends React.Component {
     frameColumns: [], //弹框的表格表头
     frameData: [], //弹框的表格数据
     loading: true, // 弹框的loading
+    searchData: [], //搜索框的参数
   };
   componentWillReceiveProps = newProps => {
     let { frameColumns, frameData, framePagination } = newProps;
@@ -122,9 +123,10 @@ export default class ListPage extends React.Component {
     let { multiGroupName, multiObjectType } = this.props.HeaderData;
     let pageId = this.props.frameColumns.pageId;
     let current = page;
+    let searchParams = this.state.searchData
     this.props.dispatch({
       type: 'tableTemplate/getDetailList',
-      payload: { pageId, multiGroupName, multiObjectType, pageSize: pageSize, pageNum: page },
+      payload: { pageId,searchParams, multiGroupName, multiObjectType, pageSize: pageSize, pageNum: page },
     });
   };
   //select事件
@@ -159,7 +161,10 @@ export default class ListPage extends React.Component {
           searchParams = _.assign(searchParams, { [key]: value });
         }
         return;
-      });
+      })
+      this.setState({
+        searchData:searchParams
+      })
       this.props.dispatch({
         type: 'tableTemplate/getDetailList',
         payload: { pageId, multiGroupName, multiObjectType, current: 1, pageSize: 10, searchParams },

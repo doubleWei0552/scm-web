@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
+import router from 'umi/router'
 import _ from 'lodash';
 import {
   Table,
@@ -18,17 +19,17 @@ class ReportTable extends PureComponent {
 
   //关闭报表界面
   closeReportForm = () => {
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { reportFormURL: null } });
+    // this.props.dispatch({ type: 'tableTemplate/save', payload: { reportFormURL: null } });
+    router.goBack()
   };
 
   render() {
-    console.log('this.props', this.props)
     return (
       <div
-        style={{
-          display: this.props.tableTemplate.reportFormURL ? 'block' : 'none',
-          height: '100%',
-        }}
+        // style={{
+        //   display: this.props.tableTemplate.reportFormURL ? 'block' : 'none',
+        //   height: '100%',
+        // }}
       >
         <Card
           title="报表部分"
