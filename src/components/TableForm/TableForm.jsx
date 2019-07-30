@@ -255,7 +255,6 @@ export default class TableForm extends React.Component {
         frameSelectedRows.push(value)
       } 
     })
-    console.log('处理后的值',frameSelectedRows)
     this.setState({ frameSelectedRowKeys: selectedRowKeys, frameSelectedRows });
   };
 

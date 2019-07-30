@@ -76,6 +76,7 @@ export default class ChildTable extends React.Component {
   //子表事件
   onChildDelete = record => {
     let id = record.id;
+    if(!id) return 
     let objectType = record.objectType;
     this.props.dispatch({ type: 'tableTemplate/getRemoveChildData', payload: { id, objectType } });
   };
@@ -94,6 +95,7 @@ export default class ChildTable extends React.Component {
       _.remove(this.props.tableTemplate.ChildData[index].Data.records, function(n, index) {
         return index == deleteIndex;
       });
+      this.props.dispatch({type:'tableTemplate/save'})  //删除缓存数据，刷新页面
     }
   };
 
@@ -124,7 +126,6 @@ export default class ChildTable extends React.Component {
       case 'NumberInput':
         //增加rtlink功能
         // specificData.FIELD_VALUE = e;
-        console.log('数字传过来的值',e)
         this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
           if (p.FIELD_NAME == specificData.FIELD_NAME) {
             p.FIELD_VALUE = e;
@@ -340,7 +341,7 @@ export default class ChildTable extends React.Component {
                           ) : this.props.tableTemplate.isEditSave == true ||
                             this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
                             <Form.Item style={{ width: '100%' }}>
-                              {getFieldDecorator(`${record.key + i.value}`, {
+                              {getFieldDecorator(`${record.key + i.value + childIndex}`, {
                                 initialValue: specificData.DISPLAY_NAME
                                   ? specificData.DISPLAY_NAME
                                   : text,
@@ -381,7 +382,7 @@ export default class ChildTable extends React.Component {
                             </Form.Item>
                           ) : (
                             <Form.Item style={{ width: '100%' }}>
-                              {getFieldDecorator(`${record.key + i.value}`, {
+                              {getFieldDecorator(`${record.key + i.value + childIndex}`, {
                                 initialValue: specificData.DISPLAY_NAME
                                   ? specificData.DISPLAY_NAME
                                   : text,
@@ -474,7 +475,7 @@ export default class ChildTable extends React.Component {
                           ) : this.props.tableTemplate.isEditSave ||
                             this.props.tableTemplate.isEditSave == undefined ? (
                             <Form.Item style={{ width: '100%' }}>
-                              {getFieldDecorator(`${record.key + i.value}`, {
+                              {getFieldDecorator(`${record.key + i.value + childIndex}`, {
                                 initialValue: specificData.DISPLAY_NAME
                                   ? specificData.DISPLAY_NAME
                                   : text,
@@ -524,7 +525,7 @@ export default class ChildTable extends React.Component {
                             </Form.Item>
                           ) : (
                             <Form.Item style={{ width: '100%' }}>
-                              {getFieldDecorator(`${record.key + i.value}`, {
+                              {getFieldDecorator(`${record.key + i.value + childIndex}`, {
                                 initialValue: specificData.DISPLAY_NAME
                                   ? specificData.DISPLAY_NAME
                                   : text,
