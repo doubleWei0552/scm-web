@@ -120,7 +120,6 @@ export default class BaseMenu extends PureComponent {
   // 点击左侧菜单，获取报表路径，并跳转
   onMenuClick = item => {
     // if(item.reportUrl){
-      console.log('left menu',item)
     router.push(item.path)
     // }
   };

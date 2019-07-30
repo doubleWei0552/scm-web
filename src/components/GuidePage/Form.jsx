@@ -96,12 +96,14 @@ disabledEndDate = (endValue,e) => {
   };
 
   componentWillUnmount=()=>{
+    let {isEdit,selectDate} = this.props.tableTemplate
     let formData = _.cloneDeep(this.props.form.getFieldsValue())
     for(let i in formData){
       if(typeof(formData[i]) == 'object' && formData[i]){
         formData[i] = formData[i].valueOf()
       } 
     }
+    formData.formPageId = isEdit ? selectDate.ID : null  //进入详情页的ID
     this.props.dispatch({
         type:'guidePage/getSaveData',
         payload:{relatedFieldGroup:this.state.showData.relatedFieldGroup,data:formData}
@@ -110,6 +112,7 @@ disabledEndDate = (endValue,e) => {
 
 
   render() {
+    console.log('form',this.props)
     const { getFieldDecorator } = this.props.form
     let cacheData = {}  //缓存数据
     let loopData = []  //分组数据

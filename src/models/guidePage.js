@@ -74,7 +74,6 @@ export default {
     },
     //获取导向页table类型的数据
     *getButtonGuideData({ payload }, { call, put, select }) {
-      console.log('payload',payload)
       let { OBJECT_TYPE, RELATED_FIELD_GROUP, METHOD_BODY } = payload.params;
       let { pageNum, pageSize, searchData,id } = payload;
       let formData = yield select(({guidePage})=>guidePage.sendGuideData)
@@ -88,10 +87,8 @@ export default {
         ...searchData,
         formData
       };
-      console.log('params',params)
       const result = yield call(queryButtonGuideData, params);
       if (result.status == 'success') {
-        console.log('数据')
         yield put({ type: 'save', payload: { guidePageData: result.data }});
       } else {
         notification.error({ message: '导向页table类型获取数据方法出现错误！', duration: 3 });
