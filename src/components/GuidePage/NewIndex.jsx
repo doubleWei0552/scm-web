@@ -6,6 +6,7 @@ import {
     Form,
     Switch,
     Row,
+    Spin,
     Col,
     Input,
     Select,
@@ -21,9 +22,12 @@ import TableCom from './Table.jsx'
 
 const { Step } = Steps;
 @Form.create()
-@connect(({ guidePage,tableTemplate }) => ({
+@connect(({ guidePage,tableTemplate,loading }) => ({
     guidePage,
     tableTemplate,
+    loadingG:
+        loading.effects['guidePage/getButtonGuideConfig'] ||
+        loading.effects['guidePage/getButtonGuideData']
   }))
 export default class NewGuidePage extends React.Component {
   constructor(props) {
@@ -31,6 +35,7 @@ export default class NewGuidePage extends React.Component {
     this.state = {
       current: 0,
       visible:true,
+      loading:true,
     };
   }
 
@@ -48,6 +53,12 @@ export default class NewGuidePage extends React.Component {
       visible: false,
     });
   };
+
+  closeSpin = () =>{
+    this.setState({
+      loading:false
+    })
+  }
 
   submit =()=>{
     let ButtonName = this.props.tableButton.FIELD_NAME
@@ -78,21 +89,21 @@ export default class NewGuidePage extends React.Component {
         case "Detail":  //form类型的页面
             return <div>
                 <FormCom ref={dom=> this.childForm =dom}  store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
-                tableTemplate={this.props.tableTemplate} current={this.state.current} 
+                tableTemplate={this.props.tableTemplate} current={this.state.current} closeSpin={this.closeSpin}
                 guidePage={this.props.guidePage} />
             </div>
         break
         case "EditDetail":  //table类型的页面
             return <div>
                 <TableCom store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
-                tableTemplate={this.props.tableTemplate} current={this.state.current} 
+                tableTemplate={this.props.tableTemplate} current={this.state.current} closeSpin={this.closeSpin}
                 />
             </div>
         break
         case "Result":  //结果页
             return <div>
                 <ResultCom store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
-                tableTemplate={this.props.tableTemplate} current={this.state.current}
+                tableTemplate={this.props.tableTemplate} current={this.state.current} closeSpin={this.closeSpin}
                 guidePage={this.props.guidePage}/>
             </div>
         break
@@ -114,34 +125,36 @@ export default class NewGuidePage extends React.Component {
         visible={this.state.visible}
       >
       <div>
-        {/* 顶部步骤条 */}
-        <Steps current={current}>
-          {steps.map(item => (
-            <Step key={item.LABEL} title={item.LABEL} />
-          ))}
-        </Steps>
-        {/* 中间的内容 */}
-        <div style={{margin:'24px 0',minHeight:'100px'}}>
-            {this.renderContent(steps[current])}
-        </div>
-        {/* 底部按钮 */}
-        <div style={{textAlign:'center'}}>
-          {current < steps.length - 2 && (
-            <Button type="primary" onClick={() => this.next()}>
-              下一步
-            </Button>
-          )}
-          {current === steps.length - 2 && (
-            <Button type="primary" onClick={() => this.submit()}>
-              提交
-            </Button>
-          )}
-          {current > -1 && (
-            <Button style={{ marginLeft: 8 }} onClick={() => this.close()}>
-              关闭
-            </Button>
-          )}
-        </div>
+        <Spin spinning={this.props.loadingG || this.state.loading || false}>
+          {/* 顶部步骤条 */}
+          <Steps current={current}>
+            {steps.map(item => (
+              <Step key={item.LABEL} title={item.LABEL} />
+            ))}
+          </Steps>
+          {/* 中间的内容 */}
+          <div style={{margin:'24px 0',minHeight:'100px'}}>
+              {this.renderContent(steps[current])}
+          </div>
+          {/* 底部按钮 */}
+          <div style={{textAlign:'center'}}>
+            {current < steps.length - 2 && (
+              <Button type="primary" onClick={() => this.next()}>
+                下一步
+              </Button>
+            )}
+            {current === steps.length - 2 && (
+              <Button type="primary" onClick={() => this.submit()}>
+                提交
+              </Button>
+            )}
+            {current > -1 && (
+              <Button style={{ marginLeft: 8 }} onClick={() => this.close()}>
+                关闭
+              </Button>
+            )}
+          </div>
+        </Spin>
       </div>
       </Modal>
     );

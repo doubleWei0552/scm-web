@@ -9,6 +9,9 @@ import {connect} from 'dva'
   }))
 
 export default class ResultModular extends React.Component{
+    componentDidMount =()=>{
+        this.props.closeSpin()
+    }
     render(){
         let {status,message,debugInfo} = this.props.guidePage.resultPageData
         return(

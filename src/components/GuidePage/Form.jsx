@@ -49,6 +49,7 @@ export default class FormModular extends React.Component {
                     this.setState({
                         showData:res
                     })
+                    this.props.closeSpin()
                 }})
             }
         }
@@ -56,21 +57,21 @@ export default class FormModular extends React.Component {
     },1000)
 }
 
-  disabledStartDate = (startValue,e) => {
-    const endValue  = this.state[`${e.FIELD_NAME}-end`];
-    if (!startValue || !endValue) {
-      return false;
-    }
-    return startValue.valueOf() > endValue.valueOf();
-  };
+disabledStartDate = (startValue,e) => {
+  const endValue  = this.state[`${e.FIELD_NAME}-end`];
+  if (!startValue || !endValue) {
+    return false;
+  }
+  return startValue.valueOf() > endValue.valueOf();
+};
 
-  disabledEndDate = (endValue,e) => {
-    const startValue = this.state[`${e.FIELD_NAME}-start`]
-    if (!endValue || !startValue) {
-      return false;
-    }
-    return endValue.valueOf() <= startValue.valueOf();
-  };
+disabledEndDate = (endValue,e) => {
+  const startValue = this.state[`${e.FIELD_NAME}-start`]
+  if (!endValue || !startValue) {
+    return false;
+  }
+  return endValue.valueOf() <= startValue.valueOf();
+};
 
   onChange = (field, value) => {
     this.setState({

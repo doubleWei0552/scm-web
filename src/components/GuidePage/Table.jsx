@@ -69,12 +69,20 @@ export default class TableModulars extends React.Component{
                         formData: this.props.guidePage.sendGuideData,
                         id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null
                       },
+                      callback:res=>{
+                        this.props.closeSpin()
+                      }
                     });
                   }
                 }
             });
         },1000)
     }
+
+    componentDidMount =()=>{
+        this.props.closeSpin()
+      }
+
     onShowSizeChange = (current, pageSize) => {
         let params = this.props.CurrentData
         this.props.dispatch({
