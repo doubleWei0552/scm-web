@@ -19,8 +19,7 @@ class ReportTable extends PureComponent {
 
   //关闭报表界面
   closeReportForm = () => {
-    // this.props.dispatch({ type: 'tableTemplate/save', payload: { reportFormURL: null } });
-    router.goBack()
+    this.props.dispatch({ type: 'tableTemplate/save', payload: { reportFormURL: null } });
   };
 
   render() {

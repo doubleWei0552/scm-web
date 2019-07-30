@@ -1,4 +1,4 @@
-import { Upload, Icon, Modal } from 'antd';
+import { Upload, Icon, Modal,message } from 'antd';
 import {onGetImageUrl} from '@/utils/FunctionSet';
 
 function getBase64(file) {
@@ -41,6 +41,18 @@ export default class ImageUpload extends React.Component {
     });
   };
 
+  beforeUpload=(file)=> {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/png' || file.type === 'image/icon';
+    if (!isJpgOrPng) {
+      message.error('只能上传图片格式文件!');
+    }
+    const isLt10M = file.size / 1024 / 1024 < 10;
+    if (!isLt10M) {
+      message.error('上传的图片大小必须小于10M!');
+    }
+    return isJpgOrPng && isLt10M;
+  }  
+
   handleChange = ({ fileList, file }) => {
     let url = onGetImageUrl(file)
     fileList = fileList.slice(-1); //限制只保留一张图片
@@ -71,6 +83,7 @@ export default class ImageUpload extends React.Component {
         <Upload
           action={apiUrl + '/rs/uploadImage'}
           listType="picture-card"
+          beforeUpload={this.beforeUpload}
           disabled={this.props.disabled}
           fileList={fileList}
           showUploadList={{ showPreviewIcon: this.props.disabled ? true : true, showRemoveIcon: this.props.disabled ? false : true }}

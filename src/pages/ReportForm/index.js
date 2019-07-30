@@ -18,7 +18,8 @@ class ReportTable extends PureComponent {
 
   //关闭报表界面
   closeReportForm = () => {
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { reportFormURL: null } });
+    // console.log('关闭报表')
+    // this.props.dispatch({ type: 'tableTemplate/save', payload: { reportFormURL: null } });
     // router.goBack()
   };
   componentDidMount =()=>{
@@ -35,7 +36,7 @@ class ReportTable extends PureComponent {
       >
         <Card
           title="报表部分"
-          // extra={<Icon onClick={this.closeReportForm} type="close" />}
+          // extra={<Icon onClick={()=>this.closeReportForm()} type="close" />}
           style={{ width: '100%', height: '1000px' }}
           bodyStyle={{ padding: 0 }}
         >
