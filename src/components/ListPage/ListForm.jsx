@@ -36,7 +36,6 @@ export default class ListForm extends React.Component {
     let DISPLAY_NAME;
     let addData = [];
     this.props.form.validateFields((err, values) => {
-      console.log('canshu1', values);
       if (!err) {
         for (let i in values) {
           if (values[i] && typeof values[i] == 'string') {
@@ -125,7 +124,6 @@ export default class ListForm extends React.Component {
     });
   };
   render() {
-    console.log('biaotou1',this.props.columns)
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
