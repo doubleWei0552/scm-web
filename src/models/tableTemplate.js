@@ -289,7 +289,7 @@ export default {
               selectDate = value;
             }
           });
-          yield put({ type: 'save', payload: { selectDate, objectType } });
+          yield put({ type: 'save', payload: { selectDate, objectType,isNewSave:false,isEditSave:false } });
           yield put({
             type: 'getDetailPage',
             payload: { ID: selectDate.ID, pageId, ObjectType: objectType },
@@ -336,7 +336,7 @@ export default {
           }
           yield put({
             type: 'save',
-            payload: { selectDate: result.data, objectType: result.data.ObjectType },
+            payload: { selectDate: result.data, objectType: result.data.ObjectType,isNewSave:false,isEditSave:false },
           });
           yield put({ type: 'getPagelist', payload: { pageId } });
           yield put({
