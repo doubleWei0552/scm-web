@@ -55,7 +55,7 @@ export default class Export extends React.Component {
                     <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
                         <Select disabled={this.state.current >= 0 ? false : true} onChange={(e) => this.onChange(e,1)} placeholder='请选择导入模式' style={{ width: '100%' }} >
                             <Option value="search">按查询结果导出</Option>
-                            <Option value="check">按勾选数据导出</Option>
+                            {/* <Option value="check">按勾选数据导出</Option> */}
                         </Select>
                     </div>
                 )
