@@ -26,6 +26,7 @@ import _ from 'lodash';
 import styles from './Index.less';
 const { RangePicker } = DatePicker
 
+const SearchOptions = {}
 // 子表列表页组件
 @Form.create()
 export default class ListPage extends React.Component {
@@ -47,6 +48,25 @@ export default class ListPage extends React.Component {
     loading: true, // 弹框的loading
     searchData: [], //搜索框的参数
   };
+  componentWillMount = () => {
+    console.log('will')
+    let props = this.props.frameColumns.columns
+    const searchItems = _.filter(props, item => item.filterable == true);
+    console.log('will参数',props,searchItems)
+    const { currentKey } = this.props.tableTemplate
+    if(searchItems.length > 0){
+      searchItems.map((value, index) => {
+        // console.log('value',value)
+          if (
+            value.widgetType === 'Select' ||
+            value.widgetType === 'Reference' ||
+            value.widgetType === 'ObjectSelector'
+          ){
+            this.getSearchBarOptions({ key: value.unique, text: value.dataIndex });
+          }
+      })
+    }
+  }
   componentWillReceiveProps = newProps => {
     let { frameColumns, frameData, framePagination } = newProps;
     let listColumnData = [];
@@ -145,6 +165,22 @@ export default class ListPage extends React.Component {
     });
   };
 
+  getSearchBarOptions = e => {
+    console.log('进来了')
+    let options = [];
+    this.props.dispatch({
+      type: 'tableTemplate/getAutocomplate',
+      payload: { value: e },
+      callback: response => {
+        if (response.status === 'success') {
+          options = response.data.options;
+          SearchOptions[response.data.field] = response.data.options;
+        }
+      },
+    });
+    return options;
+  };
+
   toggle = () => {
     const { expand } = this.state;
     this.setState({ expand: !expand });
@@ -174,6 +210,7 @@ export default class ListPage extends React.Component {
 
   //列表页顶部搜索部分
   renderSearchForm = (props = []) => {
+    // console.log('搜索模块表头数据',props,'this.props',this.props,this.props.currentKey, this.props.selectOption)
     const searchItems = _.filter(props, item => item.filterable == true);
     const count = this.state.expand
       ? searchItems.length
@@ -220,19 +257,20 @@ export default class ListPage extends React.Component {
                             _.includes(option.props.children, inputValue)
                           }
                         >
-                          {selectOption.length && selectOption.length > 0
-                            ? _.map(selectOption, (item, index) => {
-                              return (
-                                <Select.Option
-                                  title={item.text}
-                                  key={item.value + item.text}
-                                  value={item.value}
-                                >
-                                  {item.text}
-                                </Select.Option>
-                              )
-                            })
-                            : null}
+                          {SearchOptions[value.dataIndex] &&
+                              SearchOptions[value.dataIndex].length > 0
+                              ? _.map(SearchOptions[value.dataIndex], (item, index) => {
+                                return (
+                                  <Select.Option
+                                    title={item.text}
+                                    key={item.value + item.text}
+                                    value={item.value}
+                                  >
+                                    {item.text}
+                                  </Select.Option>
+                                );
+                              })
+                              : null}
                         </Select>
                       )}
                     </Form.Item>
@@ -326,6 +364,7 @@ export default class ListPage extends React.Component {
             <span style={{ fontSize: '1.3rem' }}>{this.props.tableTitle}</span>
           </header>
           <hr style={{ backgroundColor: 'lightgray', height: '1px', border: 'none' }} />
+          {/* 搜索模块 */}
           <div className="BasicDataBody" style={{ minHeight: '35px', display: 'flex' }}>
             <div className="BasicDataSearch" style={{ float: 'right', width: '100%' }}>
               {<div>{this.renderSearchForm(this.props.frameColumns.columns)}</div>}

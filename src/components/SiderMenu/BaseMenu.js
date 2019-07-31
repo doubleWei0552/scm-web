@@ -148,7 +148,7 @@ export default class BaseMenu extends PureComponent {
     return (
       <div>
         {icon}
-        <Link style={{ color: '#ffffff' }} to={itemPath}>
+        <Link style={{ color: 'unset' }} to={itemPath}>
           <span>{name}</span>
         </Link>
       </div>
