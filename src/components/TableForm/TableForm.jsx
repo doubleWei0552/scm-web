@@ -299,6 +299,7 @@ export default class TableForm extends React.Component {
           width="80%"
           centered={true}
           closable={false}
+          maskClosable={false}
           footer={
             this.props.MultiObjectSelector ? (
               <div style={{ textAlign: 'center', width: '100%' }}>

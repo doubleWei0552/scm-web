@@ -6,8 +6,12 @@ import { Checkbox, Alert, Icon, Button } from 'antd';
 import Login from '@/components/Login';
 import RotationChart from '@/components/Carousel/Index'
 import TreeSelect from '@/components/TreeSelect/Index'
-import Cascader from '@/components/Cascader/Index'
+import Cascader from '@/components/Cascader/Index' //省市级联动
+import Bar from '@/components/ECharts /Bar'
+import Line from '@/components/ECharts /Line'
+import Pie from '@/components/ECharts /Pie'
 
+import Data from './Data'
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
 @connect(({ login, loading,guidePage }) => ({
@@ -26,9 +30,7 @@ class PersonalCenter extends Component {
     const { type, autoLogin } = this.state;
     return <div>
         <h1>个人主页</h1>
-        {/* <TreeSelect /> */}
-        {/*  <Cascader /> */}
-        {/* <RotationChart /> */}
+        {/* <Bar /> */}
       </div>;
   }
 }
