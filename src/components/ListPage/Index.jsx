@@ -49,10 +49,8 @@ export default class ListPage extends React.Component {
     searchData: [], //搜索框的参数
   };
   componentWillMount = () => {
-    console.log('will')
     let props = this.props.frameColumns.columns
     const searchItems = _.filter(props, item => item.filterable == true);
-    console.log('will参数',props,searchItems)
     const { currentKey } = this.props.tableTemplate
     if(searchItems.length > 0){
       searchItems.map((value, index) => {
@@ -166,7 +164,6 @@ export default class ListPage extends React.Component {
   };
 
   getSearchBarOptions = e => {
-    console.log('进来了')
     let options = [];
     this.props.dispatch({
       type: 'tableTemplate/getAutocomplate',
