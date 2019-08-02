@@ -63,6 +63,8 @@ export default {
     fileList: [], // 主表图片组件显示的数据
     fileKey: '', // 对应主表的图片的detailpage里面的元素的FIELD_NAME值
     isChildAdd: false, // 是否有子表新增
+
+    MasterTable:{}, //主表的数据，用于新增时的rtlink联动
     // ------------------------------------------------
     isEdit: false, // 判断是不是详情页，默认不是详情页false
     buttonType: false, // 详情页的按钮格式,false表示只有保存，取消按钮

@@ -107,6 +107,9 @@ export default class ChildTable extends React.Component {
 
   //新的子表编辑
   onChildChang = (e, record, specificData, type, childIndex, index, Columns, Data) => {
+    //获取主表数据
+    let MasterTable = this.props.getMasterTable()
+    console.log('子表数据',e, record, specificData, type, childIndex, index, Columns, Data)
     switch (type) {
       case 'targetValue':
         this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
@@ -114,7 +117,44 @@ export default class ChildTable extends React.Component {
             p.FIELD_VALUE = e.target.value;
           }
         });
-        // specificData.FIELD_VALUE = e.target.value;
+        let cacheData2 = {};
+        let recordSelectData2 = record;
+        recordSelectData2[specificData.FIELD_NAME] = e.target.value;
+
+        cacheData2.updatedField = specificData.FIELD_NAME;
+        cacheData2.identifier =
+          specificData.FIELD_NAME + '-' + specificData.FIELD_VALUE + '-' + specificData.id;
+        cacheData2.identifierKey = record.key;
+        cacheData2.objectType = specificData.OBJECT_TYPE;
+        cacheData2.policyFormFields = [];
+        // cacheData2.policyFormFields.push(formFields)
+        for (let i in recordSelectData2) {
+          let obj = {
+            FIELD_NAME: i,
+            FIELD_VALUE: recordSelectData2[i],
+          };
+          cacheData2.policyFormFields.push(obj);
+        }
+        cacheData2.fieldGroupName = Columns.fieldGroupName;
+
+        let isIndex = Columns.rtLinks.includes(specificData.FIELD_NAME);
+        if (isIndex) {
+          this.props.dispatch({
+            type: 'tableTemplate/childUpdateFields',
+            payload: { params: { list: [cacheNumberData],MasterTable } },
+            callback: res => {
+              if (res.status == 'success') {
+                // this.specificData.inputNumberRef.onFocus()
+                // this.ref.current.props.autoFocus = true
+              }
+            },
+          });
+        }
+
+        // this.props.dispatch({
+        //   type: 'tableTemplate/childUpdateFields',
+        //   payload: { params: { list: [cacheData2],MasterTable } },
+        // });
         break;
       case 'DateInput':
         this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
@@ -134,7 +174,7 @@ export default class ChildTable extends React.Component {
         });
         let recordData = record;
         recordData[specificData.FIELD_NAME] = e;
-
+        
         let cacheNumberData = {};
         cacheNumberData.updatedField = specificData.FIELD_NAME;
         cacheNumberData.identifier =
@@ -150,11 +190,11 @@ export default class ChildTable extends React.Component {
           cacheNumberData.policyFormFields.push(obj);
         }
         cacheNumberData.fieldGroupName = Columns.fieldGroupName;
-        let isIndex = Columns.rtLinks.includes(specificData.FIELD_NAME);
-        if (isIndex) {
+        let isIndex2 = Columns.rtLinks.includes(specificData.FIELD_NAME);
+        if (isIndex2) {
           this.props.dispatch({
             type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheNumberData] } },
+            payload: { params: { list: [cacheNumberData],MasterTable } },
             callback: res => {
               if (res.status == 'success') {
                 // this.specificData.inputNumberRef.onFocus()
@@ -184,6 +224,7 @@ export default class ChildTable extends React.Component {
         });
         //select选择后进行rtlink功能
         let cacheData = {};
+        
         let recordSelectData = record;
         recordSelectData[specificData.FIELD_NAME] = e;
 
@@ -202,10 +243,24 @@ export default class ChildTable extends React.Component {
           cacheData.policyFormFields.push(obj);
         }
         cacheData.fieldGroupName = Columns.fieldGroupName;
-        this.props.dispatch({
-          type: 'tableTemplate/childUpdateFields',
-          payload: { params: { list: [cacheData] } },
-        });
+
+        let isIndex3 = Columns.rtLinks.includes(specificData.FIELD_NAME);
+        if (isIndex3) {
+          this.props.dispatch({
+            type: 'tableTemplate/childUpdateFields',
+            payload: { params: { list: [cacheNumberData],MasterTable } },
+            callback: res => {
+              if (res.status == 'success') {
+                // this.specificData.inputNumberRef.onFocus()
+                // this.ref.current.props.autoFocus = true
+              }
+            },
+          });
+        }
+        // this.props.dispatch({
+        //   type: 'tableTemplate/childUpdateFields',
+        //   payload: { params: { list: [cacheData],MasterTable } },
+        // });
 
         break;
     }
@@ -369,7 +424,9 @@ export default class ChildTable extends React.Component {
                                       specificData,
                                       'targetValue',
                                       childIndex,
-                                      index
+                                      index,
+                                      value.Columns, //表头数据
+                                      value
                                     )
                                   }
                                   disabled={
@@ -403,7 +460,9 @@ export default class ChildTable extends React.Component {
                                       specificData,
                                       'targetValue',
                                       childIndex,
-                                      index
+                                      index,
+                                      value.Columns, //表头数据
+                                      value
                                     )
                                   }
                                   disabled={
@@ -989,7 +1048,9 @@ export default class ChildTable extends React.Component {
                                   specificData,
                                   'targetValue',
                                   childIndex,
-                                  index
+                                  index,
+                                  value.Columns, //表头数据
+                                  value
                                 )
                               }
                               defaultValue={
@@ -1012,7 +1073,9 @@ export default class ChildTable extends React.Component {
                                   specificData,
                                   'targetValue',
                                   childIndex,
-                                  index
+                                  index,
+                                  value.Columns, //表头数据
+                                  value
                                 )
                               }
                               defaultValue={
