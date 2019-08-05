@@ -1,5 +1,6 @@
 import { Upload, Icon, Modal,message } from 'antd';
 import {onGetImageUrl} from '@/utils/FunctionSet';
+import _ from 'lodash'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -65,8 +66,13 @@ export default class ImageUpload extends React.Component {
      });
   }
 
+  onRemove=(file)=>{
+    console.log('删除',file)
+  }
+
   render() {
-    const { previewVisible, previewImage } = this.state;
+    const { previewVisible } = this.state;
+    const previewImage = _.get(this.state,'previewImage')
     // const fileList  = this.props.field.FIELD_VALUE
     const { fileList } = this.state
     const { apiUrl: _apiUrl } = window.config;
@@ -90,11 +96,12 @@ export default class ImageUpload extends React.Component {
           headers={{ sessionId: localStorage.getItem('sessionId') || '' }}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
+          onRemove={this.onRemove}
         >
           {this.props.disabled ? '' : uploadButton}
         </Upload>
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          <img alt={previewImage} style={{ width: '100%' }} src={previewImage} />
         </Modal>
       </div>
     );

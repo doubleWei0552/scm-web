@@ -12,15 +12,15 @@ export function onRegex(pattern,value){
 
 //获取图片的地址
 export function onGetImageUrl(value){
-    if(value.url){
-        if(!value.url.includes('http:')){
+    if(value.response ? value.response.data.url : value.url){
+        if(!(value.response ? value.response.data.url : value.url).includes('http:')){
             const { apiUrl: _apiUrl } = window.config;
             const origin = localStorage.getItem('origin') || '';
             const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
             let newUrl = apiUrl.split(':')
             return `${newUrl[0]}:${newUrl[1]}${value.url}`
         } else {
-            return value.url
+            return value.response ? value.response.data.url : value.url
         }
     }
 }
