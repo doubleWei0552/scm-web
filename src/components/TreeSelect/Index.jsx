@@ -20,9 +20,12 @@ export default class TreeSelectCom extends React.Component{
                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                 treeData={this.props.treeData}
                 placeholder="请选择数据"
+                treeNodeFilterProp={'title'}
                 showCheckedStrategy={this.props.showCheckedStrategy}
                 treeCheckable={this.props.treeCheckable}
-                // treeDefaultExpandAll
+                treeDefaultExpandAll
+                filterTreeNode={this.props.filterTreeNode}
+                showSearch={this.props.showSearch}
                 disabled={this.props.disabled}
                 onChange={this.props.onChange}
             />

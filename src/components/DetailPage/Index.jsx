@@ -753,7 +753,13 @@ class DetailPage extends PureComponent {
                                       defaultData={field.FIELD_VALUE}
                                       treeData={field.children}
                                       treeCheckable={true}
+                                      showSearch={true}
+                                      treeDefaultExpandAll
                                       showCheckedStrategy={SHOW_PARENT}
+                                      filterTreeNode={(inputValue, treeNode) =>{
+                                        _.includes(treeNode.props.children, inputValue)
+                                      }
+                                      }
                                       onChange={e => this.onTreeSelector(e, field)}
                                       style={{ width: '200px' }}
                                       disabled={
