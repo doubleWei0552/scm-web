@@ -248,7 +248,7 @@ export default class ChildTable extends React.Component {
         if (isIndex3) {
           this.props.dispatch({
             type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheNumberData],MasterTable } },
+            payload: { params: { list: [cacheData],MasterTable } },
             callback: res => {
               if (res.status == 'success') {
                 // this.specificData.inputNumberRef.onFocus()
