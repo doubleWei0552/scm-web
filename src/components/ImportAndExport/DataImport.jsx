@@ -124,9 +124,9 @@ export default class Import extends React.Component {
                 <Step title="上传Excel" description={this.StepDom('upload')} />
               </Steps>
             </TabPane>
-            <TabPane disabled tab="导入历史" key="2">
+            {/* <TabPane disabled tab="导入历史" key="2">
               你瞅啥，还没做！
-                        </TabPane>
+                </TabPane> */}
           </Tabs>
         </Modal>
       </div>

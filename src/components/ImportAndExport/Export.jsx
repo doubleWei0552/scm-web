@@ -89,9 +89,9 @@ export default class Export extends React.Component {
                                 <Step title="开始导出" description={this.StepDom('expertButton')} />
                             </Steps>
                         </TabPane>
-                        <TabPane disabled tab="导出历史" key="2">
+                        {/* <TabPane disabled tab="导出历史" key="2">
                             你瞅啥，还没做！
-                        </TabPane>
+                        </TabPane> */}
                     </Tabs>
                 </Modal>
             </div>
