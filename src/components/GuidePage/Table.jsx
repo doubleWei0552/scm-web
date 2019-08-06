@@ -183,7 +183,7 @@ export default class TableModulars extends React.Component{
                                     {getFieldDecorator(`${value.FIELD_NAME}`, {})(
                                         <Select
                                                 placeholder={`请选择${value.LABEL}`}
-                                                disabled={value.READ_ONLY_CONDITION}
+                                                // disabled={value.READ_ONLY_CONDITION}
                                                 style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
                                             >
                                                 {value.options.length && value.options.length > 0
@@ -214,7 +214,7 @@ export default class TableModulars extends React.Component{
                                 style={{ marginRight: 0 }}
                             >
                                 {getFieldDecorator(`${value.FIELD_NAME}`, {})(
-                                    <RangePicker showTime={{ format: 'HH:mm' }}disabled={value.READ_ONLY_CONDITION} format="YYYY-MM-DD HH:mm"
+                                    <RangePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm"
                                     style={{width:'195px'}}
                                     />
                                 )}
@@ -232,7 +232,7 @@ export default class TableModulars extends React.Component{
                             >
                                 {getFieldDecorator(`${value.FIELD_NAME}`, {})(
                                     <DatePicker placeholder={`请选择${value.LABEL}`} 
-                                    style={{width:'195px'}} disabled={value.READ_ONLY_CONDITION}
+                                    style={{width:'195px'}} 
                                     format="YYYY-MM-DD" showTime={{ format: 'YYYY/MM/DD' }} 
                                     />
                                 )}
@@ -252,7 +252,6 @@ export default class TableModulars extends React.Component{
                                 initialValue: '',
                                 })(
                                     <Input
-                                        disabled={value.READ_ONLY_CONDITION}
                                         placeholder={`请输入${value.LABEL}`}
                                         style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
                                     />
@@ -270,7 +269,6 @@ export default class TableModulars extends React.Component{
                             >
                                 {getFieldDecorator(`${value.FIELD_NAME}`, {})(
                                     <Input
-                                        disabled={value.READ_ONLY_CONDITION}
                                         type="number"
                                         placeholder={`请输入${value.LABEL}`}
                                         style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
