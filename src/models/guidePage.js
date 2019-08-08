@@ -74,6 +74,7 @@ export default {
     },
     //获取导向页table类型的数据
     *getButtonGuideData({ payload }, { call, put, select }) {
+      console.log('获取数据',payload)
       let { OBJECT_TYPE, RELATED_FIELD_GROUP, METHOD_BODY } = payload.params;
       let { pageNum, pageSize, searchData,id } = payload;
       let formData = yield select(({guidePage})=>guidePage.sendGuideData)
@@ -87,6 +88,7 @@ export default {
         ...searchData,
         formData
       };
+      console.log('params',params)
       const result = yield call(queryButtonGuideData, params);
       if (result.status == 'success') {
         yield put({ type: 'save', payload: { guidePageData: result.data }});

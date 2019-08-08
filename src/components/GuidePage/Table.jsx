@@ -84,8 +84,7 @@ export default class TableModulars extends React.Component{
       }
 
     onShowSizeChange = (current, pageSize) => {
-        console.log('子组件改变')
-        let params = this.props.CurrentData
+        let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
         this.props.dispatch({
           type: 'guidePage/getButtonGuideData',
           payload: {  pageNum:current, pageSize,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
@@ -97,9 +96,8 @@ export default class TableModulars extends React.Component{
       };
 
     onPageChange = (page, pageSize) => {
-        console.log('页数改变')
         let current = page;
-        let params = this.props.CurrentData
+        let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
         this.props.dispatch({
           type: 'guidePage/getButtonGuideData',
           payload: { pageNum:current, pageSize,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
@@ -500,8 +498,8 @@ export default class TableModulars extends React.Component{
                         current: _.get(this.props.guidePage,'guidePageData.currentPage'),
                         pageSize: _.get(this.props.guidePage,'guidePageData.pageSize'),
                         pageSizeOptions: ['10', '20', '30', '50', '100'],
-                        onShowSizeChange: ()=>this.onShowSizeChange(),
-                        onChange: ()=>this.onPageChange(),
+                        onShowSizeChange: (current, pageSize)=>this.onShowSizeChange(current, pageSize),
+                        onChange: (page, pageSize)=>this.onPageChange(page, pageSize),
                         showTotal: total => `共${this.props.guidePage.guidePageData.totalRecord}条数据`,
                     }}
                     />
