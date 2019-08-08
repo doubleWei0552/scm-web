@@ -84,6 +84,7 @@ export default class TableModulars extends React.Component{
       }
 
     onShowSizeChange = (current, pageSize) => {
+        console.log('子组件改变')
         let params = this.props.CurrentData
         this.props.dispatch({
           type: 'guidePage/getButtonGuideData',
@@ -96,6 +97,7 @@ export default class TableModulars extends React.Component{
       };
 
     onPageChange = (page, pageSize) => {
+        console.log('页数改变')
         let current = page;
         let params = this.props.CurrentData
         this.props.dispatch({
@@ -142,7 +144,11 @@ export default class TableModulars extends React.Component{
       };
 
     componentWillUnmount=()=>{
+        let {isEdit,selectDate} = this.props.tableTemplate
         let relatedFieldGroup = this.props.guidePage.guidePageColumns.relatedFieldGroup
+        this.state.selectedRow.map(item=>{
+            item.tablePageId = isEdit ? selectDate.ID : null
+        })
         this.props.dispatch({
             type:'guidePage/getSaveData',
             payload:{relatedFieldGroup:relatedFieldGroup,data:this.state.selectedRow}
@@ -433,7 +439,7 @@ export default class TableModulars extends React.Component{
                             style={{ minWidth: '150px' }}
                             format={item.WIDGET_TYPE == 'Date' ? 'YYYY/MM/DD' : 'YYYY-MM-DD HH:mm:ss'}
                             onChange={(e)=>this.onTableChange(
-                                e.valueOf(),
+                                e,
                                 item.FIELD_NAME,
                                 tableIndex,
                                 index)}
@@ -494,8 +500,8 @@ export default class TableModulars extends React.Component{
                         current: _.get(this.props.guidePage,'guidePageData.currentPage'),
                         pageSize: _.get(this.props.guidePage,'guidePageData.pageSize'),
                         pageSizeOptions: ['10', '20', '30', '50', '100'],
-                        onShowSizeChange: this.onShowSizeChange,
-                        onChange: this.onPageChange,
+                        onShowSizeChange: ()=>this.onShowSizeChange(),
+                        onChange: ()=>this.onPageChange(),
                         showTotal: total => `共${this.props.guidePage.guidePageData.totalRecord}条数据`,
                     }}
                     />

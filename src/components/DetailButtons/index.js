@@ -162,6 +162,10 @@ class DetailButtons extends PureComponent {
   detailCreate = () => {
     this.props.detailForm.resetFields(); // 待测
     this.props.dispatch({ type: 'tableTemplate/changeState', payload: { ChildData: [], fileList: [] } })
+    this.props.dispatch({
+      type: 'tableTemplate/changeState',
+      payload: { isEditSave: true, buttonType: false, disEditStyle: false }
+    })
     // 用于获取最新的组件的管控状态
     this.props.dispatch({
       type: 'tableTemplate/getDetailPage',
@@ -170,11 +174,6 @@ class DetailButtons extends PureComponent {
         pageId: this.props.tableTemplate.pageId,
       },
     });
-
-    this.props.dispatch({
-      type: 'tableTemplate/changeState',
-      payload: { isEditSave: true, buttonType: false, disEditStyle: false }
-    })
   };
 
   // 编辑

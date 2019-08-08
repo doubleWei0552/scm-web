@@ -333,18 +333,18 @@ export default {
         const result = yield call(queryDetailSave, params);
         if (callback) callback(result);
         if (result.status == 'success') {
-          if (result.message) {
-            notification.success({ message: result.message, duration: 3 });
-          }
-          yield put({
-            type: 'save',
-            payload: { selectDate: result.data, objectType: result.data.ObjectType,isNewSave:false,isEditSave:false },
-          });
           yield put({ type: 'getPagelist', payload: { pageId } });
           yield put({
             type: 'getDetailPage',
             payload: { ID: result.data.ID, pageId, ObjectType: result.data.ObjectType },
           });
+          yield put({
+            type: 'save',
+            payload: { selectDate: result.data, objectType: result.data.ObjectType,isNewSave:false,isEditSave:false },
+          });
+          if (result.message) {
+            notification.success({ message: result.message, duration: 3 });
+          }
         } else {
           notification.error({ message: result.message, duration: 3 });
         }
@@ -353,6 +353,7 @@ export default {
           payload: { ID: result.data.ID, objectType: result.data.ObjectType },
         });
       }
+      yield put({type:'save'})
     },
 
     // 删除数据方法

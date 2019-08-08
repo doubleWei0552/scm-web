@@ -8,10 +8,10 @@ export default class NormalUpload extends React.Component {
   }
   handleChange = ({ fileList }) => {
     let result = fileList[0].response
-    if(result && result !== 'success'){
+    if(result && result.status == 'fail'){
       this.props.updateData()
       notification.error({ message: result.message, duration: 3 });
-    } else if(result && result == 'success'){
+    } else if(result && result.status == 'success'){
       notification.success({ message: result.message, duration: 3 });
       this.props.cancleModal() //关闭modal框
       this.props.updateData()  //更新数据
