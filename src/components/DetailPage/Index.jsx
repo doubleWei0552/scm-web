@@ -186,7 +186,6 @@ class DetailPage extends PureComponent {
   };
 
   render() {
-    console.log('列表主表',this.props)
     const { SHOW_PARENT } = TreeSelectCom
     const { tableTemplate } = this.props;
     const { getFieldDecorator } = this.props.form;
