@@ -20,7 +20,7 @@ export default class ResultModular extends React.Component{
                     <Result
                         status={status == 'fail' ? 'error' : status}
                         title={message}
-                        subTitle={debugInfo}
+                        // subTitle={debugInfo}
                     />
                 </Spin>
             </div>

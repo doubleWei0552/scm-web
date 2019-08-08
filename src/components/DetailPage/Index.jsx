@@ -50,7 +50,8 @@ class DetailPage extends PureComponent {
     readOnlyFields: [],
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+  }
 
   componentWillReceiveProps() {}
 
@@ -185,6 +186,7 @@ class DetailPage extends PureComponent {
   };
 
   render() {
+    console.log('列表主表',this.props)
     const { SHOW_PARENT } = TreeSelectCom
     const { tableTemplate } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -316,7 +318,7 @@ class DetailPage extends PureComponent {
                                     style={{ width: '100%' }}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
-                                      initialValue: _.get(field, 'FIELD_VALUE') || '',
+                                      initialValue: field.FIELD_VALUE || '',
                                       rules: [
                                         {
                                           required: field.REQUIRED_CONDITION,
