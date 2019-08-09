@@ -85,14 +85,7 @@ export default class MultiTableTemplate extends React.Component {
     this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId: +pageId } });
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
-      payload: { pageId, current: 1, pageSize: 10 },
-      callback:res =>{
-        if(result.status != 'success'){
-          this.setState({
-            isError:true
-          })
-        }
-      }
+      payload: { pageId, current: 1, pageSize: 10 }
     });
   };
   componentDidMount = () => {
@@ -125,6 +118,22 @@ export default class MultiTableTemplate extends React.Component {
       })
     }
   };
+
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'tableTemplate/changeState',
+      payload: {
+        isEdit: false,
+        buttonType: false,
+        isNewSave: false,
+        disEditStyle: true,
+        searchParams: {},
+        selectedRowKeys: [],
+        defaultActiveKey: '0',
+        reportFormURL: null
+      }
+    })
+  }
 
   render() {
     //列表页表头数据处理

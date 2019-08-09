@@ -727,7 +727,6 @@ class DetailPage extends PureComponent {
                                 </Col>
                               );
                             case 'TreeSelector':
-                              // console.log('树状选择',field)
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   {
@@ -763,7 +762,7 @@ class DetailPage extends PureComponent {
                                       }
                                       }
                                       onChange={e => this.onTreeSelector(e, field)}
-                                      style={{ width: '200px' }}
+                                      // style={{ width: '200px' }}
                                       disabled={
                                         this.props.disabled ? true : item.READ_ONLY_CONDITION
                                       }
@@ -793,7 +792,7 @@ class DetailPage extends PureComponent {
                                         defaultData={field.FIELD_VALUE}
                                         treeData={field.children}
                                         onChange={e => this.onTreeSelector(e, field)}
-                                        style={{ width: '200px' }}
+                                        style={{ width: '100%' }}
                                         treeDefaultExpandAll
                                         showCheckedStrategy={SHOW_PARENT}
                                         filterTreeNode={(inputValue, treeNode) =>{

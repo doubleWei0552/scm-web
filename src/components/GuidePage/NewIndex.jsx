@@ -61,27 +61,32 @@ export default class NewGuidePage extends React.Component {
   }
 
   submit =()=>{
-    let ButtonName = this.props.tableButton.FIELD_NAME
-    const current = this.state.current + 1;
-    this.setState({ current });
-    setTimeout(()=>{this.props.dispatch({
-        type: 'guidePage/TransactionProcess',
-        payload:{
-            params:{
-                ButtonName,
-                AllData:this.props.guidePage.sendGuideData
+    console.log('table页',this.childTable,this.childTable.state)
+    if(this.childTable.state.selectedRow.length > 0){
+      let ButtonName = this.props.tableButton.FIELD_NAME
+      const current = this.state.current + 1;
+      this.setState({ current });
+      setTimeout(()=>{this.props.dispatch({
+          type: 'guidePage/TransactionProcess',
+          payload:{
+              params:{
+                  ButtonName,
+                  AllData:this.props.guidePage.sendGuideData
+              }
+          },callback:res=>{
+            if (res.status == 'success') {
+              this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
+              this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
+                ID:this.props.tableTemplate.selectDate.ID,
+                ObjectType:this.props.tableTemplate.detailColumns.objectType,
+                pageId:this.props.tableTemplate.pageId,
+              }})
             }
-        },callback:res=>{
-          if (res.status == 'success') {
-            this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
-            this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
-              ID:this.props.tableTemplate.selectDate.ID,
-              ObjectType:this.props.tableTemplate.detailColumns.objectType,
-              pageId:this.props.tableTemplate.pageId,
-            }})
           }
-        }
-    })},1000)
+      })},1000)
+    } else {
+      notification.warning({ message: '未勾选数据，请选择你要提交的数据！', duration: 3 });
+    }
   }
 
   renderContent =(value)=>{
@@ -95,7 +100,7 @@ export default class NewGuidePage extends React.Component {
         break
         case "EditDetail":  //table类型的页面
             return <div>
-                <TableCom store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
+                <TableCom onRef={dom=> this.childTable =dom} store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
                 tableTemplate={this.props.tableTemplate} current={this.state.current} closeSpin={this.closeSpin}
                 />
             </div>

@@ -17,7 +17,7 @@ const Option = Select.Option
 export default class Import extends React.Component {
   state = {
     visible: true,
-    current: 0,
+    current: 1,
     ImportType: '',  //导入类型的值
   }
   showModal = () => {
@@ -66,9 +66,9 @@ export default class Import extends React.Component {
       case 'importModel':
         return (
           <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
-            <Select disabled={this.state.current >= 0 ? false : true} onChange={(i) => this.onChange(1, i)} placeholder='请选择导入模式' style={{ width: '100%' }} >
+            <Select value={'add'} disabled={this.state.current >= 0 ? false : true} onChange={(i) => this.onChange(1, i)} placeholder='请选择导入模式' style={{ width: '100%' }} >
               <Option value="add">新增数据</Option>
-              <Option value="update">更新数据</Option>
+              {/* <Option value="update">更新数据</Option> */}
             </Select>
           </div>
         )

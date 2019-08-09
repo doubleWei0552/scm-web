@@ -17,7 +17,7 @@ export default class TreeSelectCom extends React.Component{
             <TreeSelect
                 style={{width:'100%'}}
                 value={this.props.value}
-                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                dropdownStyle={{ maxHeight: 400, overflow: 'hidden' }}
                 treeData={this.props.treeData}
                 placeholder="请选择数据"
                 treeNodeFilterProp={'title'}
