@@ -80,6 +80,7 @@ export default class TableModulars extends React.Component{
     }
 
     componentDidMount =()=>{
+        this.props.onRef(this)
         this.props.closeSpin()
       }
 

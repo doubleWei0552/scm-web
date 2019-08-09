@@ -12,8 +12,6 @@ import { connect } from 'dva';
 export default class TemplatePage extends React.Component {
   render() {
     const pageId = this.props.location.query.PageId;
-    return <CatchError>
-      <MultiTableTemplate key={pageId} {...this.props} />;
-    </CatchError>
+    return <MultiTableTemplate key={pageId} {...this.props} />
   }
 }
