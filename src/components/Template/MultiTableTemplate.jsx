@@ -40,8 +40,6 @@ let editAndDeleteButton = {
   EDIT: {},
 };
 
-
-
 @Form.create()
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
@@ -79,6 +77,8 @@ export default class MultiTableTemplate extends React.Component {
     loading: true, // 子表loding
     childChanged: [], //子表修改的数据，待发送到后台
     searchParams: {}, //列表页搜索栏的参数
+
+    isError:false, //获取值得时候是否出错
   };
   componentWillMount = () => {
     const pageId = this.props.location.query.PageId;
@@ -86,6 +86,13 @@ export default class MultiTableTemplate extends React.Component {
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
       payload: { pageId, current: 1, pageSize: 10 },
+      callback:res =>{
+        if(result.status != 'success'){
+          this.setState({
+            isError:true
+          })
+        }
+      }
     });
   };
   componentDidMount = () => {

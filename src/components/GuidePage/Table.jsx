@@ -108,6 +108,17 @@ export default class TableModulars extends React.Component{
         })
       };
     onSelectChange = (selectedRowKeys,selectedRow) => {
+        selectedRow.map(item => {
+            for(let i in item){
+                if(typeof(item[i]) == 'string'){
+                    let isNum = /^\d+$/.test(item[i])
+                    let test =new Date(item[i]).toString()
+                    if( test !== 'Invalid Date' && !isNum){
+                        item[i] = moment(item[i]).valueOf()
+                    }
+                }
+            }
+        })
         this.setState({ selectedRowKeys,selectedRow })
     }
     //table数据改变
@@ -484,7 +495,6 @@ export default class TableModulars extends React.Component{
           };
         return(
             <div>
-                {/* <Spin spinning={this.props.loadingG || false}> */}
                 {<div style={{marginBottom:'5px'}}>{this.renderSearchForm(_.get(this.props.guidePage.guidePageColumns,'policyFormFields',[]))}</div>}
                 <LocaleProvider locale={zhCN}>
                     <Table style={{ whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',}}
@@ -504,7 +514,6 @@ export default class TableModulars extends React.Component{
                     }}
                     />
                 </LocaleProvider>
-                {/* </Spin> */}
             </div>
         )
     }
