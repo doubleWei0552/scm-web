@@ -484,7 +484,7 @@ export default class TableModulars extends React.Component{
           };
         return(
             <div>
-                <Spin spinning={this.props.loadingG || false}>
+                {/* <Spin spinning={this.props.loadingG || false}> */}
                 {<div style={{marginBottom:'5px'}}>{this.renderSearchForm(_.get(this.props.guidePage.guidePageColumns,'policyFormFields',[]))}</div>}
                 <LocaleProvider locale={zhCN}>
                     <Table style={{ whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',}}
@@ -504,7 +504,7 @@ export default class TableModulars extends React.Component{
                     }}
                     />
                 </LocaleProvider>
-                </Spin>
+                {/* </Spin> */}
             </div>
         )
     }

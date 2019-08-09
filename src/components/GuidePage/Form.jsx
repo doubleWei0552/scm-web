@@ -110,6 +110,23 @@ disabledEndDate = (endValue,e) => {
     })
   }
 
+  validateToNextPassword = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
+};
+
+compareToFirstPassword = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && value !== form.getFieldValue('PASSWORD')) {
+      callback('请确保两次密码相同!');
+    } else {
+      callback();
+    }
+};
+
 
   render() {
     const { getFieldDecorator } = this.props.form
@@ -167,6 +184,52 @@ disabledEndDate = (endValue,e) => {
                           </Col>
                         );
                         break;
+                        case 'Password':
+                           return [1,2].map((item,index)=>{
+                            if(item == 1){
+                              return (
+                                <Col span={10} offset={1} key={values.SEQUENCE + values.NAME}>
+                                <Form.Item label="密码" 
+                                style={{ width: '100%' }}
+                                {...formItemLayout} hasFeedback>
+                                    {getFieldDecorator(`${values.FIELD_NAME}`, {
+                                        rules: [
+                                        {
+                                            required: values.REQUIRED_CONDITION,
+                                            message: '请输入您的密码!',
+                                        },
+                                        {
+                                            validator: this.validateToNextPassword,
+                                        },
+                                        ],
+                                    })(<Input.Password />)}
+                                    </Form.Item>
+                                </Col>
+                            ) ;   
+                            } else if(item == 2){
+                              return (
+                                <Col span={10} offset={1} key={values.SEQUENCE + values.NAME}>
+                                
+                                    <Form.Item label="确定密码" 
+                                    style={{ width: '100%' }}
+                                    {...formItemLayout} hasFeedback>
+                                    {getFieldDecorator(`confirm${values.FIELD_NAME}`, {
+                                        rules: [
+                                        {
+                                            required: values.REQUIRED_CONDITION,
+                                            message: '请确定您的密码!',
+                                        },
+                                        {
+                                            validator: this.compareToFirstPassword,
+                                        },
+                                        ],
+                                    })(<Input.Password />)}
+                                </Form.Item>
+                                </Col>
+                            ) ;   
+                            }
+                          })
+                          break;
                       case 'Select':
                       case 'Reference':
                       case 'ObjectSelector':
