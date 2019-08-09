@@ -96,10 +96,11 @@ export default {
       });
     },
     // 获取列表页表头数据
-    *getSummaryPageConfig({ payload }, { put, call, select }) {
+    *getSummaryPageConfig({ payload,callback }, { put, call, select }) {
       const pageId = yield select(({ tableTemplate }) => tableTemplate.pageId);
       const params = { pageId };
       const result = yield call(querySummaryPageConfig, params);
+      if(callback) callback (result)
       if (result.status == 'success') {
         yield put({
           type: 'save',
@@ -129,10 +130,11 @@ export default {
       if (callback) callback(result);
     },
     // 获取详情页表头
-    *getDetailPageConfig({ payload }, { call, select, put }) {
+    *getDetailPageConfig({ payload,callback }, { call, select, put }) {
       const pageId = yield select(({ tableTemplate }) => tableTemplate.pageId);
       const params = { pageId };
       const result = yield call(queryDetailPageConfig, params);
+      if(callback) callback (result)
       if (result.status == 'success') {
         yield put({
           type: 'save',
@@ -505,7 +507,7 @@ export default {
       }
     },
     // 分页 （列表页获取数据）
-    *getPagination({ payload }, { select, call, put }) {
+    *getPagination({ payload,callback }, { select, call, put }) {
       const { pageId, searchParams = {},pageSize, summarySort, sorterData } = payload;
       const pageNum = payload.current;
       const params = {
@@ -517,6 +519,7 @@ export default {
         ...searchParams,
       };
       const result = yield call(queryPagination, params);
+      if(callback) callback (result)
       if (result.status == 'success') {
         yield put({ type: 'save', payload: { pagination: result.data } });
       } else {

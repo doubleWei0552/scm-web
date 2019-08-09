@@ -24,6 +24,9 @@ export default class CatchError extends React.Component{
                         </span>
                         {this.state.error.toString()}
                     </p>
+                    <p>
+                        请刷新页面重试！！
+                    </p>
                 </div>
                 
             )
