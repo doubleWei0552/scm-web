@@ -109,17 +109,6 @@ export default class TableModulars extends React.Component{
         })
       };
     onSelectChange = (selectedRowKeys,selectedRow) => {
-        selectedRow.map(item => {
-            for(let i in item){
-                if(typeof(item[i]) == 'string'){
-                    let isNum = /^\d+$/.test(item[i])
-                    let test =new Date(item[i]).toString()
-                    if( test !== 'Invalid Date' && !isNum){
-                        item[i] = moment(item[i]).valueOf()
-                    }
-                }
-            }
-        })
         this.setState({ selectedRowKeys,selectedRow })
     }
     //table数据改变
@@ -158,6 +147,13 @@ export default class TableModulars extends React.Component{
         let relatedFieldGroup = this.props.guidePage.guidePageColumns.relatedFieldGroup
         this.state.selectedRow.map(item=>{
             item.tablePageId = isEdit ? selectDate.ID : null
+            for(let i in item){ //对时间格式进行转换
+                if(typeof(item[i]) == 'string'){
+                    if(isNaN(item[i])&&!isNaN(Date.parse(item[i]))){
+                        item[i] = moment(item[i]).valueOf()
+                    } 
+                }
+            }
         })
         this.props.dispatch({
             type:'guidePage/getSaveData',
