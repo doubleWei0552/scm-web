@@ -445,7 +445,7 @@ export default class TableModulars extends React.Component{
                             style={{ minWidth: '150px' }}
                             format={item.WIDGET_TYPE == 'Date' ? 'YYYY/MM/DD' : 'YYYY-MM-DD HH:mm:ss'}
                             onChange={(e)=>this.onTableChange(
-                                e,
+                                e.valueOf(),
                                 item.FIELD_NAME,
                                 tableIndex,
                                 index)}

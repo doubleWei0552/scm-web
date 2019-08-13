@@ -61,8 +61,33 @@ export default class NewGuidePage extends React.Component {
   }
 
   submit =()=>{
-    console.log('table页',this.childTable,this.childTable.state)
-    if(this.childTable.state.selectedRow.length > 0){
+    if(this.childTable){
+      if(this.childTable.state.selectedRow.length > 0){
+        let ButtonName = this.props.tableButton.FIELD_NAME
+        const current = this.state.current + 1;
+        this.setState({ current });
+        setTimeout(()=>{this.props.dispatch({
+            type: 'guidePage/TransactionProcess',
+            payload:{
+                params:{
+                    ButtonName,
+                    AllData:this.props.guidePage.sendGuideData
+                }
+            },callback:res=>{
+              if (res.status == 'success') {
+                this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
+                this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
+                  ID:this.props.tableTemplate.selectDate.ID,
+                  ObjectType:this.props.tableTemplate.detailColumns.objectType,
+                  pageId:this.props.tableTemplate.pageId,
+                }})
+              }
+            }
+        })},1000)
+      } else {
+        notification.warning({ message: '未勾选数据，请选择你要提交的数据！', duration: 3 });
+      }
+    } else {
       let ButtonName = this.props.tableButton.FIELD_NAME
       const current = this.state.current + 1;
       this.setState({ current });
@@ -84,8 +109,6 @@ export default class NewGuidePage extends React.Component {
             }
           }
       })},1000)
-    } else {
-      notification.warning({ message: '未勾选数据，请选择你要提交的数据！', duration: 3 });
     }
   }
 

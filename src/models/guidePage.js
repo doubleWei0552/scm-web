@@ -124,6 +124,11 @@ export default {
     *TransactionProcess({ payload, callback }, { call, select, put }) {
       let { params } = payload;
       let result = yield call(queryTransactionProcessTest, params);
+      if(result.executeScript){
+        yield put({type:'tableTemplate/save',payload:{
+          reportFormURL:result.executeScript
+        }})
+      }
       if (callback) callback(result);
       yield put({ type: 'save', payload: { resultPageData: result } });
     },
