@@ -166,7 +166,7 @@ compareToFirstPassword = (rule, value, callback) => {
                               style={{ width: '100%' }}
                             >
                               {getFieldDecorator(`${values.FIELD_NAME}`, {
-                                initialValue: values.DISPLAY_NAME,
+                                initialValue: values.FIELD_VALUE,
                                 rules: [
                                   {
                                     required: values.REQUIRED_CONDITION,
@@ -368,8 +368,8 @@ compareToFirstPassword = (rule, value, callback) => {
                               style={{ width: '100%' }}
                               {...formItemLayout}
                             >
-                              {getFieldDecorator(`${values.DISPLAY_NAME}`, {
-                                initialValue: values.DISPLAY_NAME,
+                              {getFieldDecorator(`${values.FIELD_NAME}`, {
+                                initialValue: values.FIELD_VALUE,
                                 rules: [
                                   {
                                     required: values.REQUIRED_CONDITION,
@@ -400,7 +400,7 @@ compareToFirstPassword = (rule, value, callback) => {
                                   style={{ width: '100%' }}
                                   disabled={values.READ_ONLY_CONDITION}
                                   placeholder={`请录入${values.LABEL}`}
-                                  defaultValue={values.DISPLAY_NAME}
+                                  defaultValue={values.FIELD_VALUE}
                                 />
                               </div>
                             </Form.Item>

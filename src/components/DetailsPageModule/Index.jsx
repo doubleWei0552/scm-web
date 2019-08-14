@@ -88,7 +88,7 @@ export default class DetailsPageModule extends React.Component {
               }}
             >
               <div style={{ marginTop: '5px' }}>
-                <ChildTable getMasterTable={this.getMasterTable} />
+                <ChildTable getMasterTable={(value)=>this.getMasterTable(value)} />
               </div>
             </Card>
           </div>

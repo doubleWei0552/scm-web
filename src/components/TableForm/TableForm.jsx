@@ -39,6 +39,13 @@ export default class TableForm extends React.Component {
   };
   // modal组件
   showModal = () => {
+    //获取主表的最新数据
+    let MainTableData = this.props.getMasterTable()
+    console.log('获取到的主表数据',MainTableData)
+    this.props.dispatch({
+      type: 'tableTemplate/getMainTableData',
+      payload: { MainTableData },
+    });
     this.setState({
       visible: true,
     });

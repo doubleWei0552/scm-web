@@ -33,6 +33,7 @@ export default {
     tableData: [], // 列表页数据
     detailColumns: [], // 详情页表头
     detailData: [], // 详情页数据
+    MainTableData:[], //主表最新的数据（用于子表的rtlink联动）
     DetailChildData: {}, // 子表数据
     initDetailChildData: {}, // 刚进入详情页面时的子表数据
     initPolicyFormFields: [], // 刚进入详情页时的主表数据
@@ -672,6 +673,13 @@ export default {
       if (result.status === 'success' && result.data[0].fieldChanges.length && callback) {
         callback(result.data[0].fieldChanges);
       }
+    },
+    //用于获取主表最新的值
+    *getMainTableData({payload,callback},{select,put,call}){
+        console.log('主表数据',payload)
+        yield put({type:'save',payload:{
+          MainTableData:payload
+        }})
     },
     // 子表的rtlink功能
     *childUpdateFields({ payload, callback }, { select, put, call }) {
