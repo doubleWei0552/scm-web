@@ -112,7 +112,14 @@ export default class TableModulars extends React.Component{
         this.setState({ selectedRowKeys,selectedRow })
     }
     //table数据改变
-    onTableChange=(e,FIELD_NAME,tableIndex,index)=>{
+    onTableChange=(e,FIELD_NAME,tableIndex,index,rowData)=>{
+        let {selectedRowKeys,selectedRow} = this.state
+        let idx = _.findIndex(selectedRowKeys,item => item == rowData.ID)
+        if(idx < 0 || selectedRowKeys.length == 0){
+            selectedRowKeys.push(rowData.ID)
+            selectedRow.push(rowData)
+            this.onSelectChange(selectedRowKeys,selectedRow)
+        }
         let tableData = this.props.guidePage.guidePageData
         tableData.list[tableIndex][FIELD_NAME] = e
         this.props.dispatch({type:'guidePage/save',payload:{guidePageData:tableData}})
@@ -313,6 +320,16 @@ export default class TableModulars extends React.Component{
     render(){
         const { TextArea } = Input;
         let columns = [] 
+        const { selectedRowKeys,selectedRow } = this.state;
+        const rowSelection = {
+            selectedRowKeys,
+            selectedRow,
+            onChange: this.onSelectChange,
+            getCheckboxProps: record => ({
+              disabled: record.name === 'Disabled User',
+              name: record.name,
+            }),
+          };
         const { getFieldDecorator } = this.props.form;
         let data =  _.get(this.props.guidePage.guidePageData,'list',[]) 
         let guidePageColumns = _.get(this.props.guidePage.guidePageColumns,'policyFormFields',[]).map((item,index)=>{
@@ -378,7 +395,8 @@ export default class TableModulars extends React.Component{
                                 e.target.value,
                                 item.FIELD_NAME,
                                 tableIndex,
-                                index)}
+                                index,
+                                record)}
                             disabled={item.READ_ONLY_CONDITION}
                             defaultValue={text} />
                         }
@@ -399,7 +417,8 @@ export default class TableModulars extends React.Component{
                                 e.target.value,
                                 item.FIELD_NAME,
                                 tableIndex,
-                                index)} defaultValue={text} />
+                                index,
+                                record)} defaultValue={text} />
                         }
                     }
                     columns.push(TextObj)
@@ -414,11 +433,13 @@ export default class TableModulars extends React.Component{
                         dataIndex:item.FIELD_NAME,
                         key:item.FIELD_NAME + item.SEQUENCE,
                         render:(text, record, tableIndex)=>{
-                            return <Select style={{ minWidth: '150px' }} disabled={item.READ_ONLY_CONDITION} defaultValue={text} onChange={(e)=>this.onTableChange(
+                            return <Select style={{ minWidth: '150px' }} disabled={item.READ_ONLY_CONDITION} defaultValue={text} 
+                            onChange={(e)=>this.onTableChange(
                                 e,
                                 item.FIELD_NAME,
                                 tableIndex,
-                                index)}>
+                                index,
+                                record)}>
                                 {_.map(item.options, (v, i) => {
                                       return (
                                         <Select.Option value={v.value} key={v.value}>
@@ -448,7 +469,8 @@ export default class TableModulars extends React.Component{
                                 e.valueOf(),
                                 item.FIELD_NAME,
                                 tableIndex,
-                                index)}
+                                index,
+                                record)}
                             defaultValue={text ? moment(text) : null} />
                         }
                     }
@@ -468,7 +490,8 @@ export default class TableModulars extends React.Component{
                                 e.target.value,
                                 item.FIELD_NAME,
                                 tableIndex,
-                                index)}
+                                index,
+                                record)}
                             defaultValue={text} />
                         }
                     }
@@ -480,16 +503,6 @@ export default class TableModulars extends React.Component{
             }
             
         })
-        const { selectedRowKeys,selectedRow } = this.state;
-        const rowSelection = {
-            selectedRowKeys,
-            selectedRow,
-            onChange: this.onSelectChange,
-            getCheckboxProps: record => ({
-              disabled: record.name === 'Disabled User',
-              name: record.name,
-            }),
-          };
         return(
             <div>
                 {<div style={{marginBottom:'5px'}}>{this.renderSearchForm(_.get(this.props.guidePage.guidePageColumns,'policyFormFields',[]))}</div>}

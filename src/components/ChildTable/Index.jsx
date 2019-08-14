@@ -1112,7 +1112,7 @@ export default class ChildTable extends React.Component {
             return (
               <TabPane tab={_.get(value, 'Columns.title')} key={index}>
                 <div>
-                  <NTableForm getMasterTable={this.props.getMasterTable} {...TableForm} />
+                  <NTableForm getMasterTable={(value)=>this.props.getMasterTable(value)} {...TableForm} />
                 </div>
               </TabPane>
             );
@@ -1176,14 +1176,14 @@ export default class ChildTable extends React.Component {
             return (
               <TabPane tab={_.get(value, 'title', '子表')} key={index}>
                 <div>
-                  <NTableForm getMasterTable={this.props.getMasterTable} {...TableForm} />
+                  <NTableForm getMasterTable={(value)=>this.props.getMasterTable(value)} {...TableForm} />
                 </div>
               </TabPane>
             );
           })
         : null;
     return (
-      <Tabs //新版test
+      <Tabs 
         activeKey={this.props.tableTemplate.defaultActiveKey}
         onChange={this.tabCallback}
       >
