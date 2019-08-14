@@ -61,11 +61,12 @@ export default {
       }
     },
     //获取导向页table类型的表头数据
-    *getButtonGuideConfig({ payload }, { call, put, select }) {
+    *getButtonGuideConfig({ payload,callback }, { call, put, select }) {
       let { OBJECT_TYPE, RELATED_FIELD_GROUP} = payload.params;
       let {id} = payload
       let params = { objectType: OBJECT_TYPE, relatedFieldGroup: RELATED_FIELD_GROUP,id };
       const result = yield call(queryButtonGuideConfig, params);
+      if(callback) callback (result)
       if (result.status == 'success') {
         yield put({ type: 'save', payload: { guidePageColumns: result.data } });
       } else {

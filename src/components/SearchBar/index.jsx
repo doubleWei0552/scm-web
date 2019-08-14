@@ -202,7 +202,7 @@ class SearchBar extends PureComponent {
                         })(
                           <Select
                             placeholder={`请选择${value.title}`}
-                            showSearch={value.widgetType !== 'Select'}
+                            showSearch={value.widgetType != 'Select'}
                             allowClear={true}
                             style={{ width: '195px', textOverflow: 'ellipsis' }}
                             filterOption={(inputValue, option) =>

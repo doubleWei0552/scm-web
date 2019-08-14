@@ -300,7 +300,7 @@ compareToFirstPassword = (rule, value, callback) => {
                                       {...formItemLayout}
                                     >
                                       {getFieldDecorator(`${values.FIELD_NAME}-${kk.DateType}`, {
-                                        initialValue: null,
+                                        initialValue: values.FIELD_VALUE ? moment(values.FIELD_VALUE) : null,
                                         rules: [
                                           {
                                             required: gg == 0 ? values.REQUIRED_CONDITION : false,
