@@ -41,6 +41,7 @@ export default class TableModulars extends React.Component{
         page:1, //表格所在的第几页
         pageSize: 10, //表格每页展示多少行
         FieldsValue:{}, //记录搜索条件
+        autoCheck:false, //是否增加修改数据默认选择
     }
     componentWillMount=()=>{
         setTimeout(()=>{
@@ -58,7 +59,13 @@ export default class TableModulars extends React.Component{
                   if (res.status == 'success') {
                     this.props.dispatch({ type: 'guidePage/getButtonGuideConfig', payload: { 
                         params,
-                        id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null } });
+                        id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
+                    callback:Response=>{
+                        console.log('Response',Response)
+                        this.setState({
+                            autoCheck:Response.data.autoCheck
+                        })
+                    } });
                     this.props.dispatch({
                       type: 'guidePage/getButtonGuideData',
                       payload: {
@@ -113,12 +120,14 @@ export default class TableModulars extends React.Component{
     }
     //table数据改变
     onTableChange=(e,FIELD_NAME,tableIndex,index,rowData)=>{
-        let {selectedRowKeys,selectedRow} = this.state
-        let idx = _.findIndex(selectedRowKeys,item => item == rowData.ID)
-        if(idx < 0 || selectedRowKeys.length == 0){
-            selectedRowKeys.push(rowData.ID)
-            selectedRow.push(rowData)
-            this.onSelectChange(selectedRowKeys,selectedRow)
+        let {selectedRowKeys,selectedRow,autoCheck} = this.state
+        if(autoCheck){
+            let idx = _.findIndex(selectedRowKeys,item => item == rowData.ID)
+            if(idx < 0 || selectedRowKeys.length == 0){
+                selectedRowKeys.push(rowData.ID)
+                selectedRow.push(rowData)
+                this.onSelectChange(selectedRowKeys,selectedRow)
+            }
         }
         let tableData = this.props.guidePage.guidePageData
         tableData.list[tableIndex][FIELD_NAME] = e
@@ -201,6 +210,11 @@ export default class TableModulars extends React.Component{
                             >
                                     {getFieldDecorator(`${value.FIELD_NAME}`, {})(
                                         <Select
+                                                allowClear
+                                                showSearch
+                                                filterOption={(inputValue, option) =>
+                                                    _.includes(option.props.children, inputValue)
+                                                }
                                                 placeholder={`请选择${value.LABEL}`}
                                                 // disabled={value.READ_ONLY_CONDITION}
                                                 style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
@@ -434,6 +448,11 @@ export default class TableModulars extends React.Component{
                         key:item.FIELD_NAME + item.SEQUENCE,
                         render:(text, record, tableIndex)=>{
                             return <Select style={{ minWidth: '150px' }} disabled={item.READ_ONLY_CONDITION} defaultValue={text} 
+                            allowClear
+                            showSearch
+                            filterOption={(inputValue, option) =>
+                                _.includes(option.props.children, inputValue)
+                            }
                             onChange={(e)=>this.onTableChange(
                                 e,
                                 item.FIELD_NAME,
