@@ -32,7 +32,6 @@ import TreeSelectCom from '@/components/TreeSelect/Index';
 import { formItemValid } from '@/utils/validate';
 import { onGetImageUrl } from '@/utils/FunctionSet';
 import { file } from '@babel/types';
-import { object } from 'prop-types';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -108,48 +107,6 @@ class DetailPage extends PureComponent {
       });
     }
   };
-
-  onNumberChange = (e, field) =>{
-    let isHave =  this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME)
-    const { FIELD_NAME, OBJECT_TYPE } = field;
-    const fieldValues = this.props.form.getFieldsValue();
-    fieldValues[field.FIELD_NAME] = e;
-    if(isHave){
-      this.props.dispatch({
-        type: 'tableTemplate/updateFields',
-        payload: {
-          updatedField: FIELD_NAME,
-          objectType: OBJECT_TYPE,
-          params: fieldValues,
-          value: e,
-        },
-        callback: data => {
-          const { readOnlyFields } = this.state;
-          _.map(data, item => {
-            const index = _.findIndex(item.changes, change => change.field === 'FIELD_VALUE');
-            const index2 = _.findIndex(
-              item.changes,
-              change => change.field === 'READ_ONLY_CONDITION' && change.value == true
-            );
-            if (index > -1) {
-              this.props.form.setFieldsValue({
-                [item.field]: item.changes[index].value,
-              });
-            }
-            if (index2 > -1) {
-              const i = _.findIndex(readOnlyFields, f => f === item.field);
-              if (i < 0) {
-                readOnlyFields.push(item.field);
-                this.setState({
-                  readOnlyFields,
-                });
-              }
-            }
-          });
-        },
-      });
-    }
-  }
 
   handleSelect = (e, field) => {
     let isHave =  this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME)
@@ -626,7 +583,6 @@ class DetailPage extends PureComponent {
                                         disabled={
                                           this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }
-                                        onChange={(e)=>this.onNumberChange(e.valueOf(),field)}
                                         format={
                                           field.WIDGET_TYPE == 'Date' ? dateFormat : dateTimeFormat
                                         }
@@ -662,7 +618,6 @@ class DetailPage extends PureComponent {
                                     })(
                                       <InputNumber
                                         onBlur={this.onInputBlur}
-                                        onChange={e=>this.onNumberChange(e, field)}
                                         disabled={
                                           this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }
@@ -804,10 +759,10 @@ class DetailPage extends PureComponent {
                                       style={{ width: '100%' }}
                                       treeDefaultExpandAll
                                       showCheckedStrategy={SHOW_PARENT}
-                                      // filterTreeNode={(inputValue, treeNode) =>{
-                                      //   _.includes(treeNode.props.children, inputValue)
-                                      // }
-                                      // }
+                                      filterTreeNode={(inputValue, treeNode) =>{
+                                        _.includes(treeNode.props.children, inputValue)
+                                      }
+                                      }
                                       onChange={e => this.onTreeSelector(e, field)}
                                       // style={{ width: '200px' }}
                                       disabled={
