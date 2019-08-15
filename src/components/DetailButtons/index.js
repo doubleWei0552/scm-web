@@ -274,7 +274,6 @@ class DetailButtons extends PureComponent {
     let fileList = _.get(this.props.tableTemplate, 'fileList')
     let fileKey = _.get(this.props.tableTemplate, 'fileKey')
     this.props.detailForm.validateFields((err, fieldValues) => {
-      console.log('form表单验证',err,fieldValues)
       if (!err) {
         _.mapKeys(fieldValues, (value, key) => {
           if (typeof value === 'object' && !_.isArray(value)) {
