@@ -17,6 +17,12 @@ import {
 class ReportTable extends PureComponent {
   state = {}
 
+  componentDidMount=()=>{
+    this.props.dispatch({
+      type:'tableTemplate/save',
+      payload:{selectedRowKeys:[]}
+    })
+  }
   //关闭报表界面
   closeReportForm = () => {
     this.props.dispatch({ type: 'tableTemplate/save', payload: { reportFormURL: null } });

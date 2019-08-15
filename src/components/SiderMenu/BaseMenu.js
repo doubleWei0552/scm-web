@@ -180,7 +180,7 @@ export default class BaseMenu extends PureComponent {
     // });
     dispatch({
       type: 'tableTemplate/save',
-      payload: { defaultActiveKey: '0' }
+      payload: { defaultActiveKey: '0',isError:false }
     })
   };
 
