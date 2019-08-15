@@ -317,8 +317,7 @@ class DetailPage extends PureComponent {
                                     style={{ width: '100%' }}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
-                                      initialValue: field.FIELD_NAME == 'MOBILE' ? 
-                                      (field.FIELD_VALUE ? field.FIELD_VALUE.toString() : '') : (field.FIELD_VALUE || ''),
+                                      initialValue: field.FIELD_VALUE || '',
                                       rules: [
                                         {
                                           required: field.REQUIRED_CONDITION,

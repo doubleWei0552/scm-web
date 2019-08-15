@@ -68,7 +68,6 @@ export default {
     MasterTable:{}, //主表的数据，用于新增时的rtlink联动
     // ------------------------------------------------
     isEdit: false, // 判断是不是详情页，默认不是详情页false
-    isError: false , //用于判断系统是否报错
     buttonType: false, // 详情页的按钮格式,false表示只有保存，取消按钮
     isNewSave: false, // 判断是不是列表页的新增，默认为false 不是
     disEditStyle: true, // 默认都不可编辑
@@ -143,10 +142,6 @@ export default {
           payload: { detailColumns: result.data, objectType: result.data.objectType },
         });
       } else {
-        yield put({
-          type:'save',
-          payload:{isError:true}
-        })
         notification.error({ message: result.message, duration: 3 });
       }
     },
@@ -210,7 +205,8 @@ export default {
         }
         if (callback) callback(childResult);
       } else {
-        yield put({ type: 'save', payload: { detailData: [], initPolicyFormFields: [],isError:true } });
+        console.log('获取数据报错',result)
+        yield put({ type: 'save', payload: { detailData: [], initPolicyFormFields: [] } });
         notification.error({ message: result.message, duration: 3 });
       }
     },
