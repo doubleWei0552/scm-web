@@ -24,10 +24,6 @@ class ReportTable extends PureComponent {
   };
   componentDidMount =()=>{
     console.log('报表',this.props)
-    this.props.dispatch({
-      type:'tableTemplate/save',
-      payload:{selectedRowKeys:[]}
-    })
   }
 
   render() {
