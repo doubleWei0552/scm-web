@@ -175,9 +175,9 @@ export default class BaseMenu extends PureComponent {
       current: e.key,
     });
     router.push(path);
-    dispatch({
-      type: 'tableTemplate/cleanClildData',
-    });
+    // dispatch({
+    //   type: 'tableTemplate/cleanClildData',
+    // });
     dispatch({
       type: 'tableTemplate/save',
       payload: { defaultActiveKey: '0' }

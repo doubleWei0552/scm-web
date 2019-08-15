@@ -1,11 +1,23 @@
 import React from 'react'
+import { connect } from 'dva';
 
+@connect(({ tableTemplate }) => ({
+    tableTemplate,
+  }))
 //组件错误捕捉
 export default class CatchError extends React.Component{
     constructor(props){
         super(props)
         this.state={
             error:false
+        }
+    }
+    componentDidMount=()=>{
+        let isError = _.get(this.props.tableTemplate,'isError',false)
+        if(isError){
+            this.setState({
+                error:'系统异常，请刷新重试！'
+            })
         }
     }
     componentDidCatch(error,info){
