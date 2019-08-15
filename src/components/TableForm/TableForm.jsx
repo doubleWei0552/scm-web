@@ -83,6 +83,7 @@ export default class TableForm extends React.Component {
     let MasterTable = this.props.getMasterTable()
     //table类型的数据新增
     let { frameSelectedRows } = this.state; //弹框选择的数据
+    console.log('弹框选择的数据',frameSelectedRows)
     let { MultiObjectSelector, HeaderData, value } = this.props; //子表是否含有mask ，不含有就是null
     if (this.props.ChildData.length == 0) {
       //新增情况

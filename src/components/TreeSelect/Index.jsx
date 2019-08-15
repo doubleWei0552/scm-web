@@ -9,22 +9,20 @@ export default class TreeSelectCom extends React.Component{
     };
     
     onChange = value => {
-        console.log('value',value)
         this.setState({ value });
     };
     render(){
         return(
             <TreeSelect
                 style={{width:'100%'}}
-                value={this.props.value}
+                allowClear
+                defaultValue={this.props.value}
                 dropdownStyle={{ maxHeight: 400, overflow: 'hidden' }}
                 treeData={this.props.treeData}
                 placeholder="请选择数据"
                 treeNodeFilterProp={'title'}
                 showCheckedStrategy={this.props.showCheckedStrategy}
                 treeCheckable={this.props.treeCheckable}
-                treeDefaultExpandAll
-                filterTreeNode={this.props.filterTreeNode}
                 showSearch={this.props.showSearch}
                 disabled={this.props.disabled}
                 onChange={this.props.onChange}
