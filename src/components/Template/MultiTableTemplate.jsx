@@ -138,30 +138,24 @@ export default class MultiTableTemplate extends React.Component {
   render() {
     //列表页表头数据处理
     const { isEdit, buttonType, disEditStyle, selectedRowKeys } = this.props.tableTemplate;
-
-
     const { RangePicker } = DatePicker;
     const dateFormat = 'YYYY/MM/DD';
     // const { selectedRowKeys } = this.state;
 
     const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
     return (
-      <CatchError>
         <Spin spinning={this.props.loadingG || false}>
           <div
             className={styles.SingleTableTemplateMain}
           >
             {/* 列表页 */}
-            <CatchError>
               <ListPageModule />
-            </CatchError>
             {/* 详情页 */}
             <CatchError>
               <DetailsPageModule />
             </CatchError>
           </div>
         </Spin >
-      </CatchError>
     );
   }
 }
