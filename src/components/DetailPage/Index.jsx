@@ -527,6 +527,7 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <Checkbox.Group
+                                        style={{lineHeight:'32px'}}
                                         disabled={
                                           this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }

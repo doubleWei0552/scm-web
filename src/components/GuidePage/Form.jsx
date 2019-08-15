@@ -152,6 +152,7 @@ compareToFirstPassword = (rule, value, callback) => {
             <div>
             {
             loopData.map((item, jj) => {
+              console.log('循环的值',item)
               return <div key={jj}>
                 <span style={{ paddingTop: '1rem', display: 'inline-block' }}>{item[0].PAGE_FIELD_GROUP_NAME}</span>
                 <Card style={{ border: 'none', borderBottom: '1px solid #e8e8e8' }}>
@@ -273,8 +274,39 @@ compareToFirstPassword = (rule, value, callback) => {
                           </Col>
                         );
                         break;
-                      case 'Date':
                       case 'DateTime':
+                          return (
+                            <Col span={10} offset={1} key={values.SEQUENCE + values.NAME}>
+                              <Form.Item
+                                label={values.LABEL}
+                                style={{ width: '100%' }}
+                                {...formItemLayout}
+                              >
+                                {getFieldDecorator(`${values.FIELD_NAME}`, {
+                                  initialValue: values.FIELD_VALUE ? moment(values.FIELD_VALUE) : null,
+                                  rules: [
+                                    {
+                                      required: values.REQUIRED_CONDITION,
+                                      message: `${values.LABEL}不能为空`
+                                    }
+                                  ]
+                                })(
+                                  <DatePicker
+                                    // disabled={values.READ_ONLY_CONDITION}
+                                    placeholder={`请选择${values.LABEL}`}
+                                    format="YYYY-MM-DD"
+                                    placeholder={`请选择${values.LABEL}`}
+                                    onChange={(e)=>this.onStartChange(e,values)}
+                                    showTime={{defaultValue: moment('00:00:00', 'HH:mm:ss')}}
+                                    style={{ width: '100%' }}
+                                    disabledDate={(e)=>this.disabledStartDate(e,values)}
+                                  />
+                                )}
+                              </Form.Item>
+                            </Col>
+                          );
+                        break
+                      case 'Date':  //时间拆分成起始和结束的
                         let Date = [
                           {
                             ...values,
