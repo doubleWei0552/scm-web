@@ -624,6 +624,7 @@ class DetailPage extends PureComponent {
                                         disabled={
                                           this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }
+                                        onChange={(e)=>this.onNumberChange(e.valueOf(), field)}
                                         format={
                                           field.WIDGET_TYPE == 'Date' ? dateFormat : dateTimeFormat
                                         }
@@ -659,6 +660,7 @@ class DetailPage extends PureComponent {
                                     })(
                                       <InputNumber
                                         onBlur={this.onInputBlur}
+                                        onChange={(e)=>this.onNumberChange(e, field)}
                                         disabled={
                                           this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }
@@ -770,6 +772,7 @@ class DetailPage extends PureComponent {
                                 </Col>
                               );
                             case 'TreeSelector':
+                              console.log('treeSelect',field)
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   {
@@ -800,10 +803,10 @@ class DetailPage extends PureComponent {
                                       style={{ width: '100%' }}
                                       treeDefaultExpandAll
                                       showCheckedStrategy={SHOW_PARENT}
-                                      filterTreeNode={(inputValue, treeNode) =>{
-                                        _.includes(treeNode.props.children, inputValue)
-                                      }
-                                      }
+                                      // filterTreeNode={(inputValue, treeNode) =>{
+                                      //   _.includes(treeNode.props.children, inputValue)
+                                      // }
+                                      // }
                                       onChange={e => this.onTreeSelector(e, field)}
                                       // style={{ width: '200px' }}
                                       disabled={
