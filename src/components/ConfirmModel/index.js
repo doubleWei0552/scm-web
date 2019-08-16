@@ -1,6 +1,6 @@
 import React from 'react'
-import { Modal, Button, LocaleProvider } from 'antd'
-import zhCN from 'antd/lib/locale-provider/zh_CN';
+import { Modal, Button, ConfigProvider } from 'antd'
+import zhCN from 'antd/es/locale/zh_CN';
 
 class ComModal extends React.Component {
   staticProps = {
@@ -35,7 +35,7 @@ class ComModal extends React.Component {
   render() {
     return (
       <div>
-        <LocaleProvider locale={zhCN}>
+        <ConfigProvider locale={zhCN}>
           <Modal
             closable={false}
             visible={this.state.visible}
@@ -44,7 +44,7 @@ class ComModal extends React.Component {
           >
             {this.props.message}
           </Modal>
-        </LocaleProvider>
+        </ConfigProvider>
       </div>
     );
   }

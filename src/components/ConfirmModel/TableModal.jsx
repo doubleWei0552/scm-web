@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal, 
-    LocaleProvider,
+    ConfigProvider,
     Table,
     Button,
     Form,
@@ -18,7 +18,7 @@ import { Modal,
     Spin,
     Row,
     Tooltip, } from 'antd'
-import zhCN from 'antd/lib/locale-provider/zh_CN';
+import zhCN from 'antd/es/locale/zh_CN';
 import { formItemValid } from '@/utils/validate';
 import { connect } from 'dva';
 import moment from 'moment';
@@ -147,7 +147,7 @@ export default class TableModal extends React.Component{
                 : searchItems.length;
         const { getFieldDecorator } = this.props.form;
         return (
-            <LocaleProvider locale={zhCN}>
+            <ConfigProvider locale={zhCN}>
                 <Row>
                 <Form
                     // style={{ flexWrap: 'wrap', justifyContent: 'flex-end' }}
@@ -309,7 +309,7 @@ export default class TableModal extends React.Component{
                     )}
                 </Form>
                 </Row>
-            </LocaleProvider>
+            </ConfigProvider>
         );
         };
 
@@ -490,7 +490,7 @@ export default class TableModal extends React.Component{
             }),
           };
         return(
-            <LocaleProvider locale={zhCN}>
+            <ConfigProvider locale={zhCN}>
                 <Modal
                     closable={false}
                     visible={this.state.visible}
@@ -519,7 +519,7 @@ export default class TableModal extends React.Component{
                         />
                     </Spin>
                 </Modal>
-            </LocaleProvider>
+            </ConfigProvider>
         )
     }
 }
