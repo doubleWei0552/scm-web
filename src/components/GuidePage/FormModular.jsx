@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'dva';
-import { LocaleProvider,Steps, Button, DatePicker, InputNumber, message, Card, Modal, Form, Switch, Row, Col, Input, Select, Number, notification } from 'antd';
+import { ConfigProvider,Steps, Button, DatePicker, InputNumber, message, Card, Modal, Form, Switch, Row, Col, Input, Select, Number, notification } from 'antd';
 import moment from 'moment';
-import zhCN from 'antd/lib/locale-provider/zh_CN';
+import zhCN from 'antd/es/locale/zh_CN';
 import _ from 'lodash';
 
 const { RangePicker } = DatePicker;
@@ -135,7 +135,7 @@ class FormModular extends React.Component {
     }
     return (
       <div>
-        <LocaleProvider locale={zhCN}>
+        <ConfigProvider locale={zhCN}>
         <Form {...formItemLayout}>
           {
             loopData.map((item, jj) => {
@@ -395,7 +395,7 @@ class FormModular extends React.Component {
 
           }
         </Form>
-        </LocaleProvider>
+        </ConfigProvider>
       </div>
 
     )

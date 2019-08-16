@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal, 
-    LocaleProvider,
+    ConfigProvider,
     Table,
     Button,
     Form,
@@ -16,7 +16,7 @@ import { Modal,
     Icon,
     Tabs,
     Tooltip, } from 'antd'
-import zhCN from 'antd/lib/locale-provider/zh_CN';
+import zhCN from 'antd/es/locale/zh_CN';
 import { formItemValid } from '@/utils/validate';
 import { connect } from 'dva';
 import moment from 'moment';
@@ -147,7 +147,7 @@ export default class FormModal extends React.Component{
             loopData.push(groupData[i])
         }
         return(
-            <LocaleProvider locale={zhCN}>
+            <ConfigProvider locale={zhCN}>
           <Modal
               closable={false}
               visible={this.state.visible}
@@ -376,7 +376,7 @@ export default class FormModal extends React.Component{
                   }
                   </Form>
             </Modal>
-            </LocaleProvider>
+            </ConfigProvider>
         )
     }
 }

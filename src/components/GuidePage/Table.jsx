@@ -18,11 +18,11 @@ import {
     message,
     Spin,
     Tabs,
-    LocaleProvider
+    ConfigProvider
   } from 'antd';
 import {connect} from 'dva'
 import CurrencySearchBar from '@/components/SearchBar/CurrencySearchBar'
-import zhCN from 'antd/lib/locale-provider/zh_CN';
+import zhCN from 'antd/es/locale/zh_CN';
 import moment from 'moment';
 
 @connect(({ guidePage,loading }) => ({
@@ -186,7 +186,7 @@ export default class TableModulars extends React.Component{
                 : searchItems.length;
         const { getFieldDecorator } = this.props.form;
         return (
-            <LocaleProvider locale={zhCN}>
+            <ConfigProvider locale={zhCN}>
                 <Row>
                 <Form
                     onSubmit={this.handleSearch}
@@ -328,7 +328,7 @@ export default class TableModulars extends React.Component{
                     )}
                 </Form>
                 </Row>
-            </LocaleProvider>
+            </ConfigProvider>
         );
     };
     render(){
@@ -525,7 +525,7 @@ export default class TableModulars extends React.Component{
         return(
             <div>
                 {<div style={{marginBottom:'5px'}}>{this.renderSearchForm(_.get(this.props.guidePage.guidePageColumns,'policyFormFields',[]))}</div>}
-                <LocaleProvider locale={zhCN}>
+                <ConfigProvider locale={zhCN}>
                     <Table style={{ whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',}}
                     scroll={{ x: true }}
                     rowSelection={rowSelection}
@@ -542,7 +542,7 @@ export default class TableModulars extends React.Component{
                         showTotal: total => `共${this.props.guidePage.guidePageData.totalRecord}条数据`,
                     }}
                     />
-                </LocaleProvider>
+                </ConfigProvider>
             </div>
         )
     }
