@@ -108,6 +108,48 @@ class DetailPage extends PureComponent {
     }
   };
 
+  onNumberChange = (e, field) =>{
+    let isHave =  this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME)
+    const { FIELD_NAME, OBJECT_TYPE } = field;
+    const fieldValues = this.props.form.getFieldsValue();
+    fieldValues[field.FIELD_NAME] = e;
+    if(isHave){
+      this.props.dispatch({
+        type: 'tableTemplate/updateFields',
+        payload: {
+          updatedField: FIELD_NAME,
+          objectType: OBJECT_TYPE,
+          params: fieldValues,
+          value: e,
+        },
+        callback: data => {
+          const { readOnlyFields } = this.state;
+          _.map(data, item => {
+            const index = _.findIndex(item.changes, change => change.field === 'FIELD_VALUE');
+            const index2 = _.findIndex(
+              item.changes,
+              change => change.field === 'READ_ONLY_CONDITION' && change.value == true
+            );
+            if (index > -1) {
+              // this.props.form.setFieldsValue({
+              //   [item.field]: item.changes[index].value,
+              // });
+            }
+            if (index2 > -1) {
+              const i = _.findIndex(readOnlyFields, f => f === item.field);
+              if (i < 0) {
+                readOnlyFields.push(item.field);
+                this.setState({
+                  readOnlyFields,
+                });
+              }
+            }
+          });
+        },
+      });
+    }
+  }
+
   handleSelect = (e, field) => {
     let isHave =  this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME)
     const { FIELD_NAME, OBJECT_TYPE } = field;
