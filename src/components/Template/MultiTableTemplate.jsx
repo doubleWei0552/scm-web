@@ -23,8 +23,8 @@ import {
 import { onRegex } from '@/utils/FunctionSet';
 import _ from 'lodash';
 import { connect } from 'dva';
-import CatchError from '@/components/CatchError/Index'
-import DetailsPageModule from '@/components/DetailsPageModule/Index'
+import CatchError from '@/components/CatchError/Index';
+import DetailsPageModule from '@/components/DetailsPageModule/Index';
 import ListPageModule from '@/components/ListPageModule/index';
 import moment from 'moment';
 import styles from './SingleTableTemplate.less';
@@ -47,7 +47,7 @@ let editAndDeleteButton = {
     loading.effects['tableTemplate/getDetailPageConfig'] ||
     loading.effects['tableTemplate/save'] ||
     loading.effects['tableTemplate/getDetailPage'] ||
-    loading.effects['tableTemplate/getSummaryPageConfig']
+    loading.effects['tableTemplate/getSummaryPageConfig'],
 }))
 export default class MultiTableTemplate extends React.Component {
   constructor(props) {
@@ -78,14 +78,14 @@ export default class MultiTableTemplate extends React.Component {
     childChanged: [], //子表修改的数据，待发送到后台
     searchParams: {}, //列表页搜索栏的参数
 
-    isError:false, //获取值得时候是否出错
+    isError: false, //获取值得时候是否出错
   };
   componentWillMount = () => {
     const pageId = this.props.location.query.PageId;
     this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId: +pageId } });
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
-      payload: { pageId, current: 1, pageSize: 10 }
+      payload: { pageId, current: 1, pageSize: 10 },
     });
   };
   componentDidMount = () => {
@@ -114,8 +114,8 @@ export default class MultiTableTemplate extends React.Component {
           searchParams: {},
           selectedRowKeys: [],
           defaultActiveKey: '0',
-        }
-      })
+        },
+      });
     }
   };
 
@@ -123,22 +123,21 @@ export default class MultiTableTemplate extends React.Component {
     this.props.dispatch({
       type: 'tableTemplate/changeState',
       payload: {
-        isEdit: false,
-        buttonType: false,
-        isNewSave: false,
-        disEditStyle: true,
-        searchParams: {},
-        selectedRowKeys: [],
-        defaultActiveKey: '0',
-        reportFormURL: null
-      }
-    })
+        // isEdit: false,
+        // buttonType: false,
+        // isNewSave: false,
+        // disEditStyle: true,
+        // searchParams: {},
+        // selectedRowKeys: [],
+        // defaultActiveKey: '0',
+        reportFormURL: null,
+      },
+    });
   }
 
   render() {
     //列表页表头数据处理
     const { isEdit, buttonType, disEditStyle, selectedRowKeys } = this.props.tableTemplate;
-
 
     const { RangePicker } = DatePicker;
     const dateFormat = 'YYYY/MM/DD';
@@ -148,9 +147,7 @@ export default class MultiTableTemplate extends React.Component {
     return (
       <CatchError>
         <Spin spinning={this.props.loadingG || false}>
-          <div
-            className={styles.SingleTableTemplateMain}
-          >
+          <div className={styles.SingleTableTemplateMain}>
             {/* 列表页 */}
             <CatchError>
               <ListPageModule />
@@ -160,7 +157,7 @@ export default class MultiTableTemplate extends React.Component {
               <DetailsPageModule />
             </CatchError>
           </div>
-        </Spin >
+        </Spin>
       </CatchError>
     );
   }

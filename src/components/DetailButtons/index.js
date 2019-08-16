@@ -4,9 +4,9 @@ import { connect } from 'dva';
 import moment from 'moment';
 import _ from 'lodash';
 import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
-import ComModal from '@/components/ConfirmModel/index'
-import FormModals from '@/components/ConfirmModel/FormModal'
-import GuidePage from '@/components/GuidePage/NewIndex'
+import ComModal from '@/components/ConfirmModel/index';
+import FormModals from '@/components/ConfirmModel/FormModal';
+import GuidePage from '@/components/GuidePage/NewIndex';
 import ButtonGroup from '@/components/ButtonGroup';
 import DetailButtonGroup from '@/components/DetailButtonsGroup';
 
@@ -19,28 +19,20 @@ let editAndDeleteButton = {
   OPENACCOUNT: {}, //开户
 };
 
-
 @Form.create()
 @connect(({ tableTemplate, loading, guidePage }) => ({
   tableTemplate,
   guidePage,
-  loading: loading.effects['tableTemplate/getDetailSave']
+  loading: loading.effects['tableTemplate/getDetailSave'],
 }))
 class DetailButtons extends PureComponent {
+  state = {};
 
-  state = {
+  componentDidMount() {}
 
-  }
+  componentWillReceiveProps(newProps) {}
 
-  componentDidMount() { }
-
-  componentWillReceiveProps(newProps) {
-
-  }
-
-  handleClickItem = (item) => {
-
-  }
+  handleClickItem = item => {};
 
   //详情页按钮，按钮组版本
   editButton = () => {
@@ -88,55 +80,59 @@ class DetailButtons extends PureComponent {
   // 判断是否做了修改
   checkChanged = () => {
     const { tableTemplate } = this.props;
-    const { DetailChildData, initPolicyFormFields, initDetailChildData, isChildAdd } = tableTemplate;
+    const {
+      DetailChildData,
+      initPolicyFormFields,
+      initDetailChildData,
+      isChildAdd,
+    } = tableTemplate;
     const { policyFormFields = [] } = _.get(tableTemplate, 'detailData');
     let hasChanged = false;
-    const fieldValues = this.props.detailForm.getFieldsValue()
+    const fieldValues = this.props.detailForm.getFieldsValue();
     _.map(initPolicyFormFields, field => {
       if (field.FIELD_VALUE != fieldValues[field.FIELD_NAME]) {
-        hasChanged = true
+        hasChanged = true;
       }
-    })
+    });
     _.map(DetailChildData.child, (data, index) => {
-      const initChild = initDetailChildData.child[index]
+      const initChild = initDetailChildData.child[index];
       if (data.fieldGroupName == initChild.fieldGroupName) {
         if (data.records.length !== initChild.records.length) {
-          hasChanged = true
+          hasChanged = true;
         } else {
           if (data.records.length === 0) {
-            return
+            return;
           }
           _.map(data.records, (record, idx) => {
-            const initRecord = initChild.records[idx]
+            const initRecord = initChild.records[idx];
             _.map(record, (itm, ix) => {
               if (itm.FIELD_VALUE != initRecord[ix].FIELD_VALUE) {
-                hasChanged = true
+                hasChanged = true;
               }
-            })
-          })
+            });
+          });
         }
-
       }
-    })
+    });
 
     if (hasChanged || isChildAdd) {
-      this.showConfirmModal('onCancled', '确定要取消本次操作？')
+      this.showConfirmModal('onCancled', '确定要取消本次操作？');
     } else {
-      this.handleOk('onCancled')
+      this.handleOk('onCancled');
     }
-  }
+  };
 
   showConfirmModal = (e, message) => {
-    const div = document.createElement('div')
-    document.body.appendChild(div)
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const ComModalProps = {
       handleOk: () => {
-        this.handleOk(e)
+        this.handleOk(e);
       },
       message,
-    }
-    ReactDOM.render(<ComModal store={window.g_app._store} {...ComModalProps} />, div)
-  }
+    };
+    ReactDOM.render(<ComModal store={window.g_app._store} {...ComModalProps} />, div);
+  };
 
   handleOk = e => {
     if (e === 'tableDelete') {
@@ -149,23 +145,26 @@ class DetailButtons extends PureComponent {
   };
 
   // 开户
-  openAccount = (e) => {
-    const div = document.createElement('div')
-    document.body.appendChild(div)
+  openAccount = e => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const ComModalProps = {
       tableButton: e,
-    }
-    ReactDOM.render(<GuidePage store={window.g_app._store} {...ComModalProps} />, div)
-  }
+    };
+    ReactDOM.render(<GuidePage store={window.g_app._store} {...ComModalProps} />, div);
+  };
 
   // 新增
   detailCreate = () => {
-    this.props.detailForm.resetFields(); // 待测
-    this.props.dispatch({ type: 'tableTemplate/changeState', payload: { ChildData: [], fileList: [] } })
+    this.props.detailForm && this.props.detailForm.resetFields(); // 待测
     this.props.dispatch({
       type: 'tableTemplate/changeState',
-      payload: { isEditSave: true, buttonType: false, disEditStyle: false }
-    })
+      payload: { ChildData: [], fileList: [] },
+    });
+    this.props.dispatch({
+      type: 'tableTemplate/changeState',
+      payload: { isEditSave: true, buttonType: false, disEditStyle: false },
+    });
     // 用于获取最新的组件的管控状态
     this.props.dispatch({
       type: 'tableTemplate/getDetailPage',
@@ -180,13 +179,13 @@ class DetailButtons extends PureComponent {
   detailEdit = () => {
     this.props.dispatch({
       type: 'tableTemplate/changeState',
-      payload: { buttonType: false, disEditStyle: false }
-    })
+      payload: { buttonType: false, disEditStyle: false, isEditSave: true },
+    });
     if (JSON.stringify(this.props.tableTemplate.selectDate) == '{}') {
       this.props.dispatch({
         type: 'tableTemplate/changeState',
-        payload: { isEditSave: false, isNewSave: false, }
-      })
+        payload: { isEditSave: false, isNewSave: false },
+      });
     }
     this.props.dispatch({
       type: 'tableTemplate/getDetailPage',
@@ -214,8 +213,8 @@ class DetailButtons extends PureComponent {
         if (res.status === 'success') {
           this.props.dispatch({
             type: 'tableTemplate/changeState',
-            payload: { isEdit: false }
-          })
+            payload: { isEdit: false },
+          });
         }
       },
     });
@@ -227,8 +226,8 @@ class DetailButtons extends PureComponent {
     this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); // 新增时，清空输入框内的内容
     this.props.dispatch({
       type: 'tableTemplate/changeState',
-      payload: { isEdit: false, buttonType: true, disEditStyle: true }
-    })
+      payload: { isEdit: false, buttonType: true, disEditStyle: true },
+    });
   };
 
   // 取消
@@ -239,8 +238,8 @@ class DetailButtons extends PureComponent {
     if (isNewSave) {
       this.props.dispatch({
         type: 'tableTemplate/changeState',
-        payload: { isEdit: false, buttonType: false, disEditStyle: true }
-      })
+        payload: { isEdit: false, buttonType: false, disEditStyle: true },
+      });
     } else {
       this.props.dispatch({
         type: 'tableTemplate/getDetailPage',
@@ -262,17 +261,18 @@ class DetailButtons extends PureComponent {
       // });  待测
       this.props.dispatch({
         type: 'tableTemplate/changeState',
-        payload: { isEditSave: false, isEdit: true, buttonType: true, disEditStyle: true }
-      })
+        payload: { isEditSave: false, isEdit: true, buttonType: true, disEditStyle: true },
+      });
     }
     this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
   };
 
   // 保存
   onEditSave = value => {
+    console.log('sssssssssss', this.props);
     const { isNewSave } = this.props.tableTemplate;
-    let fileList = _.get(this.props.tableTemplate, 'fileList')
-    let fileKey = _.get(this.props.tableTemplate, 'fileKey')
+    let fileList = _.get(this.props.tableTemplate, 'fileList');
+    let fileKey = _.get(this.props.tableTemplate, 'fileKey');
     this.props.detailForm.validateFields((err, fieldValues) => {
       if (!err) {
         _.mapKeys(fieldValues, (value, key) => {
@@ -282,19 +282,19 @@ class DetailButtons extends PureComponent {
           } else {
             return (this.state[key] = value);
           }
-        })
+        });
         if (fileList[0]) {
-          let data = []
+          let data = [];
           fileList.map(item => {
             if (item.response) {
-              data.push(item.response.data)
+              data.push(item.response.data);
             } else {
-              data.push(item)
+              data.push(item);
             }
-          })
-          this.state[fileKey] = data
+          });
+          this.state[fileKey] = data;
         } else {
-          this.state[fileKey] = []
+          this.state[fileKey] = [];
         }
         // 列表页新增过来的
         if (isNewSave) {
@@ -323,8 +323,8 @@ class DetailButtons extends PureComponent {
                 );
                 this.props.dispatch({
                   type: 'tableTemplate/changeState',
-                  payload: { isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true }
-                })
+                  payload: { isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true },
+                });
               }
             },
           });
@@ -339,8 +339,8 @@ class DetailButtons extends PureComponent {
                   this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
                   this.props.dispatch({
                     type: 'tableTemplate/changeState',
-                    payload: { isEdit: true, buttonType: true, disEditStyle: true }
-                  })
+                    payload: { isEdit: true, buttonType: true, disEditStyle: true },
+                  });
                 }
               },
             });
@@ -353,8 +353,8 @@ class DetailButtons extends PureComponent {
                   this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
                   this.props.dispatch({
                     type: 'tableTemplate/changeState',
-                    payload: { isEdit: true, buttonType: true, disEditStyle: true }
-                  })
+                    payload: { isEdit: true, buttonType: true, disEditStyle: true },
+                  });
                 }
               },
             });
@@ -381,8 +381,6 @@ class DetailButtons extends PureComponent {
     });
   };
 
-
-
   render() {
     const { tableColumns = [], isEdit, selectedRowKeys, buttonType } = this.props.tableTemplate;
     const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
@@ -399,9 +397,7 @@ class DetailButtons extends PureComponent {
         >
           <Button
             disabled={
-              editAndDeleteButton['ADD']
-                ? editAndDeleteButton['ADD'].READ_ONLY_CONDITION
-                : false
+              editAndDeleteButton['ADD'] ? editAndDeleteButton['ADD'].READ_ONLY_CONDITION : false
             }
             style={{
               marginRight: '10px',
@@ -418,9 +414,7 @@ class DetailButtons extends PureComponent {
           </Button>
           <Button
             disabled={
-              editAndDeleteButton['EDIT']
-                ? editAndDeleteButton['EDIT'].READ_ONLY_CONDITION
-                : false
+              editAndDeleteButton['EDIT'] ? editAndDeleteButton['EDIT'].READ_ONLY_CONDITION : false
             }
             style={{
               marginRight: '10px',
@@ -475,10 +469,7 @@ class DetailButtons extends PureComponent {
           >
             保存
           </Button>
-          <Button
-            style={{ marginRight: '10px' }}
-            onClick={this.checkChanged}
-          >
+          <Button style={{ marginRight: '10px' }} onClick={this.checkChanged}>
             取消
           </Button>
         </div>
