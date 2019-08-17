@@ -24,7 +24,7 @@ export default class TableForm extends React.Component {
     frameSelectedRowKeys: [], //用于记录子表所选择的数据
     frameSelectedRows: [], //一行的数据
   };
-  componentWillReceiveProps = newProps => {
+  UNSAFE_componentWillReceiveProps = newProps => {
     let { data, columns } = newProps;
     this.setState({ Data: data, columns });
   };

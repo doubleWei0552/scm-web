@@ -28,7 +28,7 @@ export default class FormModular extends React.Component {
       showData:{}
   }
 
-  componentWillMount=()=>{
+  UNSAFE_componentWillMount=()=>{
     setTimeout(()=>{
       let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
       let { sendGuideData } = this.props.guidePage

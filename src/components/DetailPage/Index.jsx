@@ -53,8 +53,6 @@ class DetailPage extends PureComponent {
   componentDidMount() {
   }
 
-  componentWillReceiveProps() {}
-
   onEditSearch = (value, searchData) => {
     this.props.dispatch({
       type: 'tableTemplate/getAutocomplate',

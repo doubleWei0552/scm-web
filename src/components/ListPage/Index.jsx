@@ -48,7 +48,7 @@ export default class ListPage extends React.Component {
     loading: true, // 弹框的loading
     searchData: [], //搜索框的参数
   };
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     let props = this.props.frameColumns.columns
     const searchItems = _.filter(props, item => item.filterable == true);
     const { currentKey } = this.props.tableTemplate
@@ -65,7 +65,7 @@ export default class ListPage extends React.Component {
       })
     }
   }
-  componentWillReceiveProps = newProps => {
+  UNSAFE_componentWillReceiveProps = newProps => {
     let { frameColumns, frameData, framePagination } = newProps;
     let listColumnData = [];
     !_.isEmpty(frameColumns) ? frameColumns.columns.map((item,index)=>{

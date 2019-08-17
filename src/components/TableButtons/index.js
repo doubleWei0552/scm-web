@@ -26,7 +26,7 @@ import styles from './style.less';
 class CustomerButtons extends PureComponent {
   componentDidMount() { }
 
-  componentWillReceiveProps(newProps) { }
+  UNSAFE_componentWillReceiveProps(newProps) { }
 
   tableCreate = e => {
     this.props.dispatch({

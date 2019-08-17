@@ -16,7 +16,7 @@ class TableForm extends PureComponent {
     child: {}  //调用保存或编辑时的数据
   }
 
-  componentWillReceiveProps = (newProps) => {
+  UNSAFE_componentWillReceiveProps = (newProps) => {
     this.setState({ data: newProps.childTableData, childTableData: newProps.childTableData })
   }
 

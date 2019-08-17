@@ -17,7 +17,7 @@ export default class CurrencySearchBar extends PureComponent {
 
   componentDidMount() { }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (newProps.tableTemplate.tableColumns !== this.props.tableTemplate.tableColumns) {
       const { tableColumns = [], currentKey } = newProps.tableTemplate;
       const searchItems = _.filter(tableColumns, item => item.filterable === true);

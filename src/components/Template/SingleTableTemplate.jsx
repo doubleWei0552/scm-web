@@ -81,7 +81,7 @@ export default class SingleTableTemplate extends React.Component {
     isOperate: false, //用于记录取消时，用户有没有进行过操作，默认没有操作（fasle）
     expand: false, // 用于搜索栏展开（true）/收起（false）
   };
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     const pageId = this.props.location.query.PageId;
     this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId: +pageId } });
     // 进入请求分页数据,参数为默认值
