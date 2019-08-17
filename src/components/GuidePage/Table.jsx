@@ -118,6 +118,35 @@ export default class TableModulars extends React.Component{
     onSelectChange = (selectedRowKeys,selectedRow) => {
         this.setState({ selectedRowKeys,selectedRow })
     }
+    disabledStartDate = (e, value) => {
+        const endValue = this.state[`${value.FIELD_NAME}-end`];
+        if (!e || !endValue) {
+          return false;
+        }
+        return e.valueOf() > endValue.valueOf();
+      };
+    
+      disabledEndDate = (e, value) => {
+        const startValue = this.state[`${value.FIELD_NAME}-start`];
+        if (!e || !startValue) {
+          return false;
+        }
+        return e.valueOf() <= startValue.valueOf();
+      };
+    
+      onDateChange = (field, value) => {
+        this.setState({
+          [field]: value,
+        });
+      };
+    
+      onStartChange = (e, value) => {
+        this.onDateChange(`${value.FIELD_NAME}-start`, e);
+      };
+    
+      onEndChange = (e, value) => {
+        this.onDateChange(`${value.FIELD_NAME}-end`, e);
+      };
     //table数据改变
     onTableChange=(e,FIELD_NAME,tableIndex,index,rowData)=>{
         let {selectedRowKeys,selectedRow,autoCheck} = this.state
@@ -178,6 +207,7 @@ export default class TableModulars extends React.Component{
     }
     //搜索功能
     renderSearchForm = (props = []) => {
+        let { expand} = this.state
         const searchItems = _.filter(props, item => item.FILTERABLE == true);
         const count = this.state.expand
             ? searchItems.length
@@ -254,6 +284,97 @@ export default class TableModulars extends React.Component{
                             </Form.Item>
                             </Col>
                         );
+                        } else 
+                        if (value.WIDGET_TYPE === 'Date2') {
+                        return (
+                            <Col span={this.state.expand ? 24 : 10} style={{ textAlign: 'right' }} key={value.SEQUENCE + index}>
+                            <Form.Item
+                                label={value.LABEL}
+                                key={value.SEQUENCE + index}
+                                style={{ marginRight: 0 }}
+                            >
+                                {getFieldDecorator(`${value.FIELD_NAME}`, {})(
+                                    <DatePicker placeholder={`请选择${value.LABEL}`} 
+                                    style={{width:'195px'}} 
+                                    format="YYYY-MM-DD" showTime={{ format: 'YYYY/MM/DD' }} 
+                                    />
+                                )}
+                            </Form.Item>
+                            </Col>
+                        )} else if (value.WIDGET_TYPE === 'Date') {
+                            let Date = [
+                                {
+                                  ...value,
+                                  title: `起始${value.LABEL}`,
+                                  DateType: 'start',
+                                },
+                                {
+                                  ...value,
+                                  title: `结束${value.LABEL}`,
+                                  FIELD_VALUE: null,
+                                  DateType: 'end',
+                                },
+                              ];
+                              return Date.map((kk, gg) => {
+                                let type = kk.DateType;
+                                switch (type) {
+                                  case 'start':
+                                    return (
+                                      <Col span={this.state.expand ? 24 : 10} style={{ textAlign: 'right' }} key={value.SEQUENCE + gg}>
+                                        <Form.Item
+                                        style={{ marginRight: 0 }}
+                                          label={kk.title}
+                                        //   style={{ display: expand ? 'flex' : index + 1 < count ? '' : 'none' }}
+                                        >
+                                          {getFieldDecorator(`${value.FIELD_NAME}-${kk.DateType}`, {
+                                            initialValue: null,
+                                          })(
+                                            <DatePicker
+                                              allowClear={true}
+                                              placeholder={`请选择${kk.LABEL}`}
+                                              format="YYYY-MM-DD"
+                                              showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                                              style={{ width: '195px' }}
+                                              onChange={e => {
+                                                this.onStartChange(e, kk);
+                                              }}
+                                              disabledDate={e => this.disabledStartDate(e, kk)}
+                                            />
+                                          )}
+                                        </Form.Item>
+                                      </Col>
+                                    );
+                                    break;
+                                  case 'end':
+                                    return (
+                                      <Col span={this.state.expand ? 24 : 10} style={{ textAlign: 'right' }} key={value.SEQUENCE + gg}>
+                                        <Form.Item
+                                        style={{ marginRight: 0 }}
+                                          label={kk.title}
+                                        >
+                                          {getFieldDecorator(`${value.FIELD_NAME}-${kk.DateType}`, {
+                                            initialValue: null,
+                                          })(
+                                            <DatePicker
+                                              placeholder={`请选择${kk.LABEL}`}
+                                              format="YYYY-MM-DD"
+                                              showTime={{ defaultValue: moment('23:59:59', 'HH:mm:ss') }}
+                                              style={{ width: '195px' }}
+                                              allowClear={true}
+                                              onChange={e => {
+                                                this.onEndChange(e, kk);
+                                              }}
+                                              disabledDate={e => this.disabledEndDate(e, kk)}
+                                            />
+                                          )}
+                                        </Form.Item>
+                                      </Col>
+                                    );
+                                    break;
+                                  default:
+                                    break;
+                                }
+                              })
                         } else 
                         if (value.WIDGET_TYPE === 'Date') {
                         return (
