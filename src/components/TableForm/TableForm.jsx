@@ -33,7 +33,7 @@ export default class TableForm extends React.Component {
     frameSelectedRows: [], //一行的数据
     isEdit: false, //判断是不是编辑状态，默认不是
   };
-  componentWillReceiveProps = newProps => {
+  UNSAFE_componentWillReceiveProps = newProps => {
     let { data, columns } = newProps;
     this.setState({ Data: data, columns });
   };

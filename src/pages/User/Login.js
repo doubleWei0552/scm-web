@@ -19,7 +19,7 @@ class LoginPage extends Component {
     type: 'account',
     autoLogin: true,
   };
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.props.dispatch({ type: 'login/getLogoParameter' });
   };
 

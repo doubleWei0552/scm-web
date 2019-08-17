@@ -13,7 +13,7 @@ export default class ImageUpdate extends React.Component {
     // }],
   }
 
-  // componentWillReceiveProps=(newProps) => {
+  // UNSAFE_componentWillReceiveProps=(newProps) => {
   //   this.setState({
   //     fileList : newProps.field.FIELD_VALUE
   //   })

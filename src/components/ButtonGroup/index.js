@@ -11,7 +11,7 @@ export default class ButtonGroup extends React.Component {
     NoGroup: [],  //未分组的按钮
   }
 
-  componentWillReceiveProps = (newProps) => {
+  UNSAFE_componentWillReceiveProps = (newProps) => {
     this.setState({
       ButtonGroupData: newProps.buttonData
     })

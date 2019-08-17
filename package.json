@@ -64,7 +64,7 @@
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-document-title": "^2.0.3",
-    "react-dom": "^16.7.0",
+    "react-dom": "^16.9.0",
     "react-dropzone": "^10.1.5",
     "react-fittext": "^1.0.0",
     "react-images": "^0.5.19",

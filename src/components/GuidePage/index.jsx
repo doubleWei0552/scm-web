@@ -34,7 +34,7 @@ class GuidePage extends React.Component {
     visible: true,
     isLoading:false,
   };
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     let params = this.props.tableButton.BUTTON_GUIDE[0];
     this.props.dispatch({ type: 'guidePage/detailButtonGuide', payload: { params } });
     this.props.dispatch({ type: 'guidePage/getButtonGuideClean' });

@@ -30,7 +30,7 @@ class DetailButtons extends PureComponent {
 
   componentDidMount() {}
 
-  componentWillReceiveProps(newProps) {}
+  UNSAFE_componentWillReceiveProps(newProps) {}
 
   handleClickItem = item => {};
 

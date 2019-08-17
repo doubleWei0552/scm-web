@@ -59,9 +59,6 @@ export default class TableModal extends React.Component{
         pageSize: 10, //表格每页展示多少行
         FieldsValue:{}, //记录搜索条件
     };
-
-    componentWillMount=()=>{
-    }
     
     showModal = () => {
         this.setState({

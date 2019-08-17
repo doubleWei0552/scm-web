@@ -19,7 +19,7 @@ class CustomerHeader extends PureComponent {
 
   componentDidMount() { }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
 
   }
 

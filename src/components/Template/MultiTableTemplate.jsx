@@ -80,7 +80,7 @@ export default class MultiTableTemplate extends React.Component {
 
     isError: false, //获取值得时候是否出错
   };
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     const pageId = this.props.location.query.PageId;
     this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId: +pageId } });
     this.props.dispatch({

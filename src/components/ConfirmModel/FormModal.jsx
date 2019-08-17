@@ -52,7 +52,7 @@ export default class FormModal extends React.Component{
         visible: true,
     };
 
-    componentWillMount=()=>{
+    UNSAFE_componentWillMount=()=>{
         let params = {
             OBJECT_TYPE:this.props.tableButton.BUTTON_GUIDE[0].objectType,
             RELATED_FIELD_GROUP:this.props.tableButton.BUTTON_GUIDE[0].relatedFieldGroup,

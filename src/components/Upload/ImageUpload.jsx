@@ -19,7 +19,7 @@ export default class ImageUpload extends React.Component {
     fileList: this.props.field.FIELD_VALUE,
   };
 
-  componentWillReceiveProps = (newProps) => {
+  UNSAFE_componentWillReceiveProps = (newProps) => {
     const { fileList } = this.state
     if (!newProps.field.FIELD_VALUE) {
       this.setState({ fileList: [] })

@@ -42,9 +42,6 @@ export default class TableModular extends React.Component{
         pageSize: 10, //表格每页展示多少行
         FieldsValue:{}, //记录搜索条件
     }
-    componentWillMount=()=>{
-        // console.log('进到table页')
-    }
     onShowSizeChange = (current, pageSize) => {
         let params = this.props.CurrentData
         this.props.dispatch({

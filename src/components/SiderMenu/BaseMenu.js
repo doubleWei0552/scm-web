@@ -46,7 +46,7 @@ export default class BaseMenu extends PureComponent {
    * 获得菜单子节点
    * @memberof SiderMenu
    */
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     const { location } = newProps;
     const { pathname = '', search = '' } = location;
     const index = pathname.lastIndexOf("\/list") || pathname.lastIndexOf("\/detail");

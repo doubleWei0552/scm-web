@@ -43,7 +43,7 @@ export default class TableModulars extends React.Component{
         FieldsValue:{}, //记录搜索条件
         autoCheck:false, //是否增加修改数据默认选择
     }
-    componentWillMount=()=>{
+    UNSAFE_componentWillMount=()=>{
         setTimeout(()=>{
             let { sendGuideData } = this.props.guidePage
             let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
