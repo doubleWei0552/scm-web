@@ -269,7 +269,6 @@ class DetailButtons extends PureComponent {
 
   // 保存
   onEditSave = value => {
-    console.log('sssssssssss', this.props);
     const { isNewSave } = this.props.tableTemplate;
     let fileList = _.get(this.props.tableTemplate, 'fileList');
     let fileKey = _.get(this.props.tableTemplate, 'fileKey');
@@ -329,11 +328,12 @@ class DetailButtons extends PureComponent {
             },
           });
         } else {
+          console.log('按钮判断',isNewSave,this.props.tableTemplate.isEditSave)
           // 详情页点击编辑进入,根据isEditSave判断是新增方法还是编辑方法
           if (this.props.tableTemplate.isEditSave) {
             this.props.dispatch({
               type: 'tableTemplate/getDetailSave',
-              payload: { value: this.state, type: 'save' },
+              payload: { value: this.state, type: 'edit' },
               callback: res => {
                 if (res.status == 'success') {
                   this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
@@ -347,7 +347,7 @@ class DetailButtons extends PureComponent {
           } else {
             this.props.dispatch({
               type: 'tableTemplate/getDetailSave',
-              payload: { value: this.state, type: 'edit' },
+              payload: { value: this.state, type: 'save' },
               callback: res => {
                 if (res.status == 'success') {
                   this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
