@@ -258,14 +258,14 @@ export default class TableForm extends React.Component {
   };
 
   onSelectChange = (selectedRowKeys, selectedRows) => {
-    let { frameSelectedRows } = this.state
-    selectedRows.map((value,index)=>{
-      let ind = _.findIndex(frameSelectedRows,item =>item.ID == value.ID)
-      if(ind < 0) {
-        frameSelectedRows.push(value)
-      } 
-    })
-    this.setState({ frameSelectedRowKeys: selectedRowKeys, frameSelectedRows });
+    // let { frameSelectedRows } = this.state
+    // selectedRows.map((value,index)=>{
+    //   let ind = _.findIndex(frameSelectedRows,item =>item.ID == value.ID)
+    //   if(ind < 0) {
+    //     frameSelectedRows.push(value)
+    //   } 
+    // })
+    this.setState({ frameSelectedRowKeys: selectedRowKeys, frameSelectedRows:selectedRows });
   };
 
   render() {

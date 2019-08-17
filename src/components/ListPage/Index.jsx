@@ -347,6 +347,7 @@ export default class ListPage extends React.Component {
   };
 
   render() {
+    console.log('选择的值',this.state.frameSelectedRowKeys)
     const { RangePicker } = DatePicker;
     const dateFormat = 'YYYY/MM/DD';
     const { frameSelectedRowKeys } = this.props;
