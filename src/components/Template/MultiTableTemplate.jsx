@@ -95,7 +95,7 @@ export default class MultiTableTemplate extends React.Component {
     //   reportFormURL:this.props.location.query.url
     // } });
   };
-  componentWillReceiveProps = newProps => {
+  UNSAFE_componentWillReceiveProps = newProps => {
     const currentPageId = _.get(this.props.tableTemplate, 'pageId');
     const newPageId = _.get(newProps.tableTemplate, 'pageId');
     //拿到子表数据取消loading
