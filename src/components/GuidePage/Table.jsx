@@ -44,6 +44,18 @@ export default class TableModulars extends React.Component{
         autoCheck:false, //是否增加修改数据默认选择
     }
     UNSAFE_componentWillMount=()=>{
+        let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
+        let isHaveData = sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP]
+        if(isHaveData){
+            let selectedRowKeys = []
+            isHaveData.map(item=>{
+                selectedRowKeys.push(item.ID)
+            })
+            this.setState({
+                selectedRowKeys, 
+                selectedRow:isHaveData, 
+            })
+        }
         setTimeout(()=>{
             let { sendGuideData } = this.props.guidePage
             let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
@@ -61,7 +73,6 @@ export default class TableModulars extends React.Component{
                         params,
                         id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
                     callback:Response=>{
-                        console.log('Response',Response)
                         this.setState({
                             autoCheck:Response.data.autoCheck
                         })

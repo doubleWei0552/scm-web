@@ -39,6 +39,12 @@ export default class NewGuidePage extends React.Component {
     };
   }
 
+  UNSAFE_componentWillMount=()=>{  //每次打开导向页都是清空状态
+    this.props.dispatch({
+      type:'guidePage/cleanData'
+    })
+  }
+
   next() {
     this.childForm.validateFields(err => {
       if (!err) {
@@ -46,6 +52,11 @@ export default class NewGuidePage extends React.Component {
         this.setState({ current });
       }
     });
+  }
+
+  goUp=(current)=>{  // current为当前页，返回上一页得cerrent - 1
+    current = this.state.current - 1;
+    this.setState({ current });
   }
 
   close = () => { 
@@ -166,6 +177,11 @@ export default class NewGuidePage extends React.Component {
           </div>
           {/* 底部按钮 */}
           <div style={{textAlign:'center'}}>
+            {current < steps.length && current != 0 && (
+              <Button style={{ marginRight: 8 }} type="primary" onClick={() => this.goUp(current)}>
+                上一步
+              </Button>
+            )}
             {current < steps.length - 2 && (
               <Button type="primary" onClick={() => this.next()}>
                 下一步
