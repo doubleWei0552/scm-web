@@ -91,6 +91,11 @@ export default {
       let { OBJECT_TYPE, RELATED_FIELD_GROUP, METHOD_BODY } = payload.params;
       let { pageNum, pageSize, searchData,id } = payload;
       let formData = yield select(({guidePage})=>guidePage.sendGuideData)
+      for(let gg in searchData){  //去除前后的空格
+        if(searchData[gg] && typeof(searchData[gg]) == 'string'){
+          searchData[gg] = searchData[gg].replace(/(^\s*)|(\s*$)/g, "")
+        }
+      }
       let params = {
         objectType: OBJECT_TYPE,
         relatedFieldGroup: RELATED_FIELD_GROUP,

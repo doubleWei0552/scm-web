@@ -121,7 +121,6 @@ export default class BasicEdit extends React.Component{
             return <Breadcrumb.Item key={index}>{value.title}</Breadcrumb.Item>
         })
         const BasicDataEdit = this.props.Search.map((value,index)=>{
-            // console.log(value)
             if(JSON.stringify(this.props.table.DetailPage) != "{}"){ 
             if(value.type === 'Select'){
                 let state  //组件的管控

@@ -59,7 +59,6 @@ export default class ChildTable extends React.Component {
   };
 
   popconfirmCancel = e => {
-    console.log(e);
   };
 
   // // table排序方法  //暂定，根据后端的传参来调用
@@ -109,7 +108,6 @@ export default class ChildTable extends React.Component {
   onChildChang = (e, record, specificData, type, childIndex, index, Columns, Data) => {
     //获取主表数据
     let MasterTable = this.props.getMasterTable()
-    console.log('子表数据',e, record, specificData, type, childIndex, index, Columns, Data)
     switch (type) {
       case 'targetValue':
         this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {

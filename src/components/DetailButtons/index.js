@@ -328,7 +328,6 @@ class DetailButtons extends PureComponent {
             },
           });
         } else {
-          console.log('按钮判断',isNewSave,this.props.tableTemplate.isEditSave)
           // 详情页点击编辑进入,根据isEditSave判断是新增方法还是编辑方法
           if (this.props.tableTemplate.isEditSave) {
             this.props.dispatch({

@@ -104,7 +104,6 @@ export default class TableModal extends React.Component{
     }
     //table数据改变
     onTableChange=(e,FIELD_NAME,tableIndex,index)=>{
-        console.log('数据',e,FIELD_NAME,tableIndex,index)
         let tableData
         if(this.props.guidePage.cacheTableData.length){
             tableData = this.props.guidePage.cacheTableData

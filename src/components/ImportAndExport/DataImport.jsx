@@ -42,7 +42,6 @@ export default class Import extends React.Component {
   }
 
   callback = (key) => {
-    console.log(key)
   }
   onChange = (e, i) => {
     switch (e) {

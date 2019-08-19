@@ -43,7 +43,6 @@ import styles from './Index.less'
 //详情页模块
 export default class DetailsPageModule extends React.Component {
   getMasterTable=()=>{
-    console.log('获取主表数据')
     let MasterTable = this.DetailPage.getFieldsValue()
     return MasterTable
   }

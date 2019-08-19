@@ -32,7 +32,6 @@ export default class BasicData extends React.Component {
   };
 
   onChange = (date, dateString) => {
-    console.log(date, dateString);
   };
 
   onSelectChange = (selectedRowKeys, selectedRows) => {
@@ -41,7 +40,6 @@ export default class BasicData extends React.Component {
     this.setState({ selectedRowKeys });
   };
   onButtonTest = value => {
-    console.log(value);
     this.props.dispatch({ type: 'table/getTransactionProcess', payload: { ButtonName: value } });
   };
 

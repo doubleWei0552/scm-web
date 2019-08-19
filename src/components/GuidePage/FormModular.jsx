@@ -77,7 +77,6 @@ class FormModular extends React.Component {
   }
 
   onEditSearch = (value, searchData, selectKey) => {
-    console.log(value, searchData, selectKey)
     // this.props.dispatch({
     //   type: 'tableTemplate/getAutocomplate',
     //   payload: { value, searchData, selectKey },

@@ -4,7 +4,6 @@ import { Cascader } from 'antd'
 
 export default class CascaderCom extends React.Component{
     onChange=(value)=> {
-        console.log(value);
     }
     render(){
         const options = provinces

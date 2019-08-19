@@ -32,10 +32,8 @@ export default class Export extends React.Component {
     };
 
     callback = (key) => {
-        console.log(key)
     }
     onChange = (e,i) => {
-        console.log(e,i)
         this.setState({ current: i,formatValue:e })
     }
     //导出方法
