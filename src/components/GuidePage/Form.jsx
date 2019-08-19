@@ -29,6 +29,7 @@ export default class FormModular extends React.Component {
   }
 
   UNSAFE_componentWillMount=()=>{
+    let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
     setTimeout(()=>{
       let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
       let { sendGuideData } = this.props.guidePage
@@ -111,24 +112,26 @@ disabledEndDate = (endValue,e) => {
   }
 
   validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-};
-
-compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('PASSWORD')) {
-      callback('请确保两次密码相同!');
-    } else {
+      const form = this.props.form;
+      if (value && this.state.confirmDirty) {
+        form.validateFields(['confirm'], { force: true });
+      }
       callback();
-    }
-};
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+      const form = this.props.form;
+      if (value && value !== form.getFieldValue('PASSWORD')) {
+        callback('请确保两次密码相同!');
+      } else {
+        callback();
+      }
+  };
 
 
   render() {
+    let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
+    let isHaveData = sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP] //判断是不是回退上一步有没有数据
     const { getFieldDecorator } = this.props.form
     let cacheData = {}  //缓存数据
     let loopData = []  //分组数据
@@ -152,7 +155,6 @@ compareToFirstPassword = (rule, value, callback) => {
             <div>
             {
             loopData.map((item, jj) => {
-              console.log('循环的值',item)
               return <div key={jj}>
                 <span style={{ paddingTop: '1rem', display: 'inline-block' }}>{item[0].PAGE_FIELD_GROUP_NAME}</span>
                 <Card style={{ border: 'none', borderBottom: '1px solid #e8e8e8' }}>
@@ -167,7 +169,7 @@ compareToFirstPassword = (rule, value, callback) => {
                               style={{ width: '100%' }}
                             >
                               {getFieldDecorator(`${values.FIELD_NAME}`, {
-                                initialValue: values.FIELD_VALUE,
+                                initialValue: isHaveData ? isHaveData[values.FIELD_NAME] : values.FIELD_VALUE,
                                 rules: [
                                   {
                                     required: values.REQUIRED_CONDITION,
@@ -194,6 +196,7 @@ compareToFirstPassword = (rule, value, callback) => {
                                 style={{ width: '100%' }}
                                 {...formItemLayout} hasFeedback>
                                     {getFieldDecorator(`${values.FIELD_NAME}`, {
+                                        initialValue: isHaveData ? isHaveData[values.FIELD_NAME] : values.FIELD_VALUE,
                                         rules: [
                                         {
                                             required: values.REQUIRED_CONDITION,
@@ -215,6 +218,7 @@ compareToFirstPassword = (rule, value, callback) => {
                                     style={{ width: '100%' }}
                                     {...formItemLayout} hasFeedback>
                                     {getFieldDecorator(`confirm${values.FIELD_NAME}`, {
+                                        initialValue: isHaveData ? isHaveData[values.FIELD_NAME] : values.FIELD_VALUE,
                                         rules: [
                                         {
                                             required: values.REQUIRED_CONDITION,
@@ -242,7 +246,7 @@ compareToFirstPassword = (rule, value, callback) => {
                               {...formItemLayout}
                             >
                               {getFieldDecorator(`${values.NAME}`, {
-                                initialValue: values.FIELD_VALUE || null,
+                                initialValue: isHaveData ? isHaveData[values.FIELD_NAME] : values.FIELD_VALUE || null,
                                 rules: [
                                   {
                                     required: values.REQUIRED_CONDITION,
@@ -283,7 +287,7 @@ compareToFirstPassword = (rule, value, callback) => {
                                 {...formItemLayout}
                               >
                                 {getFieldDecorator(`${values.FIELD_NAME}`, {
-                                  initialValue: values.FIELD_VALUE ? moment(values.FIELD_VALUE) : null,
+                                  initialValue: isHaveData ? isHaveData[values.FIELD_NAME] ? moment(isHaveData[values.FIELD_NAME]) : null : values.FIELD_VALUE ? moment(values.FIELD_VALUE) : moment(null),
                                   rules: [
                                     {
                                       required: values.REQUIRED_CONDITION,
@@ -332,7 +336,7 @@ compareToFirstPassword = (rule, value, callback) => {
                                       {...formItemLayout}
                                     >
                                       {getFieldDecorator(`${values.FIELD_NAME}-${kk.DateType}`, {
-                                        initialValue: values.FIELD_VALUE ? moment(values.FIELD_VALUE) : null,
+                                        initialValue: isHaveData ? isHaveData[`${values.FIELD_NAME}-${kk.DateType}`] ? moment(isHaveData[`${values.FIELD_NAME}-${kk.DateType}`]) : null : values.FIELD_VALUE ? moment(values.FIELD_VALUE) : null,
                                         rules: [
                                           {
                                             required: gg == 0 ? values.REQUIRED_CONDITION : false,
@@ -364,7 +368,7 @@ compareToFirstPassword = (rule, value, callback) => {
                                 {...formItemLayout}
                               >
                                 {getFieldDecorator(`${values.FIELD_NAME}-${kk.DateType}`, {
-                                  initialValue: null,
+                                  initialValue: isHaveData ? isHaveData[`${values.FIELD_NAME}-${kk.DateType}`] ? moment(isHaveData[`${values.FIELD_NAME}-${kk.DateType}`]) : null : null,
                                   rules: [
                                     {
                                       required: gg == 0 ? values.REQUIRED_CONDITION : false,
@@ -401,7 +405,7 @@ compareToFirstPassword = (rule, value, callback) => {
                               {...formItemLayout}
                             >
                               {getFieldDecorator(`${values.FIELD_NAME}`, {
-                                initialValue: values.FIELD_VALUE,
+                                initialValue: isHaveData ? isHaveData[values.FIELD_NAME] : values.FIELD_VALUE ,
                                 rules: [
                                   {
                                     required: values.REQUIRED_CONDITION,
@@ -426,15 +430,22 @@ compareToFirstPassword = (rule, value, callback) => {
                               style={{ width: '100%' }}
                               {...formItemLayout}
                             >
-                              <div>
+                              {getFieldDecorator(`${values.FIELD_NAME}`, {
+                                initialValue: isHaveData ? isHaveData[values.FIELD_NAME] : values.FIELD_VALUE ,
+                                rules: [
+                                  {
+                                    required: values.REQUIRED_CONDITION,
+                                    message: `${values.LABEL}不能为空`,
+                                  },
+                                ],
+                              })(
                                 <TextArea
                                   rows={3}
                                   style={{ width: '100%' }}
                                   disabled={values.READ_ONLY_CONDITION}
                                   placeholder={`请录入${values.LABEL}`}
                                   defaultValue={values.FIELD_VALUE}
-                                />
-                              </div>
+                                />)}
                             </Form.Item>
                           </Col>
                         );
