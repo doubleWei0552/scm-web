@@ -770,7 +770,6 @@ class DetailPage extends PureComponent {
                                 </Col>
                               );
                             case 'TreeSelector':
-                              console.log('treeSelect',field)
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   {

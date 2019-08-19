@@ -49,7 +49,6 @@ export default class FrameTable extends React.Component {
   render() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       },
     };
     return (

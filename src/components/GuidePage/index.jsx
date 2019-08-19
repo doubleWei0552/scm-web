@@ -63,7 +63,6 @@ class GuidePage extends React.Component {
     this.formPage.props.form.validateFields((err, values) => {
       this.setState({})
       if (err) {
-        console.log('err',this.formPage)
         return
       } else {
         const current = this.state.current + 1;

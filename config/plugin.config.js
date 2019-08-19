@@ -10,7 +10,6 @@ export default config => {
     // 将所有 less 合并为一个供 themePlugin使用
     const outFile = path.join(__dirname, '../.temp/ant-design-pro.less');
     const stylesDir = path.join(__dirname, '../src/static');
-    // console.log('process.env', process.env.NODE_ENV)
   config.plugin('merge-less').use(MergeLessPlugin, [
     {
       stylesDir,

@@ -172,7 +172,6 @@ export default class DetailButtonGroup extends React.Component {
 
   // 开户
   openAccount = e => {
-    console.log('开户',e)
     const div = document.createElement('div');
     document.body.appendChild(div);
     const ComModalProps = {
@@ -182,7 +181,6 @@ export default class DetailButtonGroup extends React.Component {
   };
   //导向页
   openGuidePage = e => {
-    console.log('导向页', e);
     const div = document.createElement('div');
     document.body.appendChild(div);
     const tableButton = {

@@ -695,8 +695,15 @@ export default {
       if (list.length > 0) {
         yield put({ type: 'save', payload: { isChildAdd: true } });
       }
-      const parentPolicyFormFields = yield select(({ tableTemplate }) => tableTemplate.detailData)
-      params.parentPolicyFormFields = parentPolicyFormFields.policyFormFields
+      // const parentPolicyFormFields = yield select(({ tableTemplate }) => tableTemplate.detailData)
+      // params.parentPolicyFormFields = parentPolicyFormFields.policyFormFields
+      let MasterTables = payload.params.MasterTable
+      for(let i in MasterTables){
+        if(typeof(MasterTables[i]) == 'object' && MasterTables[i] != null){
+          MasterTables[i] = moment(MasterTables[i]).valueOf()
+        }
+      }
+      params.parentPolicyFormFields = MasterTables
       const result = yield call(childUpdateFields, params);
       // console.log(ChildData,'后端返回的数据',result.data)
       // rtlink 添加警告

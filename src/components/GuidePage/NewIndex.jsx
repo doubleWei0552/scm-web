@@ -36,22 +36,36 @@ export default class NewGuidePage extends React.Component {
       current: 0,
       visible:true,
       loading:true,
+      havaResult:false, //是否含有结果页
     };
   }
 
   UNSAFE_componentWillMount=()=>{  //每次打开导向页都是清空状态
+    let buttons = this.props.tableButton.BUTTON_GUIDE
+    buttons.map(item => {
+      if(item.BUTTON_GUIDE_TYPE == 'Result'){
+        this.setState({
+          havaResult:true
+        })
+      }
+    })
     this.props.dispatch({
       type:'guidePage/cleanData'
     })
   }
 
   next() {
-    this.childForm.validateFields(err => {
-      if (!err) {
-        const current = this.state.current + 1;
-        this.setState({ current });
-      }
-    });
+    if(this.childForm){
+      this.childForm.validateFields(err => {
+        if (!err) {
+          const current = this.state.current + 1;
+          this.setState({ current });
+        }
+      });
+    } else {
+      const current = this.state.current + 1;
+      this.setState({ current });
+    }
   }
 
   goUp=(current)=>{  // current为当前页，返回上一页得cerrent - 1
@@ -72,11 +86,15 @@ export default class NewGuidePage extends React.Component {
   }
 
   submit =()=>{
+    const { current,havaResult } = this.state;
+    const steps = this.props.tableButton.BUTTON_GUIDE
     if(this.childTable){
       if(this.childTable.state.selectedRow.length > 0){
         let ButtonName = this.props.tableButton.FIELD_NAME
-        const current = this.state.current + 1;
-        this.setState({ current });
+        if(havaResult){
+          const current = this.state.current + 1;
+          this.setState({ current });
+        }
         setTimeout(()=>{this.props.dispatch({
             type: 'guidePage/TransactionProcess',
             payload:{
@@ -86,12 +104,15 @@ export default class NewGuidePage extends React.Component {
                 }
             },callback:res=>{
               if (res.status == 'success') {
+                notification.success({ message: '导向页table类型获取表头数据方法成功！', duration: 3 });
                 this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
                 this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
                   ID:this.props.tableTemplate.selectDate.ID,
                   ObjectType:this.props.tableTemplate.detailColumns.objectType,
                   pageId:this.props.tableTemplate.pageId,
                 }})
+              } else {
+                notification.error({ message: '导向页table类型获取表头数据方法出现错误！', duration: 3 });
               }
             }
         })},1000)
@@ -100,8 +121,10 @@ export default class NewGuidePage extends React.Component {
       }
     } else {
       let ButtonName = this.props.tableButton.FIELD_NAME
-      const current = this.state.current + 1;
-      this.setState({ current });
+      if(havaResult){
+        const current = this.state.current + 1;
+        this.setState({ current });
+      }
       setTimeout(()=>{this.props.dispatch({
           type: 'guidePage/TransactionProcess',
           payload:{
@@ -111,12 +134,15 @@ export default class NewGuidePage extends React.Component {
               }
           },callback:res=>{
             if (res.status == 'success') {
+              notification.success({ message: '导向页table类型获取表头数据方法成功！', duration: 3 });
               this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
               this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
                 ID:this.props.tableTemplate.selectDate.ID,
                 ObjectType:this.props.tableTemplate.detailColumns.objectType,
                 pageId:this.props.tableTemplate.pageId,
               }})
+            } else {
+              notification.error({ message: '导向页table类型获取表头数据方法出现错误！', duration: 3 });
             }
           }
       })},1000)
@@ -153,7 +179,7 @@ export default class NewGuidePage extends React.Component {
 
   render() {
     const steps = this.props.tableButton.BUTTON_GUIDE
-    const { current } = this.state;
+    const { current,havaResult } = this.state;
     return (
         <Modal
         footer={null}
@@ -182,12 +208,12 @@ export default class NewGuidePage extends React.Component {
                 上一步
               </Button>
             )}
-            {current < steps.length - 2 && (
+            {current < (havaResult ? steps.length - 2 : steps.length - 1) && (
               <Button type="primary" onClick={() => this.next()}>
                 下一步
               </Button>
             )}
-            {current === steps.length - 2 && (
+            {current === (havaResult ? steps.length - 2 : steps.length - 1) && (
               <Button type="primary" onClick={() => this.submit()}>
                 提交
               </Button>
