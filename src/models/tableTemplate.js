@@ -766,6 +766,11 @@ export default {
         ChildTableData,
         ChildObject,
       } = payload;
+      for(let gg in searchParams){  //去除前后的空格
+        if(searchParams[gg] && typeof(searchParams[gg]) == 'string'){
+          searchParams[gg] = searchParams[gg].replace(/(^\s*)|(\s*$)/g, "")
+        }
+      }
       const params = {
         summaryFieldGroupName: multiGroupName,
         objectType: multiObjectType,
