@@ -265,20 +265,22 @@ export default {
             value.FIELD_VALUE = null;
           }
           // detailData.child = payload.child; //旧版的
-          detailData.child = child;
-          params = detailData;
         });
+        detailData.child = child;
+        params = detailData;
         params.policyFormFields.map(item=>{
           if(item.WIDGET_TYPE == "Image" || item.WIDGET_TYPE == "Attachment"){
-            item.FIELD_VALUE.map(ii=>{
-              if(ii.url){
-                if(ii.url.includes('http:')){
-                  let str = ii.url.match(/:(\S*)/)[1];
-                  let lastStr = str.match(/:(\S*)/)[1];
-                  ii.url = `:${lastStr}`
+            if(item.FIELD_VALUE){
+              item.FIELD_VALUE.map(ii=>{
+                if(ii.url){
+                  if(ii.url.includes('http:')){
+                    let str = ii.url.match(/:(\S*)/)[1];
+                    let lastStr = str.match(/:(\S*)/)[1];
+                    ii.url = `:${lastStr}`
+                  }
                 }
-              }
-            })
+              })
+            }
           }
         })
         const result = yield call(queryDetailEdit, params);

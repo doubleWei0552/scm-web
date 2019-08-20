@@ -22,14 +22,11 @@ class ReportTable extends PureComponent {
     // this.props.dispatch({ type: 'tableTemplate/save', payload: { reportFormURL: null } });
     // router.goBack()
   };
-  componentDidMount =()=>{
-    console.log('报表',this.props)
-    componentDidMount=()=>{
-      this.props.dispatch({
-        type:'tableTemplate/save',
-        payload:{selectedRowKeys:[]}
-      })
-    }
+  componentDidMount=()=>{
+    this.props.dispatch({
+      type:'tableTemplate/save',
+      payload:{selectedRowKeys:[]}
+    })
   }
 
   render() {
