@@ -162,7 +162,7 @@ export default class NewGuidePage extends React.Component {
         formData.formPageId = isEdit ? selectDate.ID : null  //进入详情页的ID
         this.props.dispatch({
             type:'guidePage/getSaveData',
-            payload:{relatedFieldGroup:this.state.showData.relatedFieldGroup,data:formData}
+            payload:{relatedFieldGroup:this.childForm.state.showData.relatedFieldGroup,data:formData}
         })
       }
       setTimeout(()=>{this.props.dispatch({
