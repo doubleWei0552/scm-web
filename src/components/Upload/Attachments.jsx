@@ -83,7 +83,7 @@ export default class Attachments extends React.Component{
                   <Icon onClick={()=>this.deleteImg(index)} style={{display:this.props.disabled ? 'none' : 'inline-block' }} type="close" />
                 </div>                
                 <img onClick={()=>this.previewImage(item)} className={styles.fileImg} src={this.renderImg(item)} alt='error'/>
-                <p className={styles.fileName}>{item.name }</p>
+                {/* <p className={styles.fileName}>{item.name }</p> */}
               </div>
             )
           }) : null}

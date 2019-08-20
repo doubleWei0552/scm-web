@@ -15,6 +15,7 @@ import {
     Icon,
   } from 'antd';
 import React from 'react';
+import moment from 'moment'
 import { connect } from 'dva';
 import ResultCom from './Result.jsx'
 import FormCom from './Form.jsx'
@@ -37,6 +38,7 @@ export default class NewGuidePage extends React.Component {
       visible:true,
       loading:true,
       havaResult:false, //是否含有结果页
+      isGoUp:true, //提交成功以后是否包含上一步按钮
     };
   }
 
@@ -94,6 +96,24 @@ export default class NewGuidePage extends React.Component {
         if(havaResult){
           const current = this.state.current + 1;
           this.setState({ current });
+        } else {
+          let {isEdit,selectDate} = this.props.tableTemplate
+          let relatedFieldGroup = this.props.guidePage.guidePageColumns.relatedFieldGroup
+          this.childTable.state.selectedRow.map(item=>{
+              item.tablePageId = isEdit ? selectDate.ID : null
+              for(let i in item){ //对时间格式进行转换
+                  if(typeof(item[i]) == 'string'){
+                      if(isNaN(item[i]) && !isNaN(Date.parse(item[i]))){
+                          item[i] = moment(item[i]).valueOf()
+                      } 
+                  }
+              }
+          })
+          console.log('数据',relatedFieldGroup,this.childTable.state.selectedRow)
+          this.props.dispatch({
+              type:'guidePage/getSaveData',
+              payload:{relatedFieldGroup:relatedFieldGroup,data:this.childTable.state.selectedRow}
+          })
         }
         setTimeout(()=>{this.props.dispatch({
             type: 'guidePage/TransactionProcess',
@@ -104,7 +124,12 @@ export default class NewGuidePage extends React.Component {
                 }
             },callback:res=>{
               if (res.status == 'success') {
-                notification.success({ message: '导向页table类型获取表头数据方法成功！', duration: 3 });
+                this.setState({
+                  isGoUp:false
+                })
+                if(!havaResult){
+                  notification.success({ message: res.message, duration: 3 });
+                }
                 this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
                 this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
                   ID:this.props.tableTemplate.selectDate.ID,
@@ -112,7 +137,9 @@ export default class NewGuidePage extends React.Component {
                   pageId:this.props.tableTemplate.pageId,
                 }})
               } else {
-                notification.error({ message: '导向页table类型获取表头数据方法出现错误！', duration: 3 });
+                if(!havaResult){
+                  notification.error({ message: res.message, duration: 3 });
+                }
               }
             }
         })},1000)
@@ -124,6 +151,19 @@ export default class NewGuidePage extends React.Component {
       if(havaResult){
         const current = this.state.current + 1;
         this.setState({ current });
+      } else {
+        let {isEdit,selectDate} = this.props.tableTemplate
+        let formData = _.cloneDeep(this.childForm.props.form.getFieldsValue())
+        for(let i in formData){
+          if(typeof(formData[i]) == 'object' && formData[i]){
+            formData[i] = formData[i].valueOf()
+          } 
+        }
+        formData.formPageId = isEdit ? selectDate.ID : null  //进入详情页的ID
+        this.props.dispatch({
+            type:'guidePage/getSaveData',
+            payload:{relatedFieldGroup:this.childForm.state.showData.relatedFieldGroup,data:formData}
+        })
       }
       setTimeout(()=>{this.props.dispatch({
           type: 'guidePage/TransactionProcess',
@@ -134,7 +174,12 @@ export default class NewGuidePage extends React.Component {
               }
           },callback:res=>{
             if (res.status == 'success') {
-              notification.success({ message: '导向页table类型获取表头数据方法成功！', duration: 3 });
+              this.setState({
+                isGoUp:false
+              })
+              if(!havaResult){
+                notification.success({ message: res.message, duration: 3 });
+              }
               this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
               this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
                 ID:this.props.tableTemplate.selectDate.ID,
@@ -142,7 +187,9 @@ export default class NewGuidePage extends React.Component {
                 pageId:this.props.tableTemplate.pageId,
               }})
             } else {
-              notification.error({ message: '导向页table类型获取表头数据方法出现错误！', duration: 3 });
+              if(!havaResult){
+                notification.error({ message: res.message, duration: 3 });
+              }
             }
           }
       })},1000)
@@ -179,7 +226,7 @@ export default class NewGuidePage extends React.Component {
 
   render() {
     const steps = this.props.tableButton.BUTTON_GUIDE
-    const { current,havaResult } = this.state;
+    const { current,havaResult,isGoUp } = this.state;
     return (
         <Modal
         footer={null}
@@ -203,7 +250,7 @@ export default class NewGuidePage extends React.Component {
           </div>
           {/* 底部按钮 */}
           <div style={{textAlign:'center'}}>
-            {current < steps.length && current != 0 && (
+            {current < steps.length && current != 0 && isGoUp && (
               <Button style={{ marginRight: 8 }} type="primary" onClick={() => this.goUp(current)}>
                 上一步
               </Button>
