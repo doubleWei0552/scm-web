@@ -54,6 +54,24 @@ export default class BaseMenu extends PureComponent {
     this.setState({
       current: path,
     });
+    if(this.props.menuData != newProps.menuData){
+      let id = this.props.location.pathname.split('/')[1] *1
+      let pageId = this.props.location.query.PageId *1
+      newProps.menuData.map(item => {
+        if(item.id == id){
+          item.children.map(ii => {
+            if(ii.pageId == pageId){
+              this.props.dispatch({
+                type:'tableTemplate/save',
+                payload:{
+                  reportFormURLPage:ii.reportUrl
+                }
+              })
+            }
+          })
+        }
+      })
+    }
   }
 
   getNavMenuItems = menusData => {
@@ -63,7 +81,7 @@ export default class BaseMenu extends PureComponent {
     return menusData
       .filter(item => item.name && !item.hideInMenu)
       .map(item => this.getSubMenuOrItem(item))
-      .filter(item => item);
+      .filter(item => item)
   };
 
   // Get the currently selected menu
@@ -119,6 +137,12 @@ export default class BaseMenu extends PureComponent {
 
   // 点击左侧菜单，获取报表路径，并跳转
   onMenuClick = item => {
+    this.props.dispatch({
+      type:'tableTemplate/save',
+      payload:{
+        reportFormURLPage:item.reportUrl
+      }
+    })
     // if(item.reportUrl){
     router.push(item.path)
     // }
@@ -175,9 +199,6 @@ export default class BaseMenu extends PureComponent {
       current: e.key,
     });
     router.push(path);
-    // dispatch({
-    //   type: 'tableTemplate/cleanClildData',
-    // });
     dispatch({
       type: 'tableTemplate/save',
       payload: { defaultActiveKey: '0',isError:false }

@@ -397,7 +397,7 @@ class DetailPage extends PureComponent {
                                     {...formItemLayout}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
-                                      initialValue: _.get(field, 'FIELD_VALUE'),
+                                      initialValue: _.get(field, 'FIELD_VALUE') ? _.get(field, 'FIELD_VALUE') : [],
                                       rules: [
                                         {
                                           required: field.REQUIRED_CONDITION,

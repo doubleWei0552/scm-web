@@ -46,6 +46,7 @@ export default class TableModulars extends React.Component{
     UNSAFE_componentWillMount=()=>{
         let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
         let isHaveData = sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP]
+        console.log('isHaveData',isHaveData)
         if(isHaveData){
             let selectedRowKeys = []
             isHaveData.map(item=>{

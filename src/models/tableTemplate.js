@@ -60,6 +60,7 @@ export default {
     frameData: [], // 子表弹框的表格数据
 
     reportFormURL: null, // 报表的url地址
+    reportFormURLPage:null , //page页里面的报表地址
     defaultActiveKey: '0', // 子表tab选择的key
 
     fileList: [], // 主表图片组件显示的数据
