@@ -38,6 +38,7 @@ export default class SiderMenu extends PureComponent {
   }
 
   isMainMenu = key => {
+    console.log('key',key)
     const { menuData } = this.props;
     return menuData.some(item => {
       if (key) {

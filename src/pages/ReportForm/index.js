@@ -30,6 +30,7 @@ class ReportTable extends PureComponent {
   }
 
   render() {
+    let url = _.get(this.props.tableTemplate,'reportFormURLPage')
     return (
       <div
         style={{
@@ -44,7 +45,8 @@ class ReportTable extends PureComponent {
           bodyStyle={{ padding: 0 }}
         >
           <iframe
-            src={this.props.location.query.url}
+            // src={this.props.location.query.url}
+            src={url}
             frameBorder="0"
             width="100%"
             height="900"
