@@ -18,12 +18,21 @@ body,
   filter: invert(80%);
 }
 
+.ant-input-affix-wrapper .ant-input:not(:last-child) {
+  padding-right: 0;
+}
+
+.ant-checkbox-disabled::after {
+  border: unset !important;
+}
+
 .ant-layout {
   min-height: 100vh;
 }
 
 .ant-table {
-  th,td{
+  th,
+  td {
     white-space: nowrap;
   }
 }
