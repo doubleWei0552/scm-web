@@ -7,6 +7,7 @@ import Login from '@/components/Login';
 import RotationChart from '@/components/Carousel/Index'
 import TreeSelect from '@/components/TreeSelect/Index'
 import Cascader from '@/components/Cascader/Index' //省市级联动
+import TriggerException from '@/components/FeedBack/TriggerException'
 
 import Data from './Data'
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
@@ -27,7 +28,7 @@ class PersonalCenter extends Component {
     const { type, autoLogin } = this.state;
     return <div>
         <h1>个人主页</h1>
-        {/* <Bar /> */}
+        {/* <TriggerException /> */}
       </div>;
   }
 }

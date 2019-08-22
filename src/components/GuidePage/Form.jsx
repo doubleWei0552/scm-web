@@ -50,12 +50,14 @@ export default class FormModular extends React.Component {
                     this.setState({
                         showData:res
                     })
-                    res.policyFormFields.map(item => {
-                      if(item.WIDGET_TYPE == 'Date'){
-                        this.onChange([`${item.FIELD_NAME}-start`], item.FIELD_VALUE);
-                      }
-                    })
                     this.props.closeSpin()
+                    // res.policyFormFields.map(item => {
+                    //   if(item.WIDGET_TYPE == 'Date'){
+                    //     this.onChange([`${item.FIELD_NAME}-start`], item.FIELD_VALUE);
+                    //     let disable = this.disabledStartDate(moment(item.FIELD_VALUE),item)
+                    //     this[`${values.FIELD_NAME}-disabled`] = disable
+                    //   }
+                    // })
                 }})
             }
         }
@@ -64,6 +66,7 @@ export default class FormModular extends React.Component {
 }
 
 disabledStartDate = (startValue,e) => {
+  console.log('disabledStartDate',startValue,e)
   const endValue  = this.state[`${e.FIELD_NAME}-end`];
   if (!startValue || !endValue) {
     return false;
@@ -80,13 +83,13 @@ disabledEndDate = (endValue,e) => {
 };
 
   onChange = (field, value) => {
+    console.log(field,value)
     this.setState({
       [field]: value,
     });
   };
 
   onStartChange = (e,value) => {
-    console.log('onStartChange',e,value)
     this.onChange([`${value.FIELD_NAME}-start`], e);
   };
 
@@ -136,7 +139,6 @@ disabledEndDate = (endValue,e) => {
 
 
   render() {
-    console.log('导向页的状态',this.state)
     let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
     let isHaveData = sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP] //判断是不是回退上一步有没有数据
     const { getFieldDecorator } = this.props.form
