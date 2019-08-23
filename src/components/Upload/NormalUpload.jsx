@@ -1,17 +1,28 @@
-import { Upload, Button, Icon,notification } from 'antd';
+import { Upload, Button, Icon, notification } from 'antd';
 import React from 'react';
 
 export default class NormalUpload extends React.Component {
-  defaultProps={
-    cancleModal:()=>{},
-    updateData:()=>{},
+  defaultProps = {
+    cancleModal: () => { },
+    updateData: () => { },
   }
-  handleChange = ({ fileList }) => {
+  handleChange = (info) => {
+    console.log('ssssss', info)
+    let { fileList } = info
     let result = fileList[0].response
-    if(result && result.status == 'fail'){
+    this.props.handleLoading(true)
+
+    // if (result && result.message) {
+    //   this.props.handleLoading(false)
+    //   notification.error({ message: result.message, duration: 3 });
+    //   return
+    // }
+    if (result && result.status !== 'success') {
       this.props.updateData()
+      this.props.handleLoading(false)
       notification.error({ message: result.message, duration: 3 });
-    } else if(result && result.status == 'success'){
+    } else if (result && result.status == 'success') {
+      this.props.handleLoading(false)
       notification.success({ message: result.message, duration: 3 });
       this.props.cancleModal() //关闭modal框
       this.props.updateData()  //更新数据
@@ -33,6 +44,7 @@ export default class NormalUpload extends React.Component {
       headers: { sessionId: localStorage.getItem('sessionId') },
       listType: 'picture',
       showUploadList: false,
+
       // previewFile(file) {
       //   return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
       //     method: 'POST',

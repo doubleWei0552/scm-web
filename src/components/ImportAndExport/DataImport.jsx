@@ -7,6 +7,7 @@ import {
   Input,
   Form,
   Select,
+  Spin,
 } from 'antd'
 import NormalUpload from '@/components/Upload/NormalUpload'
 
@@ -17,8 +18,9 @@ const Option = Select.Option
 export default class Import extends React.Component {
   state = {
     visible: true,
-    current: 1,
+    current: 3,
     ImportType: '',  //导入类型的值
+    loading: false,
   }
   showModal = () => {
     this.setState({
@@ -32,7 +34,7 @@ export default class Import extends React.Component {
     });
   };
 
-  updateData = () =>{
+  updateData = () => {
     const pageId = this.props.tableTemplate.pageId;
     // 进入请求分页数据,参数为默认值
     this.props.dispatch({
@@ -41,24 +43,49 @@ export default class Import extends React.Component {
     });
   }
 
+  handleLoading = (v) => {
+    this.setState({
+      loading: v
+    })
+  }
+
   callback = (key) => {
   }
   onChange = (e, i) => {
     switch (e) {
       case 1:
         this.setState({
-          ImportType: i
+          ImportType: i,
+          current: e
+        })
+        break
+      case 2:
+        this.setState({
+          // ImportType: i,
+          current: 3
+        })
+        break
+      case 3:
+        this.setState({
+          // ImportType: i,
+          current: 3
+        })
+        break
+      case 4:
+        this.setState({
+          // ImportType: i,
+          current: 4
         })
         break
     }
-    this.setState({ current: e })
+
   }
   onClick = (e) => {
     let { ImportType } = this.state
     let { importButton: { JAVA_SCRIPT_CONTENT = '' } } = this.props
     const obj = JSON.parse(JAVA_SCRIPT_CONTENT)
     window.location.href = `${window.config.apiUrl}/batchImport/downLoad?downLoad=${encodeURIComponent(JSON.stringify(obj.batchImport))}`
-    this.setState({ current: e })
+    this.setState({ current: 3 })
   }
   StepDom = (item) => {
     switch (item) {
@@ -85,9 +112,9 @@ export default class Import extends React.Component {
 
         return (
           <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
-            <Select disabled={this.state.current >= 1 ? false : true} onChange={() => this.onChange(3)} placeholder='请选择导入类型' style={{ width: '100%' }} >
+            <Select value="search" disabled={this.state.current >= 1 ? false : true} onChange={() => this.onChange(3)} placeholder='请选择导入类型' style={{ width: '100%' }} >
               <Option value="search">同步导入</Option>
-              <Option value="check">异步导入</Option>
+              {/* <Option value="check">异步导入</Option> */}
             </Select>
           </div>
         )
@@ -95,15 +122,17 @@ export default class Import extends React.Component {
       case 'upload':
         return (
           <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
-            <NormalUpload updateData={this.updateData} cancleModal={this.handleCancel} importButton={this.props.importButton} params={{ current: this.state.current, ImportType: this.state.ImportType }} disabled={this.state.current >= 3 ? false : true} />
+            <NormalUpload updateData={this.updateData} cancleModal={this.handleCancel} handleLoading={(v) => this.handleLoading(v)} importButton={this.props.importButton} params={{ current: this.state.current, ImportType: this.state.ImportType }} disabled={this.state.current >= 3 ? false : true} />
           </div>
         )
         break
     }
   }
   render() {
+    console.log('xxxxx', this.state)
     return (
       <div>
+
         <Modal
           bodyStyle={{ height: '65vh' }}
           visible={this.state.visible}
@@ -114,20 +143,23 @@ export default class Import extends React.Component {
             </div>
           }
         >
-          <Tabs defaultActiveKey="1" onChange={this.callback}>
-            <TabPane tab="批量导入" key="1">
-              <Steps direction="vertical" current={this.state.current}>
-                <Step title="导入模式" description={this.StepDom('importModel')} />
-                <Step title="下载导入模版" description={this.StepDom('download')} />
-                <Step title="导入类型" description={this.StepDom('importType')} />
-                <Step title="上传Excel" description={this.StepDom('upload')} />
-              </Steps>
-            </TabPane>
-            {/* <TabPane disabled tab="导入历史" key="2">
+          <Spin spinning={this.state.loading}>
+            <Tabs defaultActiveKey="1" onChange={this.callback}>
+              <TabPane tab="批量导入" key="1">
+                <Steps direction="vertical" current={this.state.current}>
+                  <Step title="导入模式" description={this.StepDom('importModel')} />
+                  <Step title="下载导入模版" description={this.StepDom('download')} />
+                  <Step title="导入类型" description={this.StepDom('importType')} />
+                  <Step title="上传Excel" description={this.StepDom('upload')} />
+                </Steps>
+              </TabPane>
+              {/* <TabPane disabled tab="导入历史" key="2">
               你瞅啥，还没做！
                 </TabPane> */}
-          </Tabs>
+            </Tabs>
+          </Spin>
         </Modal>
+
       </div>
     )
   }
