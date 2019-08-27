@@ -95,7 +95,7 @@ export default class GlobalHeaderRight extends PureComponent {
   render() {
     const { fetchingNotices, onNoticeVisibleChange, onNoticeClear, theme } = this.props;
     const currentUser = JSON.parse(localStorage.getItem('userData'));
-    const helpLink = localStorage.getItem('helpLink')
+    const helpLink = localStorage.getItem('helpLink');
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
         <Menu.Item key="userCenter">
@@ -198,7 +198,6 @@ export default class GlobalHeaderRight extends PureComponent {
           />
         </NoticeIcon> */}
         {helpLink && (
-
           <a href={helpLink} target="_blank">
             <Tooltip title="使用文档">
               <Icon
@@ -207,10 +206,9 @@ export default class GlobalHeaderRight extends PureComponent {
               />
             </Tooltip>
           </a>
-
         )}
 
-        {currentUser && currentUser.username && (
+        {currentUser && currentUser.staffName && (
           <HeaderDropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
@@ -220,7 +218,7 @@ export default class GlobalHeaderRight extends PureComponent {
                 icon="user"
                 alt="avatar"
               />
-              <span className={styles.name}>{currentUser.username}</span>
+              <span className={styles.name}>{currentUser.staffName}</span>
             </span>
           </HeaderDropdown>
         )}
