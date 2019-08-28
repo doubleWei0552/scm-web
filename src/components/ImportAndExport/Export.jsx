@@ -41,7 +41,10 @@ export default class Export extends React.Component {
         let { formatValue } = this.state
         let { searchParams, pageId } = this.props
         this.setState({ current: e })
-        window.location.href = `${window.config.apiUrl}/summary/export?query=${encodeURIComponent(JSON.stringify({
+        const { apiUrl: _apiUrl } = window.config;
+        const origin = localStorage.getItem('origin') || '';
+        const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
+        window.location.href = `${apiUrl}/summary/export?query=${encodeURIComponent(JSON.stringify({
             formatValue,...searchParams,pageId
         }))}`
         this.handleCancel()
