@@ -74,7 +74,7 @@ export default class GlobalHeader extends PureComponent {
     var NavChildren;
     NavChildren = this.props.NavData.map((value, index) => {
       return (
-        <Menu.Item key={index} onClick={() => this.getMenuData(value.id)}>
+        <Menu.Item className={styles.meunItem} key={index} onClick={() => this.getMenuData(value.id)}>
           {value.name}
         </Menu.Item>
       );

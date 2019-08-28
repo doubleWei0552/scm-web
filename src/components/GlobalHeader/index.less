@@ -2,6 +2,15 @@
 
 @pro-header-hover-bg: rgba(0, 0, 0, 0.025);
 
+:global{
+  .ant-menu-horizontal > li{
+    border-bottom: 2px solid #fff !important
+  }
+  .ant-menu-horizontal > .ant-menu-item-selected {
+    border-bottom: 2px solid #1890ff !important
+  }
+}
+
 .header {
   position: relative;
   height: @layout-header-height;
@@ -79,23 +88,6 @@
     }
   }
 }
-
-// .Navigation {
-//   display: inline;
-//   height: @layout-header-height;
-//   .NavigationList {
-//     font-size: 1.3rem;
-//     margin-right: 1rem;
-//     cursor: pointer;
-//     // border-bottom: 3px solid cyan;
-//     height: @layout-header-height;
-//   }
-//   .NavigationList:hover {
-//     color: #3e90f7;
-//     padding-bottom: 5px;
-//     border-bottom: 2px solid #3e90f7;
-//   }
-// }
 
 .right {
   float: right;
