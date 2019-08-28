@@ -84,7 +84,10 @@ export default class Import extends React.Component {
     let { ImportType } = this.state
     let { importButton: { JAVA_SCRIPT_CONTENT = '' } } = this.props
     const obj = JSON.parse(JAVA_SCRIPT_CONTENT)
-    window.location.href = `${window.config.apiUrl}/batchImport/downLoad?downLoad=${encodeURIComponent(JSON.stringify(obj.batchImport))}`
+    const { apiUrl: _apiUrl } = window.config;
+    const origin = localStorage.getItem('origin') || '';
+    const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
+    window.location.href = `${apiUrl}/batchImport/downLoad?downLoad=${encodeURIComponent(JSON.stringify(obj.batchImport))}`
     this.setState({ current: 3 })
   }
   StepDom = (item) => {
@@ -92,7 +95,8 @@ export default class Import extends React.Component {
       case 'importModel':
         return (
           <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px',marginRight:'3px' }}>
-            <Select value={'add'} disabled={this.state.current >= 0 ? false : true} onChange={(i) => this.onChange(1, i)} placeholder='请选择导入模式' style={{ width: '100%' }} >
+            <Select value={'add'} disabled={this.state.current >= 0 ? false : true} 
+            onChange={(i) => this.onChange(1, i)} placeholder='请选择导入模式' style={{ width: '100%' }} >
               <Option value="add">新增数据</Option>
               {/* <Option value="update">更新数据</Option> */}
             </Select>
@@ -103,7 +107,8 @@ export default class Import extends React.Component {
         const { importButton } = this.props;
         return (
           <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
-            <Button disabled={this.state.current >= 1 ? false : true} onClick={() => this.onClick(2)} type='primary'>下载</Button><br />
+            <Button disabled={this.state.current >= 1 ? false : true} onClick={() => this.onClick(2)} 
+            type='primary'>下载</Button><br />
             {/* <label>备注：导入模版中的Sheet名称和列表标题不能修改,否则导入失败！</label> */}
           </div>
         )
@@ -112,7 +117,8 @@ export default class Import extends React.Component {
 
         return (
           <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px',marginRight:'3px' }}>
-            <Select value="search" disabled={this.state.current >= 1 ? false : true} onChange={() => this.onChange(3)} placeholder='请选择导入类型' style={{ width: '100%' }} >
+            <Select value="search" disabled={this.state.current >= 1 ? false : true} 
+            onChange={() => this.onChange(3)} placeholder='请选择导入类型' style={{ width: '100%' }} >
               <Option value="search">同步导入</Option>
               {/* <Option value="check">异步导入</Option> */}
             </Select>
@@ -122,7 +128,10 @@ export default class Import extends React.Component {
       case 'upload':
         return (
           <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
-            <NormalUpload updateData={this.updateData} cancleModal={this.handleCancel} handleLoading={(v) => this.handleLoading(v)} importButton={this.props.importButton} params={{ current: this.state.current, ImportType: this.state.ImportType }} disabled={this.state.current >= 3 ? false : true} />
+            <NormalUpload updateData={this.updateData} cancleModal={this.handleCancel} 
+            handleLoading={(v) => this.handleLoading(v)} importButton={this.props.importButton} 
+            params={{ current: this.state.current, ImportType: this.state.ImportType }} 
+            disabled={this.state.current >= 3 ? false : true} />
           </div>
         )
         break
