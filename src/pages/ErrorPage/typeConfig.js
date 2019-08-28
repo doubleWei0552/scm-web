@@ -1,4 +1,9 @@
 const config = {
+    underfind: {
+      img: 'https://gw.alipayobjects.com/zos/rmsportal/KpnpchXsobRgLElEozzI.svg',
+      title: 'Error',
+      desc: '抱歉，发生未知错误',
+    },
     401: {
       img: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
       title: '401',

@@ -32,7 +32,7 @@ export default [
     routes: [
       {
         path: '/ErrorPage',
-        redirect: './ErrorPage/401.jsx',
+        component: './ErrorPage/Error',
       },
       {
         path: '/ErrorPage/401',
