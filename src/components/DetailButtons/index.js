@@ -179,7 +179,7 @@ class DetailButtons extends PureComponent {
   detailEdit = () => {
     this.props.dispatch({
       type: 'tableTemplate/changeState',
-      payload: { buttonType: false, disEditStyle: false, isEditSave: true },
+      payload: { buttonType: false, disEditStyle: false, isEditSave: false },
     });
     if (JSON.stringify(this.props.tableTemplate.selectDate) == '{}') {
       this.props.dispatch({
