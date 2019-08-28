@@ -299,7 +299,9 @@ disabledEndDate = (endValue,e) => {
                                 {...formItemLayout}
                               >
                                 {getFieldDecorator(`${values.FIELD_NAME}`, {
-                                  initialValue: isHaveData ? isHaveData[values.FIELD_NAME] ? moment(isHaveData[values.FIELD_NAME]) : null : values.FIELD_VALUE ? moment(values.FIELD_VALUE) : moment(null),
+                                  initialValue: isHaveData ? 
+                                  isHaveData[values.FIELD_NAME] ? moment(isHaveData[values.FIELD_NAME]) : null 
+                                  : values.FIELD_VALUE ? moment(values.FIELD_VALUE) : null,
                                   rules: [
                                     {
                                       required: values.REQUIRED_CONDITION,
