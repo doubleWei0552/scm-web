@@ -853,7 +853,7 @@ class DetailPage extends PureComponent {
                               );
                             case 'Attachment': //附件
                               return (
-                                <Col span={22} offset={1} key={i}>
+                                <Col span={20} offset={1} key={i}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>

@@ -16,6 +16,7 @@ import {
   } from 'antd';
 import React from 'react';
 import moment from 'moment'
+import ReactDOM from 'react-dom'
 import { connect } from 'dva';
 import ResultCom from './Result.jsx'
 import FormCom from './Form.jsx'
@@ -28,7 +29,10 @@ const { Step } = Steps;
     tableTemplate,
     loadingG:
         loading.effects['guidePage/getButtonGuideConfig'] ||
-        loading.effects['guidePage/getButtonGuideData']
+        loading.effects['guidePage/getButtonGuideData'] || 
+        loading.effects['guidePage/detailButtonGuide'] || 
+        loading.effects['guidePage/getGuideBean'] || 
+        loading.effects['guidePage/TransactionProcess']
   }))
 export default class NewGuidePage extends React.Component {
   constructor(props) {
@@ -87,6 +91,10 @@ export default class NewGuidePage extends React.Component {
     })
   }
 
+  onRef = (ref) => {
+    this.child = ref
+  }
+
   submit =()=>{
     const { current,havaResult } = this.state;
     const steps = this.props.tableButton.BUTTON_GUIDE
@@ -109,7 +117,6 @@ export default class NewGuidePage extends React.Component {
                   }
               }
           })
-          console.log('数据',relatedFieldGroup,this.childTable.state.selectedRow)
           this.props.dispatch({
               type:'guidePage/getSaveData',
               payload:{relatedFieldGroup:relatedFieldGroup,data:this.childTable.state.selectedRow}
@@ -125,10 +132,13 @@ export default class NewGuidePage extends React.Component {
             },callback:res=>{
               if (res.status == 'success') {
                 this.setState({
-                  isGoUp:false
+                  isGoUp:false,
                 })
                 if(!havaResult){
                   notification.success({ message: res.message, duration: 3 });
+                  this.setState({
+                    visible:false                    
+                  })
                 }
                 this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
                 this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
@@ -142,7 +152,7 @@ export default class NewGuidePage extends React.Component {
                 }
               }
             }
-        })},1000)
+        })},500)
       } else {
         notification.warning({ message: '未勾选数据，请选择你要提交的数据！', duration: 3 });
       }
@@ -153,7 +163,7 @@ export default class NewGuidePage extends React.Component {
         this.setState({ current });
       } else {
         let {isEdit,selectDate} = this.props.tableTemplate
-        let formData = _.cloneDeep(this.childForm.props.form.getFieldsValue())
+        let formData = _.cloneDeep(this.child.props.form.getFieldsValue())
         for(let i in formData){
           if(typeof(formData[i]) == 'object' && formData[i]){
             formData[i] = formData[i].valueOf()
@@ -162,7 +172,7 @@ export default class NewGuidePage extends React.Component {
         formData.formPageId = isEdit ? selectDate.ID : null  //进入详情页的ID
         this.props.dispatch({
             type:'guidePage/getSaveData',
-            payload:{relatedFieldGroup:this.childForm.state.showData.relatedFieldGroup,data:formData}
+            payload:{relatedFieldGroup:this.child.state.showData.relatedFieldGroup,data:formData}
         })
       }
       setTimeout(()=>{this.props.dispatch({
@@ -179,6 +189,9 @@ export default class NewGuidePage extends React.Component {
               })
               if(!havaResult){
                 notification.success({ message: res.message, duration: 3 });
+                this.setState({
+                  visible:false                    
+                })
               }
               this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
               this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
@@ -192,7 +205,7 @@ export default class NewGuidePage extends React.Component {
               }
             }
           }
-      })},1000)
+      })},500)
     }
   }
 
@@ -200,7 +213,7 @@ export default class NewGuidePage extends React.Component {
     switch(value.BUTTON_GUIDE_TYPE){
         case "Detail":  //form类型的页面
             return <div>
-                <FormCom ref={dom=> this.childForm =dom}  store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
+                <FormCom onRef={this.onRef} ref={dom=> this.childForm =dom}  store={window.g_app._store} dispatch={this.props.dispatch} tableButton={this.props.tableButton}
                 tableTemplate={this.props.tableTemplate} current={this.state.current} closeSpin={this.closeSpin}
                 guidePage={this.props.guidePage} />
             </div>

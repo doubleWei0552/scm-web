@@ -91,7 +91,7 @@ export default class Import extends React.Component {
     switch (item) {
       case 'importModel':
         return (
-          <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
+          <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px',marginRight:'3px' }}>
             <Select value={'add'} disabled={this.state.current >= 0 ? false : true} onChange={(i) => this.onChange(1, i)} placeholder='请选择导入模式' style={{ width: '100%' }} >
               <Option value="add">新增数据</Option>
               {/* <Option value="update">更新数据</Option> */}
@@ -111,7 +111,7 @@ export default class Import extends React.Component {
       case 'importType':
 
         return (
-          <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
+          <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px',marginRight:'3px' }}>
             <Select value="search" disabled={this.state.current >= 1 ? false : true} onChange={() => this.onChange(3)} placeholder='请选择导入类型' style={{ width: '100%' }} >
               <Option value="search">同步导入</Option>
               {/* <Option value="check">异步导入</Option> */}

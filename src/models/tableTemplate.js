@@ -485,7 +485,11 @@ export default {
       }
       const result = yield call(queryTransactionProcess, params);
       if (result.status == 'success') {
-        yield put({ type: 'save', payload: { reportFormURL: result.executeScript } });
+        if(result.executeScript){
+          yield put({ type: 'save', payload: { reportFormURL: result.executeScript+`&userid=${localStorage.getItem('loginData')}` } });
+        } else {
+          yield put({ type: 'save', payload: { reportFormURL: result.executeScript } });
+        }
         if (result.message) {
           notification.success({ message: result.message, duration: 3 });
         }
@@ -558,6 +562,50 @@ export default {
           selectKey,
         };
       }
+      const result = yield call(queryAutocomplate, params);
+      const selectChildOption = yield select(
+        ({ tableTemplate }) => tableTemplate.selectChildOption
+      );
+      const isExist = _.findIndex(selectChildOption, function (o) {
+        return o.selectKey == result.data.selectKey && o.field == result.data.field;
+      });
+      if (isExist == -1) {
+        selectChildOption.push(result.data);
+      } else {
+        selectChildOption[isExist].options = result.options;
+      }
+      _.map(detailData.policyFormFields, data => {
+        if (data.FIELD_NAME === result.data.field) {
+          data.options = result.data.options;
+          return data;
+        }
+      });
+      yield put({
+        type: 'save',
+        payload: {
+          selectOption: result.data
+            ? result.data.options
+              ? result.data.options
+              : result.data
+            : [],
+          detailData,
+          selectChildOption,
+        },
+      });
+      callback && callback(result);
+    },
+    // 子表搜索下拉框事件
+    *getChildSearchAutocomplate({ payload, callback }, { select, call, put }) {
+      const detailColumns = yield select(({ tableTemplate }) => tableTemplate.detailColumns);
+      const selectDate = yield select(({ tableTemplate }) => tableTemplate.selectDate);
+      const detailData = yield select(({ tableTemplate }) => tableTemplate.detailData);
+      const { value } = payload
+      const { searchData, selectKey, ColumnsData } = payload;
+      let params = {
+          ...value,
+          objId: selectDate.ID,
+          selectKey,
+        }
       const result = yield call(queryAutocomplate, params);
       const selectChildOption = yield select(
         ({ tableTemplate }) => tableTemplate.selectChildOption

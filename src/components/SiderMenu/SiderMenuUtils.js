@@ -2,7 +2,7 @@ import pathToRegexp from 'path-to-regexp';
 import { urlToList } from '../_utils/pathTools';
 
 /**
- * Recursively flatten the data
+ * Recursively flatten the data22
  * [{path:string},{path:string}] => {path,path2}
  * @param  menus
  */
