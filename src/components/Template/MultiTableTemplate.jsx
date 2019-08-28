@@ -96,9 +96,11 @@ export default class MultiTableTemplate extends React.Component {
     // } });
   };
   UNSAFE_componentWillReceiveProps = newProps => {
+    let {loading} = this.state
     const currentPageId = _.get(this.props.tableTemplate, 'pageId');
     const newPageId = _.get(newProps.tableTemplate, 'pageId');
     //拿到子表数据取消loading
+    console.log('pageError',_.isEmpty(newProps.tableTemplate.DetailChildData))
     if (_.isEmpty(newProps.tableTemplate.DetailChildData) != {}) {
       this.setState({ loading: false });
     }
