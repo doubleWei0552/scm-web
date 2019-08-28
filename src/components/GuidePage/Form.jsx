@@ -62,11 +62,14 @@ export default class FormModular extends React.Component {
             }
         }
     })
-    },1000)
+    },500)
+  }
+
+  componentDidMount(){
+    this.props.onRef(this)
 }
 
 disabledStartDate = (startValue,e) => {
-  console.log('disabledStartDate',startValue,e)
   const endValue  = this.state[`${e.FIELD_NAME}-end`];
   if (!startValue || !endValue) {
     return false;

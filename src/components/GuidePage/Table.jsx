@@ -46,7 +46,6 @@ export default class TableModulars extends React.Component{
     UNSAFE_componentWillMount=()=>{
         let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
         let isHaveData = sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP]
-        console.log('isHaveData',isHaveData)
         if(isHaveData){
             let selectedRowKeys = []
             isHaveData.map(item=>{
@@ -177,8 +176,12 @@ export default class TableModulars extends React.Component{
     toggle = () => {
         const { expand } = this.state;
         this.setState({ expand: !expand });
-      };
+    };
+
     handleSearch = e => {
+        const event = e || window.event  //阻止事件冒泡
+        event.stopPropagation()
+        event.preventDefault()
         let formData = _.cloneDeep(this.props.form.getFieldsValue())
         for(let i in formData){
             if(typeof(formData[i]) == 'object' && formData[i]){
@@ -197,7 +200,7 @@ export default class TableModulars extends React.Component{
                 id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null 
             },
         });
-      };
+    };
 
     componentWillUnmount=()=>{
         let {isEdit,selectDate} = this.props.tableTemplate

@@ -8,6 +8,7 @@ import { urlToList } from '../_utils/pathTools';
 import { getMenuMatches } from './SiderMenuUtils';
 import { isUrl } from '@/utils/utils';
 import styles from './index.less';
+import moment from 'moment'
 import IconFont from '@/components/IconFont';
 
 const { SubMenu } = Menu;
@@ -61,10 +62,11 @@ export default class BaseMenu extends PureComponent {
         if(item.id == id){
           item.children.map(ii => {
             if(ii.pageId == pageId){
+              let newReportUrl = ii.reportUrl + `&userid=${localStorage.getItem('loginData')}`
               this.props.dispatch({
                 type:'tableTemplate/save',
                 payload:{
-                  reportFormURLPage:ii.reportUrl
+                  reportFormURLPage:newReportUrl
                 }
               })
             }
@@ -140,7 +142,7 @@ export default class BaseMenu extends PureComponent {
     this.props.dispatch({
       type:'tableTemplate/save',
       payload:{
-        reportFormURLPage:item.reportUrl
+        reportFormURLPage:item.reportUrl ? item.reportUrl+`&userid=${localStorage.getItem('loginData')}` : item.reportUrl
       }
     })
     // if(item.reportUrl){
