@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import ReactDom from 'react-dom';
 import { FormattedMessage, formatMessage } from 'umi/locale';
-import { Spin, Tag, Menu, Icon, Avatar, Tooltip, message } from 'antd';
+import { Spin, Tag, Menu, Icon, Avatar, Tooltip, message, Divider } from 'antd';
 import moment from 'moment';
 import { connect } from 'dva';
 import groupBy from 'lodash/groupBy';
@@ -98,8 +98,13 @@ export default class GlobalHeaderRight extends PureComponent {
     const helpLink = localStorage.getItem('helpLink');
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
-        <Menu.Item key="userCenter">
+        <Menu.Item key="userName">
           <Icon type="user" />
+          {/* <FormattedMessage id="menu.account.center" defaultMessage="account center" /> */}
+          <span>{_.get(currentUser, 'username')}</span>
+        </Menu.Item>
+        <Menu.Item key="userCenter">
+          <Icon type="lock" />
           {/* <FormattedMessage id="menu.account.center" defaultMessage="account center" /> */}
           <span>修改密码</span>
         </Menu.Item>
@@ -112,6 +117,7 @@ export default class GlobalHeaderRight extends PureComponent {
           <FormattedMessage id="menu.account.trigger" defaultMessage="Trigger Error" />
         </Menu.Item>
         <Menu.Divider /> */}
+        <Divider style={{ margin: 0 }} />
         <Menu.Item key="logout">
           <Icon type="logout" />
           <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
