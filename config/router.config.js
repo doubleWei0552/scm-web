@@ -24,6 +24,33 @@ export default [
       { path: '/account/book', name: 'login', component: './Account/Book' },
     ],
   },
+  // errorPage
+  {
+    name: 'ErrorPage',
+    path: '/ErrorPage',
+    component: '../layouts/BasicLayout',
+    routes: [
+      {
+        path: '/ErrorPage',
+        redirect: './ErrorPage/401.jsx',
+      },
+      {
+        path: '/ErrorPage/401',
+        name: 'not-permission',
+        component: './ErrorPage/401.jsx',
+      },
+      {
+        path: '/ErrorPage/404',
+        name: 'not-find',
+        component: './ErrorPage/404.jsx',
+      },
+      {
+        path: '/ErrorPage/500',
+        name: 'server-error',
+        component: './ErrorPage/500.jsx',
+      }
+    ],
+  },
   // app
   {
     path: '/',
@@ -69,35 +96,6 @@ export default [
           { path: '/:first/:second/:third/:fourth/:fifth/detail/:detailId', name: '', component: './Template', },
 
           
-        ],
-      },
-      {
-        name: 'exception',
-        icon: 'warning',
-        path: '/exception',
-        routes: [
-          // exception
-          {
-            path: '/exception/403',
-            name: 'not-permission',
-            component: './Exception/403',
-          },
-          {
-            path: '/exception/404',
-            name: 'not-find',
-            component: './Exception/404',
-          },
-          {
-            path: '/exception/500',
-            name: 'server-error',
-            component: './Exception/500',
-          },
-          {
-            path: '/exception/trigger',
-            name: 'trigger',
-            hideInMenu: true,
-            component: './Exception/TriggerException',
-          },
         ],
       },
       {

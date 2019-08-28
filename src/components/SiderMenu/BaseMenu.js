@@ -50,6 +50,7 @@ export default class BaseMenu extends PureComponent {
   UNSAFE_componentWillReceiveProps(newProps) {
     const { location } = newProps;
     const { pathname = '', search = '' } = location;
+    if(pathname.includes('/ErrorPage')) return //去除错误页的情况
     const index = pathname.lastIndexOf("\/list") || pathname.lastIndexOf("\/detail");
     const path = index > 0 ? pathname.substring(0, index) : pathname;
     this.setState({
