@@ -179,7 +179,7 @@ class DetailButtons extends PureComponent {
   detailEdit = () => {
     this.props.dispatch({
       type: 'tableTemplate/changeState',
-      payload: { buttonType: false, disEditStyle: false, isEditSave: true },
+      payload: { buttonType: false, disEditStyle: false, isEditSave: false },
     });
     if (JSON.stringify(this.props.tableTemplate.selectDate) == '{}') {
       this.props.dispatch({
@@ -269,7 +269,7 @@ class DetailButtons extends PureComponent {
 
   // 保存
   onEditSave = value => {
-    const { isNewSave } = this.props.tableTemplate;
+    const { isNewSave,isEditSave } = this.props.tableTemplate;
     let fileList = _.get(this.props.tableTemplate, 'fileList');
     let fileKey = _.get(this.props.tableTemplate, 'fileKey');
     this.props.detailForm.validateFields((err, fieldValues) => {
@@ -328,8 +328,8 @@ class DetailButtons extends PureComponent {
             },
           });
         } else {
-          // 详情页点击编辑进入,根据isEditSave判断是新增方法还是编辑方法
-          if (this.props.tableTemplate.isEditSave) {
+          // 详情页点击编辑进入,根据isEditSave判断是新增方法还是编辑方法(isEditSave为true表示是详情页新增过来的)
+          if (!isEditSave) {
             this.props.dispatch({
               type: 'tableTemplate/getDetailSave',
               payload: { value: this.state, type: 'edit' },

@@ -100,7 +100,6 @@ export default class MultiTableTemplate extends React.Component {
     const currentPageId = _.get(this.props.tableTemplate, 'pageId');
     const newPageId = _.get(newProps.tableTemplate, 'pageId');
     //拿到子表数据取消loading
-    console.log('pageError',_.isEmpty(newProps.tableTemplate.DetailChildData))
     if (_.isEmpty(newProps.tableTemplate.DetailChildData) != {}) {
       this.setState({ loading: false });
     }
@@ -143,7 +142,6 @@ export default class MultiTableTemplate extends React.Component {
 
     const { RangePicker } = DatePicker;
     const dateFormat = 'YYYY/MM/DD';
-    // const { selectedRowKeys } = this.state;
 
     const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
     return (
