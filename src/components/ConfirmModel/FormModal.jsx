@@ -75,7 +75,7 @@ export default class FormModal extends React.Component{
     this.props.dispatch({type:'guidePage/getOpenAccount',payload:{id,userMessage,objectType,fieldGroup},
     callback:res=>{
         if(res.executeScript){
-            this.props.dispatch({type:'tableTemplate/save',payload:{reportFormURL:res.executeScript}})
+            this.props.dispatch({type:'tableTemplate/save',payload:{reportFormURL:res.executeScript+`&userid=${localStorage.getItem('loginData')}`}})
         }
     }})
     setTimeout(() => {

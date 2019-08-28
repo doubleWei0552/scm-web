@@ -7,7 +7,6 @@ export default class NormalUpload extends React.Component {
     updateData: () => { },
   }
   handleChange = (info) => {
-    console.log('ssssss', info)
     let { fileList } = info
     let result = fileList[0].response
     this.props.handleLoading(true)
@@ -33,8 +32,11 @@ export default class NormalUpload extends React.Component {
     let { objectType, importModelCode } = JSON.parse(
       this.props.importButton.JAVA_SCRIPT_CONTENT
     ).batchImport;
+    const { apiUrl: _apiUrl } = window.config;
+    const origin = localStorage.getItem('origin') || '';
+    const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
     const props = {
-      action: `${window.config.apiUrl}/batchImport/uploadModel?current=${encodeURIComponent(
+      action: `${apiUrl}/batchImport/uploadModel?current=${encodeURIComponent(
         this.props.params.current
       )}&ImportType=${encodeURIComponent(
         this.props.params.ImportType

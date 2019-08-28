@@ -29,7 +29,8 @@ class SearchBar extends PureComponent {
         if (
           item.widgetType === 'Select' ||
           item.widgetType === 'Reference' ||
-          item.widgetType === 'ObjectSelector'
+          item.widgetType === 'ObjectSelector' || 
+          item.widgetType === 'TreeSelector'
         ) {
           this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
         }
@@ -178,7 +179,8 @@ class SearchBar extends PureComponent {
                 if (
                   value.widgetType === 'Select' ||
                   value.widgetType === 'Reference' ||
-                  value.widgetType === 'ObjectSelector'
+                  value.widgetType === 'ObjectSelector' || 
+                  value.widgetType === 'TreeSelector' 
                 ) {
                   return (
                     <Col key={value.dataIndex} style={{ textAlign: 'left' }}>

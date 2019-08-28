@@ -48,25 +48,27 @@ export default class ListPage extends React.Component {
     loading: true, // 弹框的loading
     searchData: [], //搜索框的参数
   };
-  UNSAFE_componentWillMount = () => {
-    let props = this.props.frameColumns.columns
-    const searchItems = _.filter(props, item => item.filterable == true);
-    const { currentKey } = this.props.tableTemplate
-    if(searchItems.length > 0){
-      searchItems.map((value, index) => {
-        // console.log('value',value)
-          if (
-            value.widgetType === 'Select' ||
-            value.widgetType === 'Reference' ||
-            value.widgetType === 'ObjectSelector'
-          ){
-            this.getSearchBarOptions({ key: value.unique, text: value.dataIndex });
-          }
-      })
-    }
-  }
   UNSAFE_componentWillReceiveProps = newProps => {
     let { frameColumns, frameData, framePagination } = newProps;
+
+    if(this.props.frameColumns.columns != newProps.frameColumns.columns){
+      let props = newProps.frameColumns.columns
+      const searchItems = _.filter(props, item => item.filterable == true);
+      const { currentKey } = this.props.tableTemplate
+      if(searchItems.length > 0){
+        searchItems.map((value, index) => {
+            if (
+              value.widgetType === 'Select' ||
+              value.widgetType === 'Reference' ||
+              value.widgetType === 'ObjectSelector'
+            ){
+              this.getSearchBarOptions({ key: value.unique, text: value.dataIndex });
+            }
+        })
+      }
+    }
+    
+
     let listColumnData = [];
     !_.isEmpty(frameColumns) ? frameColumns.columns.map((item,index)=>{
       if (item.colorMark) {
@@ -166,8 +168,8 @@ export default class ListPage extends React.Component {
   getSearchBarOptions = e => {
     let options = [];
     this.props.dispatch({
-      type: 'tableTemplate/getAutocomplate',
-      payload: { value: e },
+      type: 'tableTemplate/getChildSearchAutocomplate',
+      payload: { value:e },
       callback: response => {
         if (response.status === 'success') {
           options = response.data.options;
@@ -207,7 +209,7 @@ export default class ListPage extends React.Component {
 
   //列表页顶部搜索部分
   renderSearchForm = (props = []) => {
-    // console.log('搜索模块表头数据',props,'this.props',this.props,this.props.currentKey, this.props.selectOption)
+    console.log('搜索模块表头数据',props,'this.props',this.props,this.props.currentKey, this.props.selectOption)
     const searchItems = _.filter(props, item => item.filterable == true);
     const count = this.state.expand
       ? searchItems.length

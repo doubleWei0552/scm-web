@@ -41,7 +41,10 @@ export default class Export extends React.Component {
         let { formatValue } = this.state
         let { searchParams, pageId } = this.props
         this.setState({ current: e })
-        window.location.href = `${window.config.apiUrl}/summary/export?query=${encodeURIComponent(JSON.stringify({
+        const { apiUrl: _apiUrl } = window.config;
+        const origin = localStorage.getItem('origin') || '';
+        const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
+        window.location.href = `${apiUrl}/summary/export?query=${encodeURIComponent(JSON.stringify({
             formatValue,...searchParams,pageId
         }))}`
         this.handleCancel()
@@ -50,7 +53,7 @@ export default class Export extends React.Component {
         switch (item) {
             case 'exportModel':
                 return (
-                    <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px' }}>
+                    <div style={{ width: '50%', float: 'right', position: 'relative', top: '-32px',marginRight:'3px' }}>
                         <Select value={'search'} disabled={this.state.current >= 0 ? false : true} onChange={(e) => this.onChange(e,1)} placeholder='请选择导入模式' style={{ width: '100%' }} >
                             <Option value="search">按查询结果导出</Option>
                             {/* <Option value="check">按勾选数据导出</Option> */}

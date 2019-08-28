@@ -84,12 +84,24 @@ export default function request(url, options) {
 
 const checkStatus = response => {
   if (response.status === 401) {
-    notification.error({
-      message: `请求错误 ${response.status}: ${response.url}`,
-    });
-    router.push('/user/login');
+    router.push('/ErrorPage/401');
     return false;
   }
+  if (response.status === 404) {
+    router.push('/ErrorPage/404');
+    return false;
+  }
+  if (response.status === 500) {
+    router.push('/ErrorPage/500');
+    return false;
+  }
+  // if (response.status === 500) {
+  //   notification.error({
+  //     message: `请求错误 ${response.status}: ${response.url}`,
+  //   });
+  //   router.push('/ErrorPage/500');
+  //   return false;
+  // }
   if (response.status >= 200 && response.status < 300) {
     return response;
   }

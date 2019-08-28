@@ -143,7 +143,7 @@ export default {
       let result = yield call(queryTransactionProcessTest, params);
       if(result.executeScript){
         yield put({type:'tableTemplate/save',payload:{
-          reportFormURL:result.executeScript
+          reportFormURL:result.executeScript+`&userid=${localStorage.getItem('loginData')}`
         }})
       }
       if (callback) callback(result);
