@@ -860,7 +860,7 @@ class DetailPage extends PureComponent {
                                         {field.LABEL}
                                       </Tooltip>
                                     }
-                                    style={{ width: '100%', minHeight: '123px', display: 'block' }}
+                                    style={{ width: '100%', minHeight: '123px', display: 'block',paddingLeft:'29px' }}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
                                       initialValue: _.get(field, 'FIELD_VALUE'),
@@ -873,6 +873,7 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <Attachments
+                                        style={{ width: '100%' }}
                                         handleAttachmentsChange={e =>
                                           this.handleAttachmentsChange(e, field.FIELD_NAME)
                                         }
