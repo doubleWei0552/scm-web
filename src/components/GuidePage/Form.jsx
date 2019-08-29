@@ -113,7 +113,13 @@ disabledEndDate = (endValue,e) => {
     let formData = _.cloneDeep(this.props.form.getFieldsValue())
     for(let i in formData){
       if(typeof(formData[i]) == 'object' && formData[i]){
-        formData[i] = formData[i].valueOf()
+        if(i.includes('-start')){
+          formData[i] = formData[i].startOf('day').valueOf()
+        } else if(i.includes('-end')){
+          formData[i] = formData[i].endOf('day').valueOf()
+        } else {
+          formData[i] = formData[i].valueOf()
+        }
       } 
     }
     formData.formPageId = isEdit ? selectDate.ID : null  //进入详情页的ID
