@@ -4,9 +4,9 @@ const config = {
       title: 'Error',
       desc: '抱歉，发生未知错误',
     },
-    401: {
+    403: {
       img: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
-      title: '401',
+      title: '403',
       desc: '抱歉，你无权访问该页面',
     },
     404: {

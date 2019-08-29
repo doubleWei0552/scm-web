@@ -35,9 +35,9 @@ export default [
         component: './ErrorPage/Error',
       },
       {
-        path: '/ErrorPage/401',
+        path: '/ErrorPage/403',
         name: 'not-permission',
-        component: './ErrorPage/401.jsx',
+        component: './ErrorPage/403.jsx',
       },
       {
         path: '/ErrorPage/404',
