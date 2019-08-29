@@ -159,8 +159,14 @@ export default class NewGuidePage extends React.Component {
     } else {
       let ButtonName = this.props.tableButton.FIELD_NAME
       if(havaResult){
-        const current = this.state.current + 1;
-        this.setState({ current });
+        this.childForm.validateFields(err => {
+          if (!err) {
+            const current = this.state.current + 1;
+            this.setState({ current });
+          }
+        });
+        // const current = this.state.current + 1;
+        // this.setState({ current });
       } else {
         let {isEdit,selectDate} = this.props.tableTemplate
         let formData = _.cloneDeep(this.child.props.form.getFieldsValue())
@@ -175,37 +181,41 @@ export default class NewGuidePage extends React.Component {
             payload:{relatedFieldGroup:this.child.state.showData.relatedFieldGroup,data:formData}
         })
       }
-      setTimeout(()=>{this.props.dispatch({
-          type: 'guidePage/TransactionProcess',
-          payload:{
-              params:{
-                  ButtonName,
-                  AllData:this.props.guidePage.sendGuideData
-              }
-          },callback:res=>{
-            if (res.status == 'success') {
-              this.setState({
-                isGoUp:false
-              })
-              if(!havaResult){
-                notification.success({ message: res.message, duration: 3 });
+      this.childForm.validateFields(err => {
+        if (!err) {
+          setTimeout(()=>{this.props.dispatch({
+            type: 'guidePage/TransactionProcess',
+            payload:{
+                params:{
+                    ButtonName,
+                    AllData:this.props.guidePage.sendGuideData
+                }
+            },callback:res=>{
+              if (res.status == 'success') {
                 this.setState({
-                  visible:false                    
+                  isGoUp:false
                 })
-              }
-              this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
-              this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
-                ID:this.props.tableTemplate.selectDate.ID,
-                ObjectType:this.props.tableTemplate.detailColumns.objectType,
-                pageId:this.props.tableTemplate.pageId,
-              }})
-            } else {
-              if(!havaResult){
-                notification.error({ message: res.message, duration: 3 });
+                if(!havaResult){
+                  notification.success({ message: res.message, duration: 3 });
+                  this.setState({
+                    visible:false                    
+                  })
+                }
+                this.props.dispatch({ type: 'tableTemplate/getPagelist' }); //重新获取列表页数据
+                this.props.dispatch({ type:'tableTemplate/getDetailPage',payload:{
+                  ID:this.props.tableTemplate.selectDate.ID,
+                  ObjectType:this.props.tableTemplate.detailColumns.objectType,
+                  pageId:this.props.tableTemplate.pageId,
+                }})
+              } else {
+                if(!havaResult){
+                  notification.error({ message: res.message, duration: 3 });
+                }
               }
             }
-          }
-      })},500)
+        })},500)
+        }
+      });
     }
   }
 
