@@ -853,14 +853,14 @@ class DetailPage extends PureComponent {
                               );
                             case 'Attachment': //附件
                               return (
-                                <Col span={20} offset={1} key={i}>
+                                <Col span={21} offset={1} key={i}>
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
                                         {field.LABEL}
                                       </Tooltip>
                                     }
-                                    style={{ width: '100%', minHeight: '123px', display: 'block',paddingLeft:'29px' }}
+                                    style={{ width: '100%', minHeight: '123px', display: 'block' }}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
                                       initialValue: _.get(field, 'FIELD_VALUE'),
@@ -873,7 +873,7 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <Attachments
-                                        style={{ width: '100%' }}
+                                        // style={{ width: '100%' }}
                                         handleAttachmentsChange={e =>
                                           this.handleAttachmentsChange(e, field.FIELD_NAME)
                                         }

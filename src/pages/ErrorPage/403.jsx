@@ -6,7 +6,7 @@ export default class NotFound extends React.Component{
     render(){
         return(
             <ErrorPage
-                type="401"
+                type="403"
                 desc={'你无权访问该页面'}
                 linkElement={Link}
                 backText={'是否返回首页'}
