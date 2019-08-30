@@ -72,7 +72,7 @@ export default function request(url, options) {
     };
     newOptions.body = JSON.stringify(newOptions.body);
   }
-  return fetch(apiUrl + url, newOptions)
+  return fetch(apiUrl + url + `?t= ${ +new Date().getTime()}`, newOptions)
     .then(checkStatus)
     .then(response => {
       return response.json();

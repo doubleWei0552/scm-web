@@ -19,9 +19,24 @@ class SearchBar extends PureComponent {
     end: null,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { tableColumns = [], currentKey } = this.props.tableTemplate;
+      const searchItems = _.filter(tableColumns, item => item.filterable === true);
+      _.map(searchItems, item => {
+        if (
+          item.widgetType === 'Select' ||
+          item.widgetType === 'Reference' ||
+          item.widgetType === 'ObjectSelector' || 
+          item.widgetType === 'TreeSelector'
+        ) {
+          this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
+        }
+      });
+  }
 
-  UNSAFE_componentWillReceiveProps(newProps) {
+  
+
+  componentWillReceiveProps(newProps) {
     if (newProps.tableTemplate.tableColumns !== this.props.tableTemplate.tableColumns) {
       const { tableColumns = [], currentKey } = newProps.tableTemplate;
       const searchItems = _.filter(tableColumns, item => item.filterable === true);
