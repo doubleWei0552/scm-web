@@ -149,8 +149,8 @@ export default class MultiTableTemplate extends React.Component {
     return (
       <CatchError>
         {/* <Spin spinning={this.props.loadingG || false}> */}
+        <SkeletonCom loading={this.props.loadingG || false} >
           <div className={styles.SingleTableTemplateMain}>
-            <SkeletonCom loading={this.props.loadingG || false} >
               {/* 列表页  */}
               <CatchError>
                 <ListPageModule />
@@ -159,8 +159,8 @@ export default class MultiTableTemplate extends React.Component {
               <CatchError>
                 <DetailsPageModule />
               </CatchError>
-            </SkeletonCom>
           </div>
+        </SkeletonCom>
         {/* </Spin> */}
       </CatchError>
     );
