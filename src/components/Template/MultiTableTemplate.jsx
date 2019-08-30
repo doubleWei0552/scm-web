@@ -19,6 +19,7 @@ import {
   Spin,
   Tabs,
   Divider,
+  Skeleton
 } from 'antd';
 import { onRegex } from '@/utils/FunctionSet';
 import _ from 'lodash';
@@ -26,6 +27,7 @@ import { connect } from 'dva';
 import CatchError from '@/components/CatchError/Index';
 import DetailsPageModule from '@/components/DetailsPageModule/Index';
 import ListPageModule from '@/components/ListPageModule/index';
+import SkeletonCom from '@/components/Skeleton/Index'
 import moment from 'moment';
 import styles from './SingleTableTemplate.less';
 
@@ -146,18 +148,20 @@ export default class MultiTableTemplate extends React.Component {
     const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
     return (
       <CatchError>
-        <Spin spinning={this.props.loadingG || false}>
+        {/* <Spin spinning={this.props.loadingG || false}> */}
           <div className={styles.SingleTableTemplateMain}>
-            {/* 列表页 */}
-            <CatchError>
-              <ListPageModule />
-            </CatchError>
-            {/* 详情页 */}
-            <CatchError>
-              <DetailsPageModule />
-            </CatchError>
+            <SkeletonCom loading={this.props.loadingG || false} >
+              {/* 列表页  */}
+              <CatchError>
+                <ListPageModule />
+              </CatchError>
+              {/* 详情页 */}
+              <CatchError>
+                <DetailsPageModule />
+              </CatchError>
+            </SkeletonCom>
           </div>
-        </Spin>
+        {/* </Spin> */}
       </CatchError>
     );
   }

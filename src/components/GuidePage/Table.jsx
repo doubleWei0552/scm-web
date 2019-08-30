@@ -182,10 +182,26 @@ export default class TableModulars extends React.Component{
         const event = e || window.event  //阻止事件冒泡
         event.stopPropagation()
         event.preventDefault()
+        let newKey 
+        let type
         let formData = _.cloneDeep(this.props.form.getFieldsValue())
         for(let i in formData){
             if(typeof(formData[i]) == 'object' && formData[i]){
+                if(i.includes('-start') || i.includes('-end')){
+                    newKey = i.split('-')[0]
+                    formData[newKey] ={}
+                }
+            } 
+        }
+        for(let i in formData){
+            if(typeof(formData[i]) == 'object' && formData[i] != null){
                 formData[i] = formData[i].valueOf()
+                if(i.includes('-start') || i.includes('-end')){
+                    newKey = i.split('-')[0]
+                    type = i.split('-')[1]
+                    formData[newKey][type] = formData[i].valueOf()
+                    delete formData[i]
+                }
             } 
         }
         let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]

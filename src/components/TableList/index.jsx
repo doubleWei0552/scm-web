@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
+import Skeleton from '@/components/Skeleton/Index'
 import _ from 'lodash';
 import {
   Table, Tooltip
