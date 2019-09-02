@@ -151,7 +151,7 @@ class TableList extends PureComponent {
           ),
           sorter: item.sorTable ? true : false,
           sortDirections: ['descend', 'ascend'],
-          fixed: index === 0,
+          // fixed: index === 0,
           render: (text, record) => {
             if (!text) return;
             let color = text.split('-')[0];
@@ -185,7 +185,7 @@ class TableList extends PureComponent {
           ),
           sorter: item.sorTable ? true : false,
           sortDirections: ['descend', 'ascend'],
-          fixed: index === 0,
+          // fixed: index === 0,
           render: (text, record) => this.renderColumn(text, item, record),
         };
         listColumnData.push(column);
