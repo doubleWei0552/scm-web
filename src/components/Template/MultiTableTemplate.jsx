@@ -83,19 +83,24 @@ export default class MultiTableTemplate extends React.Component {
     isError: false, //获取值得时候是否出错
   };
   UNSAFE_componentWillMount = () => {
-    const pageId = this.props.location.query.PageId;
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId: +pageId } });
+    const pageId = this.props.location.query.PageId*1;
+    this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId } });
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
       payload: { pageId, current: 1, pageSize: 10 },
     });
+
+    //新版
+    // this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
+    // this.props.dispatch({
+    //   type: 'listPage/getPagelist',
+    //   payload: { pageId, current: 1, pageSize: 10 },
+    // });
+    // this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:+pageId} });
   };
   componentDidMount = () => {
     this.props.dispatch({ type: 'tableTemplate/getDetailPageConfig' });
     this.props.dispatch({ type: 'tableTemplate/getSummaryPageConfig' });
-    // this.props.dispatch({ type: 'tableTemplate/save',payload:{
-    //   reportFormURL:this.props.location.query.url
-    // } });
   };
   UNSAFE_componentWillReceiveProps = newProps => {
     let { loading } = this.state
@@ -149,18 +154,18 @@ export default class MultiTableTemplate extends React.Component {
     return (
       <CatchError>
         {/* <Spin spinning={this.props.loadingG || false}> */}
-        <div className={styles.SingleTableTemplateMain}>
-          {/* <SkeletonCom loading={this.props.loadingG || false} > */}
-          {/* 列表页  */}
-          <CatchError>
-            <ListPageModule />
-          </CatchError>
-          {/* 详情页 */}
-          <CatchError>
-            <DetailsPageModule />
-          </CatchError>
-          {/* </SkeletonCom> */}
-        </div>
+          <div className={styles.SingleTableTemplateMain}>
+              {/* <SkeletonCom loading={this.props.loadingG || false} > */}
+              {/* 列表页  */}
+              <CatchError>
+                <ListPageModule />
+              </CatchError>
+              {/* 详情页 */}
+              <CatchError>
+                <DetailsPageModule />
+              </CatchError>
+              {/* </SkeletonCom> */}
+          </div>
         {/* </Spin> */}
       </CatchError>
     );

@@ -18,9 +18,10 @@ import styles from './style.less';
 // const ButtonGroup = Button.Group;
 
 @Form.create()
-@connect(({ tableTemplate,guidePage, loading }) => ({
+@connect(({ tableTemplate,guidePage,listPage, loading }) => ({
   tableTemplate,
   guidePage,
+  listPage,
   loadingG: loading.effects['tableTemplate/getDetailPage'],
 }))
 class CustomerButtons extends PureComponent {
@@ -74,7 +75,10 @@ class CustomerButtons extends PureComponent {
 
   // 删除选中的表格数据
   tableDelete = () => {
+    //旧版
     this.props.dispatch({ type: 'tableTemplate/getRemoveBusiness' });
+    //新版
+    // this.props.dispatch({ type: 'listPage/getRemoveBusiness' });
   };
 
   // 列表页导入按钮
@@ -120,15 +124,6 @@ class CustomerButtons extends PureComponent {
           type: 'tableTemplate/getTransactionProcess',
           payload: { Buttons: e, idList: selectedRowKeys },
         });
-        // message.success('暂待开发')
-        // this.props.dispatch({
-        //   type: 'tableTemplate/getDetailPage',
-        //   payload: {
-        //     ID: this.props.tableTemplate.selectDate.ID,
-        //     ObjectType: this.props.tableTemplate.detailColumns.objectType,
-        //     pageId: this.props.tableTemplate.pageId,
-        //   },
-        // });
         break;
       default:
         return null;
@@ -136,8 +131,12 @@ class CustomerButtons extends PureComponent {
   };
 
   render() {
+    //旧版
     const { tableColumns = [], isEdit, selectedRowKeys } = this.props.tableTemplate;
     const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
+    //新版
+    // const { tableColumns = [], selectedRowKeys } = this.props.listPage;
+    // const tableButtons = this.props.listPage.tableColumnsData.buttons || [];
     const buttonList = [];
     _.map(tableButtons, item => {
       if (!item.BUTTON_GROUP) {

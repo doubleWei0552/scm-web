@@ -287,7 +287,7 @@ class TableList extends PureComponent {
           onRow={(e, record) => {
             return {
               onDoubleClick: () => {
-                this.onJump(e, record);
+                this.props.onJump(e, record);
               },
             };
           }}

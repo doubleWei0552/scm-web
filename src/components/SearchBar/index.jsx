@@ -7,36 +7,52 @@ import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
 const SearchOptions = {};
 
 @Form.create()
-@connect(({ tableTemplate, loading }) => ({
+@connect(({ tableTemplate,listPage, loading }) => ({
   tableTemplate,
+  listPage,
   loadingG: loading.effects['tableTemplate/getDetailPage'],
 }))
 class SearchBar extends PureComponent {
   state = {
-    // readOnlyFields: [],
     expand: false,
     start: null,
     end: null,
   };
 
   componentDidMount() {
+    //旧版
     const { tableColumns = [], currentKey } = this.props.tableTemplate;
-      const searchItems = _.filter(tableColumns, item => item.filterable === true);
-      _.map(searchItems, item => {
-        if (
-          item.widgetType === 'Select' ||
-          item.widgetType === 'Reference' ||
-          item.widgetType === 'ObjectSelector' || 
-          item.widgetType === 'TreeSelector'
-        ) {
-          this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
-        }
-      });
+    const searchItems = _.filter(tableColumns, item => item.filterable === true);
+    _.map(searchItems, item => {
+      if (
+        item.widgetType === 'Select' ||
+        item.widgetType === 'Reference' ||
+        item.widgetType === 'ObjectSelector' || 
+        item.widgetType === 'TreeSelector'
+      ) {
+        this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
+      }
+    });
+
+    //新版
+    // const { tableColumns = [], currentKey } = this.props.listPage;
+    // const searchItems = _.filter(tableColumns, item => item.filterable === true);
+    // _.map(searchItems, item => {
+    //   if (
+    //     item.widgetType === 'Select' ||
+    //     item.widgetType === 'Reference' ||
+    //     item.widgetType === 'ObjectSelector' || 
+    //     item.widgetType === 'TreeSelector'
+    //   ) {
+    //     this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
+    //   }
+    // });
   }
 
   
 
   componentWillReceiveProps(newProps) {
+    //旧版
     if (newProps.tableTemplate.tableColumns !== this.props.tableTemplate.tableColumns) {
       const { tableColumns = [], currentKey } = newProps.tableTemplate;
       const searchItems = _.filter(tableColumns, item => item.filterable === true);
@@ -51,10 +67,27 @@ class SearchBar extends PureComponent {
         }
       });
     }
+
+    //新版
+    // if (newProps.listPage.tableColumns !== this.props.listPage.tableColumns) {
+    //   const { tableColumns = [], currentKey } = newProps.listPage;
+    //   const searchItems = _.filter(tableColumns, item => item.filterable === true);
+    //   _.map(searchItems, item => {
+    //     if (
+    //       item.widgetType === 'Select' ||
+    //       item.widgetType === 'Reference' ||
+    //       item.widgetType === 'ObjectSelector' || 
+    //       item.widgetType === 'TreeSelector'
+    //     ) {
+    //       this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
+    //     }
+    //   });
+    // }
   }
 
   // 获取搜索栏Options
   getSearchBarOptions = e => {
+    //旧版
     let options = [];
     this.props.dispatch({
       type: 'tableTemplate/getAutocomplate',
@@ -67,6 +100,20 @@ class SearchBar extends PureComponent {
       },
     });
     return options;
+
+    //新版
+    // let options = [];
+    // this.props.dispatch({
+    //   type: 'listPage/getAutocomplate',
+    //   payload: { value: e },
+    //   callback: response => {
+    //     if (response.status === 'success') {
+    //       options = response.data.options;
+    //       SearchOptions[response.data.field] = response.data.options;
+    //     }
+    //   },
+    // });
+    // return options;
   };
 
   toggle = () => {
@@ -125,7 +172,10 @@ class SearchBar extends PureComponent {
 
   handleSearch = e => {
     const { pageId } = this.props.tableTemplate;
+    //旧版
     const { tableColumns = [], summarySort, pageSize } = this.props.tableTemplate;
+    //新版
+    // const { tableColumns = [], summarySort, pageSize } = this.props.listPage;
     const { start, end } = this.state;
     let searchParams = {};
     const idx = _.findIndex(
@@ -133,10 +183,6 @@ class SearchBar extends PureComponent {
       item =>
         item.filterable === true && (item.widgetType === 'DateTime' || item.widgetType === 'Date')
     );
-    // if (idx > -1) {
-    //   // if()
-    //   searchParams = _.assign(searchParams, { [tableColumns[idx].dataIndex]: { start, end } });
-    // }
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       for (let gg in values) {
@@ -157,11 +203,20 @@ class SearchBar extends PureComponent {
         }
         return;
       });
+      //新版
+      // this.props.dispatch({
+      //   type: 'listPage/getPagelist',
+      //   payload: { pageId, current: 1, pageSize, searchParams, summarySort },
+      // });
+      // this.props.dispatch({
+      //   type: 'listPage/changeState',
+      //   payload: { searchParams },
+      // });
+      //旧版
       this.props.dispatch({
         type: 'tableTemplate/getPagination',
         payload: { pageId, current: 1, pageSize, searchParams, summarySort },
       });
-      // this.props.searchParamsChange(searchParams)
       this.props.dispatch({
         type: 'tableTemplate/changeState',
         payload: { searchParams },
@@ -171,6 +226,9 @@ class SearchBar extends PureComponent {
 
   render() {
     // tableColumns = { this.props.tableTemplate.tableColumns }
+    //新版
+    // const { tableColumns = [] } = this.props.listPage;
+    //旧版
     const { tableColumns = [] } = this.props.tableTemplate;
     const { expand } = this.state;
     const searchItems = _.filter(tableColumns, item => item.filterable === true);
