@@ -41,7 +41,7 @@ import styles from './Index.less'
 
 //详情页模块
 export default class DetailsPageModule extends React.Component {
-  getMasterTable=()=>{
+  getMasterTable = () => {
     let MasterTable = this.DetailPage.getFieldsValue()
     return MasterTable
   }
@@ -86,11 +86,11 @@ export default class DetailsPageModule extends React.Component {
               }}
             >
               <div style={{ marginTop: '5px' }}>
-                <ChildTable getMasterTable={(value)=>this.getMasterTable(value)} />
+                <ChildTable getMasterTable={(value) => this.getMasterTable(value)} />
               </div>
             </Card>
           </div>
-          )}
+        )}
       </div>
     )
   }

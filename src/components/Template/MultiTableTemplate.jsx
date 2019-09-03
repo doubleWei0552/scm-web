@@ -98,7 +98,7 @@ export default class MultiTableTemplate extends React.Component {
     // } });
   };
   UNSAFE_componentWillReceiveProps = newProps => {
-    let {loading} = this.state
+    let { loading } = this.state
     const currentPageId = _.get(this.props.tableTemplate, 'pageId');
     const newPageId = _.get(newProps.tableTemplate, 'pageId');
     //拿到子表数据取消loading
@@ -149,18 +149,18 @@ export default class MultiTableTemplate extends React.Component {
     return (
       <CatchError>
         {/* <Spin spinning={this.props.loadingG || false}> */}
-          <div className={styles.SingleTableTemplateMain}>
-              <SkeletonCom loading={this.props.loadingG || false} >
-              {/* 列表页  */}
-              <CatchError>
-                <ListPageModule />
-              </CatchError>
-              {/* 详情页 */}
-              <CatchError>
-                <DetailsPageModule />
-              </CatchError>
-              </SkeletonCom>
-          </div>
+        <div className={styles.SingleTableTemplateMain}>
+          {/* <SkeletonCom loading={this.props.loadingG || false} > */}
+          {/* 列表页  */}
+          <CatchError>
+            <ListPageModule />
+          </CatchError>
+          {/* 详情页 */}
+          <CatchError>
+            <DetailsPageModule />
+          </CatchError>
+          {/* </SkeletonCom> */}
+        </div>
         {/* </Spin> */}
       </CatchError>
     );
