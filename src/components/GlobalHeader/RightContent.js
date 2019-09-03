@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import ReactDom from 'react-dom';
 import { FormattedMessage, formatMessage } from 'umi/locale';
-import { Spin, Tag, Menu, Icon, Avatar, Tooltip, message, Divider } from 'antd';
+import { Tag, Menu, Icon, Avatar, Tooltip, message, Divider } from 'antd';
 import moment from 'moment';
 import { connect } from 'dva';
 import groupBy from 'lodash/groupBy';
