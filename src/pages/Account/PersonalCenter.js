@@ -5,6 +5,7 @@ import Link from 'umi/link';
 import { Checkbox, Alert, Icon, Button } from 'antd';
 import Login from '@/components/Login';
 import moment from 'moment'
+import Skeleton from '@/components/Skeleton/Index'
 import RotationChart from '@/components/Carousel/Index'
 import TreeSelect from '@/components/TreeSelect/Index'
 import Cascader from '@/components/Cascader/Index' //省市级联动
