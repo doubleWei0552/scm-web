@@ -3,7 +3,30 @@ import { connect } from 'dva';
 import moment from 'moment';
 import Skeleton from '@/components/Skeleton/Index';
 import _ from 'lodash';
-import { Table, Tooltip } from 'antd';
+import { Resizable } from 'react-resizable';
+import {
+  Table, Tooltip
+} from 'antd';
+import Styles from './index.less'
+
+const ResizeableTitle = props => {
+  const { onResize, width, ...restProps } = props;
+
+  if (!width) {
+    return <th {...restProps} />;
+  }
+
+  return (
+    <Resizable
+      width={width}
+      height={0}
+      onResize={onResize}
+      draggableOpts={{ enableUserSelectHack: false }}
+    >
+      <th {...restProps} />
+    </Resizable>
+  );
+};
 
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
@@ -17,21 +40,56 @@ import { Table, Tooltip } from 'antd';
 class TableList extends PureComponent {
   state = {
     selectedRowKeys: [],
+    columns:this.props.columns,
+  }
+  components = {
+    header: {
+      cell: ResizeableTitle,
+    },
   };
+  
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   const {columns,dataSource} = nextProps;
+  //   // 当传入的type发生变化的时候，更新state
+  //   if (columns !== prevState.columns) {
+  //       return {
+  //         columns,
+  //       };
+  //   }
+  //   // 否则，对于state不进行任何操作
+  //   return null;
+  // } 
 
+  componentWillReceiveProps=(nextProps)=>{
+    let {columns } = nextProps
+    if(columns !== this.state.columns){
+      this.setState({
+        columns
+      })
+    }
+  }
+
+  handleResize = index => (e, { size }) => {
+    this.setState(({ columns }) => {
+      const nextColumns = [...columns];
+      nextColumns[index] = {
+        ...nextColumns[index],
+        width: size.width,
+      };
+      return { columns: nextColumns };
+    });
+  };
   // table排序方法
   handleChange = (pagination, filters, sorter) => {
-    console.log('list排序', pagination, filters, sorter);
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { sorterData: sorter } });
+    this.props.dispatch({ type: 'tableTemplate/save', payload: { sorterData: sorter } })
     const { current, pageSize = 10 } = pagination;
     let obj = {
       descend: 'DESC',
       ascend: 'ASC',
       undefined: null,
-    };
-    console.log('sorter', sorter);
-    let { searchParams, pageId, sorterData } = this.props.tableTemplate;
-    let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null;
+    }
+    let { searchParams, pageId, sorterData } = this.props.tableTemplate
+    let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null
     this.props.dispatch({
       type: 'tableTemplate/getPagination',
       payload: { pageId, current, pageSize, summarySort: value, searchParams },
@@ -55,61 +113,75 @@ class TableList extends PureComponent {
     });
   };
 
-  onJump = e => {
-    this.props.dispatch({
-      type: 'tableTemplate/changeState',
-      payload: { disEditStyle: true },
-    });
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { selectDate: e } });
-    this.props.dispatch({
-      type: 'tableTemplate/getDetailPage',
-      payload: { ID: e.ID, ObjectType: e.ObjectType, pageId: this.props.tableTemplate.pageId },
-      callback: res => {
-        if (res.status === 'success') {
-          this.props.dispatch({ type: 'tableTemplate/getChildTable' });
-        }
-      },
-    });
-    // 改变组件状态
-    this.props.dispatch({
-      type: 'tableTemplate/changeState',
-      payload: { isEdit: true, buttonType: true, isNewSave: false },
-    });
-  };
+  // onJump = e => {
+  //   this.props.dispatch({
+  //     type: 'tableTemplate/changeState',
+  //     payload: { disEditStyle: true }
+  //   })
+  //   this.props.dispatch({ type: 'tableTemplate/save', payload: { selectDate: e } });
+  //   this.props.dispatch({
+  //     type: 'tableTemplate/getDetailPage',
+  //     payload: { ID: e.ID, ObjectType: e.ObjectType, pageId: this.props.tableTemplate.pageId },
+  //     callback: res => {
+  //       if (res.status === 'success') {
+  //         this.props.dispatch({ type: 'tableTemplate/getChildTable' });
+  //       }
+  //     },
+  //   });
+  //   // 改变组件状态
+  //   this.props.dispatch({
+  //     type: 'tableTemplate/changeState',
+  //     payload: { isEdit: true, buttonType: true, isNewSave: false }
+  //   })
+  // };
 
-  renderColumn = (text, item, record) => {
-    // debugger
-    if (!text || !item.widgetType) {
-      return (
-        <span style={{ display: 'inline-block', width: '100%', textAlign: 'right' }}>{text}</span>
-      );
-    }
-    if (item.hyperLink && item.widgetType === 'Date') {
-      return (
-        <a onClick={this.onJump.bind(this, record)}>
-          {text ? moment(text).format('YYYY-MM-DD') : null}
-        </a>
-      );
-    } else if (item.hyperLink && item.widgetType === 'DateTime') {
-      return (
-        <a onClick={this.onJump.bind(this, record)}>
-          {text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : null}
-        </a>
-      );
-    } else if (item.hyperLink) {
-      return <a onClick={this.onJump.bind(this, record)}>{text}</a>;
-    } else if (item.widgetType === 'Date') {
-      return <span>{text ? moment(text).format('YYYY-MM-DD') : null}</span>;
-    } else if (item.widgetType === 'DateTime') {
-      return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : null}</span>;
-    } else if (item.widgetType === 'Number') {
-      return (
-        <span style={{ display: 'inline-block', width: '100%', textAlign: 'right' }}>{text}</span>
-      );
-    } else {
-      return <span>{text}</span>;
-    }
-  };
+  // renderColumn = (text, item, record) => {
+  //   // debugger
+  //   if (!text || !item.widgetType) {
+  //     return (<span
+  //       style={{ display: 'inline-block', width: '100%', textAlign: 'right' }}
+  //     >
+  //       {text}
+  //     </span>)
+  //   }
+  //   if (item.hyperLink && item.widgetType === 'Date') {
+  //     return (
+  //       <a onClick={this.onJump.bind(this, record)}>
+  //         {text ? moment(text).format('YYYY-MM-DD') : null}
+  //       </a>
+  //     )
+  //   } else if (item.hyperLink && item.widgetType === 'DateTime') {
+  //     return (
+  //       <a onClick={this.onJump.bind(this, record)}>
+  //         {text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : null}
+  //       </a>
+  //     )
+  //   } else if (item.hyperLink) {
+  //     return <a onClick={this.onJump.bind(this, record)}>{text}</a>
+  //   } else if (item.widgetType === 'Date') {
+  //     return (
+  //       <span>{text ? moment(text).format('YYYY-MM-DD') : null}</span>
+  //     )
+  //   } else if (item.widgetType === 'DateTime') {
+  //     return (
+  //       <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : null}</span>
+  //     )
+  //   } else if (item.widgetType === 'Number') {
+  //     return (
+  //       <span
+  //         style={{ display: 'inline-block', width: '100%', textAlign: 'right' }}
+  //       >
+  //         {text}
+  //       </span>
+  //     )
+  //   } else {
+  //     return (
+  //       <span>
+  //         {text}
+  //       </span>
+  //     )
+  //   }
+  // }
 
   // 分页的函数
   onShowSizeChange = (current, pageSize) => {
@@ -138,59 +210,54 @@ class TableList extends PureComponent {
   };
 
   render() {
-    const { loadingTable = false, loadingG = false } = this.props;
-    let listColumnData = [];
-    _.get(this.props.tableTemplate, 'tableColumns').map((item, index) => {
-      if (item.colorMark) {
-        let list = {
-          ...item,
-          title: (
-            <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-              <span>{item.title}</span>
-            </Tooltip>
-          ),
-          sorter: item.sorTable ? true : false,
-          sortDirections: ['descend', 'ascend'],
-          // fixed: index === 0,
-          render: (text, record) => {
-            if (!text) return;
-            let color = text.split('-')[0];
-            let newText = text.split('-')[text.split('-').length - 1];
-            return (
-              <span>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    background: color,
-                    width: '6px',
-                    height: '6px',
-                    marginRight: '5px',
-                    marginBottom: '2px',
-                    borderRadius: '50%',
-                  }}
-                />
-                {newText}
-              </span>
-            );
-          },
-        };
-        listColumnData.push(list);
-      } else {
-        let column = {
-          ...item,
-          title: (
-            <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-              <span>{item.title}</span>
-            </Tooltip>
-          ),
-          sorter: item.sorTable ? true : false,
-          sortDirections: ['descend', 'ascend'],
-          // fixed: index === 0,
-          render: (text, record) => this.renderColumn(text, item, record),
-        };
-        listColumnData.push(column);
-      }
-    });
+    const { loadingTable = false, loadingG = false } = this.props
+    // let listColumnData = [];
+    // _.get(this.props.tableTemplate, 'tableColumns').map((item, index) => {
+    //   if (item.colorMark) {
+    //     let list = {
+    //       ...item,
+    //       title: <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
+    //         <span>{item.title}</span>
+    //       </Tooltip>,
+    //       sorter: item.sorTable ? true : false,
+    //       sortDirections: ['descend', 'ascend'],
+    //       render: (text, record) => {
+    //         if (!text) return;
+    //         let color = text.split('-')[0];
+    //         let newText = text.split('-')[text.split('-').length - 1];
+    //         return (
+    //           <span>
+    //             <span
+    //               style={{
+    //                 display: 'inline-block',
+    //                 background: color,
+    //                 width: '6px',
+    //                 height: '6px',
+    //                 marginRight: '5px',
+    //                 marginBottom: '2px',
+    //                 borderRadius: '50%',
+    //               }}
+    //             />
+    //             {newText}
+    //           </span>
+    //         );
+    //       },
+    //     };
+    //     listColumnData.push(list);
+    //   } else {
+    //     let column = {
+    //       ...item,
+    //       title: <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
+    //         <span>{item.title}</span>
+    //       </Tooltip>,
+    //       sorter: item.sorTable ? true : false,
+    //       sortDirections: ['descend', 'ascend'],
+    //       render: (text, record) =>
+    //         this.renderColumn(text, item, record)
+    //     }
+    //     listColumnData.push(column);
+    //   }
+    // });
     const { selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -200,10 +267,18 @@ class TableList extends PureComponent {
         name: record.name,
       }),
     };
+    const columns = this.state.columns.map((col, index) => ({
+      ...col,
+      onHeaderCell: column => ({
+        width: column.width,
+        onResize: this.handleResize(index),
+      }),
+    }));
     return (
-      <div>
+      <div className={Styles.tableListMain}>
         <Table
-          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+          components={this.components}
+          // style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
           rowSelection={rowSelection}
           onChange={this.handleChange}
           bordered
@@ -216,7 +291,7 @@ class TableList extends PureComponent {
               },
             };
           }}
-          columns={listColumnData}
+          columns={columns}
           dataSource={_.get(this.props.tableTemplate, 'pagination.list')}
           pagination={{
             showSizeChanger: true,
