@@ -381,6 +381,7 @@ class DetailButtons extends PureComponent {
   };
 
   render() {
+    console.log('主表数据',this.props.detailForm)
     const { tableColumns = [], isEdit, selectedRowKeys, buttonType } = this.props.tableTemplate;
     const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
     const { loading = false } = this.props;

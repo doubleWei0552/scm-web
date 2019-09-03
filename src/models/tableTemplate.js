@@ -387,7 +387,7 @@ export default {
           businessId.push(value);
         });
         if (businessId.length == 0) {
-          notification.warning({ message: '未选择要删除的数据,操作不成功！', duration: 3 });
+          notification.warning({ message: '未选择要删除的数据,请重试！', duration: 3 });
           return false;
         }
         params = {

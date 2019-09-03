@@ -138,7 +138,6 @@ export default class Import extends React.Component {
     }
   }
   render() {
-    console.log('xxxxx', this.state)
     return (
       <div>
 

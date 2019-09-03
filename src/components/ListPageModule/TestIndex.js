@@ -30,14 +30,15 @@ import Detailbuttons from '@/components/DetailButtons'; // 详情页头部的按
 import TableButtons from '@/components/TableButtons'; // 列表页头部的按钮栏
 import SearchBar from '@/components/SearchBar/index'; //搜索栏
 import TableList from '@/components/TableList/index'; //列表表格
-import TestTableList from '@/components/TableList/TestIndex'; //测试页面
+import TestTableList from '@/components/TableList/index'; //测试页面
 
 import { connect } from 'dva';
 import styles from './Index.less';
 
 @Form.create()
-@connect(({ tableTemplate, loading }) => ({
+@connect(({ tableTemplate,listPage, loading }) => ({
   tableTemplate,
+  listPage,
   loadingG:
     loading.effects['tableTemplate/getDetailPageConfig'] ||
     loading.effects['tableTemplate/save'] ||
@@ -121,7 +122,7 @@ export default class DetailsPageModule extends React.Component {
   render() {
     //test -------------------------------
     let listColumnData = [];
-    _.get(this.props.tableTemplate, 'tableColumns').map((item, index) => {
+    _.get(this.props.listPage, 'tableColumns').map((item, index) => {
       if (item.colorMark) {
         let list = {
           ...item,
@@ -214,7 +215,7 @@ export default class DetailsPageModule extends React.Component {
               }}
             />
             <div>
-              <TableList onJump={this.onJump} columns={listColumnData}/>
+              <TestTableList onJump={this.onJump} columns={listColumnData}/>
             </div>
           </div>
         )}
