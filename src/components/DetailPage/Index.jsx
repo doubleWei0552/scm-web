@@ -51,6 +51,7 @@ class DetailPage extends PureComponent {
   };
 
   componentDidMount() {
+    this.props.onRef(this)
   }
 
   onEditSearch = (value, searchData) => {

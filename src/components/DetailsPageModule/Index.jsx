@@ -25,8 +25,11 @@ import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 import DetailPage from '../DetailPage/Index'; // 主表详情组件
 import ChildTable from '../ChildTable/Index'; //子表组件
 import Detailbuttons from '@/components/DetailButtons'; // 详情页头部的按钮栏
+import SkeletonCom from '@/components/Skeleton/Index'
 import { connect } from 'dva';
 import styles from './Index.less'
+
+let child={}
 
 @Form.create()
 @connect(({ tableTemplate, loading }) => ({
@@ -41,11 +44,25 @@ import styles from './Index.less'
 
 //详情页模块
 export default class DetailsPageModule extends React.Component {
+  state={
+    isSkeleton:true
+  }
+  componentWillReceiveProps=(newProps)=>{
+    if(newProps.loadingGG != this.state.isSkeleton){
+      this.setState({
+        isSkeleton:newProps.loadingGG
+      })
+    }
+  }
   getMasterTable = () => {
     let MasterTable = this.DetailPage.getFieldsValue()
     return MasterTable
   }
+  onRef = (ref) => {
+    child = ref
+  }
   render() {
+    let {isSkeleton} = this.state
     return (
       <div>
         {/* 报表部分 */}
@@ -58,10 +75,13 @@ export default class DetailsPageModule extends React.Component {
             style={{ display: this.props.tableTemplate.isEdit ? 'block' : 'none' }}
             className={styles.SingleTableDetail}
           >
+          <SkeletonCom type='detailPage' loading={this.props.loadingGG || false} />
+          <div style={{ display: isSkeleton ? 'none' : 'block' }}>
             {/* 头部title/面包屑 */}
             <CustomerHeader />
             <div>
-              <Detailbuttons detailForm={this.DetailPage} />
+              <Detailbuttons  detailForm={this.DetailPage} />
+              {/* <Detailbuttons  detailForm={child} /> */}
             </div>
             < hr
               style={{ backgroundColor: '#d3d3d3', margin: '0', height: '1px', border: 'none', marginBottom: '5px', marginTop: 0 }}
@@ -69,7 +89,7 @@ export default class DetailsPageModule extends React.Component {
             <div className="BasicEditSearch">
               <span style={{ fontSize: '1.2rem' }}>{this.props.subtitle}</span>
               {/* 主表内容 */}
-              <DetailPage
+              <DetailPage onRef={this.onRef} 
                 ref={dom => (this.DetailPage = dom)}
                 disabled={this.props.tableTemplate.disEditStyle}
               />
@@ -89,6 +109,8 @@ export default class DetailsPageModule extends React.Component {
                 <ChildTable getMasterTable={(value) => this.getMasterTable(value)} />
               </div>
             </Card>
+          </div>
+            
           </div>
         )}
       </div>

@@ -28,11 +28,11 @@ let editAndDeleteButton = {
 class DetailButtons extends PureComponent {
   state = {};
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  UNSAFE_componentWillReceiveProps(newProps) { }
+  UNSAFE_componentWillReceiveProps(newProps) {}
 
-  handleClickItem = item => { };
+  handleClickItem = item => {};
 
   //详情页按钮，按钮组版本
   editButton = () => {
@@ -269,7 +269,7 @@ class DetailButtons extends PureComponent {
 
   // 保存
   onEditSave = value => {
-    const { isNewSave, isEditSave } = this.props.tableTemplate;
+    const { isNewSave,isEditSave } = this.props.tableTemplate;
     let fileList = _.get(this.props.tableTemplate, 'fileList');
     let fileKey = _.get(this.props.tableTemplate, 'fileKey');
     this.props.detailForm.validateFields((err, fieldValues) => {
@@ -381,7 +381,6 @@ class DetailButtons extends PureComponent {
   };
 
   render() {
-    console.log('主表数据',this.props.detailForm)
     const { tableColumns = [], isEdit, selectedRowKeys, buttonType } = this.props.tableTemplate;
     const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
     const { loading = false } = this.props;
