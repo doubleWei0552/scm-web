@@ -47,7 +47,7 @@ import styles from './Index.less';
 
 //详情页模块
 export default class DetailsPageModule extends React.Component {
-  state={
+  state = {
     selectedRowKeys: [],
   }
   onJump = e => {
@@ -153,11 +153,11 @@ export default class DetailsPageModule extends React.Component {
             );
           },
         };
-        if(index == 0){
+        if (index == 0) {
           delete list.width
         }
         listColumnData.push(list);
-        
+
       } else {
         let column = {
           ...item,
@@ -170,7 +170,7 @@ export default class DetailsPageModule extends React.Component {
           render: (text, record) =>
             this.renderColumn(text, item, record)
         }
-        if(index == 0){
+        if (index == 0) {
           delete column.width
         }
         listColumnData.push(column);
@@ -214,7 +214,7 @@ export default class DetailsPageModule extends React.Component {
               }}
             />
             <div>
-              <TableList onJump={this.onJump} columns={listColumnData}/>
+              <TableList onJump={this.onJump} columns={listColumnData} />
             </div>
           </div>
         )}

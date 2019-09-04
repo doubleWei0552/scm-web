@@ -4,6 +4,27 @@ import { connect } from 'dva';
 import _ from 'lodash';
 import moment from 'moment';
 import { Table, Input, InputNumber, Popconfirm, Form, Tooltip } from 'antd';
+import { Resizable } from 'react-resizable';
+import styles from './index.less'
+
+const ResizeableTitle = props => {
+  const { onResize, width, ...restProps } = props;
+
+  if (!width) {
+    return <th {...restProps} />;
+  }
+
+  return (
+    <Resizable
+      width={width}
+      height={0}
+      onResize={onResize}
+      draggableOpts={{ enableUserSelectHack: true }}
+    >
+      <th {...restProps} />
+    </Resizable>
+  );
+};
 
 const data = [];
 for (let i = 0; i < 100; i++) {
@@ -50,8 +71,8 @@ class EditableCell extends React.Component {
             })(this.getInput())}
           </Form.Item>
         ) : (
-          children
-        )}
+            children
+          )}
       </td>
     );
   };
@@ -73,27 +94,87 @@ class EditableCell extends React.Component {
 class EditableTable extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data, editingKey: '' };
-    this.columns = [
-      {
-        title: 'name',
-        dataIndex: 'name',
-        width: '25%',
-        editable: true,
-      },
-      {
-        title: 'age',
-        dataIndex: 'age',
-        width: '15%',
-        editable: true,
-      },
-      {
-        title: 'address',
-        dataIndex: 'address',
-        width: '40%',
-        editable: true,
-      },
-      {
+    this.state = { data, editingKey: '', selectedRowKeys: [], columns: [], isResize: false };
+  }
+
+  componentDidMount() {
+
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.log(newProps.tableTemplate.tableColumns == newProps.tableTemplate.tableColumns)
+    if (this.props.tableTemplate.tableColumns !== newProps.tableTemplate.tableColumns) {
+      let listColumnData = [];
+      _.get(newProps.tableTemplate, 'tableColumns').map((item, index) => {
+        if (item.colorMark) {
+          let list = {
+            ...item,
+            title: (
+              <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
+                <span>{item.title}</span>
+              </Tooltip>
+            ),
+            sorter: item.sorTable ? true : false,
+            sortDirections: ['descend', 'ascend'],
+            editable: true,
+            width: 200,
+            onCell: record => ({
+              record,
+              inputType: item.dataIndex === 'age' ? 'number' : 'text',
+              dataIndex: item.dataIndex,
+              title: item.title,
+              editing: this.isEditing(record),
+            }),
+            // fixed: index === 0,
+            render: (text, record) => {
+              if (!text) return;
+              let color = text.split('-')[0];
+              let newText = text.split('-')[text.split('-').length - 1];
+              return (
+                <span>
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      background: color,
+                      width: '6px',
+                      height: '6px',
+                      marginRight: '5px',
+                      marginBottom: '2px',
+                      borderRadius: '50%',
+                    }}
+                  />
+                  {newText}
+                </span>
+              );
+            },
+          };
+          listColumnData.push(list);
+        } else {
+          let column = {
+            ...item,
+            title: (
+              <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
+                <span>{item.title}</span>
+              </Tooltip>
+            ),
+            editable: true,
+            sorter: item.sorTable ? true : false,
+            sortDirections: ['descend', 'ascend'],
+            width: 200,
+            // fixed: index === 0,
+            onCell: record => ({
+              record,
+              inputType: item.dataIndex === 'age' ? 'number' : 'text',
+              dataIndex: item.dataIndex,
+              title: item.title,
+              editing: this.isEditing(record),
+            }),
+            render: (text, record) => this.renderColumn(text, item, record),
+          };
+          listColumnData.push(column);
+        }
+      });
+      listColumnData.push({
         title: 'operation',
         dataIndex: 'operation',
         render: (text, record) => {
@@ -105,7 +186,7 @@ class EditableTable extends React.Component {
                 {form => (
                   <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
                     Save
-                  </a>
+                </a>
                 )}
               </EditableContext.Consumer>
               <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
@@ -113,13 +194,17 @@ class EditableTable extends React.Component {
               </Popconfirm>
             </span>
           ) : (
-            <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
-              Edit
-            </a>
-          );
+              <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
+                Edit
+          </a>
+            );
         },
-      },
-    ];
+      });
+      this.setState({
+        columns: listColumnData
+      })
+    }
+
   }
 
   isEditing = record => record.key === this.state.editingKey;
@@ -128,7 +213,7 @@ class EditableTable extends React.Component {
     this.setState({ editingKey: '' });
   };
 
-  save(form, key) {
+  save = (form, key) => {
     form.validateFields((error, row) => {
       if (error) {
         return;
@@ -149,13 +234,13 @@ class EditableTable extends React.Component {
     });
   }
 
-  edit(key) {
+  edit = (key) => {
     this.setState({ editingKey: key });
   }
 
   // table排序方法
   handleChange = (pagination, filters, sorter) => {
-    console.log('list排序', pagination, filters, sorter);
+    console.log('sortersorter', sorter)
     this.props.dispatch({ type: 'tableTemplate/save', payload: { sorterData: sorter } });
     const { current, pageSize = 10 } = pagination;
     let obj = {
@@ -163,7 +248,6 @@ class EditableTable extends React.Component {
       ascend: 'ASC',
       undefined: null,
     };
-    console.log('sorter', sorter);
     let { searchParams, pageId, sorterData } = this.props.tableTemplate;
     let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null;
     this.props.dispatch({
@@ -245,146 +329,98 @@ class EditableTable extends React.Component {
     }
   };
 
+  // 列表页数据选择
+  onSelectChange = (selectedRowKeys, selectedRows) => {
+    this.props.dispatch({
+      type: 'tableTemplate/save',
+      payload: { selectDataDelete: selectedRows },
+    });
+    this.setState({ selectedRowKeys });
+    this.props.dispatch({
+      type: 'tableTemplate/changeState',
+      payload: { selectedRowKeys },
+    });
+  };
+
+  // 伸缩列
+  handleResize = index => (e, { size }) => {
+    console.log('eeeeee', e)
+    this.setState({
+      isResize: true
+    })
+    this.setState(({ columns }) => {
+      const nextColumns = [...columns];
+      nextColumns[index] = {
+        ...nextColumns[index],
+        width: size.width,
+      };
+      return { columns: nextColumns };
+    });
+  };
+
   render() {
+    const { selectedRowKeys, isResize } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+      getCheckboxProps: record => ({
+        disabled: record.name === 'Disabled User',
+        name: record.name,
+      }),
+    };
+
+    const columns = this.state.columns.map((col, index) => ({
+      ...col,
+      onHeaderCell: column => ({
+        width: column.width,
+        onResize: this.handleResize(index),
+      }),
+    }));
+
     const components = {
+      header: {
+        cell: ResizeableTitle,
+      },
       body: {
         cell: EditableCell,
       },
     };
-
-    const columns = this.columns.map(col => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: record => ({
-          record,
-          inputType: col.dataIndex === 'age' ? 'number' : 'text',
-          dataIndex: col.dataIndex,
-          title: col.title,
-          editing: this.isEditing(record),
-        }),
-      };
-    });
-
-    let listColumnData = [];
-    _.get(this.props.tableTemplate, 'tableColumns').map((item, index) => {
-      if (item.colorMark) {
-        let list = {
-          ...item,
-          title: (
-            <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-              <span>{item.title}</span>
-            </Tooltip>
-          ),
-          sorter: item.sorTable ? true : false,
-          sortDirections: ['descend', 'ascend'],
-          editable: true,
-          onCell: record => ({
-            record,
-            inputType: item.dataIndex === 'age' ? 'number' : 'text',
-            dataIndex: item.dataIndex,
-            title: item.title,
-            editing: this.isEditing(record),
-          }),
-          // fixed: index === 0,
-          render: (text, record) => {
-            if (!text) return;
-            let color = text.split('-')[0];
-            let newText = text.split('-')[text.split('-').length - 1];
-            return (
-              <span>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    background: color,
-                    width: '6px',
-                    height: '6px',
-                    marginRight: '5px',
-                    marginBottom: '2px',
-                    borderRadius: '50%',
-                  }}
-                />
-                {newText}
-              </span>
-            );
-          },
-        };
-        listColumnData.push(list);
-      } else {
-        let column = {
-          ...item,
-          title: (
-            <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-              <span>{item.title}</span>
-            </Tooltip>
-          ),
-          editable: true,
-          sorter: item.sorTable ? true : false,
-          sortDirections: ['descend', 'ascend'],
-          // fixed: index === 0,
-          onCell: record => ({
-            record,
-            inputType: item.dataIndex === 'age' ? 'number' : 'text',
-            dataIndex: item.dataIndex,
-            title: item.title,
-            editing: this.isEditing(record),
-          }),
-          render: (text, record) => this.renderColumn(text, item, record),
-        };
-        listColumnData.push(column);
-      }
-    });
-    listColumnData.push({
-      title: 'operation',
-      dataIndex: 'operation',
-      render: (text, record) => {
-        const { editingKey } = this.state;
-        const editable = this.isEditing(record);
-        return editable ? (
-          <span>
-            <EditableContext.Consumer>
-              {form => (
-                <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
-                  Save
-                </a>
-              )}
-            </EditableContext.Consumer>
-            <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
-        ) : (
-          <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
-            Edit
-          </a>
-        );
-      },
-    });
-    console.log('this.props', this.props);
+    console.log('this.props', columns);
     return (
-      <EditableContext.Provider value={this.props.form}>
-        <Table
-          components={components}
-          bordered
-          onChange={this.handleChange}
-          scroll={{ x: true }}
-          dataSource={_.get(this.props.tableTemplate, 'pagination.list')}
-          columns={listColumnData}
-          rowClassName="editable-row"
-          pagination={{
-            showSizeChanger: true,
-            total: _.get(this.props.tableTemplate, 'pagination.totalRecord'),
-            current: _.get(this.props.tableTemplate, 'pagination.currentPage'),
-            pageSize: _.get(this.props.tableTemplate, 'pagination.pageSize'),
-            pageSizeOptions: ['10', '20', '50', '100', '300'],
-            onShowSizeChange: this.onShowSizeChange,
-            // onChange: ()=>this.onPageChange(),
-            showTotal: total => `共${this.props.tableTemplate.pagination.totalRecord}条数据`,
-          }}
-        />
-      </EditableContext.Provider>
+      <div className={styles.tableListMain}>
+        <EditableContext.Provider value={this.props.form}>
+          <Table
+            // key={_.now()}
+            components={components}
+            bordered
+            rowSelection={rowSelection}
+            onChange={isResize ? (e) => {
+              window.event.preventDefault()
+              this.setState({
+                isResize: false
+              })
+            } : (pagination, filters, sorter) => {
+
+              this.handleChange(pagination, filters, sorter)
+
+            }}
+            scroll={{ x: true }}
+            dataSource={_.get(this.props.tableTemplate, 'pagination.list')}
+            columns={columns}
+            rowClassName="editable-row"
+            pagination={{
+              showSizeChanger: true,
+              total: _.get(this.props.tableTemplate, 'pagination.totalRecord'),
+              current: _.get(this.props.tableTemplate, 'pagination.currentPage'),
+              pageSize: _.get(this.props.tableTemplate, 'pagination.pageSize'),
+              pageSizeOptions: ['10', '20', '50', '100', '300'],
+              onShowSizeChange: this.onShowSizeChange,
+              // onChange: ()=>this.onPageChange(),
+              showTotal: total => `共${this.props.tableTemplate.pagination.totalRecord}条数据`,
+            }}
+          />
+        </EditableContext.Provider>
+      </div>
     );
   }
 }

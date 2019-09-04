@@ -35,7 +35,14 @@ body,
   th,
   td {
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
+}
+
+.ant-table-scroll table {
+    width: fit-content !important;
+    min-width: 100%;
 }
 
 canvas {
@@ -66,7 +73,7 @@ ol {
     &-tbody > tr {
       > th,
       > td {
-        white-space: pre;
+        // white-space: pre;
         > span {
           display: block;
         }
