@@ -75,7 +75,7 @@ export default class Attachments extends React.Component{
     };
     return (
       <div className={styles.AttachmentsMain}>
-        <div style={{float:'left'}}>
+        <div style={{float:'left',width:'100%'}}>
           {this.props.value ? this.props.value.map((item,index)=>{
             return (
               <div key={index} className={this.props.disabled ? styles.disFileList : styles.fileList}>
@@ -91,7 +91,7 @@ export default class Attachments extends React.Component{
           listType="picture-card"
           showUploadList={false}
           {...props} style={{display:'block',float:'left'}}>
-            <Button className={styles.fileButton} disabled={this.props.disabled} >
+            <Button style={{display : this.props.value.length >= 5 ? 'none' : null}} className={styles.fileButton} disabled={this.props.disabled} >
               <Icon type="upload" /> 
               <span>附件上传</span>
             </Button>

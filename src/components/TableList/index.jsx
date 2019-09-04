@@ -62,7 +62,8 @@ class TableList extends PureComponent {
 
   componentWillReceiveProps = (nextProps) => {
     let { columns } = nextProps
-    if (columns !== this.state.columns) {
+    if (columns != this.state.columns) {
+      console.log('修改重新复制')
       this.setState({
         columns
       })
@@ -70,6 +71,7 @@ class TableList extends PureComponent {
   }
 
   handleResize = index => (e, { size }) => {
+    console.log('列宽',e, { size })
     this.setState(({ columns }) => {
       const nextColumns = [...columns];
       nextColumns[index] = {
@@ -211,53 +213,6 @@ class TableList extends PureComponent {
 
   render() {
     const { loadingTable = false, loadingG = false } = this.props
-    // let listColumnData = [];
-    // _.get(this.props.tableTemplate, 'tableColumns').map((item, index) => {
-    //   if (item.colorMark) {
-    //     let list = {
-    //       ...item,
-    //       title: <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-    //         <span>{item.title}</span>
-    //       </Tooltip>,
-    //       sorter: item.sorTable ? true : false,
-    //       sortDirections: ['descend', 'ascend'],
-    //       render: (text, record) => {
-    //         if (!text) return;
-    //         let color = text.split('-')[0];
-    //         let newText = text.split('-')[text.split('-').length - 1];
-    //         return (
-    //           <span>
-    //             <span
-    //               style={{
-    //                 display: 'inline-block',
-    //                 background: color,
-    //                 width: '6px',
-    //                 height: '6px',
-    //                 marginRight: '5px',
-    //                 marginBottom: '2px',
-    //                 borderRadius: '50%',
-    //               }}
-    //             />
-    //             {newText}
-    //           </span>
-    //         );
-    //       },
-    //     };
-    //     listColumnData.push(list);
-    //   } else {
-    //     let column = {
-    //       ...item,
-    //       title: <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-    //         <span>{item.title}</span>
-    //       </Tooltip>,
-    //       sorter: item.sorTable ? true : false,
-    //       sortDirections: ['descend', 'ascend'],
-    //       render: (text, record) =>
-    //         this.renderColumn(text, item, record)
-    //     }
-    //     listColumnData.push(column);
-    //   }
-    // });
     const { selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -278,7 +233,7 @@ class TableList extends PureComponent {
       <div className={Styles.tableListMain}>
         <Table
           components={this.components}
-          // style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
           rowSelection={rowSelection}
           onChange={this.handleChange}
           bordered

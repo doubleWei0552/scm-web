@@ -128,7 +128,7 @@ export default class DetailsPageModule extends React.Component {
     }
   }
   render() {
-    //test -------------------------------
+    //test  👇-------------------------------
     let listColumnData = [];
     _.get(this.props.tableTemplate, 'tableColumns').map((item, index) => {
       if (item.colorMark) {
@@ -162,11 +162,10 @@ export default class DetailsPageModule extends React.Component {
             );
           },
         };
-        if(index == 0){
-          delete list.width
-        }
+        // if(index == 0){
+        //   delete list.width
+        // }
         listColumnData.push(list);
-        
       } else {
         let column = {
           ...item,
@@ -179,9 +178,9 @@ export default class DetailsPageModule extends React.Component {
           render: (text, record) =>
             this.renderColumn(text, item, record)
         }
-        if(index == 0){
-          delete column.width
-        }
+        // if(index == 0){
+        //   delete column.width
+        // }
         listColumnData.push(column);
       }
     });
@@ -194,7 +193,7 @@ export default class DetailsPageModule extends React.Component {
         name: record.name,
       }),
     };
-    ///test --------------------------------
+    ///test  👆--------------------------------
     const { isEdit } = this.props.tableTemplate;
     return (
       <div style={{ display: isEdit ? 'none' : 'block' }} className={styles.SingleTable}>
