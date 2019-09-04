@@ -49,8 +49,11 @@ export default {
         }
       })
     },
-
-
+    //导向页rtlink
+    *guideRtlink({payload,callback},{select,put,call}){
+      let result = yield call(updateFields,payload)
+      if(callback) callback (result.data)
+    },
 
     // --------------------------------old-----------------------------
     *getButtonGuideClean({payload},{call,select,put}){

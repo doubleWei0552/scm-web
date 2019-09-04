@@ -130,13 +130,6 @@ export default class MultiTableTemplate extends React.Component {
     this.props.dispatch({
       type: 'tableTemplate/changeState',
       payload: {
-        // isEdit: false,
-        // buttonType: false,
-        // isNewSave: false,
-        // disEditStyle: true,
-        // searchParams: {},
-        // selectedRowKeys: [],
-        // defaultActiveKey: '0',
         reportFormURL: null,
       },
     });
