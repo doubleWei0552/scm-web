@@ -63,7 +63,6 @@ class TableList extends PureComponent {
   componentWillReceiveProps = (nextProps) => {
     let { columns } = nextProps
     if (columns != this.state.columns) {
-      console.log('修改重新复制')
       this.setState({
         columns
       })
@@ -71,7 +70,6 @@ class TableList extends PureComponent {
   }
 
   handleResize = index => (e, { size }) => {
-    console.log('列宽',e, { size })
     this.setState(({ columns }) => {
       const nextColumns = [...columns];
       nextColumns[index] = {
