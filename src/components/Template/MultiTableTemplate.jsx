@@ -45,7 +45,7 @@ let editAndDeleteButton = {
 @Form.create()
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
-  loadingG:
+  loadingGG:
     loading.effects['tableTemplate/getDetailPageConfig'] ||
     loading.effects['tableTemplate/save'] ||
     loading.effects['tableTemplate/getDetailPage'] ||
@@ -79,7 +79,6 @@ export default class MultiTableTemplate extends React.Component {
     loading: true, // 子表loding
     childChanged: [], //子表修改的数据，待发送到后台
     searchParams: {}, //列表页搜索栏的参数
-
     isError: false, //获取值得时候是否出错
   };
   UNSAFE_componentWillMount = () => {
@@ -131,13 +130,6 @@ export default class MultiTableTemplate extends React.Component {
     this.props.dispatch({
       type: 'tableTemplate/changeState',
       payload: {
-        // isEdit: false,
-        // buttonType: false,
-        // isNewSave: false,
-        // disEditStyle: true,
-        // searchParams: {},
-        // selectedRowKeys: [],
-        // defaultActiveKey: '0',
         reportFormURL: null,
       },
     });
@@ -146,25 +138,17 @@ export default class MultiTableTemplate extends React.Component {
   render() {
     //列表页表头数据处理
     const { isEdit, buttonType, disEditStyle, selectedRowKeys } = this.props.tableTemplate;
-
     const { RangePicker } = DatePicker;
     const dateFormat = 'YYYY/MM/DD';
-
     const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
     return (
       <CatchError>
         {/* <Spin spinning={this.props.loadingG || false}> */}
           <div className={styles.SingleTableTemplateMain}>
-              {/* <SkeletonCom loading={this.props.loadingG || false} > */}
-              {/* 列表页  */}
-              <CatchError>
-                <ListPageModule />
-              </CatchError>
-              {/* 详情页 */}
-              <CatchError>
-                <DetailsPageModule />
-              </CatchError>
-              {/* </SkeletonCom> */}
+            {/* 列表页  */}
+              <ListPageModule loadingGG={this.props.loadingGG} />
+            {/* 详情页 */}
+              <DetailsPageModule loadingGG={this.props.loadingGG} />
           </div>
         {/* </Spin> */}
       </CatchError>

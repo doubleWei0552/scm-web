@@ -42,6 +42,7 @@ export default class TableModulars extends React.Component{
         pageSize: 10, //表格每页展示多少行
         FieldsValue:{}, //记录搜索条件
         autoCheck:false, //是否增加修改数据默认选择
+        data:_.get(this.props.guidePage.guidePageData,'list',[]), //表格数据
     }
     UNSAFE_componentWillMount=()=>{
         let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
@@ -100,7 +101,15 @@ export default class TableModulars extends React.Component{
     componentDidMount =()=>{
         this.props.onRef(this)
         this.props.closeSpin()
-      }
+    }
+
+    componentWillReceiveProps=(nextProps)=>{
+        if(_.get(nextProps.guidePage.guidePageData,'list',[])  != this.state.data){
+            this.setState({
+                data:_.get(nextProps.guidePage.guidePageData,'list',[])
+            })
+        }
+    }
 
     onShowSizeChange = (current, pageSize) => {
         let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
@@ -160,6 +169,41 @@ export default class TableModulars extends React.Component{
       };
     //table数据改变
     onTableChange=(e,FIELD_NAME,tableIndex,index,rowData)=>{
+        let {rtLinks} = this.props.guidePage.guidePageColumns
+        if(rtLinks.includes(FIELD_NAME)){
+            rowData[FIELD_NAME] = e
+            let guidePageData = _.get(this.props.guidePage,'guidePageData')
+            let guidePageColumns = _.get(this.props.guidePage,'guidePageColumns')
+            let list= [
+                {
+                  updatedField:FIELD_NAME,
+                  objectType:guidePageData.objectType,
+                  policyFormFields: rowData,
+                  fieldGroupName: guidePageColumns.relatedFieldGroup,
+                },
+            ]
+            this.props.dispatch({
+                type:'guidePage/guideRtlink',
+                payload:{
+                    list
+                },
+                callback:res => {
+                    let {data} = this.state
+                    res.map(item => {
+                        item.fieldChanges.map(ii => {
+                            ii.changes.map(jj => {
+                                if(jj.field == "FIELD_VALUE"){
+                                    data[tableIndex][ii.field] = jj.value
+                                }
+                            })
+                        })
+                    })
+                    this.setState({
+                        data
+                    })
+                }
+            })
+        }
         let {selectedRowKeys,selectedRow,autoCheck} = this.state
         if(autoCheck){
             let idx = _.findIndex(selectedRowKeys,item => item == rowData.ID)
@@ -271,29 +315,29 @@ export default class TableModulars extends React.Component{
                             >
                                     {getFieldDecorator(`${value.FIELD_NAME}`, {})(
                                         <Select
-                                                allowClear
-                                                showSearch
-                                                filterOption={(inputValue, option) =>
-                                                    _.includes(option.props.children, inputValue)
-                                                }
-                                                placeholder={`请选择${value.LABEL}`}
-                                                // disabled={value.READ_ONLY_CONDITION}
-                                                style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
-                                            >
-                                                {value.options.length && value.options.length > 0
-                                                ? _.map(value.options, (item, index) => {
-                                                    return (
-                                                        <Select.Option
-                                                        title={item.text}
-                                                        key={item.value + item.text}
-                                                        value={item.value}
-                                                        >
-                                                        {item.text}
-                                                        </Select.Option>
-                                                    );
-                                                    })
-                                                : null}
-                                            </Select>
+                                            allowClear
+                                            showSearch
+                                            filterOption={(inputValue, option) =>
+                                                _.includes(option.props.children, inputValue)
+                                            }
+                                            placeholder={`请选择${value.LABEL}`}
+                                            // disabled={value.READ_ONLY_CONDITION}
+                                            style={{ width: '165px', textOverflow: 'ellipsis',width:'195px' }}
+                                        >
+                                            {value.options.length && value.options.length > 0
+                                            ? _.map(value.options, (item, index) => {
+                                                return (
+                                                    <Select.Option
+                                                    title={item.text}
+                                                    key={item.value + item.text}
+                                                    value={item.value}
+                                                    >
+                                                    {item.text}
+                                                    </Select.Option>
+                                                );
+                                                })
+                                            : null}
+                                        </Select>
                                       )}
                             </Form.Item>
                             </Col>
@@ -486,7 +530,7 @@ export default class TableModulars extends React.Component{
     render(){
         const { TextArea } = Input;
         let columns = [] 
-        const { selectedRowKeys,selectedRow } = this.state;
+        const { selectedRowKeys,selectedRow,data } = this.state;
         const rowSelection = {
             selectedRowKeys,
             selectedRow,
@@ -497,7 +541,7 @@ export default class TableModulars extends React.Component{
             }),
           };
         const { getFieldDecorator } = this.props.form;
-        let data =  _.get(this.props.guidePage.guidePageData,'list',[]) 
+        // let data =  _.get(this.props.guidePage.guidePageData,'list',[]) 
         let guidePageColumns = _.get(this.props.guidePage.guidePageColumns,'policyFormFields',[]).map((item,index)=>{
             if(item.READ_ONLY_CONDITION){
                 let obj 
@@ -544,6 +588,7 @@ export default class TableModulars extends React.Component{
                 }
                 columns.push(obj)
             } else {
+                //不是只读的数据部分
                 switch (item.WIDGET_TYPE){
                     case 'Number':
                     let NumberObj = {
@@ -682,7 +727,8 @@ export default class TableModulars extends React.Component{
                     scroll={{ x: true }}
                     rowSelection={rowSelection}
                     bordered
-                    dataSource={data} columns={columns} 
+                    dataSource={data} 
+                    columns={columns} 
                     pagination={{
                         showSizeChanger: true,
                         total: _.get(this.props.guidePage,'guidePageData.totalRecord'),
