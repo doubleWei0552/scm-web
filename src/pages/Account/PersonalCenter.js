@@ -23,7 +23,6 @@ class PersonalCenter extends Component {
     type: 'account',
     autoLogin: true,
   };
-
   render() {
     const { login, submitting } = this.props;
     const { type, autoLogin } = this.state;
