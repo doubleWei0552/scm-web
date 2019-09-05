@@ -33,7 +33,6 @@ export default class ListForm extends React.Component {
     e.preventDefault();
     let Data;
     let DISPLAY_NAME;
-    let addData = [];
     this.props.form.validateFields((err, values) => {
       if (!err) {
         for (let i in values) {
@@ -47,6 +46,7 @@ export default class ListForm extends React.Component {
         Data = values;
         if (this.props.ChildData.length == 0) {
           //新增的情况
+          let addData = [];
           for (let i in Data) {
             let current = {};
             this.props.columns.map(item => {
@@ -59,7 +59,7 @@ export default class ListForm extends React.Component {
             current.DISPLAY_NAME = Data[i + 'DISPLAY_NAME'];
             current.OBJECT_TYPE = this.props.value.Data.objectType;
             current.id = null;
-            current.key = i + Data[i] + this.props.value.Data.objectType;
+            current.key = i + Data[i] + this.props.value.Data.objectType + moment().valueOf();
             addData.push(current);
           }
           let ChildData = [];
@@ -78,6 +78,7 @@ export default class ListForm extends React.Component {
           this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData } });
         } else {
           // 编辑情况
+          let addData = [];
           for (let i in Data) {
             //再加判断是不是select类型，添加options属性
             let current = {};
@@ -90,7 +91,7 @@ export default class ListForm extends React.Component {
             current.DISPLAY_NAME = Data[i + 'DISPLAY_NAME'];
             current.FIELD_VALUE = (typeof Data[i] == 'object' && Data[i]) ? moment(Data[i]).valueOf() : Data[i];
             current.OBJECT_TYPE = this.props.value.Data.objectType;
-            current.key = i + Data[i] + this.props.value.Data.objectType;
+            current.key = i + Data[i] + this.props.value.Data.objectType + moment().valueOf();
             current.id = null;
             addData.push(current);
           }
