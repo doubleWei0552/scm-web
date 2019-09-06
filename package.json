@@ -67,6 +67,7 @@
     "react-dom": "^16.8.0",
     "react-dropzone": "^10.1.5",
     "react-fittext": "^1.0.0",
+    "react-highlight-words": "^0.16.0",
     "react-images": "^0.5.19",
     "react-media": "^1.9.2",
     "react-resizable": "^1.8.0",

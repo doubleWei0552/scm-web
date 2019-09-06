@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import _ from 'lodash';
 import moment from 'moment';
-import { Table, Input, InputNumber, Popconfirm, Form, Tooltip } from 'antd';
+import { Table, Input, InputNumber, Popconfirm, Form, Tooltip, Icon, Button, Radio } from 'antd';
+import Highlighter from 'react-highlight-words';
 import { Resizable } from 'react-resizable';
 import styles from './index.less'
 
@@ -102,7 +103,6 @@ class EditableTable extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps.tableTemplate.tableColumns == newProps.tableTemplate.tableColumns)
     if (this.props.tableTemplate.tableColumns !== newProps.tableTemplate.tableColumns) {
       let listColumnData = [];
       _.get(newProps.tableTemplate, 'tableColumns').map((item, index) => {
@@ -110,14 +110,17 @@ class EditableTable extends React.Component {
           let list = {
             ...item,
             title: (
-              <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-                <span>{item.title}</span>
-              </Tooltip>
+              <div>
+                <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
+                  <span>{item.title}</span>
+                </Tooltip>
+              </div>
             ),
             sorter: item.sorTable ? true : false,
             sortDirections: ['descend', 'ascend'],
             editable: true,
             width: 200,
+            ...this.getColumnSearchProps(item.dataIndex),
             onCell: record => ({
               record,
               inputType: item.dataIndex === 'age' ? 'number' : 'text',
@@ -131,20 +134,22 @@ class EditableTable extends React.Component {
               let color = text.split('-')[0];
               let newText = text.split('-')[text.split('-').length - 1];
               return (
-                <span>
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      background: color,
-                      width: '6px',
-                      height: '6px',
-                      marginRight: '5px',
-                      marginBottom: '2px',
-                      borderRadius: '50%',
-                    }}
-                  />
-                  {newText}
-                </span>
+                <div>
+                  <span>
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        background: color,
+                        width: '6px',
+                        height: '6px',
+                        marginRight: '5px',
+                        marginBottom: '2px',
+                        borderRadius: '50%',
+                      }}
+                    />
+                    {newText}
+                  </span>
+                </div>
               );
             },
           };
@@ -153,15 +158,18 @@ class EditableTable extends React.Component {
           let column = {
             ...item,
             title: (
-              <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-                <span>{item.title}</span>
-              </Tooltip>
+              <div>
+                <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
+                  <span>{item.title}</span>
+                </Tooltip>
+              </div>
             ),
             editable: true,
             sorter: item.sorTable ? true : false,
             sortDirections: ['descend', 'ascend'],
             width: 200,
             // fixed: index === 0,
+            ...this.getColumnSearchProps(item.dataIndex),
             onCell: record => ({
               record,
               inputType: item.dataIndex === 'age' ? 'number' : 'text',
@@ -169,7 +177,14 @@ class EditableTable extends React.Component {
               title: item.title,
               editing: this.isEditing(record),
             }),
-            render: (text, record) => this.renderColumn(text, item, record),
+            render: (text, record) => {
+              return (
+                <div>
+                  {this.renderColumn(text, item, record)}
+                </div>
+              )
+
+            },
           };
           listColumnData.push(column);
         }
@@ -177,6 +192,7 @@ class EditableTable extends React.Component {
       listColumnData.push({
         title: 'operation',
         dataIndex: 'operation',
+        width: 200,
         render: (text, record) => {
           const { editingKey } = this.state;
           const editable = this.isEditing(record);
@@ -206,6 +222,90 @@ class EditableTable extends React.Component {
     }
 
   }
+
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        {/* <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        /> */}
+
+        <Radio.Group onChange={(e) => this.setState({ [dataIndex]: e.target.value })} value={this.state[dataIndex]} style={{ display: 'block', height: '30px', lineHeight: '30px' }}>
+          <Radio value='left'>
+            left
+          </Radio>
+          <Radio value='right'>
+            right
+          </Radio>
+        </Radio.Group>
+        <Button
+          type="primary"
+          onClick={() => this.handleFixed(dataIndex, clearFilters)}
+
+          size="small"
+          style={{ width: 50, marginRight: 8 }}
+        >
+          确认
+        </Button>
+        <Button onClick={() => this.handleReset(dataIndex, clearFilters)} size="small" style={{ width: 50 }}>
+          重置
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => (
+      <Icon type="filter" theme="filled" style={{ color: this.state[dataIndex] ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    render: text => (
+      <Highlighter
+        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+        searchWords={[this.state.searchText]}
+        autoEscape
+        textToHighlight={text.toString()}
+      />
+    ),
+  });
+
+  // 设置左右列锁定
+  handleFixed = (dataIndex, clearFilters) => {
+    console.log('ssss', dataIndex)
+    clearFilters();
+    const { columns } = this.state;
+    const index = _.findIndex(columns, item => item.dataIndex === dataIndex)
+    if (index > -1) {
+      columns[index].fixed = this.state[dataIndex]
+      this.setState({
+        columns
+      })
+    }
+  };
+
+  // 设置左右列锁定
+  handleReset = (dataIndex, clearFilters) => {
+    clearFilters();
+    const { columns } = this.state;
+    const index = _.findIndex(columns, item => item.dataIndex === dataIndex)
+    if (index > -1) {
+      columns[index].fixed = false
+      this.setState({
+        columns,
+        [dataIndex]: false
+      })
+    }
+  };
+
+
 
   isEditing = record => record.key === this.state.editingKey;
 
@@ -240,7 +340,6 @@ class EditableTable extends React.Component {
 
   // table排序方法
   handleChange = (pagination, filters, sorter) => {
-    console.log('sortersorter', sorter)
     this.props.dispatch({ type: 'tableTemplate/save', payload: { sorterData: sorter } });
     const { current, pageSize = 10 } = pagination;
     let obj = {
@@ -344,7 +443,6 @@ class EditableTable extends React.Component {
 
   // 伸缩列
   handleResize = index => (e, { size }) => {
-    console.log('eeeeee', e)
     this.setState({
       isResize: true
     })
@@ -359,6 +457,7 @@ class EditableTable extends React.Component {
   };
 
   render() {
+    console.log('this.state', this.state)
     const { selectedRowKeys, isResize } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -385,7 +484,6 @@ class EditableTable extends React.Component {
         cell: EditableCell,
       },
     };
-    console.log('this.props', columns);
     return (
       <div className={styles.tableListMain}>
         <EditableContext.Provider value={this.props.form}>
