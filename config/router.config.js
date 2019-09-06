@@ -14,6 +14,15 @@ export default [
       },
     ],
   },
+  // 租户功能
+  {
+    path: '/tenant',
+    component: '../layouts/BlankLayout',
+    routes: [
+      { path: '/tenant', redirect: '/tenant/select' },
+      { path: '/tenant/select', name: 'login', component: './Tenant/index' },
+    ],
+  },
   // user
   {
     path: '/account',
@@ -48,7 +57,7 @@ export default [
         path: '/ErrorPage/500',
         name: 'server-error',
         component: './ErrorPage/500.jsx',
-      }
+      },
     ],
   },
   // app
@@ -64,38 +73,58 @@ export default [
         name: 'rs_paas',
         icon: 'snippets',
         routes: [
-
-          
           // 3004/reportForm1
-          { path: '/:first/reportForm1', name: '', component: './ReportForm', },
-          { path: '/:first/:second/reportForm1', name: '', component: './ReportForm', },
-          { path: '/:first/:second/:third/reportForm1', name: '', component: './ReportForm', },
-          { path: '/:first/:second/:third/:fourth/reportForm1', name: '', component: './ReportForm', },
+          { path: '/:first/reportForm1', name: '', component: './ReportForm' },
+          { path: '/:first/:second/reportForm1', name: '', component: './ReportForm' },
+          { path: '/:first/:second/:third/reportForm1', name: '', component: './ReportForm' },
+          {
+            path: '/:first/:second/:third/:fourth/reportForm1',
+            name: '',
+            component: './ReportForm',
+          },
 
-          { path: '/:first/:second', name: '', component: './Template', },
-          { path: '/:first/:second/list', name: '', component: './ListTemplate', },
-          { path: '/:first/:second/detail', name: '', component: './Template', },
-          { path: '/:first/:second/detail/:detailId', name: '', component: './Template', },
+          { path: '/:first/:second', name: '', component: './Template' },
+          { path: '/:first/:second/list', name: '', component: './ListTemplate' },
+          { path: '/:first/:second/detail', name: '', component: './Template' },
+          { path: '/:first/:second/detail/:detailId', name: '', component: './Template' },
 
-          { path: '/:first/reportForm1/:third', name: '', component: './ReportForm', },
-          { path: '/:first/:second/:third', name: '', component: './Template', },
-          { path: '/:first/:second/:third/list', name: '', component: './ListTemplate', },
-          { path: '/:first/:second/:third/detail', name: '', component: './Template', },
-          { path: '/:first/:second/:third/detail/:detailId', name: '', component: './Template', },
+          { path: '/:first/reportForm1/:third', name: '', component: './ReportForm' },
+          { path: '/:first/:second/:third', name: '', component: './Template' },
+          { path: '/:first/:second/:third/list', name: '', component: './ListTemplate' },
+          { path: '/:first/:second/:third/detail', name: '', component: './Template' },
+          { path: '/:first/:second/:third/detail/:detailId', name: '', component: './Template' },
 
-          { path: '/:first/reportForm1/:third/:fourth', name: '', component: './ReportForm', },
-          { path: '/:first/:second/:third/:fourth', name: '', component: './Template', },
-          { path: '/:first/:second/:third/:fourth/list', name: '', component: './ListTemplate', },
-          { path: '/:first/:second/:third/:fourth/detail', name: '', component: './Template', },
-          { path: '/:first/:second/:third/:fourth/detail/:detailId', name: '', component: './Template', },
+          { path: '/:first/reportForm1/:third/:fourth', name: '', component: './ReportForm' },
+          { path: '/:first/:second/:third/:fourth', name: '', component: './Template' },
+          { path: '/:first/:second/:third/:fourth/list', name: '', component: './ListTemplate' },
+          { path: '/:first/:second/:third/:fourth/detail', name: '', component: './Template' },
+          {
+            path: '/:first/:second/:third/:fourth/detail/:detailId',
+            name: '',
+            component: './Template',
+          },
 
-          { path: '/:first/reportForm1/:third/:fourth/:fifth', name: '', component: './ReportForm', },
-          { path: '/:first/:second/:third/:fourth/:fifth', name: '', component: './Template', },
-          { path: '/:first/:second/:third/:fourth/:fifth/list', name: '', component: './ListTemplate', },
-          { path: '/:first/:second/:third/:fourth/:fifth/detail', name: '', component: './Template', },
-          { path: '/:first/:second/:third/:fourth/:fifth/detail/:detailId', name: '', component: './Template', },
-
-          
+          {
+            path: '/:first/reportForm1/:third/:fourth/:fifth',
+            name: '',
+            component: './ReportForm',
+          },
+          { path: '/:first/:second/:third/:fourth/:fifth', name: '', component: './Template' },
+          {
+            path: '/:first/:second/:third/:fourth/:fifth/list',
+            name: '',
+            component: './ListTemplate',
+          },
+          {
+            path: '/:first/:second/:third/:fourth/:fifth/detail',
+            name: '',
+            component: './Template',
+          },
+          {
+            path: '/:first/:second/:third/:fourth/:fifth/detail/:detailId',
+            name: '',
+            component: './Template',
+          },
         ],
       },
       {

@@ -6,7 +6,7 @@ import moment from 'moment';
 import { Table, Input, InputNumber, Popconfirm, Form, Tooltip, Icon, Button, Radio } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { Resizable } from 'react-resizable';
-import styles from './index.less'
+import styles from './index.less';
 
 const ResizeableTitle = props => {
   const { onResize, width, ...restProps } = props;
@@ -72,8 +72,8 @@ class EditableCell extends React.Component {
             })(this.getInput())}
           </Form.Item>
         ) : (
-            children
-          )}
+          children
+        )}
       </td>
     );
   };
@@ -98,9 +98,7 @@ class EditableTable extends React.Component {
     this.state = { data, editingKey: '', selectedRowKeys: [], columns: [], isResize: false };
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   componentWillReceiveProps(newProps) {
     if (this.props.tableTemplate.tableColumns !== newProps.tableTemplate.tableColumns) {
@@ -178,49 +176,43 @@ class EditableTable extends React.Component {
               editing: this.isEditing(record),
             }),
             render: (text, record) => {
-              return (
-                <div>
-                  {this.renderColumn(text, item, record)}
-                </div>
-              )
-
+              return <div>{this.renderColumn(text, item, record)}</div>;
             },
           };
           listColumnData.push(column);
         }
       });
-      listColumnData.push({
-        title: 'operation',
-        dataIndex: 'operation',
-        width: 200,
-        render: (text, record) => {
-          const { editingKey } = this.state;
-          const editable = this.isEditing(record);
-          return editable ? (
-            <span>
-              <EditableContext.Consumer>
-                {form => (
-                  <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
-                    Save
-                </a>
-                )}
-              </EditableContext.Consumer>
-              <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
-                <a>Cancel</a>
-              </Popconfirm>
-            </span>
-          ) : (
-              <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
-                Edit
-          </a>
-            );
-        },
-      });
+      // listColumnData.push({
+      //   title: 'operation',
+      //   dataIndex: 'operation',
+      //   width: 200,
+      //   render: (text, record) => {
+      //     const { editingKey } = this.state;
+      //     const editable = this.isEditing(record);
+      //     return editable ? (
+      //       <span>
+      //         <EditableContext.Consumer>
+      //           {form => (
+      //             <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
+      //               Save
+      //           </a>
+      //           )}
+      //         </EditableContext.Consumer>
+      //         <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
+      //           <a>Cancel</a>
+      //         </Popconfirm>
+      //       </span>
+      //     ) : (
+      //         <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
+      //           Edit
+      //     </a>
+      //       );
+      //   },
+      // });
       this.setState({
-        columns: listColumnData
-      })
+        columns: listColumnData,
+      });
     }
-
   }
 
   getColumnSearchProps = dataIndex => ({
@@ -237,30 +229,37 @@ class EditableTable extends React.Component {
           style={{ width: 188, marginBottom: 8, display: 'block' }}
         /> */}
 
-        <Radio.Group onChange={(e) => this.setState({ [dataIndex]: e.target.value })} value={this.state[dataIndex]} style={{ display: 'block', height: '30px', lineHeight: '30px' }}>
-          <Radio value='left'>
-            left
-          </Radio>
-          <Radio value='right'>
-            right
-          </Radio>
+        <Radio.Group
+          onChange={e => this.setState({ [dataIndex]: e.target.value })}
+          value={this.state[dataIndex]}
+          style={{ display: 'block', height: '30px', lineHeight: '30px' }}
+        >
+          <Radio value="left">left</Radio>
+          <Radio value="right">right</Radio>
         </Radio.Group>
         <Button
           type="primary"
           onClick={() => this.handleFixed(dataIndex, clearFilters)}
-
           size="small"
           style={{ width: 50, marginRight: 8 }}
         >
           确认
         </Button>
-        <Button onClick={() => this.handleReset(dataIndex, clearFilters)} size="small" style={{ width: 50 }}>
+        <Button
+          onClick={() => this.handleReset(dataIndex, clearFilters)}
+          size="small"
+          style={{ width: 50 }}
+        >
           重置
         </Button>
       </div>
     ),
     filterIcon: filtered => (
-      <Icon type="filter" theme="filled" style={{ color: this.state[dataIndex] ? '#1890ff' : undefined }} />
+      <Icon
+        type="filter"
+        theme="filled"
+        style={{ color: this.state[dataIndex] ? '#1890ff' : undefined }}
+      />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
@@ -279,15 +278,15 @@ class EditableTable extends React.Component {
 
   // 设置左右列锁定
   handleFixed = (dataIndex, clearFilters) => {
-    console.log('ssss', dataIndex)
+    console.log('ssss', dataIndex);
     clearFilters();
     const { columns } = this.state;
-    const index = _.findIndex(columns, item => item.dataIndex === dataIndex)
+    const index = _.findIndex(columns, item => item.dataIndex === dataIndex);
     if (index > -1) {
-      columns[index].fixed = this.state[dataIndex]
+      columns[index].fixed = this.state[dataIndex];
       this.setState({
-        columns
-      })
+        columns,
+      });
     }
   };
 
@@ -295,17 +294,15 @@ class EditableTable extends React.Component {
   handleReset = (dataIndex, clearFilters) => {
     clearFilters();
     const { columns } = this.state;
-    const index = _.findIndex(columns, item => item.dataIndex === dataIndex)
+    const index = _.findIndex(columns, item => item.dataIndex === dataIndex);
     if (index > -1) {
-      columns[index].fixed = false
+      columns[index].fixed = false;
       this.setState({
         columns,
-        [dataIndex]: false
-      })
+        [dataIndex]: false,
+      });
     }
   };
-
-
 
   isEditing = record => record.key === this.state.editingKey;
 
@@ -332,11 +329,11 @@ class EditableTable extends React.Component {
         this.setState({ data: newData, editingKey: '' });
       }
     });
-  }
+  };
 
-  edit = (key) => {
+  edit = key => {
     this.setState({ editingKey: key });
-  }
+  };
 
   // table排序方法
   handleChange = (pagination, filters, sorter) => {
@@ -444,8 +441,8 @@ class EditableTable extends React.Component {
   // 伸缩列
   handleResize = index => (e, { size }) => {
     this.setState({
-      isResize: true
-    })
+      isResize: true,
+    });
     this.setState(({ columns }) => {
       const nextColumns = [...columns];
       nextColumns[index] = {
@@ -457,7 +454,7 @@ class EditableTable extends React.Component {
   };
 
   render() {
-    console.log('this.state', this.state)
+    console.log('this.state', this.state);
     const { selectedRowKeys, isResize } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -492,16 +489,18 @@ class EditableTable extends React.Component {
             components={components}
             bordered
             rowSelection={rowSelection}
-            onChange={isResize ? (e) => {
-              window.event.preventDefault()
-              this.setState({
-                isResize: false
-              })
-            } : (pagination, filters, sorter) => {
-
-              this.handleChange(pagination, filters, sorter)
-
-            }}
+            onChange={
+              isResize
+                ? e => {
+                    window.event.preventDefault();
+                    this.setState({
+                      isResize: false,
+                    });
+                  }
+                : (pagination, filters, sorter) => {
+                    this.handleChange(pagination, filters, sorter);
+                  }
+            }
             scroll={{ x: true }}
             dataSource={_.get(this.props.tableTemplate, 'pagination.list')}
             columns={columns}

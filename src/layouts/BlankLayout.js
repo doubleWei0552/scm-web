@@ -49,14 +49,17 @@ class BasicLayout extends React.Component {
     const {
       dispatch,
       route: { routes, authority },
+      location: { pathname },
     } = this.props;
     dispatch({
       type: 'setting/getSetting',
     });
-    // dispatch({
-    //   type: 'menu/getMenuData',
-    //   payload: { routes, authority },
-    // });
+    if (pathname !== '/') {
+      dispatch({
+        type: 'menu/getMenuData',
+        payload: { routes, authority },
+      });
+    }
   }
 
   getContext() {
@@ -88,9 +91,9 @@ class BasicLayout extends React.Component {
   renderSettingDrawer = () => {
     // Do not render SettingDrawer in production
     // unless it is deployed in preview.pro.ant.design as demo
-    if (process.env.NODE_ENV === 'production' && APP_TYPE !== 'site') {
-      return null;
-    }
+    // if (process.env.NODE_ENV === 'production' && APP_TYPE !== 'site') {
+    //   return null;
+    // }
     return <SettingDrawer />;
   };
 
@@ -110,6 +113,16 @@ class BasicLayout extends React.Component {
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
     const layout = (
       <Layout>
+        {/* {isTop && !isMobile && !hideMenu ? null : (
+          <SiderMenu
+            logo={logo}
+            theme={navTheme}
+            onCollapse={this.handleMenuCollapse}
+            menuData={menuData}
+            isMobile={isMobile}
+            {...this.props}
+          />
+        )} */}
         <Layout
           style={{
             ...this.getLayoutStyle(),
@@ -117,12 +130,12 @@ class BasicLayout extends React.Component {
           }}
         >
           <Header
+            hideMenu
             menuData={menuData}
             handleMenuCollapse={this.handleMenuCollapse}
             logo={logo}
             isMobile={isMobile}
             {...this.props}
-            hideCollapse
           />
           <Content className={styles.content} style={contentStyle}>
             {children}

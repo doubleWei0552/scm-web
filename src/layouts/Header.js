@@ -114,6 +114,7 @@ class HeaderView extends Component {
   };
 
   render() {
+    console.log('this.props', this.props);
     const { isMobile, handleMenuCollapse, setting } = this.props;
     const { navTheme, layout, fixedHeader } = setting;
     const { visible } = this.state;
