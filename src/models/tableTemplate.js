@@ -733,7 +733,6 @@ export default {
     },
     //用于获取主表最新的值
     *getMainTableData({payload,callback},{select,put,call}){
-        console.log('主表数据',payload)
         yield put({type:'save',payload:{
           MainTableData:payload
         }})
