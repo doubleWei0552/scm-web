@@ -15,8 +15,43 @@
       z-index: 1;
     }
     .ant-table-scroll table {
+      // width: fit-content !important;
+      // min-width: 100%;
+    }
+    .ant-table-column-sorter {
+      position: relative;
+      top: 4px;
+    }
+    .ant-table-header-column {
+      display: inline-block;
+      width: 100%;
+      position: relative;
+      .ant-table-column-sorters {
+        // width: 100%;
+      }
+    }
+  }
+}
+
+.tableListMain2 {
+  :global {
+    .react-resizable {
+      position: relative;
+      background-clip: padding-box;
+    }
+
+    .react-resizable-handle {
+      position: absolute;
+      width: 10px;
+      height: 100%;
+      bottom: 0;
+      right: -5px;
+      cursor: col-resize !important;
+      z-index: 1;
+    }
+    .ant-table-scroll table {
       width: fit-content !important;
-      min-width: 100%;
+      min-width: 100% !important;
     }
     .ant-table-column-sorter {
       position: relative;

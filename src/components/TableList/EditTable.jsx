@@ -95,7 +95,14 @@ class EditableCell extends React.Component {
 class EditableTable extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data, editingKey: '', selectedRowKeys: [], columns: [], isResize: false };
+    this.state = {
+      data,
+      editingKey: '',
+      selectedRowKeys: [],
+      columns: [],
+      isResize: false,
+      fixedIndex: '',
+    };
   }
 
   componentDidMount() {}
@@ -230,12 +237,12 @@ class EditableTable extends React.Component {
         /> */}
 
         <Radio.Group
-          onChange={e => this.setState({ [dataIndex]: e.target.value })}
-          value={this.state[dataIndex]}
+          onChange={e => this.setState({ fixedValue: e.target.value, fixedIndex: dataIndex })}
+          value={this.state.fixedIndex === dataIndex ? this.state.fixedValue : null}
           style={{ display: 'block', height: '30px', lineHeight: '30px' }}
         >
-          <Radio value="left">left</Radio>
-          <Radio value="right">right</Radio>
+          <Radio value="left">左</Radio>
+          <Radio value="right">右</Radio>
         </Radio.Group>
         <Button
           type="primary"
@@ -278,30 +285,42 @@ class EditableTable extends React.Component {
 
   // 设置左右列锁定
   handleFixed = (dataIndex, clearFilters) => {
-    console.log('ssss', dataIndex);
+    const { fixedIndex, fixedValue, columns } = this.state;
     clearFilters();
-    const { columns } = this.state;
-    const index = _.findIndex(columns, item => item.dataIndex === dataIndex);
-    if (index > -1) {
-      columns[index].fixed = this.state[dataIndex];
-      this.setState({
-        columns,
+    // const { columns } = this.state;
+    const index = _.findIndex(columns, item => item.dataIndex === fixedIndex);
+    if (index > -1 && fixedValue === 'left') {
+      _.map(columns, (item, idx) => {
+        if (idx <= index) {
+          item.fixed = fixedValue;
+        }
       });
+    } else if (index > -1 && fixedValue === 'right') {
+      _.map(columns, (item, idx) => {
+        if (idx >= index) {
+          item.fixed = fixedValue;
+        }
+      });
+      // this.setState({
+      //   columns,
+      // });
     }
+    this.setState({
+      columns,
+    });
   };
 
   // 设置左右列锁定
   handleReset = (dataIndex, clearFilters) => {
     clearFilters();
     const { columns } = this.state;
-    const index = _.findIndex(columns, item => item.dataIndex === dataIndex);
-    if (index > -1) {
-      columns[index].fixed = false;
-      this.setState({
-        columns,
-        [dataIndex]: false,
-      });
-    }
+    _.map(columns, data => {
+      data.fixed = false;
+    });
+
+    this.setState({
+      columns,
+    });
   };
 
   isEditing = record => record.key === this.state.editingKey;
@@ -454,7 +473,6 @@ class EditableTable extends React.Component {
   };
 
   render() {
-    console.log('this.state', this.state);
     const { selectedRowKeys, isResize } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -482,7 +500,7 @@ class EditableTable extends React.Component {
       },
     };
     return (
-      <div className={styles.tableListMain}>
+      <div className={styles.tableListMain2}>
         <EditableContext.Provider value={this.props.form}>
           <Table
             // key={_.now()}
@@ -501,6 +519,13 @@ class EditableTable extends React.Component {
                     this.handleChange(pagination, filters, sorter);
                   }
             }
+            onRow={(e, record) => {
+              return {
+                onDoubleClick: () => {
+                  this.onJump(e, record);
+                },
+              };
+            }}
             scroll={{ x: true }}
             dataSource={_.get(this.props.tableTemplate, 'pagination.list')}
             columns={columns}
