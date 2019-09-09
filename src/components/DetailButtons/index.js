@@ -28,11 +28,11 @@ let editAndDeleteButton = {
 class DetailButtons extends PureComponent {
   state = {};
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  UNSAFE_componentWillReceiveProps(newProps) {}
+  UNSAFE_componentWillReceiveProps(newProps) { }
 
-  handleClickItem = item => {};
+  handleClickItem = item => { };
 
   //详情页按钮，按钮组版本
   editButton = () => {
@@ -51,6 +51,9 @@ class DetailButtons extends PureComponent {
     // });
 
     buttons.map(item => {
+      if (!item.DISPLAY_CONDITION) {
+        return
+      }
       if (item.FIELD_NAME === 'DELETE') {
         editAndDeleteButton['DELETE'] = item;
       } else if (item.FIELD_NAME === 'EDIT') {
@@ -269,7 +272,7 @@ class DetailButtons extends PureComponent {
 
   // 保存
   onEditSave = value => {
-    const { isNewSave,isEditSave } = this.props.tableTemplate;
+    const { isNewSave, isEditSave } = this.props.tableTemplate;
     let fileList = _.get(this.props.tableTemplate, 'fileList');
     let fileKey = _.get(this.props.tableTemplate, 'fileKey');
     this.props.detailForm.validateFields((err, fieldValues) => {
