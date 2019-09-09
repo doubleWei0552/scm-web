@@ -19,7 +19,6 @@ export default class TopNavHeader extends PureComponent {
 
   render() {
     const { theme, contentWidth, menuData, logo, hideMenu } = this.props;
-    console.log('hidemenu', this.props);
     const { maxWidth } = this.state;
     const flatMenuKeys = getFlatMenuKeys(menuData);
     return (
@@ -46,6 +45,7 @@ export default class TopNavHeader extends PureComponent {
                 <BaseMenu {...this.props} flatMenuKeys={flatMenuKeys} className={styles.menu} />
               </div>
             )}
+
           </div>
           <RightContent {...this.props} />
         </div>

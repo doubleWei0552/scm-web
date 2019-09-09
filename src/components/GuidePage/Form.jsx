@@ -136,6 +136,32 @@ export default class FormModular extends React.Component {
     });
   };
 
+  getOptions = (e, values) => {
+    if (
+      values.WIDGET_TYPE == 'Reference' ||
+      values.WIDGET_TYPE == 'ObjectSelector'
+    ) {
+      let options = [];
+      this.props.dispatch({
+        type: 'guidePage/getAutocomplate',
+        payload: {
+          value: {
+            key: this.props.tableTemplate.currentKey,
+            text: values.FIELD_NAME,
+            value: e,
+          },
+        },
+        callback: response => {
+          if (response.status === 'success') {
+            this.setState({
+              [values.FIELD_NAME]: response.data.options
+            })
+          }
+        },
+      });
+    }
+  }
+
   componentWillUnmount = () => {
     let { isEdit, selectDate } = this.props.tableTemplate;
     let formData = _.cloneDeep(this.props.form.getFieldsValue());
@@ -302,26 +328,6 @@ export default class FormModular extends React.Component {
                         case 'Select':
                         case 'Reference':
                         case 'ObjectSelector':
-                          if (
-                            values.WIDGET_TYPE == 'Reference' ||
-                            values.WIDGET_TYPE == 'ObjectSelector'
-                          ) {
-                            let options = [];
-                            this.props.dispatch({
-                              type: 'guidePage/getAutocomplate',
-                              payload: {
-                                value: {
-                                  key: this.props.tableTemplate.currentKey,
-                                  text: values.FIELD_NAME,
-                                },
-                              },
-                              callback: response => {
-                                if (response.status === 'success') {
-                                  values.options = response.data.options;
-                                }
-                              },
-                            });
-                          }
                           return (
                             <Col span={10} offset={1} key={values.SEQUENCE + values.NAME}>
                               <Item
@@ -341,17 +347,19 @@ export default class FormModular extends React.Component {
                                   ],
                                 })(
                                   <Select
-                                    filterOption={false}
                                     placeholder={`请选择${values.LABEL}`}
                                     allowClear
                                     style={{ width: '100%' }}
                                     disabled={values.READ_ONLY_CONDITION}
                                     showSearch={values.widgetType !== 'Select'}
-                                    filterOption={(inputValue, option) =>
-                                      _.includes(option.props.children, inputValue)
-                                    }
+                                    filterOption={false}
+                                    onSearch={(e) => this.getOptions(e, values, jj)}
+                                    defaultActiveFirstOption={false}
+                                  // filterOption={(inputValue, option) =>
+                                  //   _.includes(option.props.children, inputValue)
+                                  // }
                                   >
-                                    {_.map(values.options, (v, i) => {
+                                    {_.map(this.state[values.FIELD_NAME] ? this.state[values.FIELD_NAME] : values.options, (v, i) => {
                                       return (
                                         <Select.Option value={v.value} key={v.value}>
                                           {v.text}
@@ -378,8 +386,8 @@ export default class FormModular extends React.Component {
                                       ? moment(isHaveData[values.FIELD_NAME])
                                       : null
                                     : values.FIELD_VALUE
-                                    ? moment(values.FIELD_VALUE)
-                                    : null,
+                                      ? moment(values.FIELD_VALUE)
+                                      : null,
                                   rules: [
                                     {
                                       required: values.REQUIRED_CONDITION,
@@ -395,7 +403,7 @@ export default class FormModular extends React.Component {
                                     // onChange={(e)=>this.onStartChange(e,values)}
                                     showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                                     style={{ width: '100%' }}
-                                    // disabledDate={(e)=>this.disabledStartDate(e,values)}
+                                  // disabledDate={(e)=>this.disabledStartDate(e,values)}
                                   />
                                 )}
                               </Form.Item>
@@ -431,12 +439,12 @@ export default class FormModular extends React.Component {
                                         initialValue: isHaveData
                                           ? isHaveData[`${values.FIELD_NAME}-${kk.DateType}`]
                                             ? moment(
-                                                isHaveData[`${values.FIELD_NAME}-${kk.DateType}`]
-                                              )
+                                              isHaveData[`${values.FIELD_NAME}-${kk.DateType}`]
+                                            )
                                             : null
                                           : values.FIELD_VALUE
-                                          ? moment(values.FIELD_VALUE)
-                                          : null,
+                                            ? moment(values.FIELD_VALUE)
+                                            : null,
                                         rules: [
                                           {
                                             required: gg == 0 ? values.REQUIRED_CONDITION : false,
@@ -473,8 +481,8 @@ export default class FormModular extends React.Component {
                                         initialValue: isHaveData
                                           ? isHaveData[`${values.FIELD_NAME}-${kk.DateType}`]
                                             ? moment(
-                                                isHaveData[`${values.FIELD_NAME}-${kk.DateType}`]
-                                              )
+                                              isHaveData[`${values.FIELD_NAME}-${kk.DateType}`]
+                                            )
                                             : null
                                           : null,
                                         rules: [

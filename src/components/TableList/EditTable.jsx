@@ -72,8 +72,8 @@ class EditableCell extends React.Component {
             })(this.getInput())}
           </Form.Item>
         ) : (
-          children
-        )}
+            children
+          )}
       </td>
     );
   };
@@ -105,7 +105,7 @@ class EditableTable extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   componentWillReceiveProps(newProps) {
     if (this.props.tableTemplate.tableColumns !== newProps.tableTemplate.tableColumns) {
@@ -510,14 +510,14 @@ class EditableTable extends React.Component {
             onChange={
               isResize
                 ? e => {
-                    window.event.preventDefault();
-                    this.setState({
-                      isResize: false,
-                    });
-                  }
+                  window.event.preventDefault();
+                  this.setState({
+                    isResize: false,
+                  });
+                }
                 : (pagination, filters, sorter) => {
-                    this.handleChange(pagination, filters, sorter);
-                  }
+                  this.handleChange(pagination, filters, sorter);
+                }
             }
             onRow={(e, record) => {
               return {
