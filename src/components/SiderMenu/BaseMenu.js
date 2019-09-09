@@ -50,24 +50,24 @@ export default class BaseMenu extends PureComponent {
   UNSAFE_componentWillReceiveProps(newProps) {
     const { location } = newProps;
     const { pathname = '', search = '' } = location;
-    if(pathname.includes('/ErrorPage')) return //去除错误页的情况
+    if (pathname.includes('/ErrorPage')) return //去除错误页的情况
     const index = pathname.lastIndexOf("\/list") || pathname.lastIndexOf("\/detail");
     const path = index > 0 ? pathname.substring(0, index) : pathname;
     this.setState({
       current: path,
     });
-    if(this.props.menuData != newProps.menuData){
-      let id = this.props.location.pathname.split('/')[1] *1
-      let pageId = this.props.location.query.PageId *1
+    if (this.props.menuData != newProps.menuData) {
+      let id = this.props.location.pathname.split('/')[1] * 1
+      let pageId = this.props.location.query.PageId * 1
       newProps.menuData.map(item => {
-        if(item.id == id){
+        if (item.id == id) {
           item.children.map(ii => {
-            if(ii.pageId == pageId){
+            if (ii.pageId == pageId) {
               let newReportUrl = ii.reportUrl + `&userid=${localStorage.getItem('loginData')}`
               this.props.dispatch({
-                type:'tableTemplate/save',
-                payload:{
-                  reportFormURLPage:newReportUrl
+                type: 'tableTemplate/save',
+                payload: {
+                  reportFormURLPage: newReportUrl
                 }
               })
             }
@@ -100,7 +100,7 @@ export default class BaseMenu extends PureComponent {
     const { loadingG = false } = this.props
     // doc: add hideChildrenInMenu
     const { name, path } = item;
-    const index = path.lastIndexOf("\?");
+    const index = path ? path.lastIndexOf("\?") : 0;
     const keyPath = index > 0 ? path.substring(0, index) : path;
 
     if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
@@ -141,9 +141,9 @@ export default class BaseMenu extends PureComponent {
   // 点击左侧菜单，获取报表路径，并跳转
   onMenuClick = item => {
     this.props.dispatch({
-      type:'tableTemplate/save',
-      payload:{
-        reportFormURLPage:item.reportUrl ? item.reportUrl+`&userid=${localStorage.getItem('loginData')}` : item.reportUrl
+      type: 'tableTemplate/save',
+      payload: {
+        reportFormURLPage: item.reportUrl ? item.reportUrl + `&userid=${localStorage.getItem('loginData')}` : item.reportUrl
       }
     })
     // if(item.reportUrl){
@@ -204,7 +204,7 @@ export default class BaseMenu extends PureComponent {
     router.push(path);
     dispatch({
       type: 'tableTemplate/save',
-      payload: { defaultActiveKey: '0',isError:false }
+      payload: { defaultActiveKey: '0', isError: false }
     })
   };
 
