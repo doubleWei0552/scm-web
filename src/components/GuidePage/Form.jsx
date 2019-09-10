@@ -136,6 +136,45 @@ export default class FormModular extends React.Component {
     });
   };
 
+  onGetRtlink=(e,values) =>{
+    let {showData} = this.state
+    let {rtLinks} = showData
+    let index = _.findIndex(rtLinks,item => item == values.FIELD_NAME)
+    if(index > -1){
+      let data = this.props.form.getFieldsValue()
+      data[values.FIELD_NAME] = e
+      let list= [
+          {
+            updatedField:values.FIELD_NAME,
+            objectType:values.OBJECT_TYPE,
+            policyFormFields: data,
+            fieldGroupName: showData.relatedFieldGroup,
+          },
+      ]
+      this.props.dispatch({
+        type:'guidePage/guideRtlink',
+        payload:{
+            list
+        },
+        callback:res=>{
+          let {fieldChanges} = res[0]
+          fieldChanges.map(ii => {
+            showData.policyFormFields.map(item => {
+              if(item.FIELD_NAME == ii.field){
+                ii.changes.map(jj => {
+                  item[jj.field] = jj.value
+                })
+              }
+            })
+          })
+          this.setState({
+            showData
+          })
+        }
+      })
+    }
+  }
+
   getOptions = (e, values) => {
     if (
       values.WIDGET_TYPE == 'Reference' ||
@@ -534,6 +573,7 @@ export default class FormModular extends React.Component {
                                   ],
                                 })(
                                   <InputNumber
+                                    onChange={e => this.onGetRtlink(e, values)}
                                     disabled={values.READ_ONLY_CONDITION}
                                     onBlur={this.onInputBlur}
                                     style={{ width: '100%' }}
