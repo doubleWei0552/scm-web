@@ -51,9 +51,7 @@ class DetailButtons extends PureComponent {
     // });
 
     buttons.map(item => {
-      if (!item.DISPLAY_CONDITION) {
-        return
-      }
+
       if (item.FIELD_NAME === 'DELETE') {
         editAndDeleteButton['DELETE'] = item;
       } else if (item.FIELD_NAME === 'EDIT') {
@@ -61,6 +59,9 @@ class DetailButtons extends PureComponent {
       } else if (item.FIELD_NAME === 'ADD') {
         editAndDeleteButton['ADD'] = item;
       } else {
+        if (!item.DISPLAY_CONDITION) {
+          return
+        }
         // buttonData.push(item);
         const index = _.findIndex(buttonList, l => l.groupName === item.BUTTON_GROUP);
         if (index > -1) {
