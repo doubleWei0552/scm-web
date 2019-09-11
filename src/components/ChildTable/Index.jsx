@@ -23,6 +23,7 @@ import {
 import NTableForm from '../TableForm/TableForm'; //子表组件
 import { formItemValid } from '@/utils/validate';
 import moment from 'moment';
+import styles from './Index.less'
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
@@ -802,6 +803,7 @@ export default class ChildTable extends React.Component {
                           ) : this.props.tableTemplate.isEditSave ||
                             this.props.tableTemplate.isEditSave == undefined ? (
                             <Select
+                              className={styles.selectData}
                               onChange={e =>
                                 this.onChildChang(
                                   e,
@@ -836,6 +838,7 @@ export default class ChildTable extends React.Component {
                             </Select>
                           ) : (
                             <Select
+                              className={styles.selectData}
                               onChange={e =>
                                 this.onChildChang(
                                   e,
