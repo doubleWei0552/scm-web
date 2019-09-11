@@ -91,7 +91,7 @@ export default class Attachments extends React.Component{
           listType="picture-card"
           showUploadList={false}
           {...props} style={{display:'block',float:'left'}}>
-            <Button style={{display : this.props.value.length >= 5 ? 'none' : null}} className={styles.fileButton} disabled={this.props.disabled} >
+            <Button style={{display : this.props.value ? (this.props.value.length >= 5 ? 'none' : null) : null}} className={styles.fileButton} disabled={this.props.disabled} >
               <Icon type="upload" /> 
               <span>附件上传</span>
             </Button>
