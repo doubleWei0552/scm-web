@@ -108,7 +108,7 @@ class EditableTable extends React.Component {
   componentDidMount() { }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.tableTemplate.tableColumns !== newProps.tableTemplate.tableColumns) {
+    // if (this.props.tableTemplate.tableColumns !== newProps.tableTemplate.tableColumns) {
       let listColumnData = [];
       _.get(newProps.tableTemplate, 'tableColumns').map((item, index) => {
         if (item.colorMark) {
@@ -219,7 +219,7 @@ class EditableTable extends React.Component {
       this.setState({
         columns: listColumnData,
       });
-    }
+    // }
   }
 
   getColumnSearchProps = dataIndex => ({
