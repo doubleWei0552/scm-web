@@ -20,6 +20,7 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const params = {
+        tenantName:payload.tenantName,
         username: payload.userName,
         password: payload.password,
       };

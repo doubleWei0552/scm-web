@@ -253,13 +253,14 @@ class DetailPage extends PureComponent {
         tabFields[i].fields.push(field);
       } else {
         if (field.PAGE_FIELD_TAB_SORT) {
+          console.log('排序',field)
           tabFields[field.PAGE_FIELD_TAB_SORT] = { tabName: field.PAGE_FIELD_TAB_NAME, fields: [field] };
         } else {
           tabFields.push({ tabName: field.PAGE_FIELD_TAB_NAME, fields: [field] });
         }
-
       }
     });
+    console.log('tabFields',tabFields,tabFields.length)
     const formItemLayout = {
       labelCol: {
         xs: { span: 8 },
@@ -278,6 +279,7 @@ class DetailPage extends PureComponent {
             className={tabFields.length > 1 ? 'showTabBar' : 'hideTabBar'}
           >
             {_.map(tabFields, (item, index) => {
+              if(!item) return
               let gFields = [];
               _.map(item.fields, (itm, index) => {
                 const i = _.findIndex(
