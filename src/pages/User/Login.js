@@ -101,6 +101,16 @@ class LoginPage extends Component {
               login.type === 'account' &&
               !submitting &&
               this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
+              <UserName
+              name="tenantName"
+              placeholder='请输入租户信息'
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: '租户信息必填，请输入！',
+              //   },
+              // ]}
+            />
             <UserName
               name="userName"
               placeholder={`${formatMessage({ id: 'app.login.userName' })}`}
