@@ -104,12 +104,12 @@ class LoginPage extends Component {
               <UserName
               name="tenantName"
               placeholder='请输入租户信息'
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: '租户信息必填，请输入！',
-              //   },
-              // ]}
+              rules={[
+                {
+                  required: false,
+                  message: '租户信息必填，请输入！',
+                },
+              ]}
             />
             <UserName
               name="userName"
