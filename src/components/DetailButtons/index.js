@@ -27,10 +27,14 @@ let editAndDeleteButton = {
 }))
 class DetailButtons extends PureComponent {
   state = {};
-
-  componentDidMount() { }
-
-  UNSAFE_componentWillReceiveProps(newProps) { }
+  
+  componentWillReceiveProps=(newProps)=>{
+    if(newProps.tableTemplate.isNewSave != this.props.tableTemplate.isNewSave){
+      if(this.props.detailForm){
+        this.props.detailForm.resetFields()
+      }
+    }
+  }
 
   handleClickItem = item => { };
 
@@ -160,7 +164,10 @@ class DetailButtons extends PureComponent {
 
   // 新增
   detailCreate = () => {
-    this.props.detailForm && this.props.detailForm.resetFields(); // 待测
+    if(this.props.detailForm){
+      console.log('清空')
+      this.props.detailForm.resetFields()
+    }
     this.props.dispatch({
       type: 'tableTemplate/changeState',
       payload: { ChildData: [], fileList: [] },

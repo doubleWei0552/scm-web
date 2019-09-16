@@ -30,6 +30,9 @@ class CustomerButtons extends PureComponent {
   UNSAFE_componentWillReceiveProps(newProps) { }
 
   tableCreate = e => {
+    if(this.props.detailForm){
+      this.props.detailForm.resetFields()
+    }
     this.props.dispatch({
       type: 'tableTemplate/changeState',
       payload: {

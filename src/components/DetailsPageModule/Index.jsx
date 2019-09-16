@@ -47,6 +47,7 @@ export default class DetailsPageModule extends React.Component {
   state={
     isSkeleton:true
   }
+
   componentWillReceiveProps=(newProps)=>{
     if(newProps.loadingGG != this.state.isSkeleton){
       this.setState({
@@ -54,6 +55,7 @@ export default class DetailsPageModule extends React.Component {
       })
     }
   }
+
   getMasterTable = () => {
     let MasterTable = this.DetailPage.getFieldsValue()
     return MasterTable
