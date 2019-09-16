@@ -252,15 +252,13 @@ class DetailPage extends PureComponent {
       if (i > -1) {
         tabFields[i].fields.push(field);
       } else {
-        if (field.PAGE_FIELD_TAB_SORT) {
-          console.log('排序',field)
+        if (field.PAGE_FIELD_TAB_SORT || field.PAGE_FIELD_TAB_SORT === 0) {
           tabFields[field.PAGE_FIELD_TAB_SORT] = { tabName: field.PAGE_FIELD_TAB_NAME, fields: [field] };
         } else {
           tabFields.push({ tabName: field.PAGE_FIELD_TAB_NAME, fields: [field] });
         }
       }
     });
-    console.log('tabFields',tabFields,tabFields.length)
     const formItemLayout = {
       labelCol: {
         xs: { span: 8 },
@@ -279,7 +277,7 @@ class DetailPage extends PureComponent {
             className={tabFields.length > 1 ? 'showTabBar' : 'hideTabBar'}
           >
             {_.map(tabFields, (item, index) => {
-              if(!item) return
+              if (!item) return
               let gFields = [];
               _.map(item.fields, (itm, index) => {
                 const i = _.findIndex(
@@ -869,7 +867,7 @@ class DetailPage extends PureComponent {
                                       </Tooltip>
                                     }
                                     {...formItemLayout}
-                                    style={{ width: '100%',paddingRight:'50%' }}
+                                    style={{ width: '100%', paddingRight: '50%' }}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
                                       initialValue: _.get(field, 'FIELD_VALUE'),
