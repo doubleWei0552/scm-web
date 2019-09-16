@@ -628,7 +628,7 @@ class DetailPage extends PureComponent {
                                         disabled={
                                           this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }
-                                        onChange={(e) => this.onNumberChange(e.valueOf(), field)}
+                                        onChange={(e) => this.onNumberChange(e ? e.valueOf() : null, field)}
                                         format={
                                           field.WIDGET_TYPE == 'Date' ? dateFormat : dateTimeFormat
                                         }

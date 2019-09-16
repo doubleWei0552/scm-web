@@ -306,7 +306,7 @@ class DetailButtons extends PureComponent {
             payload: { value: this.state, type: 'save' },
             callback: res => {
               if (res.status == 'success') {
-                this.props.detailForm.resetFields();
+                // this.props.detailForm.resetFields();
                 this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
                 let newState = {};
                 for (let i in this.state) {
@@ -316,14 +316,14 @@ class DetailButtons extends PureComponent {
                     newState[i] = undefined;
                   }
                 }
-                this.setState(
-                  {
-                    ...newState,
-                  },
-                  () => {
-                    this.props.detailForm.resetFields();
-                  }
-                );
+                // this.setState(
+                //   {
+                //     ...newState,
+                //   },
+                //   () => {
+                //     this.props.detailForm.resetFields();
+                //   }
+                // );
                 this.props.dispatch({
                   type: 'tableTemplate/changeState',
                   payload: { isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true },
