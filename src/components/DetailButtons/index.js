@@ -353,7 +353,7 @@ class DetailButtons extends PureComponent {
               payload: { value: this.state, type: 'save' },
               callback: res => {
                 if (res.status == 'success') {
-                  this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
+                  this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); // 清除子表的缓存数据
                   this.props.dispatch({
                     type: 'tableTemplate/changeState',
                     payload: { isEdit: true, buttonType: true, disEditStyle: true },
