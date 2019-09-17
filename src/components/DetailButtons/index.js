@@ -27,10 +27,14 @@ let editAndDeleteButton = {
 }))
 class DetailButtons extends PureComponent {
   state = {};
-
-  componentDidMount() { }
-
-  UNSAFE_componentWillReceiveProps(newProps) { }
+  
+  componentWillReceiveProps=(newProps)=>{
+    if(newProps.tableTemplate.isNewSave != this.props.tableTemplate.isNewSave){
+      if(this.props.detailForm){
+        this.props.detailForm.resetFields()
+      }
+    }
+  }
 
   handleClickItem = item => { };
 
@@ -160,7 +164,10 @@ class DetailButtons extends PureComponent {
 
   // 新增
   detailCreate = () => {
-    this.props.detailForm && this.props.detailForm.resetFields(); // 待测
+    if(this.props.detailForm){
+      console.log('清空')
+      this.props.detailForm.resetFields()
+    }
     this.props.dispatch({
       type: 'tableTemplate/changeState',
       payload: { ChildData: [], fileList: [] },
@@ -306,27 +313,27 @@ class DetailButtons extends PureComponent {
             payload: { value: this.state, type: 'save' },
             callback: res => {
               if (res.status == 'success') {
-                this.props.detailForm.resetFields();
-                this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
-                let newState = {};
-                for (let i in this.state) {
-                  if (i === 'visible') {
-                    newState[i] = this.state[i];
-                  } else {
-                    newState[i] = undefined;
-                  }
-                }
-                this.setState(
-                  {
-                    ...newState,
-                  },
-                  () => {
-                    this.props.detailForm.resetFields();
-                  }
-                );
+                // this.props.detailForm.resetFields();
+                // this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
+                // let newState = {};
+                // for (let i in this.state) {
+                //   if (i === 'visible') {
+                //     newState[i] = this.state[i];
+                //   } else {
+                //     newState[i] = undefined;
+                //   }
+                // }
+                // this.setState(
+                //   {
+                //     ...newState,
+                //   },
+                //   () => {
+                //     this.props.detailForm.resetFields();
+                //   }
+                // );
                 this.props.dispatch({
                   type: 'tableTemplate/changeState',
-                  payload: { isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true },
+                  payload: { isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ChildData: [] },
                 });
               }
             },
