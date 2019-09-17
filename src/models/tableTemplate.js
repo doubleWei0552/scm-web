@@ -93,9 +93,7 @@ export default {
     *changeState({ payload }, { put, call, select }) {
       yield put({
         type: 'save',
-        payload: {
-          ...payload
-        },
+        payload,
       });
     },
     // 获取列表页表头数据

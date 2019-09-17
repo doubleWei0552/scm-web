@@ -314,15 +314,15 @@ class DetailButtons extends PureComponent {
             callback: res => {
               if (res.status == 'success') {
                 // this.props.detailForm.resetFields();
-                this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
-                let newState = {};
-                for (let i in this.state) {
-                  if (i === 'visible') {
-                    newState[i] = this.state[i];
-                  } else {
-                    newState[i] = undefined;
-                  }
-                }
+                // this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
+                // let newState = {};
+                // for (let i in this.state) {
+                //   if (i === 'visible') {
+                //     newState[i] = this.state[i];
+                //   } else {
+                //     newState[i] = undefined;
+                //   }
+                // }
                 // this.setState(
                 //   {
                 //     ...newState,
@@ -333,7 +333,7 @@ class DetailButtons extends PureComponent {
                 // );
                 this.props.dispatch({
                   type: 'tableTemplate/changeState',
-                  payload: { isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true },
+                  payload: { isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ChildData: [] },
                 });
               }
             },
