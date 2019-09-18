@@ -161,7 +161,24 @@ export default class TableModulars extends React.Component{
                     }
                 });
             },1000)
-            }
+            //切换页面添加数据
+            let {isEdit,selectDate} = this.props.tableTemplate
+            let relatedFieldGroup = this.props.guidePage.guidePageColumns.relatedFieldGroup
+            this.state.selectedRow.map(item=>{
+                item.tablePageId = isEdit ? selectDate.ID : null
+                for(let i in item){ //对时间格式进行转换
+                    if(typeof(item[i]) == 'string'){
+                        if(isNaN(item[i])&&!isNaN(Date.parse(item[i]))){
+                            item[i] = moment(item[i]).valueOf()
+                        } 
+                    }
+                }
+            })
+            this.props.dispatch({
+                type:'guidePage/getSaveData',
+                payload:{relatedFieldGroup:relatedFieldGroup,data:this.state.selectedRow}
+            })
+        }
     }
 
     onShowSizeChange = (current, pageSize) => {
