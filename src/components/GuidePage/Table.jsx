@@ -45,7 +45,6 @@ export default class TableModulars extends React.Component{
         data:_.get(this.props.guidePage.guidePageData,'list',[]), //表格数据
     }
     UNSAFE_componentWillMount=()=>{
-        console.log('table页',this.props.tableButton)
         let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
         let isHaveData = sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP]
         if(isHaveData){
