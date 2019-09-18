@@ -311,8 +311,8 @@ class DetailButtons extends PureComponent {
           this.props.dispatch({
             type: 'tableTemplate/getDetailSave',
             payload: { value: this.state, type: 'save' },
-            callback: res => {
-              if (res.status == 'success') {
+            // callback: res => {
+            //   if (res.status == 'success') {
                 // this.props.detailForm.resetFields();
                 // this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
                 // let newState = {};
@@ -331,12 +331,12 @@ class DetailButtons extends PureComponent {
                 //     this.props.detailForm.resetFields();
                 //   }
                 // );
-                this.props.dispatch({
-                  type: 'tableTemplate/changeState',
-                  payload: { isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ChildData: [] },
-                });
-              }
-            },
+                // this.props.dispatch({
+                //   type: 'tableTemplate/changeState',
+                //   payload: { isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ChildData: [] },
+                // });
+              // }
+            // },
           });
         } else {
           // 详情页点击编辑进入,根据isEditSave判断是新增方法还是编辑方法(isEditSave为true表示是详情页新增过来的)

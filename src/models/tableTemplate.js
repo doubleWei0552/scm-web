@@ -343,20 +343,21 @@ export default {
             type: 'getDetailPage',
             payload: { ID: result.data.ID, pageId, ObjectType: result.data.ObjectType },
           });
-          yield put({
-            type: 'save',
-            payload: { selectDate: result.data, objectType: result.data.ObjectType,isNewSave:false,isEditSave:false },
-          });
+          // yield put({
+          //   type: 'save',
+          //   payload: { selectDate: result.data, objectType: result.data.ObjectType,isEditSave:false,
+          //     isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ChildData: [],ID: result.data.ID  },
+          // });
           if (result.message) {
             notification.success({ message: result.message, duration: 3 });
           }
         } else {
           notification.error({ message: result.message, duration: 3 });
         }
-        yield put({
-          type: 'save',
-          payload: { ID: result.data.ID, objectType: result.data.ObjectType },
-        });
+        // yield put({
+        //   type: 'save',
+        //   payload: { ID: result.data.ID, objectType: result.data.ObjectType },
+        // });
       }
       yield put({type:'save'})
     },
