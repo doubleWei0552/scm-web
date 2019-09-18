@@ -279,7 +279,7 @@ class DetailButtons extends PureComponent {
   };
 
   // 保存
-  onEditSave = value => {
+  onEditSave () {
     const { isNewSave, isEditSave } = this.props.tableTemplate;
     let fileList = _.get(this.props.tableTemplate, 'fileList');
     let fileKey = _.get(this.props.tableTemplate, 'fileKey');
@@ -308,6 +308,11 @@ class DetailButtons extends PureComponent {
         }
         // 列表页新增过来的
         if (isNewSave) {
+          for (let i in this.state) {
+            if (!this.state[i]) {
+              this.state[i] = ''
+            }
+          }
           this.props.dispatch({
             type: 'tableTemplate/getDetailSave',
             payload: { value: this.state, type: 'save' },
@@ -472,7 +477,7 @@ class DetailButtons extends PureComponent {
           }}
         >
           <Button
-            onClick={() => this.onEditSave()}
+            onClick={()=>this.onEditSave()}
             style={{ marginRight: '10px' }}
             type="primary"
             loading={loading}

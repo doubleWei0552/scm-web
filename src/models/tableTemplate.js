@@ -205,7 +205,6 @@ export default {
         }
         if (callback) callback(childResult);
       } else {
-        console.log('获取数据报错',result)
         yield put({ type: 'save', payload: { detailData: [], initPolicyFormFields: [] } });
         notification.error({ message: result.message, duration: 3 });
       }
@@ -338,28 +337,21 @@ export default {
         const result = yield call(queryDetailSave, params);
         if (callback) callback(result);
         if (result.status == 'success') {
+          yield put({type:'save',payload:{saveData :result}})
           yield put({ type: 'getPagelist', payload: { pageId } });
           yield put({
-            type: 'getDetailPage',
-            payload: { ID: result.data.ID, pageId, ObjectType: result.data.ObjectType },
+            type: 'save',
+            payload: { selectDate: result.data, objectType: result.data.ObjectType,isEditSave:false,
+                isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ChildData: [],ID: result.data.ID  },
           });
-          // yield put({
-          //   type: 'save',
-          //   payload: { selectDate: result.data, objectType: result.data.ObjectType,isEditSave:false,
-          //     isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ChildData: [],ID: result.data.ID  },
-          // });
           if (result.message) {
             notification.success({ message: result.message, duration: 3 });
           }
         } else {
           notification.error({ message: result.message, duration: 3 });
         }
-        // yield put({
-        //   type: 'save',
-        //   payload: { ID: result.data.ID, objectType: result.data.ObjectType },
-        // });
       }
-      yield put({type:'save'})
+      // yield put({type:'save'})
     },
 
     // 删除数据方法

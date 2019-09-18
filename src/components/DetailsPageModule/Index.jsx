@@ -83,7 +83,6 @@ export default class DetailsPageModule extends React.Component {
             <CustomerHeader />
             <div>
               <Detailbuttons  detailForm={this.DetailPage} />
-              {/* <Detailbuttons  detailForm={child} /> */}
             </div>
             < hr
               style={{ backgroundColor: '#d3d3d3', margin: '0', height: '1px', border: 'none', marginBottom: '5px', marginTop: 0 }}
