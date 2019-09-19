@@ -45,7 +45,6 @@ export default class TableModulars extends React.Component{
         data:_.get(this.props.guidePage.guidePageData,'list',[]), //表格数据
     }
     UNSAFE_componentWillMount=()=>{
-        console.log('table页',this.props.tableButton)
         let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
         let isHaveData = sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP]
         if(isHaveData){
@@ -162,7 +161,24 @@ export default class TableModulars extends React.Component{
                     }
                 });
             },1000)
-            }
+            //切换页面添加数据
+            let {isEdit,selectDate} = this.props.tableTemplate
+            let relatedFieldGroup = this.props.guidePage.guidePageColumns.relatedFieldGroup
+            this.state.selectedRow.map(item=>{
+                item.tablePageId = isEdit ? selectDate.ID : null
+                for(let i in item){ //对时间格式进行转换
+                    if(typeof(item[i]) == 'string'){
+                        if(isNaN(item[i])&&!isNaN(Date.parse(item[i]))){
+                            item[i] = moment(item[i]).valueOf()
+                        } 
+                    }
+                }
+            })
+            this.props.dispatch({
+                type:'guidePage/getSaveData',
+                payload:{relatedFieldGroup:relatedFieldGroup,data:this.state.selectedRow}
+            })
+        }
     }
 
     onShowSizeChange = (current, pageSize) => {
@@ -223,6 +239,7 @@ export default class TableModulars extends React.Component{
       };
     //table数据改变
     onTableChange=(e,FIELD_NAME,tableIndex,index,rowData)=>{
+        console.log('数量的修改',e,FIELD_NAME,tableIndex,index,rowData)
         let {rtLinks} = this.props.guidePage.guidePageColumns
         if(rtLinks.includes(FIELD_NAME)){
             rowData[FIELD_NAME] = e
@@ -264,6 +281,9 @@ export default class TableModulars extends React.Component{
             if(idx < 0 || selectedRowKeys.length == 0){
                 selectedRowKeys.push(rowData.ID)
                 selectedRow.push(rowData)
+                this.onSelectChange(selectedRowKeys,selectedRow)
+            } else {
+                selectedRow[idx][FIELD_NAME] = e
                 this.onSelectChange(selectedRowKeys,selectedRow)
             }
         }
@@ -582,6 +602,7 @@ export default class TableModulars extends React.Component{
         );
     };
     render(){
+        console.log('table选择的数据',this.state.selectedRowKeys,this.state.selectedRow)
         const { TextArea } = Input;
         let columns = [] 
         const { selectedRowKeys,selectedRow,data } = this.state;
