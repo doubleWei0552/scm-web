@@ -226,6 +226,17 @@ class DetailPage extends PureComponent {
     });
   };
 
+  onRenderData =(data,fn) => {
+    for(let i in data){
+      if(i == 'CODE'){
+        this.props.form.setFieldsValue({
+          [i]: data[i],
+        });
+      }
+    }
+    if(fn)fn()    
+  }
+
   render() {
     const { SHOW_PARENT } = TreeSelectCom
     const { tableTemplate } = this.props;

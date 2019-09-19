@@ -316,7 +316,9 @@ class DetailButtons extends PureComponent {
           this.props.dispatch({
             type: 'tableTemplate/getDetailSave',
             payload: { value: this.state, type: 'save' },
-            // callback: res => {
+            callback: res => {
+              this.props.renderDataWhenSave(res.data)
+            }
             //   if (res.status == 'success') {
                 // this.props.detailForm.resetFields();
                 // this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
