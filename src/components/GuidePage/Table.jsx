@@ -239,6 +239,7 @@ export default class TableModulars extends React.Component{
       };
     //table数据改变
     onTableChange=(e,FIELD_NAME,tableIndex,index,rowData)=>{
+        console.log('数量的修改',e,FIELD_NAME,tableIndex,index,rowData)
         let {rtLinks} = this.props.guidePage.guidePageColumns
         if(rtLinks.includes(FIELD_NAME)){
             rowData[FIELD_NAME] = e
@@ -280,6 +281,9 @@ export default class TableModulars extends React.Component{
             if(idx < 0 || selectedRowKeys.length == 0){
                 selectedRowKeys.push(rowData.ID)
                 selectedRow.push(rowData)
+                this.onSelectChange(selectedRowKeys,selectedRow)
+            } else {
+                selectedRow[idx][FIELD_NAME] = e
                 this.onSelectChange(selectedRowKeys,selectedRow)
             }
         }
@@ -598,6 +602,7 @@ export default class TableModulars extends React.Component{
         );
     };
     render(){
+        console.log('table选择的数据',this.state.selectedRowKeys,this.state.selectedRow)
         const { TextArea } = Input;
         let columns = [] 
         const { selectedRowKeys,selectedRow,data } = this.state;
