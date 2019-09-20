@@ -61,8 +61,17 @@ export default class DetailsPageModule extends React.Component {
     return MasterTable
   }
   onRef = (ref) => {
-    child = ref
+    this.child = ref
   }
+  //保存重新渲染新的数据
+  renderDataWhenSave =(data) => {
+    this.props.dispatch({
+      type: 'tableTemplate/save',
+      payload: { isEditSave:false,isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true },
+    })
+    this.child.onRenderData(data,this.forceUpdate())
+  }
+
   render() {
     let {isSkeleton} = this.state
     return (
@@ -82,7 +91,7 @@ export default class DetailsPageModule extends React.Component {
             {/* 头部title/面包屑 */}
             <CustomerHeader />
             <div>
-              <Detailbuttons  detailForm={this.DetailPage} />
+              <Detailbuttons renderDataWhenSave={(e)=>this.renderDataWhenSave(e)}  detailForm={this.DetailPage} />
             </div>
             < hr
               style={{ backgroundColor: '#d3d3d3', margin: '0', height: '1px', border: 'none', marginBottom: '5px', marginTop: 0 }}
