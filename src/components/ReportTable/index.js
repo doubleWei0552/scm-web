@@ -17,10 +17,10 @@ import {
 class ReportTable extends PureComponent {
   state = {}
 
-  componentDidMount=()=>{
+  componentDidMount = () => {
     this.props.dispatch({
-      type:'tableTemplate/save',
-      payload:{selectedRowKeys:[]}
+      type: 'tableTemplate/save',
+      payload: { selectedRowKeys: [] }
     })
   }
   //关闭报表界面
@@ -31,13 +31,13 @@ class ReportTable extends PureComponent {
   render() {
     return (
       <div
-        // style={{
-        //   display: this.props.tableTemplate.reportFormURL ? 'block' : 'none',
-        //   height: '100%',
-        // }}
+      // style={{
+      //   display: this.props.tableTemplate.reportFormURL ? 'block' : 'none',
+      //   height: '100%',
+      // }}
       >
         <Card
-          title="报表部分"
+          title="报表"
           extra={<Icon onClick={this.closeReportForm} type="close" />}
           style={{ width: '100%', height: '1000px' }}
           bodyStyle={{ padding: 0 }}

@@ -72,7 +72,7 @@ export default function request(url, options) {
     };
     newOptions.body = JSON.stringify(newOptions.body);
   }
-  return fetch(apiUrl + url + `?t= ${ +new Date().getTime()}`, newOptions)
+  return fetch(apiUrl + url + `?t= ${+new Date().getTime()}`, newOptions)
     .then(checkStatus)
     .then(response => {
       return response.json();
@@ -83,6 +83,8 @@ export default function request(url, options) {
 }
 
 const checkStatus = response => {
+  console.log('response', response)
+
   if (response.status === 403) {
     router.push('/ErrorPage/403');
     return false;
@@ -97,7 +99,7 @@ const checkStatus = response => {
   }
   if (response.status === 401) {
     notification.error({
-      message: `请求错误 ${response.status}: ${response.url}`,
+      message: `登陆信息已失效，请重新登陆`,
     });
     router.push('/user/login');
     return false;

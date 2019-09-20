@@ -22,24 +22,24 @@ class ReportTable extends PureComponent {
     // this.props.dispatch({ type: 'tableTemplate/save', payload: { reportFormURL: null } });
     // router.goBack()
   };
-  componentDidMount=()=>{
+  componentDidMount = () => {
     this.props.dispatch({
-      type:'tableTemplate/save',
-      payload:{selectedRowKeys:[]}
+      type: 'tableTemplate/save',
+      payload: { selectedRowKeys: [] }
     })
   }
 
   render() {
-    let url = _.get(this.props.tableTemplate,'reportFormURLPage')
+    let url = _.get(this.props.tableTemplate, 'reportFormURLPage')
     return (
       <div
         style={{
-        //   display: this.props.tableTemplate.reportFormURL ? 'block' : 'none',
+          //   display: this.props.tableTemplate.reportFormURL ? 'block' : 'none',
           height: '100%',
         }}
       >
         <Card
-          title="报表部分"
+          title="报表"
           // extra={<Icon onClick={()=>this.closeReportForm()} type="close" />}
           style={{ width: '100%', height: '1000px' }}
           bodyStyle={{ padding: 0 }}

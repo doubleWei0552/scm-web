@@ -223,6 +223,7 @@ export default class GlobalHeaderRight extends PureComponent {
                 src={currentUser.avatar || noHead}
                 icon="user"
                 alt="avatar"
+                onClick={() => { router.push('/account/me') }}
               />
               <span className={styles.name}>{currentUser.staffName}</span>
             </span>

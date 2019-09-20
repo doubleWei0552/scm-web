@@ -157,7 +157,7 @@ class SettingDrawer extends PureComponent {
     const { setting } = this.props;
     const { navTheme, primaryColor, layout, colorWeak } = setting;
     const { collapse } = this.state;
-    const { isSuperUser = 'no' } = JSON.parse(localStorage.getItem('userData'))
+    const { isSuperUser = 'no' } = JSON.parse(localStorage.getItem('userData')) || {}
     return (
       <Drawer
         visible={collapse}
