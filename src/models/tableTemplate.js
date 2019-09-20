@@ -342,7 +342,7 @@ export default {
           yield put({
             type: 'save',
             payload: { selectDate: result.data, objectType: result.data.ObjectType,isEditSave:false,
-                isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ChildData: [],ID: result.data.ID  },
+                isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ID: result.data.ID  },
           });
           if (result.message) {
             notification.success({ message: result.message, duration: 3 });
