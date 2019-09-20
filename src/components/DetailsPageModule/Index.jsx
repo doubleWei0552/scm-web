@@ -67,7 +67,7 @@ export default class DetailsPageModule extends React.Component {
   renderDataWhenSave =(data) => {
     this.props.dispatch({
       type: 'tableTemplate/save',
-      payload: { isEditSave:false,isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ChildData: [] },
+      payload: { isEditSave:false,isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true },
     })
     this.child.onRenderData(data,this.forceUpdate())
   }
