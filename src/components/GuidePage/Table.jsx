@@ -124,6 +124,7 @@ export default class TableModulars extends React.Component{
             }
             setTimeout(()=>{
                 let { sendGuideData } = nextProps.guidePage
+                sendGuideData[nextProps.tableButton.BUTTON_GUIDE[nextProps.current].RELATED_FIELD_GROUP] = this.state.data
                 let params = nextProps.tableButton.BUTTON_GUIDE[nextProps.current]
                 this.props.dispatch({
                     type: 'guidePage/getGuideBean', payload: {
@@ -206,7 +207,13 @@ export default class TableModulars extends React.Component{
         })
       };
     onSelectChange = (selectedRowKeys,selectedRow) => {
-        this.setState({ selectedRowKeys,selectedRow })
+        let stateSelectedRow = this.state.selectedRow
+        selectedRow.map(item => {
+            if(stateSelectedRow){
+                stateSelectedRow.push(item)
+            }
+        })
+        this.setState({ selectedRowKeys,selectedRow:stateSelectedRow })
     }
     disabledStartDate = (e, value) => {
         const endValue = this.state[`${value.FIELD_NAME}-end`];
