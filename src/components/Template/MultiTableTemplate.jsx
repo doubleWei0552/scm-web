@@ -26,7 +26,7 @@ import _ from 'lodash';
 import { connect } from 'dva';
 import CatchError from '@/components/CatchError/Index';
 import DetailsPageModule from '@/components/DetailsPageModule/Index';
-import ListPageModule from '@/components/ListPageModule/index';
+import ListPageModule from '@/components/ListPageModule/TestIndex';
 import SkeletonCom from '@/components/Skeleton/Index'
 import moment from 'moment';
 import styles from './SingleTableTemplate.less';
@@ -83,23 +83,23 @@ export default class MultiTableTemplate extends React.Component {
   };
   UNSAFE_componentWillMount = () => {
     const pageId = this.props.location.query.PageId*1;
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId } });
-    this.props.dispatch({
-      type: 'tableTemplate/getPagination',
-      payload: { pageId, current: 1, pageSize: 10 },
-    });
-
-    //新版
-    // this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
+    // this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId } });
     // this.props.dispatch({
-    //   type: 'listPage/getPagelist',
+    //   type: 'tableTemplate/getPagination',
     //   payload: { pageId, current: 1, pageSize: 10 },
     // });
-    // this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:+pageId} });
+
+    //新版
+    this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
+    this.props.dispatch({
+      type: 'listPage/getPagelist',
+      payload: { pageId, current: 1, pageSize: 10 },
+    });
+    this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:+pageId} });
   };
   componentDidMount = () => {
-    this.props.dispatch({ type: 'tableTemplate/getDetailPageConfig' });
-    this.props.dispatch({ type: 'tableTemplate/getSummaryPageConfig' });
+    // this.props.dispatch({ type: 'tableTemplate/getDetailPageConfig' });
+    // this.props.dispatch({ type: 'tableTemplate/getSummaryPageConfig' });
   };
   UNSAFE_componentWillReceiveProps = newProps => {
     let { loading } = this.state
@@ -146,7 +146,7 @@ export default class MultiTableTemplate extends React.Component {
         {/* <Spin spinning={this.props.loadingG || false}> */}
           <div className={styles.SingleTableTemplateMain}>
             {/* 列表页  */}
-              <ListPageModule loadingGG={this.props.loadingGG} />
+              <ListPageModule pageId={this.props.location.query.PageId*1} location={this.props.location} loadingGG={this.props.loadingGG} />
             {/* 详情页 */}
               <DetailsPageModule loadingGG={this.props.loadingGG} />
           </div>

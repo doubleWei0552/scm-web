@@ -49,18 +49,6 @@ class TableList extends PureComponent {
     },
   };
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   const {columns,dataSource} = nextProps;
-  //   // 当传入的type发生变化的时候，更新state
-  //   if (columns !== prevState.columns) {
-  //       return {
-  //         columns,
-  //       };
-  //   }
-  //   // 否则，对于state不进行任何操作
-  //   return null;
-  // } 
-
   componentWillReceiveProps=(nextProps)=>{
     let {columns } = nextProps
     if(columns !== this.state.columns){

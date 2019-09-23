@@ -16,13 +16,14 @@ import { connect } from 'dva';
 import ListPage from '../ListPage/Index';
 import ListForm from '../ListPage/ListForm';
 import _ from 'lodash'
+import { withRouter } from 'react-router'
 import styles from './Index.less';
 
-@connect(({ tableTemplate, loading }) => ({
+@connect(({ tableTemplate, loading,detailPage }) => ({
   tableTemplate,
   loadingG: loading.effects['tableTemplate/childUpdateFields'],
 }))
-export default class TableForm extends React.Component {
+class TableForm extends React.Component {
   state = {
     isEdit: false, //用于记录是否是编辑状态
     Data: this.props.data, //子表的数据
@@ -148,10 +149,10 @@ export default class TableForm extends React.Component {
         cacheData.policyFormFields.push(formFields);
         cacheData.fieldGroupName = value.Columns.fieldGroupName;
         list.push(cacheData);
-        this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData } });
+        this.props.dispatch({ type: 'detailPage/save', payload: { ChildData } });
       });
       this.props.dispatch({
-        type: 'tableTemplate/childUpdateFields',
+        type: 'detailPage/childUpdateFields',
         payload: {
           params: {
             list,
@@ -160,7 +161,7 @@ export default class TableForm extends React.Component {
           },
         },
       });
-      this.props.dispatch({ type: 'tableTemplate/save' }); //刷新model值
+      this.props.dispatch({ type: 'detailPage/save' }); //刷新model值
     } else {
       //编辑页新增
       let list = []; //子表rtLink数据
@@ -227,7 +228,7 @@ export default class TableForm extends React.Component {
         list.push(cacheData);
       });
       this.props.dispatch({
-        type: 'tableTemplate/childUpdateFields',
+        type: 'detailPage/childUpdateFields',
         payload: {
           params: {
             list,
@@ -236,7 +237,7 @@ export default class TableForm extends React.Component {
           },
         },
       });
-      this.props.dispatch({ type: 'tableTemplate/save' }); //刷新model值
+      this.props.dispatch({ type: 'detailPage/save' }); //刷新model值
     }
     this.setState({ visible: false,frameSelectedRows:[], frameSelectedRowKeys: [], isEdit: true });
   };
@@ -257,17 +258,12 @@ export default class TableForm extends React.Component {
   };
 
   onSelectChange = (selectedRowKeys, selectedRows) => {
-    // let { frameSelectedRows } = this.state
-    // selectedRows.map((value,index)=>{
-    //   let ind = _.findIndex(frameSelectedRows,item =>item.ID == value.ID)
-    //   if(ind < 0) {
-    //     frameSelectedRows.push(value)
-    //   } 
-    // })
     this.setState({ frameSelectedRowKeys: selectedRowKeys, frameSelectedRows:selectedRows });
   };
 
   render() {
+    let {pathname} = this.props.location
+    let disEditStyle = pathname.includes('/detailSee/') ? true : false
     let add_d = this.props.HeaderData.add_d //新增按钮管控，true为只读
     const listPageProps = {
       frameSelectedRowKeys: this.state.frameSelectedRowKeys,
@@ -296,8 +292,8 @@ export default class TableForm extends React.Component {
         </Spin>
         <Button
           style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
-          type={this.props.disEditStyle ? 'dashed' : 'primary'}
-          disabled={this.props.disEditStyle || add_d}
+          type={disEditStyle || add_d ? 'dashed' : 'primary'}
+          disabled={disEditStyle || add_d}
           onClick={this.showModal}
           icon="plus"
         >
@@ -333,3 +329,5 @@ export default class TableForm extends React.Component {
     );
   }
 }
+
+export default withRouter(TableForm)

@@ -4,6 +4,7 @@ import {
     queryPagination,
     queryAutocomplate,
     queryRemoveBusiness,
+    queryTransactionProcess,
 } from '@/services/api';
 import _ from 'lodash';
 import { notification } from 'antd';
@@ -20,7 +21,7 @@ export default {
     pagination: {}, // 列表页请求的分页所有数据
 
     selectDataDelete: [], // 选择要删除的数据
-    selectedRowKeys: [], // 选择的那个表格行数据
+    selectedRowKeys: [], // 选择的那个表格行数据，自定义按钮事件需要的参数
 
     currentKey: '', // 搜索栏下拉框查询需要的key
     searchParams: {}, // 列表页的查询参数 
@@ -59,8 +60,9 @@ export default {
     // 获取列表页数据
     *getPagelist({ payload, callback }, { put, call, select }) {
         const pagination = yield select(({ listPage }) => listPage.pagination);
-        const { pageId, searchParams = {},pageSize=pagination.pageSize, summarySort, sorterData } = payload;
-        const pageNum = payload.current || pagination.currentPage ;
+        const { pageId, searchParams = {}, summarySort, sorterData } = payload;
+        const pageNum = pagination.currentPage || 1 ;
+        const pageSize = pagination.pageSize || 10
         const params = {
             pageId,
             summarySort,
@@ -109,6 +111,25 @@ export default {
           notification.error({ message: result.message, duration: 3 });
         }
       },
+    //列表页按钮执行方法
+    *getTransactionProcess({payload,callback},{call,select,put}){
+      let {objectType} = yield select(({listPage})=>listPage.pagination)
+      let pageId = yield select(({listPage})=>listPage.pageId)
+      let params = {
+        selectDate1: payload.idList,
+        ButtonName:payload.Buttons.FIELD_NAME,
+        objectType,
+      };
+      let result = yield call(queryTransactionProcess,params)
+      if (result.status == 'success') {
+        if (result.message) {
+          notification.success({ message: result.message, duration: 3 });
+        }
+        yield put({ type: 'getPagelist', payload: { pageId } });
+      } else {
+        notification.error({ message: result.message, duration: 3 });
+      }
+    }
   },
 
   reducers: {

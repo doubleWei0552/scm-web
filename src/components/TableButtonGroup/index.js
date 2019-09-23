@@ -11,8 +11,9 @@ import styles from './style.less';
 const ButtonGroup = Button.Group;
 
 // @Form.create()
-@connect(({ tableTemplate, loading }) => ({
+@connect(({ tableTemplate,listPage, loading }) => ({
   tableTemplate,
+  listPage,
   loadingG: loading.effects['tableTemplate/getDetailPage'],
 }))
 export default class HorizontalButtonGroup extends React.Component {
@@ -77,7 +78,9 @@ export default class HorizontalButtonGroup extends React.Component {
 
   // 列表页的自定义按钮事件
   onTableButtonEvent = e => {
-    const { selectedRowKeys } = this.props.tableTemplate;
+    console.log(this.props,'e',e)
+    // const { selectedRowKeys } = this.props.tableTemplate;
+    const { selectedRowKeys } = this.props.listPage;
     switch (e.BEHAVIOR) {
       case 'ExecuteJavaScript': // 执行导向弹框
         const div = document.createElement('div');
@@ -90,7 +93,8 @@ export default class HorizontalButtonGroup extends React.Component {
         break;
       case 'ExecuteMethod': // 执行按钮的方法
         this.props.dispatch({
-          type: 'tableTemplate/getTransactionProcess',
+          // type: 'tableTemplate/getTransactionProcess',
+          type: 'listPage/getTransactionProcess',
           payload: { Buttons: e, idList: selectedRowKeys },
         });
         // message.success('暂待开发')

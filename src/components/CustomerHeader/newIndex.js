@@ -7,9 +7,6 @@ import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
 import NewBreadcrumb from '../Breadcrumb/Index'; //面包屑组件
 import styles from './style.less';
 
-
-
-
 @Form.create()
 @connect(({ tableTemplate,listPage, loading }) => ({
   tableTemplate,
@@ -30,7 +27,7 @@ class CustomerHeader extends PureComponent {
     //   </header>
     // );
 
-    //
+    //新版
     const { tableColumns = [] } = this.props.listPage;
     { this.props.listPage.tableColumnsData.title }
     const { title = '' } = _.get(this.props.listPage, 'tableColumnsData')

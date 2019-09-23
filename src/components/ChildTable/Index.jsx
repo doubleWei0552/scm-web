@@ -24,6 +24,7 @@ import NTableForm from '../TableForm/TableForm'; //子表组件
 import { formItemValid } from '@/utils/validate';
 import moment from 'moment';
 import styles from './Index.less'
+import { withRouter } from 'react-router'
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
@@ -31,10 +32,11 @@ const { TextArea } = Input;
 const TabPane = Tabs.TabPane;
 
 @Form.create()
-@connect(({ tableTemplate }) => ({
+@connect(({ tableTemplate,detailPage }) => ({
   tableTemplate,
+  detailPage,
 }))
-export default class ChildTable extends React.Component {
+class ChildTable extends React.Component {
   state = {
     autoFocus: false, //管控inputNumber掉rtlink功能后的焦点状态
     regesKey: '', //子表通过验证的唯一的key，用于判断显示对应的border边框
@@ -42,18 +44,18 @@ export default class ChildTable extends React.Component {
   };
   //子表tab组件
   tabCallback = key => {
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { defaultActiveKey: key } });
+    this.props.dispatch({ type: 'detailPage/save', payload: { defaultActiveKey: key } });
   };
 
   onEditSearch = (value, searchData, selectKey, ColumnsData) => {
     if (ColumnsData) {
       this.props.dispatch({
-        type: 'tableTemplate/getChildAutocomplate',
+        type: 'detailPage/getChildAutocomplate',
         payload: { value, searchData, selectKey, ColumnsData },
       });
     } else {
       this.props.dispatch({
-        type: 'tableTemplate/getAutocomplate',
+        type: 'detailPage/getAutocomplate',
         payload: { value, searchData, selectKey },
       });
     }
@@ -62,23 +64,15 @@ export default class ChildTable extends React.Component {
   popconfirmCancel = e => {
   };
 
-  // // table排序方法  //暂定，根据后端的传参来调用
-  // handleChange = (pagination, filters, sorter) => {
-  //     let obj = {
-  //     descend:'DESC',
-  //     ascend:'ASC',
-  //     undefined:null,
-  //     }
-  //     let {searchParams,pageId} = this.props.tableTemplate
-  //     let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null
-  // };
-
   //子表事件
   onChildDelete = record => {
+    let selectDataID = this.props.match.params.detailId *1
+    let selectDataObjectType = this.props.location.query.ObjectType
+    let pageId = this.props.location.query.PageId *1
     let id = record.id;
     if(!id) return 
     let objectType = record.objectType;
-    this.props.dispatch({ type: 'tableTemplate/getRemoveChildData', payload: { id, objectType } });
+    this.props.dispatch({ type: 'detailPage/getRemoveChildData', payload: { id, objectType,selectDataID,pageId,selectDataObjectType } });
   };
 
   //子表删除气泡确定框
@@ -92,10 +86,10 @@ export default class ChildTable extends React.Component {
         return n.key != deleteKey;
       });
     } else {
-      _.remove(this.props.tableTemplate.ChildData[index].Data.records, function(n, index) {
+      _.remove(this.props.detailPage.ChildData[index].Data.records, function(n, index) {
         return index == deleteIndex;
       });
-      this.props.dispatch({type:'tableTemplate/save'})  //删除缓存数据，刷新页面
+      this.props.dispatch({type:'detailPage/save'})  //删除缓存数据，刷新页面
     }
   };
 
@@ -111,7 +105,7 @@ export default class ChildTable extends React.Component {
     let MasterTable = this.props.getMasterTable()
     switch (type) {
       case 'targetValue':
-        this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
+        this.props.detailPage.ChildData[index].Data.records[childIndex].map(p => {
           if (p.FIELD_NAME == specificData.FIELD_NAME) {
             p.FIELD_VALUE = e.target.value;
           }
@@ -139,33 +133,20 @@ export default class ChildTable extends React.Component {
         let isIndex = Columns.rtLinks.includes(specificData.FIELD_NAME);
         if (isIndex) {
           this.props.dispatch({
-            type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheNumberData],MasterTable } },
-            callback: res => {
-              if (res.status == 'success') {
-                // this.specificData.inputNumberRef.onFocus()
-                // this.ref.current.props.autoFocus = true
-              }
-            },
+            type: 'detailPage/childUpdateFields',
+            payload: { params: { list: [cacheNumberData],MasterTable } }
           });
         }
-
-        // this.props.dispatch({
-        //   type: 'tableTemplate/childUpdateFields',
-        //   payload: { params: { list: [cacheData2],MasterTable } },
-        // });
         break;
       case 'DateInput':
-        this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
+        this.props.detailPage.ChildData[index].Data.records[childIndex].map(p => {
           if (p.FIELD_NAME == specificData.FIELD_NAME) {
             p.FIELD_VALUE = e ? e.valueOf() : e;
           }
         });
         break;
       case 'NumberInput':
-        //增加rtlink功能
-        // specificData.FIELD_VALUE = e;
-        this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
+        this.props.detailPage.ChildData[index].Data.records[childIndex].map(p => {
           if (p.FIELD_NAME == specificData.FIELD_NAME) {
             p.FIELD_VALUE = e;
             p.DISPLAY_NAME = e;
@@ -192,14 +173,8 @@ export default class ChildTable extends React.Component {
         let isIndex2 = Columns.rtLinks.includes(specificData.FIELD_NAME);
         if (isIndex2) {
           this.props.dispatch({
-            type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheNumberData],MasterTable } },
-            callback: res => {
-              if (res.status == 'success') {
-                // this.specificData.inputNumberRef.onFocus()
-                // this.ref.current.props.autoFocus = true
-              }
-            },
+            type: 'detailPage/childUpdateFields',
+            payload: { params: { list: [cacheNumberData],MasterTable } }
           });
         }
 
@@ -215,7 +190,7 @@ export default class ChildTable extends React.Component {
           bb = e.split('--')[1];
           e = e.split('--')[0];
         }
-        this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
+        this.props.detailPage.ChildData[index].Data.records[childIndex].map(p => {
           if (p.FIELD_NAME == specificData.FIELD_NAME) {
             p.FIELD_VALUE = e;
             p.DISPLAY_NAME = bb;
@@ -246,31 +221,21 @@ export default class ChildTable extends React.Component {
         let isIndex3 = Columns.rtLinks.includes(specificData.FIELD_NAME);
         if (isIndex3) {
           this.props.dispatch({
-            type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheData],MasterTable } },
-            callback: res => {
-              if (res.status == 'success') {
-                // this.specificData.inputNumberRef.onFocus()
-                // this.ref.current.props.autoFocus = true
-              }
-            },
+            type: 'detailPage/childUpdateFields',
+            payload: { params: { list: [cacheData],MasterTable } }
           });
         }
-        // this.props.dispatch({
-        //   type: 'tableTemplate/childUpdateFields',
-        //   payload: { params: { list: [cacheData],MasterTable } },
-        // });
 
         break;
     }
   };
 
   render() {
-    const { disEditStyle } = this.props.tableTemplate;
+    const { disEditStyle } = this.props
     const { getFieldDecorator } = this.props.form;
     const editChildFiles =
-      this.props.tableTemplate.ChildData.length != 0
-        ? this.props.tableTemplate.ChildData.map((value, index) => {
+        this.props.detailPage.ChildData.length != 0
+        ? this.props.detailPage.ChildData.map((value, index) => {
             //子表添加删除功能 ⬇️
             let columns = [
               {
@@ -392,8 +357,8 @@ export default class ChildTable extends React.Component {
                             >
                               {text}
                             </span>
-                          ) : this.props.tableTemplate.isEditSave == true ||
-                            this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
+                          ) : this.props.newAdd == true ||
+                            this.props.newAdd == undefined ? ( //判断是否是新增的情况 true 为新增
                             <Form.Item style={{ width: '100%' }}>
                               {getFieldDecorator(`${record.key + i.value + childIndex}`, {
                                 initialValue: specificData.DISPLAY_NAME
@@ -530,8 +495,8 @@ export default class ChildTable extends React.Component {
                             >
                               {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
                             </span>
-                          ) : this.props.tableTemplate.isEditSave ||
-                            this.props.tableTemplate.isEditSave == undefined ? (
+                          ) : this.props.newAdd ||
+                            this.props.newAdd == undefined ? (
                             <Form.Item style={{ width: '100%' }}>
                               {getFieldDecorator(`${record.key + i.value + childIndex}`, {
                                 initialValue: specificData.DISPLAY_NAME
@@ -596,7 +561,6 @@ export default class ChildTable extends React.Component {
                                 ],
                               })(
                                 <Input
-                                  // ref={this.ref}
                                   type="number"
                                   onChange={
                                       e =>
@@ -800,8 +764,8 @@ export default class ChildTable extends React.Component {
                             >
                               {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
                             </span>
-                          ) : this.props.tableTemplate.isEditSave ||
-                            this.props.tableTemplate.isEditSave == undefined ? (
+                          ) : this.props.newAdd ||
+                            this.props.newAdd == undefined ? (
                             <Select
                               className={styles.selectData}
                               onChange={e =>
@@ -931,8 +895,8 @@ export default class ChildTable extends React.Component {
                                 ? moment(specificData.FIELD_VALUE * 1).format('YYYY/MM/DD')
                                 : null}
                             </span>
-                          ) : this.props.tableTemplate.isEditSave == true ||
-                            this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
+                          ) : this.props.newAdd == true ||
+                            this.props.newAdd == undefined ? ( //判断是否是新增的情况 true 为新增
                             <DatePicker
                               style={{ minWidth: '200px' }}
                               onChange={e =>
@@ -1037,8 +1001,8 @@ export default class ChildTable extends React.Component {
                             >
                               {text}
                             </span>
-                          ) : this.props.tableTemplate.isEditSave == true ||
-                            this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
+                          ) : this.props.newAdd == true ||
+                            this.props.newAdd == undefined ? ( //判断是否是新增的情况 true 为新增
                             <TextArea
                               rows={1}
                               style={{ minWidth: '150px' }}
@@ -1164,7 +1128,7 @@ export default class ChildTable extends React.Component {
             temporaryData.records = [];
             const TableForm = {
               MultiObjectSelector,
-              data: this.props.tableTemplate.ChildData,
+              data: this.props.detailPage.ChildData,
               columns,
               HeaderData: value,
               value: cacheData,
@@ -1193,3 +1157,5 @@ export default class ChildTable extends React.Component {
     );
   }
 }
+
+export default withRouter(ChildTable)

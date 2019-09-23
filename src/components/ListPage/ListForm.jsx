@@ -75,7 +75,7 @@ export default class ListForm extends React.Component {
             cacheData.Data = cacheChildData;
             ChildData.push(cacheData);
           });
-          this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData } });
+          this.props.dispatch({ type: 'detailPage/save', payload: { ChildData } });
         } else {
           // 编辑情况
           let addData = [];
@@ -96,7 +96,7 @@ export default class ListForm extends React.Component {
             addData.push(current);
           }
           this.props.value.Data.records.push(addData);
-          this.props.dispatch({ type: 'tableTemplate/save' }); //刷新model值
+          this.props.dispatch({ type: 'detailPage/save' }); //刷新model值
         }
         this.props.handleCancel();
       }
@@ -112,14 +112,14 @@ export default class ListForm extends React.Component {
     let value = {};
     value.text = e.text;
     value.key = this.props.HeaderData.key;
-    this.props.dispatch({ type: 'tableTemplate/getAutocomplate', payload: { value } });
+    this.props.dispatch({ type: 'detailPage/getAutocomplate', payload: { value } });
   };
   onSelectSearch = (e, i) => {
     let value = {};
     value.text = i.text;
     value.key = this.props.HeaderData.key;
     this.props.dispatch({
-      type: 'tableTemplate/getAutocomplate',
+      type: 'detailPage/getAutocomplate',
       payload: { searchData: e, value },
     });
   };

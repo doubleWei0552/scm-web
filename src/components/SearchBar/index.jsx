@@ -22,21 +22,7 @@ class SearchBar extends React.Component {
 
   componentDidMount() {
     //旧版
-    const { tableColumns = [], currentKey } = this.props.tableTemplate;
-    const searchItems = _.filter(tableColumns, item => item.filterable === true);
-    _.map(searchItems, item => {
-      if (
-        item.widgetType === 'Select' ||
-        item.widgetType === 'Reference' ||
-        item.widgetType === 'ObjectSelector' ||
-        item.widgetType === 'TreeSelector'
-      ) {
-        this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
-      }
-    });
-
-    //新版
-    // const { tableColumns = [], currentKey } = this.props.listPage;
+    // const { tableColumns = [], currentKey } = this.props.tableTemplate;
     // const searchItems = _.filter(tableColumns, item => item.filterable === true);
     // _.map(searchItems, item => {
     //   if (
@@ -48,30 +34,28 @@ class SearchBar extends React.Component {
     //     this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
     //   }
     // });
+
+    //新版
+    const { tableColumns = [], currentKey } = this.props.listPage;
+    const searchItems = _.filter(tableColumns, item => item.filterable === true);
+    _.map(searchItems, item => {
+      if (
+        item.widgetType === 'Select' ||
+        item.widgetType === 'Reference' ||
+        item.widgetType === 'ObjectSelector' || 
+        item.widgetType === 'TreeSelector'
+      ) {
+        this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
+      }
+    });
   }
 
 
 
   componentWillReceiveProps(newProps) {
     //旧版
-    if (newProps.tableTemplate.tableColumns !== this.props.tableTemplate.tableColumns) {
-      const { tableColumns = [], currentKey } = newProps.tableTemplate;
-      const searchItems = _.filter(tableColumns, item => item.filterable === true);
-      _.map(searchItems, item => {
-        if (
-          item.widgetType === 'Select' ||
-          item.widgetType === 'Reference' ||
-          item.widgetType === 'ObjectSelector' ||
-          item.widgetType === 'TreeSelector'
-        ) {
-          this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
-        }
-      });
-    }
-
-    //新版
-    // if (newProps.listPage.tableColumns !== this.props.listPage.tableColumns) {
-    //   const { tableColumns = [], currentKey } = newProps.listPage;
+    // if (newProps.tableTemplate.tableColumns !== this.props.tableTemplate.tableColumns) {
+    //   const { tableColumns = [], currentKey } = newProps.tableTemplate;
     //   const searchItems = _.filter(tableColumns, item => item.filterable === true);
     //   _.map(searchItems, item => {
     //     if (
@@ -84,6 +68,22 @@ class SearchBar extends React.Component {
     //     }
     //   });
     // }
+
+    //新版
+    if (newProps.listPage.tableColumns !== this.props.listPage.tableColumns) {
+      const { tableColumns = [], currentKey } = newProps.listPage;
+      const searchItems = _.filter(tableColumns, item => item.filterable === true);
+      _.map(searchItems, item => {
+        if (
+          item.widgetType === 'Select' ||
+          item.widgetType === 'Reference' ||
+          item.widgetType === 'ObjectSelector' || 
+          item.widgetType === 'TreeSelector'
+        ) {
+          this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
+        }
+      });
+    }
   }
 
   shouldComponentUpdate(newProps, newState) {
@@ -94,26 +94,9 @@ class SearchBar extends React.Component {
   getSearchBarOptions = e => {
     const { SearchOptions } = this.state
     //旧版
-    let options = [];
-    this.props.dispatch({
-      type: 'tableTemplate/getAutocomplate',
-      payload: { value: e },
-      callback: response => {
-        if (response.status === 'success') {
-          options = response.data.options;
-          SearchOptions[response.data.field] = response.data.options;
-          this.setState({
-            SearchOptions
-          })
-        }
-      },
-    });
-    return options;
-
-    //新版
     // let options = [];
     // this.props.dispatch({
-    //   type: 'listPage/getAutocomplate',
+    //   type: 'tableTemplate/getAutocomplate',
     //   payload: { value: e },
     //   callback: response => {
     //     if (response.status === 'success') {
@@ -123,6 +106,20 @@ class SearchBar extends React.Component {
     //   },
     // });
     // return options;
+
+    //新版
+    let options = [];
+    this.props.dispatch({
+      type: 'listPage/getAutocomplate',
+      payload: { value: e },
+      callback: response => {
+        if (response.status === 'success') {
+          options = response.data.options;
+          SearchOptions[response.data.field] = response.data.options;
+        }
+      },
+    });
+    return options;
   };
 
   toggle = () => {
@@ -180,11 +177,12 @@ class SearchBar extends React.Component {
   };
 
   handleSearch = e => {
-    const { pageId } = this.props.tableTemplate;
     //旧版
-    const { tableColumns = [], summarySort, pageSize } = this.props.tableTemplate;
+    // const { pageId } = this.props.tableTemplate;
+    // const { tableColumns = [], summarySort, pageSize } = this.props.tableTemplate;
     //新版
-    // const { tableColumns = [], summarySort, pageSize } = this.props.listPage;
+    const { pageId } = this.props.listPage;
+    const { tableColumns = [], summarySort, pageSize } = this.props.listPage;
     const { start, end } = this.state;
     let searchParams = {};
     const idx = _.findIndex(
@@ -213,33 +211,33 @@ class SearchBar extends React.Component {
         return;
       });
       //新版
-      // this.props.dispatch({
-      //   type: 'listPage/getPagelist',
-      //   payload: { pageId, current: 1, pageSize, searchParams, summarySort },
-      // });
-      // this.props.dispatch({
-      //   type: 'listPage/changeState',
-      //   payload: { searchParams },
-      // });
-      //旧版
       this.props.dispatch({
-        type: 'tableTemplate/getPagination',
+        type: 'listPage/getPagelist',
         payload: { pageId, current: 1, pageSize, searchParams, summarySort },
       });
       this.props.dispatch({
-        type: 'tableTemplate/changeState',
+        type: 'listPage/changeState',
         payload: { searchParams },
       });
+      //旧版
+      // this.props.dispatch({
+      //   type: 'tableTemplate/getPagination',
+      //   payload: { pageId, current: 1, pageSize, searchParams, summarySort },
+      // });
+      // this.props.dispatch({
+      //   type: 'tableTemplate/changeState',
+      //   payload: { searchParams },
+      // });
     });
   };
 
   render() {
     // tableColumns = { this.props.tableTemplate.tableColumns }
     //新版
-    // const { tableColumns = [] } = this.props.listPage;
+    const { tableColumns = [] } = this.props.listPage;
     //旧版
-    const { tableColumns = [], currentKey = '' } = this.props.tableTemplate;
-    const { expand, SearchOptions } = this.state;
+    // const { tableColumns = [] } = this.props.tableTemplate;
+    const { expand,SearchOptions } = this.state;
     const searchItems = _.filter(tableColumns, item => item.filterable === true);
     const count = expand ? searchItems.length : 2;
     const { getFieldDecorator } = this.props.form;

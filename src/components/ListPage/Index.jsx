@@ -135,7 +135,7 @@ export default class ListPage extends React.Component {
     let pageId = this.props.frameColumns.pageId;
     let { multiGroupName, multiObjectType } = this.props.HeaderData;
     this.props.dispatch({
-      type: 'tableTemplate/getDetailList',
+      type: 'detailPage/getDetailList',
       payload: { pageId, multiGroupName, multiObjectType, pageSize: pageSize, current },
     });
   };
@@ -145,7 +145,7 @@ export default class ListPage extends React.Component {
     let current = page;
     let searchParams = this.state.searchData
     this.props.dispatch({
-      type: 'tableTemplate/getDetailList',
+      type: 'detailPage/getDetailList',
       payload: { pageId,searchParams, multiGroupName, multiObjectType, pageSize: pageSize, pageNum: page },
     });
   };
@@ -154,7 +154,7 @@ export default class ListPage extends React.Component {
     if (!e) {
       value.FIELD_VALUE = '';
     }
-    this.props.dispatch({ type: 'tableTemplate/getAutocomplate', payload: { value } });
+    this.props.dispatch({ type: 'detailPage/getAutocomplate', payload: { value } });
   };
   //modal的函数
   showModal = (e, i) => {
@@ -168,7 +168,7 @@ export default class ListPage extends React.Component {
   getSearchBarOptions = e => {
     let options = [];
     this.props.dispatch({
-      type: 'tableTemplate/getChildSearchAutocomplate',
+      type: 'detailPage/getChildSearchAutocomplate',
       payload: { value:e },
       callback: response => {
         if (response.status === 'success') {
@@ -201,7 +201,7 @@ export default class ListPage extends React.Component {
         searchData:searchParams
       })
       this.props.dispatch({
-        type: 'tableTemplate/getDetailList',
+        type: 'detailPage/getDetailList',
         payload: { pageId, multiGroupName, multiObjectType, current: 1, pageSize: 10, searchParams },
       });
     });

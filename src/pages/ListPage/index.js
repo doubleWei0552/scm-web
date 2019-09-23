@@ -2,73 +2,80 @@ import React from 'react';
 import _ from 'lodash';
 import {
   Button,
-  DatePicker,
   Select,
-  Input,
   Row,
   Col,
   Table,
-  Modal,
   Tooltip,
   Form,
-  Icon,
-  InputNumber,
-  Card,
-  Popconfirm,
-  message,
-  Spin,
-  Tabs,
-  Divider,
 } from 'antd';
 import moment from 'moment';
 import router from 'umi/router';
 import ReportTable from '@/components/ReportTable/index'; // 报表组件
 import NewBreadcrumb from '@/components/Breadcrumb/Index'; //面包屑组件
 import CustomerHeader from '@/components/CustomerHeader/newIndex'; //头部组件
-import DetailPage from '@/components/DetailPage/Index'; // 主表详情组件
-import ChildTable from '@/components/ChildTable/Index'; //子表组件
-import Detailbuttons from '@/components/DetailButtons'; // 详情页头部的按钮栏
 import TableButtons from '@/components/TableButtons'; // 列表页头部的按钮栏
 import SearchBar from '@/components/SearchBar/index'; //搜索栏
-import TableList from '@/components/TableList/index'; //列表表格
 import TestTableList from '@/components/TableList/TestIndex'; //测试页面
+import SkeletonCom from '@/components/Skeleton/Index' //骨架屏组件
 
 import { connect } from 'dva';
+import { withRouter } from 'react-router'
 import styles from './Index.less';
 
 @Form.create()
-@connect(({ tableTemplate,listPage, loading }) => ({
-  tableTemplate,
+@connect(({ listPage, loading }) => ({
   listPage,
   loadingG:
-    loading.effects['tableTemplate/getDetailPageConfig'] ||
-    loading.effects['tableTemplate/save'] ||
-    loading.effects['tableTemplate/getDetailPage'] ||
-    loading.effects['tableTemplate/getSummaryPageConfig'],
+    loading.effects['listPage/getPagelist'] ||
+    loading.effects['listPage/save'] ||
+    loading.effects['listPage/getSummaryPageConfig']
 }))
 
 //列表页模块
-export default class ListPageModule extends React.Component {
+class ListPageModule extends React.Component {
   state={
     selectedRowKeys: [],
   }
-  UNSAFE_componentWillMount = () => {
-    //新版
-    const pageId = this.props.pageId
-    console.log('获取数据',this.props)
+  componentDidMount = () => {
+    const pageId = this.props.location.query.PageId*1;
     this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
     this.props.dispatch({
       type: 'listPage/getPagelist',
       payload: { pageId },
     });
-    this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:+pageId} });
+    this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:pageId} });
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.location.pathname != this.props.location.pathname) {
+      const pageId = nextProps.location.query.PageId*1;
+      this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
+      this.props.dispatch({
+        type: 'listPage/getPagelist',
+        payload: { pageId },
+      });
+      this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:pageId} });
+    } 
+  }
+
+  componentDidUpdate=()=>{
+    // const pageId = this.props.location.query.PageId*1;
+    // this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
+    // this.props.dispatch({
+    //   type: 'listPage/getPagelist',
+    //   payload: { pageId },
+    // });
+    // this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:pageId} });
+  }
+
   onJump = e => {
     let {pathname,search} = this.props.location
     let replaceData = `detailSee/${e.ID}`
     let newPathName = pathname.replace(/list/g,`${replaceData}`) + search
     router.push(newPathName)
   }
+
   renderColumn = (text, item, record) => {
     // debugger
     if (!text || !item.widgetType) {
@@ -117,7 +124,7 @@ export default class ListPageModule extends React.Component {
     }
   }
   render() {
-    //test -------------------------------
+    let { loadingG } = this.props
     let listColumnData = [];
     _.get(this.props.listPage, 'tableColumns').map((item, index) => {
       if (item.colorMark) {
@@ -183,40 +190,36 @@ export default class ListPageModule extends React.Component {
         name: record.name,
       }),
     };
-    ///test --------------------------------
-    const { isEdit } = this.props.tableTemplate;
     return (
-      <div style={{ display: isEdit ? 'none' : 'block' }} className={styles.SingleTable}>
-        {/* 头部title/面包屑 */}
-        <CustomerHeader />
-        {!this.props.tableTemplate.reportFormURL && (
-          <div>
-            <div
-              className="BasicDataBody"
-              style={{ minHeight: '35px', display: 'flex', flexWrap: 'wrap' }}
-            >
-              <Col span={7} style={{ lineHeight: '41px', whiteSpace: 'nowrap' }}>
-                <TableButtons />
-              </Col>
-              <Col span={17}>
-                <SearchBar />
-              </Col>
-            </div>
-            <hr
-              style={{
-                backgroundColor: '#d3d3d3',
-                height: '1px',
-                border: 'none',
-                marginBottom: '5px',
-                marginTop: 0,
-              }}
-            />
-            <div>
-              <TestTableList onJump={this.onJump} columns={listColumnData}/>
-            </div>
+      <div style={{background:'white',padding:'10px'}} className={styles.SingleTable}>
+        <SkeletonCom loading={loadingG || false}/>
+        <div style={{ display: loadingG ? 'none' : 'block' }}>
+          {/* 头部title/面包屑 */}
+          <CustomerHeader />
+          <div className="BasicDataBody" style={{ minHeight: '35px', display: 'flex', flexWrap: 'wrap' }}>
+          <Col span={7} style={{ lineHeight: '41px', whiteSpace: 'nowrap' }}>
+              <TableButtons location={this.props.location} />
+          </Col>
+          <Col span={17}>
+              <SearchBar />
+          </Col>
           </div>
-        )}
+          <hr
+          style={{
+              backgroundColor: '#d3d3d3',
+              height: '1px',
+              border: 'none',
+              marginTop: 0,
+          }}
+          />
+          <div>
+          <TestTableList onJump={this.onJump} columns={listColumnData}/>
+          </div>
+        </div>
+        
       </div>
     );
   }
 }
+
+export default withRouter(ListPageModule)

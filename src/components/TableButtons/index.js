@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import moment from 'moment';
 import _ from 'lodash';
+import router from 'umi/router'
 
 import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
 import ComModal from '@/components/ConfirmModel/index';
 import DataImport from '@/components/ImportAndExport/DataImport'; // 导入组件
 import Export from '@/components/ImportAndExport/Export'; // 导出组件
-import GuidePage from '@/components/GuidePage'; // 导向页组件
-import NewGuidePage from '@/components/GuidePage/NewIndex'; // 导向页组件
+import GuidePage from '@/components/GuidePage/NewIndex'; // 导向页组件
 import ButtonGroup from '@/components/ButtonGroup';
 import HorizontalButtonGroup from '@/components/TableButtonGroup';
 
@@ -30,28 +30,31 @@ class CustomerButtons extends PureComponent {
   UNSAFE_componentWillReceiveProps(newProps) { }
 
   tableCreate = e => {
-    if(this.props.detailForm){
-      this.props.detailForm.resetFields()
-    }
-    this.props.dispatch({
-      type: 'tableTemplate/changeState',
-      payload: {
-        isEdit: true,
-        buttonType: false,
-        isNewSave: true,
-        disEditStyle: false,
-        selectDate: {},
-        ChildData: [],
-        fileList: [],
-      },
-    });
-    this.props.dispatch({
-      type: 'tableTemplate/getDetailPage',
-      payload: {
-        ObjectType: this.props.tableTemplate.detailColumns.objectType,
-        pageId: this.props.tableTemplate.pageId,
-      },
-    });
+    //新版
+    let {pathname,search} = this.props.location
+    let newPathName = pathname.replace(/list/g,'add') + search
+    router.push(newPathName)
+
+    //旧版
+    // this.props.dispatch({
+    //   type: 'tableTemplate/changeState',
+    //   payload: {
+    //     isEdit: true,
+    //     buttonType: false,
+    //     isNewSave: true,
+    //     disEditStyle: false,
+    //     selectDate: {},
+    //     ChildData: [],
+    //     fileList: [],
+    //   },
+    // });
+    // this.props.dispatch({
+    //   type: 'tableTemplate/getDetailPage',
+    //   payload: {
+    //     ObjectType: this.props.tableTemplate.detailColumns.objectType,
+    //     pageId: this.props.tableTemplate.pageId,
+    //   },
+    // });
   };
 
   showConfirmModal = (e, message) => {
@@ -79,9 +82,9 @@ class CustomerButtons extends PureComponent {
   // 删除选中的表格数据
   tableDelete = () => {
     //旧版
-    this.props.dispatch({ type: 'tableTemplate/getRemoveBusiness' });
+    // this.props.dispatch({ type: 'tableTemplate/getRemoveBusiness' });
     //新版
-    // this.props.dispatch({ type: 'listPage/getRemoveBusiness' });
+    this.props.dispatch({ type: 'listPage/getRemoveBusiness' });
   };
 
   // 列表页导入按钮
@@ -111,7 +114,7 @@ class CustomerButtons extends PureComponent {
 
   // 列表页的自定义按钮事件
   onTableButtonEvent = e => {
-    const { selectedRowKeys } = this.props.tableTemplate;
+    const { selectedRowKeys } = this.props.listPage;
     switch (e.BEHAVIOR) {
       case 'ExecuteJavaScript': // 执行导向弹框
         const div = document.createElement('div');
@@ -120,11 +123,11 @@ class CustomerButtons extends PureComponent {
           tableButton: e,
           ...this.props,
         };
-        ReactDOM.render(<NewGuidePage store={window.g_app._store} {...tableButton} />, div);
+        ReactDOM.render(<GuidePage store={window.g_app._store} {...tableButton} />, div);
         break;
       case 'ExecuteMethod': // 执行按钮的方法
         this.props.dispatch({
-          type: 'tableTemplate/getTransactionProcess',
+          type: 'listPage/getTransactionProcess',
           payload: { Buttons: e, idList: selectedRowKeys },
         });
         break;
@@ -135,11 +138,11 @@ class CustomerButtons extends PureComponent {
 
   render() {
     //旧版
-    const { tableColumns = [], isEdit, selectedRowKeys } = this.props.tableTemplate;
-    const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
+    // const { tableColumns = [], isEdit, selectedRowKeys } = this.props.tableTemplate;
+    // const tableButtons = this.props.tableTemplate.tableColumnsData.buttons || [];
     //新版
-    // const { tableColumns = [], selectedRowKeys } = this.props.listPage;
-    // const tableButtons = this.props.listPage.tableColumnsData.buttons || [];
+    const { tableColumns = [], selectedRowKeys } = this.props.listPage;
+    const tableButtons = this.props.listPage.tableColumnsData.buttons || [];
     const buttonList = [];
     _.map(tableButtons, item => {
       if (!item.BUTTON_GROUP) {

@@ -43,7 +43,9 @@ const dateTimeFormat = 'YYYY/MM/DD HH:mm:ss';
 @Form.create()
 @connect(({ loading,detailPage }) => ({
   detailPage,
+  loadingG: loading.effects['tableTemplate/getDetailPage'],
 }))
+
 class DetailPage extends PureComponent {
   state = {
     readOnlyFields: [],
@@ -52,190 +54,6 @@ class DetailPage extends PureComponent {
   componentDidMount() {
     this.props.onRef(this)
   }
-
-  onEditSearch = (value, searchData) => {
-    this.props.dispatch({
-      type: 'tableTemplate/getAutocomplate',
-      payload: { value, searchData },
-    });
-  };
-
-  //树状选择
-  onTreeSelector = (value, field) => {
-    let isHave = this.props.detailPage.detailColumns.rtLinks.includes(field.FIELD_NAME)
-    const { FIELD_NAME, OBJECT_TYPE } = field;
-    const fieldValues = this.props.form.getFieldsValue();
-    fieldValues[field.FIELD_NAME] = value;
-    // this.props.form.setFieldsValue({
-    //   [field.FIELD_NAME]: value,
-    // });
-    if (isHave) {
-      this.props.dispatch({
-        type: 'detailPage/updateFields',
-        payload: {
-          updatedField: FIELD_NAME,
-          objectType: OBJECT_TYPE,
-          params: fieldValues,
-          value: value,
-        },
-        callback: data => {
-          const { readOnlyFields } = this.state;
-          _.map(data, item => {
-            const index = _.findIndex(item.changes, change => change.field === 'FIELD_VALUE');
-            const index2 = _.findIndex(
-              item.changes,
-              change => change.field === 'READ_ONLY_CONDITION' && change.value == true
-            );
-            if (index > -1) {
-              this.props.form.setFieldsValue({
-                [item.field]: item.changes[index].value,
-              });
-            }
-            if (index2 > -1) {
-              const i = _.findIndex(readOnlyFields, f => f === item.field);
-              if (i < 0) {
-                readOnlyFields.push(item.field);
-                this.setState({
-                  readOnlyFields,
-                });
-              }
-            }
-          });
-        },
-      });
-    }
-  };
-
-  onNumberChange = (e, field) => {
-    let isHave = this.props.detailPage.detailColumns.rtLinks.includes(field.FIELD_NAME)
-    const { FIELD_NAME, OBJECT_TYPE } = field;
-    const fieldValues = this.props.form.getFieldsValue();
-    fieldValues[field.FIELD_NAME] = e;
-    if (isHave) {
-      this.props.dispatch({
-        type: 'detailPage/updateFields',
-        payload: {
-          updatedField: FIELD_NAME,
-          objectType: OBJECT_TYPE,
-          params: fieldValues,
-          value: e,
-        },
-        callback: data => {
-          const { readOnlyFields } = this.state;
-          _.map(data, item => {
-            const index = _.findIndex(item.changes, change => change.field === 'FIELD_VALUE');
-            const index2 = _.findIndex(
-              item.changes,
-              change => change.field === 'READ_ONLY_CONDITION' && change.value == true
-            );
-            if (index > -1) {
-              // this.props.form.setFieldsValue({
-              //   [item.field]: item.changes[index].value,
-              // });
-            }
-            if (index2 > -1) {
-              const i = _.findIndex(readOnlyFields, f => f === item.field);
-              if (i < 0) {
-                readOnlyFields.push(item.field);
-                this.setState({
-                  readOnlyFields,
-                });
-              }
-            }
-          });
-        },
-      });
-    }
-  }
-
-  handleSelect = (e, field) => {
-    let isHave = this.props.detailPage.detailColumns.rtLinks.includes(field.FIELD_NAME)
-    const { FIELD_NAME, OBJECT_TYPE } = field;
-    const fieldValues = this.props.form.getFieldsValue();
-    fieldValues[field.FIELD_NAME] = e;
-    if (isHave) {
-      this.props.dispatch({
-        type: 'detailPage/updateFields',
-        payload: {
-          updatedField: FIELD_NAME,
-          objectType: OBJECT_TYPE,
-          params: fieldValues,
-          value: e,
-        },
-        callback: data => {
-          const { readOnlyFields } = this.state;
-          _.map(data, item => {
-            const index = _.findIndex(item.changes, change => change.field === 'FIELD_VALUE');
-            const index2 = _.findIndex(
-              item.changes,
-              change => change.field === 'READ_ONLY_CONDITION' && change.value == true
-            );
-            if (index > -1) {
-              this.props.form.setFieldsValue({
-                [item.field]: item.changes[index].value,
-              });
-            }
-            if (index2 > -1) {
-              const i = _.findIndex(readOnlyFields, f => f === item.field);
-              if (i < 0) {
-                readOnlyFields.push(item.field);
-                this.setState({
-                  readOnlyFields,
-                });
-              }
-            }
-          });
-        },
-      });
-    }
-  };
-
-  handleImageChange = (e, i) => {
-    const url = _.get(e[0], 'response.data');
-    if (url) {
-      _.get(this.props.detailPage.detailData, 'policyFormFields').map(item => {
-        if (item.FIELD_NAME == i) {
-          item.FIELD_VALUE = [e[0].response.data];
-        }
-      });
-      this.props.form.setFieldsValue({
-        [i]: [url],
-      });
-    }
-  };
-
-  // 多个图片情况
-  handleAttachmentsChange = (e, i) => {
-    if (e) {
-      _.get(this.props.detailPage.detailData, 'policyFormFields').map(item => {
-        if (item.FIELD_NAME == i) {
-          item.FIELD_VALUE = e;
-        }
-      });
-      this.props.form.setFieldsValue({
-        [i]: e,
-      });
-    }
-  };
-
-  //富文本编辑器赋值
-  onRichText = (value, FIELD_NAME) => {
-    this.props.form.setFieldsValue({
-      [FIELD_NAME]: value,
-    });
-  };
-
-  onRenderData =(data,fn) => {
-    for(let i in data){
-      if(i == 'CODE'){
-        this.props.form.setFieldsValue({
-          [i]: data[i],
-        });
-      }
-    }
-    if(fn)fn()    
-  }
-
   render() {
     const { SHOW_PARENT } = TreeSelectCom
     const { detailPage } = this.props;
@@ -263,11 +81,12 @@ class DetailPage extends PureComponent {
       if (i > -1) {
         tabFields[i].fields.push(field);
       } else {
-        if (field.PAGE_FIELD_TAB_SORT || field.PAGE_FIELD_TAB_SORT === 0) {
+        if (field.PAGE_FIELD_TAB_SORT) {
           tabFields[field.PAGE_FIELD_TAB_SORT] = { tabName: field.PAGE_FIELD_TAB_NAME, fields: [field] };
         } else {
           tabFields.push({ tabName: field.PAGE_FIELD_TAB_NAME, fields: [field] });
         }
+
       }
     });
     const formItemLayout = {
@@ -288,7 +107,6 @@ class DetailPage extends PureComponent {
             className={tabFields.length > 1 ? 'showTabBar' : 'hideTabBar'}
           >
             {_.map(tabFields, (item, index) => {
-              if (!item) return
               let gFields = [];
               _.map(item.fields, (itm, index) => {
                 const i = _.findIndex(
@@ -318,13 +136,6 @@ class DetailPage extends PureComponent {
                               </Form.Item>
                             );
                           }
-                          // 解决多个上传组件的图片展示问题
-                          // if (
-                          //   field.WIDGET_TYPE === 'Image' &&
-                          //   this.props.form.getFieldValue(field.FIELD_NAME)
-                          // ) {
-                          //   field.FIELD_VALUE = this.props.form.getFieldValue(field.FIELD_NAME);
-                          // }
                           switch (field.WIDGET_TYPE) {
                             case 'Password':
                               return (
@@ -349,11 +160,8 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <Input
-                                        disabled={
-                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                        }
+                                        disabled={true}
                                         type="password"
-                                        onChange={e => e.preventDefault()}
                                       />
                                     )}
                                   </Form.Item>
@@ -384,12 +192,7 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <Input
-                                        disabled={
-                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                        }
-                                        // placeholder={`请输入${field.LABEL}`}
-                                        onChange={e => e.preventDefault()}
-                                      // style={{ width: '165px', textOverflow: 'ellipsis' }}
+                                        disabled={true}
                                       />
                                     )}
                                   </Form.Item>
@@ -424,18 +227,9 @@ class DetailPage extends PureComponent {
                                         ],
                                       })(
                                         <Select
-                                          // placeholder={`请选择${field.LABEL}`}
                                           mode="multiple"
                                           showSearch={field.WIDGET_TYPE !== 'Select'}
-                                          allowClear
-                                          onSearch={e => this.onEditSearch(field, e)}
-                                          onSelect={e => this.handleSelect(e, field)}
-                                          filterOption={(inputValue, option) =>
-                                            _.includes(option.props.children, inputValue)
-                                          }
-                                          disabled={
-                                            this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                          }
+                                          disabled={true}
                                         >
                                           {_.map(field.options, (v, i) => {
                                             return (
@@ -466,17 +260,11 @@ class DetailPage extends PureComponent {
                                           ],
                                         })(
                                           <Select
-                                            placeholder={`请选择${field.LABEL}`}
                                             showSearch={field.WIDGET_TYPE !== 'Select'}
-                                            allowClear
-                                            onSearch={e => this.onEditSearch(field, e)}
-                                            onSelect={e => this.handleSelect(e, field)}
                                             filterOption={(inputValue, option) =>
                                               _.includes(option.props.children, inputValue)
                                             }
-                                            disabled={
-                                              this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                            }
+                                            disabled={true}
                                           >
                                             {_.map(field.options, (v, i) => {
                                               return (
@@ -516,9 +304,7 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <Radio.Group
-                                        disabled={
-                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                        }
+                                        disabled={true}
                                       >
                                         {_.map(field.options, (v, i) => {
                                           return (
@@ -532,27 +318,6 @@ class DetailPage extends PureComponent {
                                           );
                                         })}
                                       </Radio.Group>
-                                      // <Select
-                                      //   // placeholder={`请选择${field.LABEL}`}
-                                      //   showSearch={field.WIDGET_TYPE !== 'Select'}
-                                      //   allowClear
-                                      //   onSearch={e => this.onEditSearch(field, e)}
-                                      //   onSelect={e => this.handleSelect(e, field)}
-                                      //   filterOption={(inputValue, option) =>
-                                      //     _.includes(option.props.children, inputValue)
-                                      //   }
-                                      //   disabled={
-                                      //     this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                      //   }
-                                      // >
-                                      //   {_.map(field.options, (v, i) => {
-                                      //     return (
-                                      //       <Option value={v.value} key={v.value}>
-                                      //         {v.text}
-                                      //       </Option>
-                                      //     );
-                                      //   })}
-                                      // </Select>
                                     )}
                                   </Form.Item>
                                 </Col>
@@ -585,9 +350,7 @@ class DetailPage extends PureComponent {
                                     })(
                                       <Checkbox.Group
                                         style={{ lineHeight: '32px' }}
-                                        disabled={
-                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                        }
+                                        disabled={true}
                                       >
                                         {field.options.length > 0 && (
                                           <Row>
@@ -636,10 +399,8 @@ class DetailPage extends PureComponent {
                                       ],
                                     })(
                                       <DatePicker
-                                        disabled={
-                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                        }
-                                        onChange={(e) => this.onNumberChange(e ? e.valueOf() : null, field)}
+                                        disabled={true}
+                                        onChange={(e) => this.onNumberChange(e.valueOf(), field)}
                                         format={
                                           field.WIDGET_TYPE == 'Date' ? dateFormat : dateTimeFormat
                                         }
@@ -675,10 +436,7 @@ class DetailPage extends PureComponent {
                                     })(
                                       <InputNumber
                                         onBlur={this.onInputBlur}
-                                        onChange={(e) => this.onNumberChange(e, field)}
-                                        disabled={
-                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                        }
+                                        disabled={true}
                                         style={{ width: '100%' }}
                                       />
                                     )}
@@ -709,9 +467,7 @@ class DetailPage extends PureComponent {
                                     })(
                                       <TextArea
                                         rows={3}
-                                        disabled={
-                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                        }
+                                        disabled={true}
                                         style={{ width: '100%' }}
                                       />
                                     )}
@@ -722,9 +478,7 @@ class DetailPage extends PureComponent {
                               return (
                                 <Col span={22} offset={1} key={i}>
                                   <Form.Item
-                                    // label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
                                     style={{ width: '100%' }}
-                                  // {...formItemLayout}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
                                       initialValue: _.get(field, 'FIELD_VALUE'),
@@ -741,9 +495,7 @@ class DetailPage extends PureComponent {
                                         onRichText={value =>
                                           this.onRichText(value, field.FIELD_NAME)
                                         }
-                                        disabled={
-                                          this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                        }
+                                        disabled={true}
                                       />
                                     )}
                                   </Form.Item>
@@ -778,9 +530,7 @@ class DetailPage extends PureComponent {
                                         }
                                         field={field}
                                         {...this.props}
-                                        disabled={
-                                          this.props.disabled ? true : item.READ_ONLY_CONDITION
-                                        }
+                                        disabled={true}
                                       />
                                     )}
                                   </Form.Item>
@@ -817,15 +567,8 @@ class DetailPage extends PureComponent {
                                           style={{ width: '100%' }}
                                           treeDefaultExpandAll
                                           showCheckedStrategy={SHOW_PARENT}
-                                          // filterTreeNode={(inputValue, treeNode) =>{
-                                          //   _.includes(treeNode.props.children, inputValue)
-                                          // }
-                                          // }
                                           onChange={e => this.onTreeSelector(e, field)}
-                                          // style={{ width: '200px' }}
-                                          disabled={
-                                            this.props.disabled ? true : item.READ_ONLY_CONDITION
-                                          }
+                                          disabled={true}
                                         />
                                       )}
                                     </Form.Item> :
@@ -859,9 +602,7 @@ class DetailPage extends PureComponent {
                                               _.includes(treeNode.props.children, inputValue)
                                             }
                                             }
-                                            disabled={
-                                              this.props.disabled ? true : item.READ_ONLY_CONDITION
-                                            }
+                                            disabled={true}
                                           />
                                         )}
                                       </Form.Item>
@@ -878,7 +619,7 @@ class DetailPage extends PureComponent {
                                       </Tooltip>
                                     }
                                     {...formItemLayout}
-                                    style={{ width: '100%', paddingRight: '50%' }}
+                                    style={{ width: '100%',paddingRight:'50%' }}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
                                       initialValue: _.get(field, 'FIELD_VALUE'),
@@ -896,9 +637,7 @@ class DetailPage extends PureComponent {
                                         }
                                         field={field}
                                         dispatch={this.props.dispatch}
-                                        disabled={
-                                          this.props.disabled ? true : item.READ_ONLY_CONDITION
-                                        }
+                                        disabled={true}
                                       />
                                     )}
                                   </Form.Item>

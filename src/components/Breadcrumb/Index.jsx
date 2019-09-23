@@ -13,51 +13,51 @@ export default class NewBreadcrumb extends React.Component {
     const { isEdit } = this.props.tableTemplate
     return (
       //新版
-      // <Breadcrumb style={{ height: '35px', lineHeight: '35px' }}>
-      //   {
-      //     _.get(this.props.listPage.tableColumnsData, 'breadCrumbs', []).map((item, index) => {
-      //       if (index == 0) {
-      //         return <Breadcrumb.Item key={index}>
-      //           <Link to="/account/me" key="Home" style={{ marginRight: '5px' }}>
-      //             首页
-      //           </Link>
-      //           / {item}
-      //         </Breadcrumb.Item>
-      //       } else {
-      //           return <Breadcrumb.Item key={index}>
-      //             {item}
-      //           </Breadcrumb.Item>
-      //       }
-      //     })
-      //   }
-      // </Breadcrumb>
+      <Breadcrumb style={{ height: '35px', lineHeight: '35px' }}>
+        {
+          _.get(this.props.listPage.tableColumnsData, 'breadCrumbs', []).map((item, index) => {
+            if (index == 0) {
+              return <Breadcrumb.Item key={index}>
+                <Link to="/account/me" key="Home" style={{ marginRight: '5px' }}>
+                  首页
+                </Link>
+                / {item}
+              </Breadcrumb.Item>
+            } else {
+                return <Breadcrumb.Item key={index}>
+                  {item}
+                </Breadcrumb.Item>
+            }
+          })
+        }
+      </Breadcrumb>
 
     //旧版
-      <Breadcrumb style={{ height: '35px', lineHeight: '35px' }}>
-      {
-        _.get(this.props.tableColumnsData, 'breadCrumbs', []).map((item, index) => {
-          if (index == 0) {
-            return <Breadcrumb.Item key={index}>
-              <Link to="/account/me" key="Home" style={{ marginRight: '5px' }}>
-                首页
-              </Link>
-              / {item}
-            </Breadcrumb.Item>
-          } else {
-            if (isEdit && index == _.get(this.props.tableColumnsData, 'breadCrumbs', []).length - 1) {
-              return <Breadcrumb.Item key={index}>
-                {item}详情页
-                          </Breadcrumb.Item>
-            } else {
-              return <Breadcrumb.Item key={index}>
-                {item}
-              </Breadcrumb.Item>
-            }
-          }
+    //   <Breadcrumb style={{ height: '35px', lineHeight: '35px' }}>
+    //   {
+    //     _.get(this.props.tableColumnsData, 'breadCrumbs', []).map((item, index) => {
+    //       if (index == 0) {
+    //         return <Breadcrumb.Item key={index}>
+    //           <Link to="/account/me" key="Home" style={{ marginRight: '5px' }}>
+    //             首页
+    //           </Link>
+    //           / {item}
+    //         </Breadcrumb.Item>
+    //       } else {
+    //         if (isEdit && index == _.get(this.props.tableColumnsData, 'breadCrumbs', []).length - 1) {
+    //           return <Breadcrumb.Item key={index}>
+    //             {item}详情页
+    //                       </Breadcrumb.Item>
+    //         } else {
+    //           return <Breadcrumb.Item key={index}>
+    //             {item}
+    //           </Breadcrumb.Item>
+    //         }
+    //       }
 
-        })
-      }
-    </Breadcrumb>
+    //     })
+    //   }
+    // </Breadcrumb>
     )
   }
 }
