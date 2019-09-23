@@ -124,6 +124,7 @@ export default class TableModulars extends React.Component{
             }
             setTimeout(()=>{
                 let { sendGuideData } = nextProps.guidePage
+                sendGuideData[nextProps.tableButton.BUTTON_GUIDE[nextProps.current].RELATED_FIELD_GROUP] = this.state.data
                 let params = nextProps.tableButton.BUTTON_GUIDE[nextProps.current]
                 this.props.dispatch({
                     type: 'guidePage/getGuideBean', payload: {
@@ -206,7 +207,13 @@ export default class TableModulars extends React.Component{
         })
       };
     onSelectChange = (selectedRowKeys,selectedRow) => {
-        this.setState({ selectedRowKeys,selectedRow })
+        let stateSelectedRow = this.state.selectedRow
+        selectedRow.map(item => {
+            if(stateSelectedRow){
+                stateSelectedRow.push(item)
+            }
+        })
+        this.setState({ selectedRowKeys,selectedRow:stateSelectedRow })
     }
     disabledStartDate = (e, value) => {
         const endValue = this.state[`${value.FIELD_NAME}-end`];
@@ -240,15 +247,23 @@ export default class TableModulars extends React.Component{
     //table数据改变
     onTableChange=(e,FIELD_NAME,tableIndex,index,rowData)=>{
         let {rtLinks} = this.props.guidePage.guidePageColumns
+        let idx = _.findIndex(this.state.selectedRow,ii => ii.ID == rowData.ID)
         if(rtLinks.includes(FIELD_NAME)){
             rowData[FIELD_NAME] = e
+            let selectedRows = this.state.selectedRow
+            if(idx > -1){
+                selectedRows[idx][FIELD_NAME] = e
+            }
+            this.setState({
+                selectedRow:selectedRows
+            })
             let guidePageData = _.get(this.props.guidePage,'guidePageData')
             let guidePageColumns = _.get(this.props.guidePage,'guidePageColumns')
             let list= [
                 {
                   updatedField:FIELD_NAME,
                   objectType:guidePageData.objectType,
-                  policyFormFields: rowData,
+                  policyFormFields: idx > -1 ? selectedRows[idx] : rowData,
                   fieldGroupName: guidePageColumns.relatedFieldGroup,
                 },
             ]
@@ -264,6 +279,13 @@ export default class TableModulars extends React.Component{
                             ii.changes.map(jj => {
                                 if(jj.field == "FIELD_VALUE"){
                                     data[tableIndex][ii.field] = jj.value
+                                    rowData[ii.field] = jj.value
+                                    if(idx > -1){
+                                        selectedRows[idx][ii.field] = jj.value
+                                        this.setState({
+                                            selectedRow:selectedRows
+                                        })
+                                    }
                                 }
                             })
                         })
@@ -282,7 +304,8 @@ export default class TableModulars extends React.Component{
                 selectedRow.push(rowData)
                 this.onSelectChange(selectedRowKeys,selectedRow)
             } else {
-                selectedRow[idx][FIELD_NAME] = e
+                // selectedRow[idx][FIELD_NAME] = e
+                rowData[FIELD_NAME] = e
                 this.onSelectChange(selectedRowKeys,selectedRow)
             }
         }
@@ -658,6 +681,20 @@ export default class TableModulars extends React.Component{
                             )
                         }
                     }
+                } else if(item.WIDGET_TYPE == 'Number'){
+                    obj = {
+                        title:<Tooltip title={item.LABEL + '[' + item.FIELD_NAME + ']'}>
+                        <span>{item.LABEL}</span>
+                    </Tooltip>,
+                        dataIndex:item.FIELD_NAME,
+                        key:item.FIELD_NAME + item.SEQUENCE,
+                        render:(text,record)=>{
+                            let idxs = _.findIndex(selectedRow ,zz => zz.ID == record.ID)
+                            return (
+                                <div>{record[item.FIELD_NAME]*1 == 0 ? (idxs > -1 ? selectedRow[idxs][item.FIELD_NAME]*1 : record[item.FIELD_NAME]*1 ) : record[item.FIELD_NAME]*1}</div>
+                            )
+                        }
+                    }
                 }
                 columns.push(obj)
             } else {
@@ -671,6 +708,7 @@ export default class TableModulars extends React.Component{
                         dataIndex:item.FIELD_NAME,
                         key:item.FIELD_NAME + item.SEQUENCE,
                         render:(text, record, tableIndex)=>{
+                            let idxs = _.findIndex(selectedRow ,zz => zz.ID == record.ID)
                             return <Input
                             type="number"
                             max={text}
@@ -682,7 +720,7 @@ export default class TableModulars extends React.Component{
                                 index,
                                 record)}
                             disabled={item.READ_ONLY_CONDITION}
-                            defaultValue={text} />
+                            defaultValue={ idxs > -1 ? selectedRow[idxs][item.FIELD_NAME]*1 :  record[item.FIELD_NAME] } />
                         }
                     }
                     columns.push(NumberObj)

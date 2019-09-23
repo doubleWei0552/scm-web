@@ -317,7 +317,9 @@ class DetailButtons extends PureComponent {
             type: 'tableTemplate/getDetailSave',
             payload: { value: this.state, type: 'save' },
             callback: res => {
-              this.props.renderDataWhenSave(res.data)
+              if (res.status == 'success') {
+                this.props.renderDataWhenSave(res.data)
+              }
             }
             //   if (res.status == 'success') {
                 // this.props.detailForm.resetFields();
