@@ -124,7 +124,6 @@ export default class TableModulars extends React.Component{
             }
             setTimeout(()=>{
                 let { sendGuideData } = nextProps.guidePage
-                sendGuideData[nextProps.tableButton.BUTTON_GUIDE[nextProps.current].RELATED_FIELD_GROUP] = this.state.data
                 let params = nextProps.tableButton.BUTTON_GUIDE[nextProps.current]
                 this.props.dispatch({
                     type: 'guidePage/getGuideBean', payload: {
