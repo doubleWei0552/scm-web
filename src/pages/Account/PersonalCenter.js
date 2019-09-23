@@ -31,25 +31,25 @@ class PersonalCenter extends Component {
       <div>
 
         <h1>个人主页</h1>
-        <div className={styles.content}>
-          <Row gutter={16}>
-            <Col span={12} className={styles.item}>
-              <IframeCard />
-            </Col>
-            <Col span={12} className={styles.item}>
-              <NoticeCard />
-            </Col>
-            <Col span={12} className={styles.item}>
-              <IframeCard />
-            </Col>
-            <Col span={12} className={styles.item}>
-              <IframeCard />
-            </Col>
-            <Col span={24} className={styles.item}>
-              <IframeCard />
-            </Col>
-          </Row>
-        </div>
+    //    <div className={styles.content}>
+          //<Row gutter={16}>
+           // <Col span={12} className={styles.item}>
+          //    <IframeCard />
+            //</Col>
+         //  <Col span={12} className={styles.item}>
+           //   <NoticeCard />
+        //    </Col>
+         //   <Col span={12} className={styles.item}>
+           //   <IframeCard />
+        //    </Col>
+        //    <Col span={12} className={styles.item}>
+           //   <IframeCard />
+         //   </Col>
+         //   <Col span={24} className={styles.item}>
+           //   <IframeCard />
+         //   </Col>
+     //     </Row>
+      //  </div>
 
 
       </div>
