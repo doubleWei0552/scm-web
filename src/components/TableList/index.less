@@ -53,6 +53,17 @@
       width: fit-content !important;
       min-width: 100% !important;
     }
+    td{
+      >div{
+        width: 100% !important;
+        >span{
+          display: inline-block !important;
+          width: 100% !important;
+          text-overflow: ellipsis !important;
+          overflow: hidden !important;
+        }
+      }
+    }
     .ant-table-column-sorter {
       position: relative;
       top: 4px;
