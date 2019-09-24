@@ -83,7 +83,6 @@ export default function request(url, options) {
 }
 
 const checkStatus = response => {
-  console.log('response', response)
 
   if (response.status === 403) {
     router.push('/ErrorPage/403');
