@@ -209,7 +209,12 @@ export default class TableModulars extends React.Component{
         let stateSelectedRow = this.state.selectedRow
         selectedRow.map(item => {
             if(stateSelectedRow){
-                stateSelectedRow.push(item)
+                let idx = _.findIndex(stateSelectedRow,ii => ii.ID == item.ID)
+                if(idx < 0){
+                    stateSelectedRow.push(item)
+                }
+            } else {
+                stateSelectedRow = selectedRow
             }
         })
         this.setState({ selectedRowKeys,selectedRow:stateSelectedRow })
