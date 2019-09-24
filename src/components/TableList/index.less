@@ -54,14 +54,24 @@
       min-width: 100% !important;
     }
     td{
+      overflow: unset !important;
       >div{
-        width: 100% !important;
+        width: 100% ;
         >span{
           display: inline-block !important;
           width: 100% !important;
           text-overflow: ellipsis !important;
           overflow: hidden !important;
         }
+        >a{
+          // display: inline-block !important;
+          width: 100% !important;
+          text-overflow: ellipsis !important;
+          overflow: hidden !important;
+        }
+      }
+      .ant-table-row-expand-icon{
+        width: 17px;
       }
     }
     .ant-table-column-sorter {
