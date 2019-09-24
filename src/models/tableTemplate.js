@@ -22,7 +22,7 @@ import {
 import _ from 'lodash';
 import { notification } from 'antd';
 import moment from 'moment'
-import {onGetImageUrl} from '@/utils/FunctionSet'
+import { onGetImageUrl } from '@/utils/FunctionSet'
 
 export default {
   namespace: 'tableTemplate',
@@ -34,7 +34,7 @@ export default {
     tableData: [], // 列表页数据
     detailColumns: [], // 详情页表头
     detailData: [], // 详情页数据
-    MainTableData:[], //主表最新的数据（用于子表的rtlink联动）
+    MainTableData: [], //主表最新的数据（用于子表的rtlink联动）
     DetailChildData: {}, // 子表数据
     initDetailChildData: {}, // 刚进入详情页面时的子表数据
     initPolicyFormFields: [], // 刚进入详情页时的主表数据
@@ -60,14 +60,14 @@ export default {
     frameData: [], // 子表弹框的表格数据
 
     reportFormURL: null, // 报表的url地址
-    reportFormURLPage:null , //page页里面的报表地址
+    reportFormURLPage: null, //page页里面的报表地址
     defaultActiveKey: '0', // 子表tab选择的key
 
     fileList: [], // 主表图片组件显示的数据
     fileKey: '', // 对应主表的图片的detailpage里面的元素的FIELD_NAME值
     isChildAdd: false, // 是否有子表新增
 
-    MasterTable:{}, //主表的数据，用于新增时的rtlink联动
+    MasterTable: {}, //主表的数据，用于新增时的rtlink联动
     // ------------------------------------------------
     isEdit: false, // 判断是不是详情页，默认不是详情页false
     buttonType: false, // 详情页的按钮格式,false表示只有保存，取消按钮
@@ -97,11 +97,11 @@ export default {
       });
     },
     // 获取列表页表头数据
-    *getSummaryPageConfig({ payload,callback }, { put, call, select }) {
+    *getSummaryPageConfig({ payload, callback }, { put, call, select }) {
       const pageId = yield select(({ tableTemplate }) => tableTemplate.pageId);
       const params = { pageId };
       const result = yield call(querySummaryPageConfig, params);
-      if(callback) callback (result)
+      if (callback) callback(result)
       if (result.status == 'success') {
         yield put({
           type: 'save',
@@ -131,11 +131,11 @@ export default {
       if (callback) callback(result);
     },
     // 获取详情页表头
-    *getDetailPageConfig({ payload,callback }, { call, select, put }) {
+    *getDetailPageConfig({ payload, callback }, { call, select, put }) {
       const pageId = yield select(({ tableTemplate }) => tableTemplate.pageId);
       const params = { pageId };
       const result = yield call(queryDetailPageConfig, params);
-      if(callback) callback (result)
+      if (callback) callback(result)
       if (result.status == 'success') {
         yield put({
           type: 'save',
@@ -168,7 +168,7 @@ export default {
         };
       }
       const result = yield call(queryDetailPage, params);
-      if(callback) callback (result)
+      if (callback) callback(result)
       yield put({ type: 'save', payload: { detailData: result.data, initPolicyFormFields: result.data.policyFormFields } });
       // 区分是否是新增的情况
       if (result.status == 'success') {
@@ -266,12 +266,12 @@ export default {
         });
         detailData.child = child;
         params = detailData;
-        params.policyFormFields.map(item=>{
-          if(item.WIDGET_TYPE == "Image" || item.WIDGET_TYPE == "Attachment"){
-            if(item.FIELD_VALUE){
-              item.FIELD_VALUE.map(ii=>{
-                if(ii.url){
-                  if(ii.url.includes('http:')){
+        params.policyFormFields.map(item => {
+          if (item.WIDGET_TYPE == "Image" || item.WIDGET_TYPE == "Attachment") {
+            if (item.FIELD_VALUE) {
+              item.FIELD_VALUE.map(ii => {
+                if (ii.url) {
+                  if (ii.url.includes('http:')) {
                     let str = ii.url.match(/:(\S*)/)[1];
                     let lastStr = str.match(/:(\S*)/)[1];
                     ii.url = `:${lastStr}`
@@ -295,16 +295,18 @@ export default {
               selectDate = value;
             }
           });
-          yield put({ type: 'save', payload: { selectDate, objectType,isNewSave:false,isEditSave:false } });
+          yield put({ type: 'save', payload: { selectDate, objectType, isNewSave: false, isEditSave: false } });
           yield put({
             type: 'getDetailPage',
             payload: { ID: selectDate.ID, pageId, ObjectType: objectType },
           });
-          yield put({ type: 'getPagelist', payload: { pageId },callback:res=>{
-            if(res.status == 'success' && result.message){
-              notification.success({ message: result.message, duration: 3 });
+          yield put({
+            type: 'getPagelist', payload: { pageId }, callback: res => {
+              if (res.status == 'success' && result.message) {
+                notification.success({ message: result.message, duration: 3 });
+              }
             }
-          } });
+          });
         } else {
           notification.error({ message: result.message, duration: 3 });
         }
@@ -337,12 +339,14 @@ export default {
         const result = yield call(queryDetailSave, params);
         if (callback) callback(result);
         if (result.status == 'success') {
-          yield put({type:'save',payload:{saveData :result}})
+          yield put({ type: 'save', payload: { saveData: result } })
           yield put({ type: 'getPagelist', payload: { pageId } });
           yield put({
             type: 'save',
-            payload: { selectDate: result.data, objectType: result.data.ObjectType,isEditSave:false,
-                isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true,ID: result.data.ID  },
+            payload: {
+              selectDate: result.data, objectType: result.data.ObjectType, isEditSave: false,
+              isEdit: true, buttonType: true, isNewSave: false, disEditStyle: true, ID: result.data.ID
+            },
           });
           if (result.message) {
             notification.success({ message: result.message, duration: 3 });
@@ -476,8 +480,8 @@ export default {
       }
       const result = yield call(queryTransactionProcess, params);
       if (result.status == 'success') {
-        if(result.executeScript){
-          yield put({ type: 'save', payload: { reportFormURL: result.executeScript+`&userid=${localStorage.getItem('loginData')}` } });
+        if (result.executeScript) {
+          yield put({ type: 'save', payload: { reportFormURL: result.executeScript + `&userid=${localStorage.getItem('loginData')}` } });
         } else {
           yield put({ type: 'save', payload: { reportFormURL: result.executeScript } });
         }
@@ -507,8 +511,8 @@ export default {
       }
     },
     // 分页 （列表页获取数据）
-    *getPagination({ payload,callback }, { select, call, put }) {
-      const { pageId, searchParams = {},pageSize, summarySort, sorterData } = payload;
+    *getPagination({ payload, callback }, { select, call, put }) {
+      const { pageId, searchParams = {}, pageSize, summarySort, sorterData } = payload;
       const pageNum = payload.current;
       const params = {
         pageId,
@@ -519,7 +523,7 @@ export default {
         ...searchParams,
       };
       const result = yield call(queryPagination, params);
-      if(callback) callback (result)
+      if (callback) callback(result)
       if (result.status == 'success') {
         yield put({ type: 'save', payload: { pagination: result.data } });
       } else {
@@ -593,10 +597,10 @@ export default {
       const { value } = payload
       const { searchData, selectKey, ColumnsData } = payload;
       let params = {
-          ...value,
-          objId: selectDate.ID,
-          selectKey,
-        }
+        ...value,
+        objId: selectDate.ID,
+        selectKey,
+      }
       const result = yield call(queryAutocomplate, params);
       const selectChildOption = yield select(
         ({ tableTemplate }) => tableTemplate.selectChildOption
@@ -683,7 +687,7 @@ export default {
         // 判断是否修改和用户是否选择清空选项，如果修改了，就赋值，没有修改不变,注：null == undefined,区分他们要用 ===
         if (params[val.FIELD_NAME]) {
           val.FIELD_VALUE = params[val.FIELD_NAME];
-          if(val.WIDGET_TYPE == 'Date' || val.WIDGET_TYPE == 'DateTime'){
+          if (val.WIDGET_TYPE == 'Date' || val.WIDGET_TYPE == 'DateTime') {
             val.FIELD_VALUE = moment(params[val.FIELD_NAME]).valueOf()
           } else {
             val.FIELD_VALUE = params[val.FIELD_NAME];
@@ -723,10 +727,12 @@ export default {
       }
     },
     //用于获取主表最新的值
-    *getMainTableData({payload,callback},{select,put,call}){
-        yield put({type:'save',payload:{
-          MainTableData:payload
-        }})
+    *getMainTableData({ payload, callback }, { select, put, call }) {
+      yield put({
+        type: 'save', payload: {
+          MainTableData: payload
+        }
+      })
     },
     // 子表的rtlink功能
     *childUpdateFields({ payload, callback }, { select, put, call }) {
@@ -739,8 +745,8 @@ export default {
       // const parentPolicyFormFields = yield select(({ tableTemplate }) => tableTemplate.detailData)
       // params.parentPolicyFormFields = parentPolicyFormFields.policyFormFields
       let MasterTables = payload.params.MasterTable
-      for(let i in MasterTables){
-        if(typeof(MasterTables[i]) == 'object' && MasterTables[i] != null){
+      for (let i in MasterTables) {
+        if (typeof (MasterTables[i]) == 'object' && MasterTables[i] != null) {
           MasterTables[i] = moment(MasterTables[i]).valueOf()
         }
       }
@@ -807,8 +813,8 @@ export default {
         ChildTableData,
         ChildObject,
       } = payload;
-      for(let gg in searchParams){  //去除前后的空格
-        if(searchParams[gg] && typeof(searchParams[gg]) == 'string'){
+      for (let gg in searchParams) {  //去除前后的空格
+        if (searchParams[gg] && typeof (searchParams[gg]) == 'string') {
           searchParams[gg] = searchParams[gg].replace(/(^\s*)|(\s*$)/g, "")
         }
       }

@@ -4,7 +4,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
 
-const SearchOptions = {};
+
 
 @Form.create()
 @connect(({ tableTemplate, listPage, loading }) => ({
@@ -12,11 +12,12 @@ const SearchOptions = {};
   listPage,
   loadingG: loading.effects['tableTemplate/getDetailPage'],
 }))
-class SearchBar extends PureComponent {
+class SearchBar extends React.Component {
   state = {
     expand: false,
     start: null,
     end: null,
+    SearchOptions: {},
   };
 
   componentDidMount() {
@@ -85,8 +86,13 @@ class SearchBar extends PureComponent {
     // }
   }
 
+  shouldComponentUpdate(newProps, newState) {
+    return true
+  }
+
   // 获取搜索栏Options
   getSearchBarOptions = e => {
+    const { SearchOptions } = this.state
     //旧版
     let options = [];
     this.props.dispatch({
@@ -96,6 +102,9 @@ class SearchBar extends PureComponent {
         if (response.status === 'success') {
           options = response.data.options;
           SearchOptions[response.data.field] = response.data.options;
+          this.setState({
+            SearchOptions
+          })
         }
       },
     });
@@ -229,8 +238,8 @@ class SearchBar extends PureComponent {
     //新版
     // const { tableColumns = [] } = this.props.listPage;
     //旧版
-    const { tableColumns = [] } = this.props.tableTemplate;
-    const { expand } = this.state;
+    const { tableColumns = [], currentKey = '' } = this.props.tableTemplate;
+    const { expand, SearchOptions } = this.state;
     const searchItems = _.filter(tableColumns, item => item.filterable === true);
     const count = expand ? searchItems.length : 2;
     const { getFieldDecorator } = this.props.form;
@@ -280,10 +289,13 @@ class SearchBar extends PureComponent {
                             placeholder={`请选择${value.title}`}
                             showSearch={value.widgetType != 'Select'}
                             allowClear={true}
+                            showSearch={value.widgetType === 'Reference' ? true : false}
                             style={{ width: '195px', textOverflow: 'ellipsis' }}
-                            filterOption={(inputValue, option) =>
-                              _.includes(option.props.children, inputValue)
-                            }
+                            onSearch={(e) => { this.getSearchBarOptions({ key: currentKey, text: value.dataIndex, FIELD_VALUE: e }) }}
+                            // filterOption={(inputValue, option) =>
+                            //   _.includes(option.props.children, inputValue)
+                            // }
+                            filterOption={false}
                           // suffixIcon={
                           //   value.widgetType !== 'Select' && <Icon type="search" />
                           // }
@@ -293,20 +305,23 @@ class SearchBar extends PureComponent {
                           //   value: null,
                           // })}
                           >
-                            {SearchOptions[value.dataIndex] &&
-                              SearchOptions[value.dataIndex].length > 0
-                              ? _.map(SearchOptions[value.dataIndex], (item, index) => {
-                                return (
-                                  <Select.Option
-                                    title={item.text}
-                                    key={item.value + item.text}
-                                    value={item.value}
-                                  >
-                                    {item.text}
-                                  </Select.Option>
-                                );
-                              })
-                              : null}
+
+                            {
+                              SearchOptions[value.dataIndex] &&
+                                SearchOptions[value.dataIndex].length > 0
+                                ? _.map(SearchOptions[value.dataIndex], (item, index) => {
+                                  return (
+                                    <Select.Option
+                                      title={item.text}
+                                      key={item.value + _.now()}
+                                      value={item.value}
+                                    >
+                                      {item.text}
+                                    </Select.Option>
+                                  );
+                                })
+                                : null
+                            }
                           </Select>
                         )}
                       </Form.Item>
@@ -392,8 +407,8 @@ class SearchBar extends PureComponent {
                     }
                   });
                   // const rangeTime = [
-                  //   { label: `起始${value.title}`, value: `${value.dataIndex}start` },
-                  //   { label: `结束${value.title}`, value: `${value.dataIndex}end` },
+                  //   {label: `起始${value.title}`, value: `${value.dataIndex}start` },
+                  //   {label: `结束${value.title}`, value: `${value.dataIndex}end` },
                   // ];
                   // return _.map(rangeTime, (item, i) => {
                   //   return (
@@ -520,7 +535,7 @@ class SearchBar extends PureComponent {
             )}
           </Form>
         </Row>
-      </div>
+      </div >
     );
   }
 }
