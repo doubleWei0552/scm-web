@@ -57,7 +57,7 @@ class DetailPage extends PureComponent {
   onEditSearch = (value, searchData) => {
     this.props.dispatch({
       type: 'tableTemplate/getAutocomplate',
-      payload: { value, searchData: '' },
+      payload: { value, searchData },
     });
   };
 
