@@ -100,7 +100,7 @@ export default class BaseMenu extends PureComponent {
     const { loadingG = false } = this.props
     // doc: add hideChildrenInMenu
     const { name, path } = item;
-    const index = path ? path.lastIndexOf("\?") : 0;
+    const index = path ? path.indexOf("\?") : 0;
     const keyPath = index > 0 ? path.substring(0, index) : path;
 
     if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
