@@ -23,6 +23,7 @@ import NewBreadcrumb from '@/components/Breadcrumb/Index'; //面包屑组件
 import CustomerHeader from '@/components/CustomerHeader/newIndex'; //头部组件
 import DetailPage from '@/components/DetailPage/Index'; // 主表详情组件
 import ChildTable from '@/components/ChildTable/Index'; //子表组件
+import NewChildTableEdit from '@/components/NewChildTable/NewChildTableEdit.jsx'; //重构的子表部分
 import Detailbuttons from '@/components/DetailButtons'; // 详情页头部的按钮栏
 import SkeletonCom from '@/components/Skeleton/Index'
 import { connect } from 'dva';
@@ -95,9 +96,10 @@ export default class EditDetailPage extends React.Component {
               display: this.props.detailPage.detailColumns.child ? 'block' : 'none',
               }}
           >
-              <div style={{ marginTop: '5px' }}>
+              {/* <div style={{ marginTop: '5px' }}>
               <ChildTable disEditStyle={false} getMasterTable={(value) => this.getMasterTable(value)} />
-              </div>
+            </div> */}
+              <NewChildTableEdit />
           </Card>
         </div>
         </div>

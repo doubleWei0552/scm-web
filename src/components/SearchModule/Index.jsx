@@ -16,14 +16,11 @@ export default class SearchModule extends React.Component{
         isSave:false  //顶部是否是保存按钮，默认为false
     }
     handleMenuClick=(e)=> {
-        console.log('click', e);
     }
     onDateChange=(date, dateString)=> {
-        console.log(date, dateString);
     }
     // 往state里面添加添加改变的值
     onChange=(title,e)=>{
-        console.log(title,e)
         if(typeof(e) === 'object'){
             this.setState({[title]:e.target.value})
         } else {
@@ -31,12 +28,10 @@ export default class SearchModule extends React.Component{
         }
     }
     confirm=(e)=> {
-        console.log(e);
         message.success('Click on Yes');
     }
     
     cancel=(e)=> {
-        console.log(e);
         message.error('Click on No');
     }
 
@@ -54,11 +49,9 @@ export default class SearchModule extends React.Component{
         this.props.onCancled()
     }
     // onButtonTest = (value)=>{
-    //     console.log(value)
     //     this.props.dispatch({type:'table/getTransactionProcess',payload:{ButtonName:value}})
     // }
     render(){
-        console.log(this.props)
         const Breadcrumbchild = this.props.Breadcrumb.map((value,index)=>{
             return <Breadcrumb.Item key={index}>{value.title}</Breadcrumb.Item>
         })
@@ -90,7 +83,6 @@ export default class SearchModule extends React.Component{
         })
         const InputGroup = this.props.InputGroup.map((value,index)=>{
             if(value.type === 'Select'){
-                console.log(value)
                 const optionChild = value.options.map((v,i)=>{
                     return <Select.Option value={v.title} key={i}>{v.title}</Select.Option>
                 })

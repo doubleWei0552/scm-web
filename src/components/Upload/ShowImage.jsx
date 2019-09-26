@@ -34,7 +34,6 @@ export default class ImageUpdate extends React.Component {
   handleChange = (info) =>{
       const {fileList} = info
       fileList = fileList.slice(-1); //限制只保留一张图片
-      console.log(info)
       // this.props.handleImageChange(fileList)
       // this.setState({ fileList })
       this.props.dispatch({type:'tableTemplate/save',payload:{fileList,fileKey:this.props.field.FIELD_NAME}})

@@ -116,7 +116,6 @@ class FormModular extends React.Component {
 
 
   render() {
-    // console.log('shuju',this.props.guidePage.cacheFormData)
     const { getFieldDecorator } = this.props.form
     let cacheFormData = this.props.cacheFormData
     let cacheData = {}  //缓存数据

@@ -5,7 +5,6 @@ let lessNodesAppended;
 const updateTheme = primaryColor => {
   // Don't compile less in production!
 
-  // console.log('window.less', window.less, primaryColor)
   // if (APP_TYPE !== 'site') {
   //   return;
   // }

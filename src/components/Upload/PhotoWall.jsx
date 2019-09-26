@@ -16,7 +16,6 @@ export default class PhotoWall extends React.Component {
   handleCancel = () => this.setState({ previewVisible: false })
 
   handlePreview = (file) => {
-    console.log('上传返回的值',file)
     this.setState({
       previewImage: file.url || file.response.data.url || file.thumbUrl,
       previewVisible: true,
@@ -29,7 +28,6 @@ export default class PhotoWall extends React.Component {
   } 
 
   render() {
-    console.log(this.state.fileList)
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>

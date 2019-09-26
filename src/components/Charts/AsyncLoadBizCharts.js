@@ -12,7 +12,6 @@ const loadBizCharts = async () => {
     importCDN('//gw.alipayobjects.com/os/lib/antv/data-set/0.10.1/dist/data-set.min.js'),
   ]);
   // eslint-disable-next-line no-console
-  console.log('bizCharts load success');
   isLoaderBizChart = true;
   return Promise.resolve(true);
 };

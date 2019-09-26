@@ -67,7 +67,6 @@ export default class ImageUpload extends React.Component {
   }
 
   onRemove=(file)=>{
-    console.log('删除',file)
   }
 
   render() {

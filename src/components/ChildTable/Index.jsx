@@ -231,7 +231,7 @@ class ChildTable extends React.Component {
   };
 
   render() {
-    const { disEditStyle } = this.props
+    const { disEditStyle } = this.props //为true时，禁止编辑
     const { getFieldDecorator } = this.props.form;
     const editChildFiles =
         this.props.detailPage.ChildData.length != 0
@@ -300,16 +300,20 @@ class ChildTable extends React.Component {
             let Data = [];
             let MultiObjectSelector = null; //判断是否含有 MultiObjectSelector
             //子表数据
-            value.Data.records.map(n => {
-              let child = {};
-              n.map(z => {
-                child[z.FIELD_NAME] = z.FIELD_VALUE;
-                child.key = z.key;
-                child.id = z.id;
-                child.objectType = z.OBJECT_TYPE; //添加OBJECT_TYPE放便后期删除
-              });
-              Data.push(child);
-            });
+            // value.Data.records.map(n => {
+            //   let child = {};
+            //   n.map(z => {
+            //     child[z.FIELD_NAME] = z.FIELD_VALUE;
+            //     child.key = z.key;
+            //     child.id = z.id;
+            //     child.objectType = z.OBJECT_TYPE; //添加OBJECT_TYPE方便后期删除
+            //   });
+            //   Data.push(child);
+            // });
+
+            //测试版
+            Data = value.Data.records;
+
             //子表表头
             value.Columns.fields.map((i, j) => {
               switch (i.type) {
@@ -331,19 +335,19 @@ class ChildTable extends React.Component {
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                      value.Data.records.map(h => {
-                        h.map(i => {
-                          if (i.key == record.key) {
-                            childRowData = h;
-                          }
-                        });
-                      });
-                      childRowData.map(o => {
-                        if (o.FIELD_NAME == i.text) {
-                          specificData = o;
-                        }
-                      });
-                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      // value.Data.records.map(h => {
+                      //   h.map(i => {
+                      //     if (i.key == record.key) {
+                      //       childRowData = h;
+                      //     }
+                      //   });
+                      // });
+                      // childRowData.map(o => {
+                      //   if (o.FIELD_NAME == i.text) {
+                      //     specificData = o;
+                      //   }
+                      // });
+                      // if (specificData.DISPLAY_CONDITION == false) return null;
                       return (
                         <div key={j + text}>
                           {disEditStyle ? ( //判断是否是可编辑状态 true为不可编辑
@@ -465,19 +469,19 @@ class ChildTable extends React.Component {
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                      value.Data.records.map(h => {
-                        h.map(i => {
-                          if (i.key == record.key) {
-                            childRowData = h;
-                          }
-                        });
-                      });
-                      childRowData.map(o => {
-                        if (o.FIELD_NAME == i.text) {
-                          specificData = o;
-                        }
-                      });
-                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      // value.Data.records.map(h => {
+                      //   h.map(i => {
+                      //     if (i.key == record.key) {
+                      //       childRowData = h;
+                      //     }
+                      //   });
+                      // });
+                      // childRowData.map(o => {
+                      //   if (o.FIELD_NAME == i.text) {
+                      //     specificData = o;
+                      //   }
+                      // });
+                      // if (specificData.DISPLAY_CONDITION == false) return null;
                       return (
                         <div key={j + text}>
                           {disEditStyle ? (
@@ -493,7 +497,8 @@ class ChildTable extends React.Component {
                                 textAlign: 'right',
                               }}
                             >
-                              {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
+                              {/* {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text} */}
+                              {text}
                             </span>
                           ) : this.props.newAdd ||
                             this.props.newAdd == undefined ? (
@@ -619,20 +624,20 @@ class ChildTable extends React.Component {
                     value: i.value,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
-                      let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                      value.Data.records.map(h => {
-                        h.map(i => {
-                          if (i.key == record.key) {
-                            childRowData = h;
-                          }
-                        });
-                      });
-                      childRowData.map(o => {
-                        if (o.FIELD_NAME == i.text) {
-                          specificData = o;
-                        }
-                      });
-                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      // let specificData = {}; //用于记录具体的数据，方便后期添加管控
+                      // value.Data.records.map(h => {
+                      //   h.map(i => {
+                      //     if (i.key == record.key) {
+                      //       childRowData = h;
+                      //     }
+                      //   });
+                      // });
+                      // childRowData.map(o => {
+                      //   if (o.FIELD_NAME == i.text) {
+                      //     specificData = o;
+                      //   }
+                      // });
+                      // if (specificData.DISPLAY_CONDITION == false) return null;
                       return disEditStyle ? (
                         <span
                           style={{
@@ -641,7 +646,8 @@ class ChildTable extends React.Component {
                             display: 'inline-block',
                           }}
                         >
-                          {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
+                          {/* {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text} */}
+                          { text }
                         </span>
                       ) : (
                         <span
@@ -653,7 +659,8 @@ class ChildTable extends React.Component {
                           style={{ minWidth: '70px' }}
                           type="primary"
                         >
-                          {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
+                          {/* {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text} */}
+                          { text }
                         </span>
                       );
                     },
@@ -662,6 +669,192 @@ class ChildTable extends React.Component {
                     columns.push(columnsMultiObjectSelector);
                   }
                   break;
+                // case 'Select':
+                // case 'Reference':
+                // case 'ObjectType':
+                //   let columnsSelect = {
+                //     title: (
+                //       <Tooltip title={i.value + '[' + i.text + ']'}>
+                //         <span>{i.value}</span>
+                //       </Tooltip>
+                //     ),
+                //     dataIndex: i.text,
+                //     readOnlyCondition: i.readOnlyCondition,
+                //     defaultValue: i.defaultValue, //默认值
+                //     requiredCondition: i.requiredCondition, //是否必填
+                //     options: i.options,
+                //     key: j + i.value,
+                //     text: i.text,
+                //     type: i.type,
+                //     value: i.value,
+                //     render: (text, record, childIndex) => {
+                //       let childRowData = []; //用于记录某行子表的数据
+                //       let specificData = {}; //用于记录具体的数据，方便后期添加管控
+                //       let optionChild;
+                //       value.Data.records.map(h => {
+                //         // h.map(z => {
+                //         //   if (z.key == record.key) {
+                //         //     childRowData = h;
+                //         //   }
+                //         // });
+                //         // childRowData.map(o => {
+                //         //   if (o.FIELD_NAME == i.text) {
+                //         //     specificData = o;
+                //         //   }
+                //         // });
+                //         if (i.type != 'Select') {
+                //           const isExist = _.findIndex(
+                //             this.props.detailPage.selectChildOption,
+                //             function(z) {
+                //               return (
+                //                 z.selectKey == specificData.key &&
+                //                 z.field == specificData.FIELD_NAME
+                //               );
+                //             }
+                //           );
+                //           if (isExist == -1) {
+                //             optionChild = _.get(specificData, 'options', i.options).map((v, s) => {
+                //               return (
+                //                 <Select.Option
+                //                   value={v.value + '--' + v.text + '--' + s + j}
+                //                   key={v.text + v.value}
+                //                 >
+                //                   {v.text}
+                //                 </Select.Option>
+                //               );
+                //             });
+                //           } else {
+                //             optionChild = this.props.detailPage.selectChildOption[
+                //               isExist
+                //             ].options.map((v, s) => {
+                //               return (
+                //                 <Select.Option
+                //                   value={v.value + '--' + v.text + '--' + s + j}
+                //                   key={v.text + v.value}
+                //                 >
+                //                   {v.text}
+                //                 </Select.Option>
+                //               );
+                //             });
+                //           }
+                //         } else {
+                //           if (specificData.options) {
+                //             optionChild = specificData.options.map((v, s) => {
+                //               return (
+                //                 <Select.Option value={v.value} key={v.text + v.value + s}>
+                //                   {v.text}
+                //                 </Select.Option>
+                //               );
+                //             });
+                //           } else {
+                //             optionChild = i.options.map((v, s) => {
+                //               return (
+                //                 <Select.Option value={v.value} key={v.text + v.value + s}>
+                //                   {v.text}
+                //                 </Select.Option>
+                //               );
+                //             });
+                //           }
+                //         }
+                //       });
+                //       // if (specificData.DISPLAY_CONDITION == false) return null;
+                //       return (
+                //         <div key={j + text}>
+                //           {disEditStyle ? (
+                //             <span
+                //               key={text + index}
+                //               style={{
+                //                 marginTop: '8px',
+                //                 marginBottom: '16px',
+                //                 display: 'inline-block',
+                //               }}
+                //             >
+                //               {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
+                //             </span>
+                //           ) : this.props.newAdd ||
+                //             this.props.newAdd == undefined ? (
+                //             <Select
+                //               className={styles.selectData}
+                //               onChange={e =>
+                //                 this.onChildChang(
+                //                   e,
+                //                   record,
+                //                   specificData,
+                //                   'Select',
+                //                   childIndex,
+                //                   index,
+                //                   value.Columns, //表头数据
+                //                   value
+                //                 )
+                //               }
+                //               showSearch={true}
+                //               allowClear
+                //               onSearch={e =>
+                //                 this.onEditSearch(i, e, specificData.key, value.Columns)
+                //               }
+                //               filterOption={false}
+                //               placeholder="请输入查询内容!"
+                //               style={{ minWidth: '170px' }}
+                //               disabled={
+                //                 specificData.READ_ONLY_CONDITION
+                //                   ? specificData.READ_ONLY_CONDITION
+                //                   : i.readOnlyCondition
+                //               } //精确到字段的管控
+                //               // disabled={i.readOnlyCondition}
+                //               defaultValue={
+                //                 specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
+                //               }
+                //             >
+                //               {optionChild}
+                //             </Select>
+                //           ) : (
+                //             <Select
+                //               className={styles.selectData}
+                //               onChange={e =>
+                //                 this.onChildChang(
+                //                   e,
+                //                   record,
+                //                   specificData,
+                //                   'Select',
+                //                   childIndex,
+                //                   index,
+                //                   value.Columns, //表头数据
+                //                   value
+                //                 )
+                //               }
+                //               showSearch={true}
+                //               allowClear
+                //               onSearch={e =>
+                //                 this.onEditSearch(i, e, specificData.key, value.Columns)
+                //               }
+                //               filterOption={false}
+                //               placeholder="请输入查询内容!"
+                //               // onFocus={this.childSelectClick.bind(
+                //               //   this,
+                //               //   specificData,
+                //               //   value.Columns.key
+                //               // )}
+                //               style={{ minWidth: '170px' }}
+                //               defaultValue={
+                //                 specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
+                //               }
+                //               disabled={
+                //                 specificData.READ_ONLY_CONDITION
+                //                   ? specificData.READ_ONLY_CONDITION
+                //                   : i.readOnlyCondition
+                //               }
+                //             >
+                //               {optionChild}
+                //             </Select>
+                //           )}
+                //         </div>
+                //       );
+                //     },
+                //   };
+                //   if (i.displayCondition) {
+                //     columns.push(columnsSelect);
+                //   }
+                //   break;
                 case 'Select':
                 case 'Reference':
                 case 'ObjectType':
@@ -685,19 +878,9 @@ class ChildTable extends React.Component {
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
                       let optionChild;
                       value.Data.records.map(h => {
-                        h.map(z => {
-                          if (z.key == record.key) {
-                            childRowData = h;
-                          }
-                        });
-                        childRowData.map(o => {
-                          if (o.FIELD_NAME == i.text) {
-                            specificData = o;
-                          }
-                        });
                         if (i.type != 'Select') {
                           const isExist = _.findIndex(
-                            this.props.tableTemplate.selectChildOption,
+                            this.props.detailPage.selectChildOption,
                             function(z) {
                               return (
                                 z.selectKey == specificData.key &&
@@ -717,7 +900,7 @@ class ChildTable extends React.Component {
                               );
                             });
                           } else {
-                            optionChild = this.props.tableTemplate.selectChildOption[
+                            optionChild = this.props.detailPage.selectChildOption[
                               isExist
                             ].options.map((v, s) => {
                               return (
@@ -731,26 +914,15 @@ class ChildTable extends React.Component {
                             });
                           }
                         } else {
-                          if (specificData.options) {
-                            optionChild = specificData.options.map((v, s) => {
-                              return (
-                                <Select.Option value={v.value} key={v.text + v.value + s}>
-                                  {v.text}
-                                </Select.Option>
-                              );
-                            });
-                          } else {
-                            optionChild = i.options.map((v, s) => {
-                              return (
-                                <Select.Option value={v.value} key={v.text + v.value + s}>
-                                  {v.text}
-                                </Select.Option>
-                              );
-                            });
-                          }
+                          optionChild = i.options.map((v, s) => {
+                            return (
+                              <Select.Option value={v.value} key={v.text + v.value + s}>
+                                {v.text}
+                              </Select.Option>
+                            );
+                          });
                         }
                       });
-                      if (specificData.DISPLAY_CONDITION == false) return null;
                       return (
                         <div key={j + text}>
                           {disEditStyle ? (
@@ -762,7 +934,7 @@ class ChildTable extends React.Component {
                                 display: 'inline-block',
                               }}
                             >
-                              {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
+                              {text}
                             </span>
                           ) : this.props.newAdd ||
                             this.props.newAdd == undefined ? (
@@ -867,19 +1039,19 @@ class ChildTable extends React.Component {
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                      value.Data.records.map(h => {
-                        h.map(i => {
-                          if (i.key == record.key) {
-                            childRowData = h;
-                          }
-                        });
-                      });
-                      childRowData.map(o => {
-                        if (o.FIELD_NAME == i.text) {
-                          specificData = o;
-                        }
-                      });
-                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      // value.Data.records.map(h => {
+                      //   h.map(i => {
+                      //     if (i.key == record.key) {
+                      //       childRowData = h;
+                      //     }
+                      //   });
+                      // });
+                      // childRowData.map(o => {
+                      //   if (o.FIELD_NAME == i.text) {
+                      //     specificData = o;
+                      //   }
+                      // });
+                      // if (specificData.DISPLAY_CONDITION == false) return null;
                       return (
                         <div key={j + text}>
                           {disEditStyle ? ( //判断是否是可编辑状态 true为不可编辑
@@ -975,19 +1147,19 @@ class ChildTable extends React.Component {
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                      value.Data.records.map(h => {
-                        h.map(i => {
-                          if (i.key == record.key) {
-                            childRowData = h;
-                          }
-                        });
-                      });
-                      childRowData.map(o => {
-                        if (o.FIELD_NAME == i.text) {
-                          specificData = o;
-                        }
-                      });
-                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      // value.Data.records.map(h => {
+                      //   h.map(i => {
+                      //     if (i.key == record.key) {
+                      //       childRowData = h;
+                      //     }
+                      //   });
+                      // });
+                      // childRowData.map(o => {
+                      //   if (o.FIELD_NAME == i.text) {
+                      //     specificData = o;
+                      //   }
+                      // });
+                      // if (specificData.DISPLAY_CONDITION == false) return null;
                       return (
                         <div key={j + text}>
                           {disEditStyle ? ( //判断是否是可编辑状态 true为不可编辑

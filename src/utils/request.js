@@ -48,7 +48,6 @@ const errorHandler = error => {
  * 配置request请求时的默认参数
  */
 // const REQUEST_SERVER = window.ENV.server;
-// console.log(REQUEST_SERVER)
 const { apiUrl: _apiUrl } = window.config;
 const origin = localStorage.getItem('origin') || '';
 const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;

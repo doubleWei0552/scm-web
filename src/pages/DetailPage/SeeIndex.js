@@ -23,6 +23,7 @@ import NewBreadcrumb from '@/components/Breadcrumb/Index'; //面包屑组件
 import CustomerHeader from '@/components/CustomerHeader/newIndex'; //头部组件
 import DetailPage from '@/components/DetailPage/SeeIndex'; // 主表详情组件
 import ChildTable from '@/components/ChildTable/Index'; //子表组件
+import NewChildTable from '@/components/NewChildTable/NewChildTableSee' //重构版本的子表
 import Detailbuttons from '@/components/DetailButtons/SeeIndex'; // 详情页头部的按钮栏
 import SkeletonCom from '@/components/Skeleton/Index'
 import { connect } from 'dva';
@@ -89,16 +90,17 @@ class SeeDetailPage extends React.Component {
         <Card
             style={{ width: '100%', marginTop: '1.2rem', }}
             bodyStyle={{
-            paddingTop: 0,
-            paddingLeft: '16px',
-            paddingRight: '16px',
-            paddingBottom: '16px',
-            display: this.props.detailPage.detailColumns.child ? 'block' : 'none',
+              paddingTop: 0,
+              paddingLeft: '16px',
+              paddingRight: '16px',
+              paddingBottom: '16px',
+              display: _.get(this.props.detailPage.detailColumns,'child') ? 'block' : 'none',
             }}
         >
-            <div style={{ marginTop: '5px' }}>
+            {/* <div style={{ marginTop: '5px' }}>
             <ChildTable disEditStyle={true} getMasterTable={(value) => this.getMasterTable(value)} />
-            </div>
+            </div> */}
+            <NewChildTable />
         </Card>
         </div>
         </div>

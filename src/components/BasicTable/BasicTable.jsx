@@ -141,7 +141,6 @@ export default class BasicData extends React.Component {
             // scroll={this.props.scroll}
             scroll={{ x: true }}
             onRow={(e, record) => {
-              // console.log('test',e,record)
               return {
                 onDoubleClick: () => {
                   this.props.onJump(e, record);

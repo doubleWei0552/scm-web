@@ -244,7 +244,6 @@ export default {
       const editValue = payload.value; // 编辑传过来的值
       if (payload.type == 'edit') {
         let params;
-        // console.log(detailData.policyFormFields, editValue)
         const child = []; // 存放新版的子表修改数据
         ChildData.map(value => {
           value.Data.records.map(i => {
@@ -653,17 +652,14 @@ export default {
       const selectChildOption = yield select(
         ({ tableTemplate }) => tableTemplate.selectChildOption
       );
-      // console.log('子表的下拉数据',selectChildOption)
       const isExist = _.findIndex(selectChildOption, function (o) {
         return o.selectKey == result.data.selectKey && o.field == result.data.field;
       });
-      // console.log('是否存在',isExist)
       if (isExist == -1) {
         selectChildOption.push(result.data);
       } else {
         selectChildOption[isExist].options = result.data.options;
       }
-      // console.log(selectChildOption,'后台返回的数据',result.data.options)
       yield put({
         type: 'save',
         payload: {
@@ -756,7 +752,6 @@ export default {
       }
       params.parentPolicyFormFields = MasterTables
       const result = yield call(childUpdateFields, params);
-      // console.log(ChildData,'后端返回的数据',result.data)
       // rtlink 添加警告
       result.data.map((item, index) => {
         item.fieldChanges.map((j, k) => {
@@ -837,7 +832,6 @@ export default {
     },
     // 文件上传的接口
     *FileUpdate({ payload }, { select, put, call }) {
-      console.log('文件上传的接口');
     },
   },
 

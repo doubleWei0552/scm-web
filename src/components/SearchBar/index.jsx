@@ -387,7 +387,6 @@ class SearchBar extends React.Component {
                                   style={{ width: '195px' }}
                                   allowClear={true}
                                   onChange={e => {
-                                    console.log(e);
                                     this.handleChange(e, kk.title);
                                     this.onEndChange(e, kk);
                                   }}

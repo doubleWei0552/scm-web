@@ -13,7 +13,6 @@ export default class NewEntries extends React.Component{
         this.setState({data})
     }
     onSave=()=>{
-        console.log(this.state.data)
         this.props.dispatch({type:'table/getDetailChildSave',payload:{data:this.state.data}})
     }
     render(){

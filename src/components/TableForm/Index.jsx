@@ -135,7 +135,6 @@ class TableForm extends PureComponent {
     this.props.dispatch({ type: 'tableTemplate/getAutocomplate', payload: { value, searchData: data } })
   }
   onNumberChange = (e, value, rowData, specificData, record, childTableColumns) => {
-    // console.log(rowData)
     let childAllData = this.props.childAllData
 
     if (rowData) {
@@ -150,7 +149,6 @@ class TableForm extends PureComponent {
       } else {
         let newData = this.state.newData
         newData[value.text] = e
-        console.log(specificData)
         newData.ID = specificData.id
         let child = {
           newData: [newData],

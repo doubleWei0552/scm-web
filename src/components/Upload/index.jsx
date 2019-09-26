@@ -9,7 +9,6 @@ export default class FileUpload extends React.Component{
     fileList:[]
   }
   preview = (file) => {
-    console.log('dinaji',file)
     this.setState({
         previewImage: file.url || file.thumbUrl
     });
@@ -17,7 +16,6 @@ export default class FileUpload extends React.Component{
   onChange(info) {
     const status = info.file.status;
     if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
     }
     if (status === 'done') {
       message.success(`${info.file.name} 文件上传成功！`);

@@ -148,7 +148,6 @@ class SettingDrawer extends PureComponent {
     } else {
       localStorage.setItem('developerMode', '')
     }
-    console.log('checked', checked, localStorage)
     // this.setState({})
 
   }

@@ -78,7 +78,6 @@ export default class HorizontalButtonGroup extends React.Component {
 
   // 列表页的自定义按钮事件
   onTableButtonEvent = e => {
-    console.log(this.props,'e',e)
     // const { selectedRowKeys } = this.props.tableTemplate;
     const { selectedRowKeys } = this.props.listPage;
     switch (e.BEHAVIOR) {

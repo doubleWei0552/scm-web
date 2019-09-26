@@ -209,7 +209,6 @@ export default class ListPage extends React.Component {
 
   //列表页顶部搜索部分
   renderSearchForm = (props = []) => {
-    console.log('搜索模块表头数据',props,'this.props',this.props,this.props.currentKey, this.props.selectOption)
     const searchItems = _.filter(props, item => item.filterable == true);
     const count = this.state.expand
       ? searchItems.length

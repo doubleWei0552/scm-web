@@ -20,10 +20,12 @@ export default {
   state: {
     detailColumns:[] , //详情页表头方法返回的所有数据
     detailData: [], // 详情页数据方法返回的所有数据
-    ChildData: [], // 子表展示数据
     DetailChildData: {}, // 所有的子表数据
+    selectChildOption: [], // 子表下拉显示的数据
 
     defaultActiveKey: '0', // 子表tab选择的key
+    //子表重构版本
+    ChildData: [], //所有子表对应的数据
   },
 
   effects: {
@@ -64,7 +66,7 @@ export default {
           thisComponentUid: result.data.thisComponentUid,
         };
         const detailColumns = yield select(({ detailPage }) => detailPage.detailColumns)
-        const childResult = yield call(queryDetailChildPage, childParams);
+        const childResult = yield call(queryDetailChildPage, childParams)
         const DetailChildData = childResult.data
         const childAllData = [];
         detailColumns.child.map((value, index) => {
@@ -75,7 +77,8 @@ export default {
             if (value.fieldGroupName == i.fieldGroupName) {
               childData.Columns = value;
               childData.Data = i;
-              childAllData.push(childData);
+              childData.objectType = value.objectType;
+              childAllData.push(childData)
             }
           });
         });
@@ -226,7 +229,6 @@ export default {
     //-----------------------------子表部分----------------------------------//
     // 删除子表数据
     *getRemoveChildData({ payload, callback }, { select, call, put }) {
-      console.log('子表删除传参',payload)
       //objectType代表要删除的子表的数据的objectType，selectDataObjectType表示当前选中的数据的objectType
       let { id, objectType,selectDataID,pageId,selectDataObjectType } = payload
       const params = {
@@ -300,7 +302,6 @@ export default {
     },
     // 子表的rtlink功能
     *childUpdateFields({ payload, callback }, { select, put, call }) {
-      console.log('子表的rtlink功能')
       const ChildData = yield select(({ detailPage }) => detailPage.ChildData);
       const { params } = payload;
       const { list = [] } = params;
@@ -314,9 +315,7 @@ export default {
         }
       }
       params.parentPolicyFormFields = MasterTables
-      console.log('子表的params',params)
       const result = yield call(childUpdateFields, params);
-      // console.log(ChildData,'后端返回的数据',result.data)
       // rtlink 添加警告
       result.data.map((item, index) => {
         item.fieldChanges.map((j, k) => {

@@ -55,7 +55,6 @@ export default class ListPageModule extends React.Component {
   UNSAFE_componentWillMount = () => {
     //新版
     const pageId = this.props.pageId
-    console.log('获取数据',this.props)
     this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
     this.props.dispatch({
       type: 'listPage/getPagelist',
