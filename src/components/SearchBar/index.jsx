@@ -289,7 +289,7 @@ class SearchBar extends React.Component {
                             placeholder={`请选择${value.title}`}
                             showSearch={value.widgetType != 'Select'}
                             allowClear={true}
-                            showSearch={value.widgetType === 'Reference' ? true : false}
+                            showSearch={value.widgetType !== 'Select' ? true : false}
                             style={{ width: '195px', textOverflow: 'ellipsis' }}
                             onSearch={(e) => { this.getSearchBarOptions({ key: currentKey, text: value.dataIndex, FIELD_VALUE: e }) }}
                             // filterOption={(inputValue, option) =>
