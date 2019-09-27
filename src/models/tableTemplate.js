@@ -342,6 +342,10 @@ export default {
           yield put({ type: 'save', payload: { saveData: result } })
           yield put({ type: 'getPagelist', payload: { pageId } });
           yield put({
+            type: 'getDetailPage',
+            payload: { ID: result.data.ID, pageId, ObjectType: result.data.ObjectType },
+          });
+          yield put({
             type: 'save',
             payload: {
               selectDate: result.data, objectType: result.data.ObjectType, isEditSave: false,
