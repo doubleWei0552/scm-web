@@ -165,14 +165,14 @@ export default class GlobalHeaderRight extends PureComponent {
             this.changeReadState(item, tabProps);
           }}
           loading={fetchingNotices}
-          locale={{
-            emptyText: formatMessage({ id: 'component.noticeIcon.empty' }),
-            clear: formatMessage({ id: 'component.noticeIcon.clear' }),
-            viewMore: formatMessage({ id: 'component.noticeIcon.view-more' }),
-            notification: formatMessage({ id: 'component.globalHeader.notification' }),
-            message: formatMessage({ id: 'component.globalHeader.message' }),
-            event: formatMessage({ id: 'component.globalHeader.event' }),
-          }}
+          // locale={{
+          //   emptyText: formatMessage({ id: 'component.noticeIcon.empty' }),
+          //   clear: formatMessage({ id: 'component.noticeIcon.clear' }),
+          //   viewMore: formatMessage({ id: 'component.noticeIcon.view-more' }),
+          //   notification: formatMessage({ id: 'component.globalHeader.notification' }),
+          //   message: formatMessage({ id: 'component.globalHeader.message' }),
+          //   event: formatMessage({ id: 'component.globalHeader.event' }),
+          // }}
           onClear={onNoticeClear}
           onPopupVisibleChange={onNoticeVisibleChange}
           onViewMore={() => message.info('Click on view more')}
@@ -181,24 +181,24 @@ export default class GlobalHeaderRight extends PureComponent {
           <NoticeIcon.Tab
             count={unreadMsg.notification}
             list={noticeData.notification}
-            title="notification"
-            emptyText={formatMessage({ id: 'component.globalHeader.notification.empty' })}
+            title="通知"
+            emptyText={'你已查看所有通知'}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
             showViewMore
           />
           <NoticeIcon.Tab
             count={unreadMsg.message}
             list={noticeData.message}
-            title="message"
-            emptyText={formatMessage({ id: 'component.globalHeader.message.empty' })}
+            title="消息"
+            emptyText={'您已读完所有消息'}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
             showViewMore
           />
           <NoticeIcon.Tab
             count={unreadMsg.event}
             list={noticeData.event}
-            title="event"
-            emptyText={formatMessage({ id: 'component.globalHeader.event.empty' })}
+            title="待办"
+            emptyText={'你已完成所有待办'}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
             showViewMore
           />

@@ -43,6 +43,7 @@ export default class TableModulars extends React.Component{
         FieldsValue:{}, //记录搜索条件
         autoCheck:false, //是否增加修改数据默认选择
         data:_.get(this.props.guidePage.guidePageData,'list',[]), //表格数据
+        showColumns:[], // 当前展示页的子表表头
     }
     UNSAFE_componentWillMount=()=>{
         let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
@@ -75,6 +76,7 @@ export default class TableModulars extends React.Component{
                         id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
                     callback:Response=>{
                         this.setState({
+                            showColumns:Response.data,
                             autoCheck:Response.data.autoCheck
                         })
                     } });
