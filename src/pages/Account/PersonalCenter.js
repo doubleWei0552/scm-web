@@ -13,9 +13,10 @@ import styles from './style.less'
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
-@connect(({ login, loading, guidePage }) => ({
+@connect(({ login, loading, guidePage, homePage }) => ({
   login,
   guidePage,
+  homePage,
   submitting: loading.effects['login/login'],
 }))
 class PersonalCenter extends Component {
@@ -24,9 +25,18 @@ class PersonalCenter extends Component {
     autoLogin: true,
   };
 
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'homePage/queryNoticeList',
+      payload: {},
+    })
+  }
+
   render() {
-    const { login, submitting } = this.props;
+    const { login, submitting, homePage } = this.props;
+    const { noticeData = [] } = homePage
     const { type, autoLogin } = this.state;
+    console.log('000000000', this.props)
     return (
       <div>
 
@@ -37,7 +47,7 @@ class PersonalCenter extends Component {
               <IframeCard />
             </Col>
             <Col span={12} className={styles.item}>
-              <NoticeCard />
+              <NoticeCard noticeData={noticeData} />
             </Col>
             <Col span={12} className={styles.item}>
               <IframeCard />

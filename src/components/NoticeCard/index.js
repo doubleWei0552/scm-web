@@ -24,10 +24,10 @@ class IframeCard extends React.Component {
 
 
   // 公告详情
-  showNoticeDetail = () => {
+  showNoticeDetail = (ID) => {
     const div = document.createElement('div');
     document.body.appendChild(div);
-    ReactDOM.render(<NoticeModal store={window.g_app._store} title="公告详情" />, div);
+    ReactDOM.render(<NoticeModal ID={ID} store={window.g_app._store} title="公告详情" />, div);
   };
 
   render() {
@@ -57,6 +57,7 @@ class IframeCard extends React.Component {
         title: 'Ant Design Title 8',
       },
     ];
+    const { noticeData } = this.props;
     return (
       <div className={styles.noticeCard}>
         <header className={styles.header}>
@@ -69,13 +70,13 @@ class IframeCard extends React.Component {
         <div className="list" style={{ height: '270px' }}>
           <List
             itemLayout="horizontal"
-            dataSource={data}
+            dataSource={noticeData}
             renderItem={item => (
-              <List.Item onClick={() => this.showNoticeDetail()} style={{ cursor: 'pointer' }}>
+              <List.Item onClick={() => this.showNoticeDetail(item.ID)} style={{ cursor: 'pointer' }}>
                 <List.Item.Meta
                   // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                   // title={<a href="https://ant.design">{item.title}</a>}
-                  description={<div style={{ display: 'flex', justifyContent: 'space-between' }}><span>{item.title}</span><span><Icon type="clock-circle" /> {moment(_.now()).format('YYYY-MM-DD HH:mm')}</span></div>}
+                  description={<div style={{ display: 'flex', justifyContent: 'space-between' }}><span>{item.TITLE}</span><span><Icon type="clock-circle" /> {moment(item.RELEASE_DATE).format('YYYY-MM-DD HH:mm')}</span></div>}
                 />
 
               </List.Item>
