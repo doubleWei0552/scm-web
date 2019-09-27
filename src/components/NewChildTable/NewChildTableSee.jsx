@@ -43,6 +43,7 @@ export default class NewChildTableSee extends React.Component{
     // }
 
     render(){
+        console.log('查看',this.props)
         let { defaultActiveKey,ChildData } = this.props.detailPage
         let ChildTabPane = ChildData.map(item=>{  //多个子表的循环
             let dataSource = item.Data.records 

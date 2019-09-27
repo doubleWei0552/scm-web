@@ -39,12 +39,21 @@ class ListPageModule extends React.Component {
   }
   componentDidMount = () => {
     const pageId = this.props.location.query.PageId*1;
-    this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
+    let PageIdOld = this.props.listPage.pageId
+    if(pageId != PageIdOld){
+      this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
+      this.props.dispatch({
+        type: 'listPage/getPagelist',
+        payload: { pageId },
+      });
+      this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:pageId} });
+    }
     this.props.dispatch({
-      type: 'listPage/getPagelist',
-      payload: { pageId },
-    });
-    this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:pageId} });
+      type:'listPage/save',
+      payload:{
+        pageId
+      }
+    })
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {

@@ -46,18 +46,28 @@ class SeeDetailPage extends React.Component {
   componentDidMount=()=>{
     let {detailId} = this.props.match.params
     let {ObjectType,PageId} = this.props.location.query
+    let { detailIdOld,PageIdOld } = this.props.detailPage
+    if((detailIdOld != detailId) || (PageIdOld != PageId)){
+      this.props.dispatch({
+          type:'detailPage/getDetailPageConfig',
+          payload:{pageId:PageId*1}
+      })
+      this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:PageId*1} }); //拿头部数据
+      this.props.dispatch({
+          type:'detailPage/getDetailPage',
+          payload:{
+              ID: detailId*1,
+              ObjectType,
+              pageId: PageId*1,
+          }
+      })
+    }
     this.props.dispatch({
-        type:'detailPage/getDetailPageConfig',
-        payload:{pageId:PageId*1}
-    })
-    this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:PageId*1} }); //拿头部数据
-    this.props.dispatch({
-        type:'detailPage/getDetailPage',
-        payload:{
-            ID: detailId*1,
-            ObjectType,
-            pageId: PageId*1,
-        }
+      type:'detailPage/save',
+      payload:{
+        detailIdOld: detailId ,
+        PageIdOld: PageId,
+      }
     })
   }
   getMasterTable = () => {

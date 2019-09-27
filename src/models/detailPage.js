@@ -18,6 +18,8 @@ export default {
   namespace: 'detailPage', //详情页model
 
   state: {
+    detailIdOld:null , //当前详情页的id，用于相同页面之间状态切换时的优化
+    PageIdOld:null, //当前详情页的PageId，用于相同页面之间状态切换时的优化
     detailColumns:[] , //详情页表头方法返回的所有数据
     detailData: [], // 详情页数据方法返回的所有数据
     DetailChildData: {}, // 所有的子表数据
