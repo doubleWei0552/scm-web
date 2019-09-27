@@ -68,9 +68,33 @@ export default class NewGuidePage extends React.Component {
           this.setState({ current });
         }
       });
-    } else {
-      const current = this.state.current + 1;
-      this.setState({ current });
+    } else {  //table类型的数据点击下一页添加验证
+      let req = this.childTable.state.showColumns.req
+      let selectedRow = this.childTable.state.selectedRow
+      if(selectedRow.length){
+        let message = {}
+        if(req){
+          let columns = this.childTable.state.showColumns.policyFormFields
+          columns.map(jj => {
+            req.map(gg => {
+              if(jj.FIELD_NAME == gg){
+                message[jj.FIELD_NAME]= jj.LABEL
+              }
+            })
+          })
+        }
+        selectedRow.map(item => {
+          req.map(ii => {
+            if(!item[ii]){
+              notification.warning({ message: `${message[ii]}不能为空！`, duration: 3 });
+            } else {
+              const current = this.state.current + 1;
+              this.setState({ current });
+            }
+          })
+        })
+      }
+      
     }
   }
 
