@@ -99,7 +99,7 @@ export default class EditDetailPage extends React.Component {
               {/* <div style={{ marginTop: '5px' }}>
               <ChildTable disEditStyle={false} getMasterTable={(value) => this.getMasterTable(value)} />
             </div> */}
-              <NewChildTableEdit />
+              <NewChildTableEdit dispatch={this.props.dispatch}/>
           </Card>
         </div>
         </div>

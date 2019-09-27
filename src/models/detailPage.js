@@ -26,6 +26,8 @@ export default {
     defaultActiveKey: '0', // 子表tab选择的key
     //子表重构版本
     ChildData: [], //所有子表对应的数据
+    editChildData:[], //编辑的子表
+    saveChildData:[], //新增的子表
   },
 
   effects: {

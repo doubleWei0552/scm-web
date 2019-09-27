@@ -13,6 +13,7 @@ import {
     Input,
   } from 'antd';
 import moment from 'moment';
+import styles from './style.less'
 
 const { TabPane } = Tabs;
 const { TextArea } = Input
@@ -31,15 +32,15 @@ export default class NewChildTableSee extends React.Component{
         ChildData:{}, //子表的数据
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
-        let { ChildData } = nextProps.detailPage
-        if (ChildData !== prevState.ChildData) {
-            return {
-                ChildData,
-            };
-        }
-        return null;
-    }
+    // static getDerivedStateFromProps(nextProps, prevState){
+    //     let { ChildData } = nextProps.detailPage
+    //     if (ChildData !== prevState.ChildData) {
+    //         return {
+    //             ChildData,
+    //         };
+    //     }
+    //     return null;
+    // }
 
     render(){
         let { defaultActiveKey,ChildData } = this.props.detailPage
@@ -102,7 +103,7 @@ export default class NewChildTableSee extends React.Component{
                             
                             return (
                                 <div key={aa.text}>
-                                    <Select disabled={true} defaultValue={text*1}>
+                                    <Select className={styles.selectData} disabled={true} defaultValue={text ? text*1 : text}>
                                         {optionChild}
                                     </Select>
                                 </div>
@@ -162,7 +163,7 @@ export default class NewChildTableSee extends React.Component{
                                                 display: 'inline-block',
                                             }}
                                             >
-                                            <TextArea disabled style={{minWidth:'150px'}} rows={3} defaultValue={text}/>
+                                            <TextArea disabled style={{minWidth:'150px'}} rows={2} defaultValue={text}/>
                                         </span>
                                     </div>
                                 );
@@ -203,15 +204,15 @@ export default class NewChildTableSee extends React.Component{
             })
             return (
                 <TabPane tab={item.Columns.title} key={item.Columns.sequence}>
-                    <Table scroll={{ x: true }} bordered
+                    <Table scroll={{ x: true }} bordered 
                     style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                    dataSource={dataSource} 
+                    dataSource={dataSource} pagination={false}
                     columns={columns} />
                 </TabPane>
             )
         })
         return (
-            <div>
+            <div className={styles.childTableMain}>
                 <Tabs defaultActiveKey={defaultActiveKey} onChange={callback}>
                     {ChildTabPane}
                 </Tabs>
