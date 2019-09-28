@@ -157,6 +157,7 @@ export default class GlobalHeaderRight extends PureComponent {
             <Icon type="question-circle-o" />
           </a>
         </Tooltip> */}
+
         {/* <NoticeIcon
           className={styles.action}
           count={currentUser.unreadCount}
@@ -203,6 +204,7 @@ export default class GlobalHeaderRight extends PureComponent {
             showViewMore
           />
         </NoticeIcon> */}
+
         {helpLink && (
           <a href={helpLink} target="_blank">
             <Tooltip title="使用文档">

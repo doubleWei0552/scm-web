@@ -1183,6 +1183,7 @@ export default class ChildTable extends React.Component {
             );
           })
         : null;
+        console.log('data',this.props.tableTemplate.ChildData,)
     return (
       <Tabs 
         activeKey={this.props.tableTemplate.defaultActiveKey}

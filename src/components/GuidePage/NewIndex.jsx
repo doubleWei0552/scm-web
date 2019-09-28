@@ -94,7 +94,6 @@ export default class NewGuidePage extends React.Component {
           })
         })
       }
-      
     }
   }
 
