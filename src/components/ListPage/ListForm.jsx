@@ -50,8 +50,11 @@ export default class ListForm extends React.Component {
           for (let i in Data) {
             let current = {};
             this.props.columns.map(item => {
-              if ((i == item.dataIndex && item.type == 'Select') || item.type == 'Reference') {
-                current.options = item.options;
+              if(i == item.dataIndex){
+                current.WIDGET_TYPE = item.type;
+                if ((item.type == 'Select') || item.type == 'Reference') {
+                  current.options = item.options;
+                }
               }
             });
             current.FIELD_NAME = i;
@@ -83,8 +86,11 @@ export default class ListForm extends React.Component {
             //再加判断是不是select类型，添加options属性
             let current = {};
             this.props.columns.map(item => {
-              if ((i == item.dataIndex && item.type == 'Select') || item.type == 'Reference') {
-                current.options = item.options;
+              if(i == item.dataIndex){
+                current.WIDGET_TYPE = item.type;
+                if ((item.type == 'Select') || item.type == 'Reference') {
+                  current.options = item.options;
+                }
               }
             });
             current.FIELD_NAME = i;
