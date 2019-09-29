@@ -761,7 +761,7 @@ export default class TableModulars extends React.Component{
                         dataIndex:item.FIELD_NAME,
                         key:item.FIELD_NAME + item.SEQUENCE,
                         render:(text, record, tableIndex)=>{
-                            return <Select style={{ minWidth: '150px' }} disabled={item.READ_ONLY_CONDITION} defaultValue={text} 
+                            return <Select className={styles.selectData} disabled={item.READ_ONLY_CONDITION} defaultValue={text} 
                             allowClear
                             showSearch
                             filterOption={(inputValue, option) =>

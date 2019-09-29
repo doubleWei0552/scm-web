@@ -83,16 +83,22 @@ export default class NewGuidePage extends React.Component {
             })
           })
         }
+        let isContinue = true
+        let messageInfo 
         selectedRow.map(item => {
           req.map(ii => {
             if(!item[ii]){
-              notification.warning({ message: `${message[ii]}不能为空！`, duration: 3 });
-            } else {
-              const current = this.state.current + 1;
-              this.setState({ current });
-            }
+              isContinue = false
+              messageInfo = ii
+            } 
           })
         })
+        if(isContinue){
+          const current = this.state.current + 1;
+          this.setState({ current });
+        } else {
+          notification.warning({ message: `${message[messageInfo]}不能为空！`, duration: 3 });
+        }
       }
     }
   }
