@@ -12,14 +12,14 @@ export const matchParamsPath = (pathname, breadcrumbNameMap) => {
 const getPageTitle = (pathname, breadcrumbNameMap) => {
   const currRouterData = matchParamsPath(pathname, breadcrumbNameMap);
   if (!currRouterData) {
-    return title;
+    return localStorage.getItem('loginSubTitle');
   }
   const pageName = menu.disableLocal
     ? currRouterData.name
     : formatMessage({
-        id: currRouterData.locale || currRouterData.name,
-        defaultMessage: currRouterData.name,
-      });
+      id: currRouterData.locale || currRouterData.name,
+      defaultMessage: currRouterData.name,
+    });
 
   return `${pageName} - ${title}`;
 };
