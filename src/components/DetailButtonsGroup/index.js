@@ -208,15 +208,15 @@ export default class DetailButtonGroup extends React.Component {
       type: 'tableTemplate/getTransactionProcess',
       payload: { Buttons: e, isEdit },
     });
-    this.props.dispatch({
-      type: 'tableTemplate/getDetailPage',
-      payload: {
-        ID: this.props.tableTemplate.selectDate.ID,
-        ObjectType: this.props.tableTemplate.detailColumns.objectType,
-        pageId: this.props.tableTemplate.pageId,
-        ProhibitChildRefresh:true, //禁止子表刷新
-      },
-    });
+    // this.props.dispatch({
+    //   type: 'tableTemplate/getDetailPage',
+    //   payload: {
+    //     ID: this.props.tableTemplate.selectDate.ID,
+    //     ObjectType: this.props.tableTemplate.detailColumns.objectType,
+    //     pageId: this.props.tableTemplate.pageId,
+    //     ProhibitChildRefresh:true, //禁止子表刷新
+    //   },
+    // });
   };
 
   render() {

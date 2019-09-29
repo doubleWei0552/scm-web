@@ -24,6 +24,7 @@ import {connect} from 'dva'
 import CurrencySearchBar from '@/components/SearchBar/CurrencySearchBar'
 import zhCN from 'antd/es/locale/zh_CN';
 import moment from 'moment';
+import styles from './tableStyle.less'
 
 @connect(({ guidePage,loading }) => ({
     guidePage,

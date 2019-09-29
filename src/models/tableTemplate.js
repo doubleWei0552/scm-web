@@ -136,6 +136,7 @@ export default {
     *getDetailPageConfig({ payload, callback }, { call, select, put }) {
       const pageId = yield select(({ tableTemplate }) => tableTemplate.pageId);
       const params = { pageId };
+      console.log('params',params)
       const result = yield call(queryDetailPageConfig, params);
       if (callback) callback(result)
       if (result.status == 'success') {
@@ -149,7 +150,6 @@ export default {
     },
     // 获取详情页数据
     *getDetailPage({ payload, callback }, { call, put, select }) {
-      console.log('获取详情页数据',payload)
       const { type } = payload; // 判断是不是点击子表删除进来的刷新页面
       const deleteParams = payload.params; // 子表删除时指定删除的数据参数
       // ------判断子表删除的参数 ⬆️------
