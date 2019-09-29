@@ -211,8 +211,8 @@ export default {
           yield put({ type: 'getChildTable' });
         }
         if (callback) callback(childResult);
-      } else {
-        yield put({ type: 'save', payload: { detailData: [], initPolicyFormFields: [] } });
+      } else if(!payload.ProhibitChildRefresh) {
+        // yield put({ type: 'save', payload: { detailData: [], initPolicyFormFields: [] } });
         notification.error({ message: result.message, duration: 3 });
       }
     },
@@ -511,7 +511,7 @@ export default {
         yield put({ type: 'getPagelist', payload: { pageId } });
         yield put({
           type: 'getDetailPage',
-          payload: { pageId, ObjectType: newObjectType, ID: selectDate.ID },
+          payload: { pageId, ObjectType: newObjectType, ID: selectDate.ID,ProhibitChildRefresh:true },
         });
         yield put({
           type: 'save',

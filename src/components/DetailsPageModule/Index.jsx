@@ -12,6 +12,7 @@ import {
   Tooltip,
   Form,
   Icon,
+  Spin,
   InputNumber,
   Card,
   Popconfirm,
@@ -37,9 +38,10 @@ let child={}
   loadingG:
     loading.effects['tableTemplate/getDetailPageConfig'] ||
     loading.effects['tableTemplate/save'] ||
-    loading.effects['tableTemplate/getDetailPage'] ||
+    loading.effects['tableTemplate/getDetailSave'] ||
+    loading.effects['tableTemplate/getTransactionProcess'] ||
     loading.effects['tableTemplate/getSummaryPageConfig'] ||
-    loading.effects['tableTemplate/getDetailSave']
+    loading.effects['tableTemplate/getDetailPage']
 }))
 
 //详情页模块
@@ -96,6 +98,7 @@ export default class DetailsPageModule extends React.Component {
             < hr
               style={{ backgroundColor: '#d3d3d3', margin: '0', height: '1px', border: 'none', marginBottom: '5px', marginTop: 0 }}
             />
+            {/* <Spin spinning={this.props.loadingButton || false} tip="Loading..."> */}
             <div className="BasicEditSearch">
               <span style={{ fontSize: '1.2rem' }}>{this.props.subtitle}</span>
               {/* 主表内容 */}
@@ -119,8 +122,8 @@ export default class DetailsPageModule extends React.Component {
                 <ChildTable getMasterTable={(value) => this.getMasterTable(value)} />
               </div>
             </Card>
+            {/* </Spin> */}
           </div>
-            
           </div>
         )}
       </div>
