@@ -18,6 +18,7 @@ import {
   queryDetailList,
   fileUpdate,
   queryOpenAccount,
+  queryLargeChilddata,
 } from '@/services/api';
 import _ from 'lodash';
 import { notification } from 'antd';
@@ -39,6 +40,7 @@ export default {
     initDetailChildData: {}, // 刚进入详情页面时的子表数据
     initPolicyFormFields: [], // 刚进入详情页时的主表数据
     ChildData: [], // 子表展示数据
+    childMaxCount:null, //子表的所有数据
 
     selectDate: {}, // 跳转时选择的数据
     selectDataDelete: [], // 选择要删除的数据
@@ -145,7 +147,7 @@ export default {
         notification.error({ message: result.message, duration: 3 });
       }
     },
-    // 获取详情页数据(已废弃，保存还在用)
+    // 获取详情页数据
     *getDetailPage({ payload, callback }, { call, put, select }) {
       const { type } = payload; // 判断是不是点击子表删除进来的刷新页面
       const deleteParams = payload.params; // 子表删除时指定删除的数据参数
@@ -169,16 +171,21 @@ export default {
       }
       const result = yield call(queryDetailPage, params);
       if (callback) callback(result)
-      yield put({ type: 'save', payload: { detailData: result.data, initPolicyFormFields: result.data.policyFormFields } });
+      yield put({ type: 'save', payload: { detailData: result.data, childMaxCount: result.data.childMaxCount, initPolicyFormFields: result.data.policyFormFields } });
       // 区分是否是新增的情况
-      if (result.status == 'success') {
+      if (result.status == 'success' && !payload.ProhibitChildRefresh) {
         // 如果正确返回，则获取子表数据
         const childParams = {
           pageId: payload.pageId,
           thisComponentUid: result.data.thisComponentUid,
         };
         // if (result.data.thisComponentUid == null) return; // 新增没有thisCompnentUid
-        const childResult = yield call(queryDetailChildPage, childParams);
+        let childResult
+        if(result.data.childMaxCount > 50){
+          childResult = yield call(queryLargeChilddata, childParams);
+        } else {
+          childResult = yield call(queryDetailChildPage, childParams);
+        }
         const initDetailChildData = yield select(({ tableTemplate }) => tableTemplate.initDetailChildData);
         if (_.isEmpty(initDetailChildData)) {
           yield put({ type: 'save', payload: { DetailChildData: childResult.data, initDetailChildData: childResult.data } });

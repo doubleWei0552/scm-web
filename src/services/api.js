@@ -395,3 +395,11 @@ export async function queryLogoParameter(params) {
     body: {},
   });
 }
+
+// 获取数据量大的子表数据方法
+export async function queryLargeChilddata (params) {
+  return request('/detailChildPageNew/result', {
+    method: 'POST',
+    body: params,
+  });
+}

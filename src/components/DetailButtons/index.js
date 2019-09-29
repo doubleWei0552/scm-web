@@ -182,6 +182,7 @@ class DetailButtons extends PureComponent {
       payload: {
         ObjectType: this.props.tableTemplate.detailColumns.objectType,
         pageId: this.props.tableTemplate.pageId,
+        ProhibitChildRefresh:true, //禁止子表刷新
       },
     });
   };
@@ -210,6 +211,7 @@ class DetailButtons extends PureComponent {
             ? this.props.tableTemplate.selectDate.ObjectType
             : this.props.tableTemplate.objectType,
         pageId: this.props.tableTemplate.pageId,
+        ProhibitChildRefresh:true, //禁止子表刷新
       },
     });
   };
@@ -264,6 +266,7 @@ class DetailButtons extends PureComponent {
               ? this.props.tableTemplate.selectDate.ObjectType
               : this.props.tableTemplate.objectType,
           pageId: this.props.tableTemplate.pageId,
+          ProhibitChildRefresh:true, //禁止子表刷新
         },
       });
       // this.setState({
@@ -396,6 +399,7 @@ class DetailButtons extends PureComponent {
         ID: this.props.tableTemplate.selectDate.ID,
         ObjectType: this.props.tableTemplate.detailColumns.objectType,
         pageId: this.props.tableTemplate.pageId,
+        ProhibitChildRefresh:true, //禁止子表刷新
       },
     });
   };
