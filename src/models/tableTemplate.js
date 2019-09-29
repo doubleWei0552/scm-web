@@ -149,6 +149,7 @@ export default {
     },
     // 获取详情页数据
     *getDetailPage({ payload, callback }, { call, put, select }) {
+      console.log('获取详情页数据',payload)
       const { type } = payload; // 判断是不是点击子表删除进来的刷新页面
       const deleteParams = payload.params; // 子表删除时指定删除的数据参数
       // ------判断子表删除的参数 ⬆️------
@@ -179,7 +180,6 @@ export default {
           pageId: payload.pageId,
           thisComponentUid: result.data.thisComponentUid,
         };
-        // if (result.data.thisComponentUid == null) return; // 新增没有thisCompnentUid
         let childResult
         if(result.data.childMaxCount > 50){
           childResult = yield call(queryLargeChilddata, childParams);
@@ -464,7 +464,7 @@ export default {
         ({ tableTemplate }) => tableTemplate.detailColumns.objectType
       );
       const pageId = yield select(({ tableTemplate }) => tableTemplate.pageId);
-      const DetailChildData = yield select(({ tableTemplate }) => tableTemplate.DetailChildData);
+      // const DetailChildData = yield select(({ tableTemplate }) => tableTemplate.DetailChildData);
       const { isEdit, idList } = payload;
       const ButtonName = payload.Buttons.FIELD_NAME;
       let params;
@@ -474,7 +474,7 @@ export default {
           ButtonName,
           objectType,
           selectDataId: selectDate.ID,
-          ChildTableData: DetailChildData,
+          // ChildTableData: DetailChildData,
         };
       } else {
         if (idList) {
