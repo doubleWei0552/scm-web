@@ -37,6 +37,7 @@ export default class DetailButtonGroup extends React.Component {
       payload: {
         ObjectType: this.props.tableTemplate.detailColumns.objectType,
         pageId: this.props.tableTemplate.pageId,
+        ProhibitChildRefresh:true, //禁止子表刷新
       },
     });
   };
@@ -213,6 +214,7 @@ export default class DetailButtonGroup extends React.Component {
         ID: this.props.tableTemplate.selectDate.ID,
         ObjectType: this.props.tableTemplate.detailColumns.objectType,
         pageId: this.props.tableTemplate.pageId,
+        ProhibitChildRefresh:true, //禁止子表刷新
       },
     });
   };
