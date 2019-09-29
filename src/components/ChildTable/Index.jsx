@@ -335,10 +335,9 @@ export default class ChildTable extends React.Component {
             let Data = [];
             let MultiObjectSelector = null; //判断是否含有 MultiObjectSelector
             //子表数据
-            console.log('子表数据',value.Data)
               value.Data.records.map(n => {
                 let child = {};
-                if(childMaxCount < 50){
+                if(childMaxCount < 50 || !value.Data.records){
                     n.map(z => {
                       child[z.FIELD_NAME] = z.FIELD_VALUE;
                       child.key = z.key;
@@ -1352,7 +1351,6 @@ export default class ChildTable extends React.Component {
             );
           })
         : null;
-        console.log('data',this.props.tableTemplate.ChildData,)
     return (
       <Tabs 
         activeKey={this.props.tableTemplate.defaultActiveKey}

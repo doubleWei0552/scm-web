@@ -111,6 +111,7 @@ export default class MultiTableTemplate extends React.Component {
     }
     // pageID改变时，将所有状态恢复到初始状态
     if (currentPageId !== newPageId) {
+      this.props.dispatch({ type: 'tableTemplate/getDetailPageConfig' });
       this.props.dispatch({
         type: 'tableTemplate/changeState',
         payload: {
