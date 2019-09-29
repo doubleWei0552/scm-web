@@ -337,7 +337,7 @@ export default class ChildTable extends React.Component {
             //子表数据
               value.Data.records.map(n => {
                 let child = {};
-                if(childMaxCount < 50 || !value.Data.records){
+                if(childMaxCount < 50){
                     n.map(z => {
                       child[z.FIELD_NAME] = z.FIELD_VALUE;
                       child.key = z.key;
