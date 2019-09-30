@@ -70,7 +70,6 @@ export default class GlobalHeader extends PureComponent {
     localStorage.setItem('menuId', id);
   };
   render() {
-    console.log('hidemenu', this.props);
     const menuId = localStorage.getItem('menuId');
     const { collapsed, isMobile, logo, hideMenu } = this.props;
     var NavChildren;

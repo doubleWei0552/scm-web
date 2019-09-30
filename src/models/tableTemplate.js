@@ -136,7 +136,6 @@ export default {
     *getDetailPageConfig({ payload, callback }, { call, select, put }) {
       const pageId = yield select(({ tableTemplate }) => tableTemplate.pageId);
       const params = { pageId };
-      console.log('params',params)
       const result = yield call(queryDetailPageConfig, params);
       if (callback) callback(result)
       if (result.status == 'success') {
