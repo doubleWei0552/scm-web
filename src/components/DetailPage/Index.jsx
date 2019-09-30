@@ -433,7 +433,6 @@ class DetailPage extends React.Component {
                             case 'Reference':
                             case 'ObjectSelector':
                             case 'MultiObjectSelector':
-                              console.log('下拉版本',field,'detailOptions[field.FIELD_NAME]',detailOptions[field.FIELD_NAME])
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   {
@@ -508,9 +507,9 @@ class DetailPage extends React.Component {
                                             filterOption={false}
                                             onSearch={e => this.onEditSearch({ key: currentKey, text: field.FIELD_NAME, FIELD_VALUE: e })}
                                             onSelect={e => this.handleSelect(e, field)}
-                                            // filterOption={(inputValue, option) =>
-                                            //   _.includes(option.props.children, inputValue)
-                                            // }
+                                            filterOption={(inputValue, option) =>
+                                              _.includes(option.props.children, inputValue)
+                                            }
                                             disabled={
                                               this.props.disabled ? true : field.READ_ONLY_CONDITION
                                             }
