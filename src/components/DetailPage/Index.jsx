@@ -59,7 +59,7 @@ class DetailPage extends React.Component {
     const { detailOptions } = this.state;
     const { tableTemplate } = newProps;
     const { policyFormFields = [] } = _.get(tableTemplate, 'detailData');
-    if (_.isEmpty(detailOptions)) {
+    // if (_.isEmpty(detailOptions)) {
       _.map(policyFormFields, field => {
         if (field.WIDGET_TYPE === 'Select' || field.WIDGET_TYPE === 'Reference' || field.WIDGET_TYPE === 'ObjectSelector' || field.WIDGET_TYPE === 'MultiObjectSelector') {
           detailOptions[field.FIELD_NAME] = field.options
@@ -68,7 +68,7 @@ class DetailPage extends React.Component {
       this.setState({
         detailOptions
       })
-    }
+    // }
   }
 
   shouldComponentUpdate(newProps, newState) {
@@ -433,7 +433,7 @@ class DetailPage extends React.Component {
                             case 'Reference':
                             case 'ObjectSelector':
                             case 'MultiObjectSelector':
-                              console.log('下拉版本',field,)
+                              console.log('下拉版本',field,'detailOptions[field.FIELD_NAME]',detailOptions[field.FIELD_NAME])
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   {
@@ -492,7 +492,7 @@ class DetailPage extends React.Component {
                                         {...formItemLayout}
                                       >
                                         {getFieldDecorator(`${field.FIELD_NAME}`, {
-                                          initialValue: _.get(field, 'FIELD_VALUE'),
+                                          initialValue: field.FIELD_VALUE,
                                           rules: [
                                             {
                                               required: field.REQUIRED_CONDITION,
@@ -517,7 +517,7 @@ class DetailPage extends React.Component {
                                           >
                                             {_.map(detailOptions[field.FIELD_NAME] ? detailOptions[field.FIELD_NAME] : field.options, (v, i) => {
                                               return (
-                                                <Option value={v.value} key={v.value + _.now()}>
+                                                <Option value={v.value} key={v.value + v.value}>
                                                   {v.text}
                                                 </Option>
                                               );
