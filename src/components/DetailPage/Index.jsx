@@ -433,6 +433,7 @@ class DetailPage extends React.Component {
                             case 'Reference':
                             case 'ObjectSelector':
                             case 'MultiObjectSelector':
+                              console.log('下拉版本',field,)
                               return (
                                 <Col span={10} offset={1} key={i}>
                                   {
@@ -471,7 +472,7 @@ class DetailPage extends React.Component {
                                               this.props.disabled ? true : field.READ_ONLY_CONDITION
                                             }
                                           >
-                                            {_.map(detailOptions[field.FIELD_NAME], (v, i) => {
+                                            {_.map(detailOptions[field.FIELD_NAME] ? detailOptions[field.FIELD_NAME] : field.options, (v, i) => {
                                               return (
                                                 <Option value={v.value} key={v.value + _.now()}>
                                                   {v.text}
@@ -514,7 +515,7 @@ class DetailPage extends React.Component {
                                               this.props.disabled ? true : field.READ_ONLY_CONDITION
                                             }
                                           >
-                                            {_.map(detailOptions[field.FIELD_NAME], (v, i) => {
+                                            {_.map(detailOptions[field.FIELD_NAME] ? detailOptions[field.FIELD_NAME] : field.options, (v, i) => {
                                               return (
                                                 <Option value={v.value} key={v.value + _.now()}>
                                                   {v.text}
