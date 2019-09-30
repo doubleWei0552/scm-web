@@ -75,21 +75,22 @@ class DetailPage extends React.Component {
     return true
   }
 
-  onEditSearch = (value) => {
-    const { detailOptions } = this.state
-    this.props.dispatch({
-      type: 'tableTemplate/getAutocomplate',
-      payload: { value },
-      callback: response => {
-        if (response.status === 'success') {
-          detailOptions[response.data.field] = response.data.options;
-
-          this.setState({
-            detailOptions
-          })
+  onEditSearch = (value,field) => {
+    if(field.WIDGET_TYPE == 'Reference'){
+      const { detailOptions } = this.state
+      this.props.dispatch({
+        type: 'tableTemplate/getAutocomplate',
+        payload: { value },
+        callback: response => {
+          if (response.status === 'success') {
+            detailOptions[response.data.field] = response.data.options;
+            this.setState({
+              detailOptions
+            })
+          }
         }
-      }
-    });
+      });
+    }
   };
 
   //树状选择
@@ -462,7 +463,7 @@ class DetailPage extends React.Component {
                                             showSearch={field.widgetType !== 'Select' ? true : false}
                                             filterOption={false}
                                             allowClear
-                                            onSearch={e => this.onEditSearch({ key: currentKey, text: field.FIELD_NAME, FIELD_VALUE: e })}
+                                            onSearch={e => this.onEditSearch({ key: currentKey, text: field.FIELD_NAME, FIELD_VALUE: e },field)}
                                             onSelect={e => this.handleSelect(e, field)}
                                             // filterOption={(inputValue, option) =>
                                             //   _.includes(option.props.children, inputValue)
@@ -505,7 +506,7 @@ class DetailPage extends React.Component {
                                             showSearch={field.widgetType !== 'Select' ? true : false}
                                             allowClear
                                             filterOption={false}
-                                            onSearch={e => this.onEditSearch({ key: currentKey, text: field.FIELD_NAME, FIELD_VALUE: e })}
+                                            onSearch={e => this.onEditSearch({ key: currentKey, text: field.FIELD_NAME, FIELD_VALUE: e },field)}
                                             onSelect={e => this.handleSelect(e, field)}
                                             filterOption={(inputValue, option) =>
                                               _.includes(option.props.children, inputValue)
