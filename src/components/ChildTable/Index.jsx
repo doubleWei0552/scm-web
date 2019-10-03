@@ -453,14 +453,14 @@ export default class ChildTable extends React.Component {
                               return (
                                 <div key={j + text}>
                                     <span
-                                        key={aa.text}
+                                        key={i.text}
                                         style={{
                                             marginTop: '8px',
                                             marginBottom: '16px',
                                             display: 'inline-block',
                                         }}
                                         >
-                                        {text ? (aa.type == 'Date' ? moment(text).format('YYYY/MM/DD') : moment(text).format('YYYY/MM/DD HH:mm:ss')) : null}
+                                        {text ? (i.type == 'Date' ? moment(text).format('YYYY/MM/DD') : moment(text).format('YYYY/MM/DD HH:mm:ss')) : null}
                                     </span>
                                 </div>
                               );
