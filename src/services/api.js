@@ -397,8 +397,16 @@ export async function queryLogoParameter(params) {
 }
 
 // 获取数据量大的子表数据方法
-export async function queryLargeChilddata (params) {
+export async function queryLargeChilddata(params) {
   return request('/detailChildPageNew/result', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 多用户操作
+export async function guideBack(params) {
+  return request('/guide/guideBack', {
     method: 'POST',
     body: params,
   });

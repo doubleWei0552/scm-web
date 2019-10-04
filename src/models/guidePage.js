@@ -9,6 +9,7 @@ import {
   queryOpenAccount,
   queryButtonGuideClean,
   queryAutocomplate,
+  guideBack,
 } from '@/services/api';
 import _ from 'lodash';
 import { notification } from 'antd';
@@ -40,6 +41,7 @@ export default {
         },
       });
     },
+
     *cleanData({ payload }, { select, put, call }) {
       yield put({
         type: 'save',
@@ -53,6 +55,11 @@ export default {
         },
       });
     },
+
+    *guideBack({ payload, callback }, { select, put, call }) {
+      const result = yield call(guideBack, payload);
+    },
+
     //导向页rtlink
     *guideRtlink({ payload, callback }, { select, put, call }) {
       let result = yield call(updateFields, payload);
