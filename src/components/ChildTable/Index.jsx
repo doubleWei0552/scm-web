@@ -76,7 +76,7 @@ export default class ChildTable extends React.Component {
   //子表事件
   onChildDelete = record => {
     let id = record.id;
-    if(!id) return 
+    if (!id) return
     let objectType = record.objectType;
     this.props.dispatch({ type: 'tableTemplate/getRemoveChildData', payload: { id, objectType } });
   };
@@ -88,14 +88,14 @@ export default class ChildTable extends React.Component {
     let deleteKey = record.key;
     if (record.id) {
       //判断删除元数据还是缓存数据
-      _.remove(this.ChildData, function(n) {
+      _.remove(this.ChildData, function (n) {
         return n.key != deleteKey;
       });
     } else {
-      _.remove(this.props.tableTemplate.ChildData[index].Data.records, function(n, index) {
+      _.remove(this.props.tableTemplate.ChildData[index].Data.records, function (n, index) {
         return index == deleteIndex;
       });
-      this.props.dispatch({type:'tableTemplate/save'})  //删除缓存数据，刷新页面
+      this.props.dispatch({ type: 'tableTemplate/save' })  //删除缓存数据，刷新页面
     }
   };
 
@@ -140,7 +140,7 @@ export default class ChildTable extends React.Component {
         if (isIndex) {
           this.props.dispatch({
             type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheNumberData],MasterTable } },
+            payload: { params: { list: [cacheNumberData], MasterTable } },
             callback: res => {
               if (res.status == 'success') {
                 // this.specificData.inputNumberRef.onFocus()
@@ -173,7 +173,7 @@ export default class ChildTable extends React.Component {
         });
         let recordData = record;
         recordData[specificData.FIELD_NAME] = e;
-        
+
         let cacheNumberData = {};
         cacheNumberData.updatedField = specificData.FIELD_NAME;
         cacheNumberData.identifier =
@@ -193,7 +193,7 @@ export default class ChildTable extends React.Component {
         if (isIndex2) {
           this.props.dispatch({
             type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheNumberData],MasterTable } },
+            payload: { params: { list: [cacheNumberData], MasterTable } },
             callback: res => {
               if (res.status == 'success') {
                 // this.specificData.inputNumberRef.onFocus()
@@ -223,7 +223,7 @@ export default class ChildTable extends React.Component {
         });
         //select选择后进行rtlink功能
         let cacheData = {};
-        
+
         let recordSelectData = record;
         recordSelectData[specificData.FIELD_NAME] = e;
 
@@ -247,7 +247,7 @@ export default class ChildTable extends React.Component {
         if (isIndex3) {
           this.props.dispatch({
             type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheData],MasterTable } },
+            payload: { params: { list: [cacheData], MasterTable } },
             callback: res => {
               if (res.status == 'success') {
                 // this.specificData.inputNumberRef.onFocus()
@@ -266,42 +266,42 @@ export default class ChildTable extends React.Component {
   };
 
   render() {
-    const { disEditStyle,childMaxCount } = this.props.tableTemplate;
+    const { disEditStyle, childMaxCount } = this.props.tableTemplate;
     const { getFieldDecorator } = this.props.form;
     const editChildFiles =
       this.props.tableTemplate.ChildData.length != 0
         ? this.props.tableTemplate.ChildData.map((value, index) => {
-            //子表添加删除功能 ⬇️
-            let columns = [
-              {
-                title: (
-                  <Tooltip title={'操作'}>
-                    <span>操作</span>
-                  </Tooltip>
-                ),
-                key: 'action',
-                width: '30px',
-                render: (text, record, deleteIndex) =>
-                  disEditStyle ? (
-                    <span
+          //子表添加删除功能 ⬇️
+          let columns = [
+            {
+              title: (
+                <Tooltip title={'操作'}>
+                  <span>操作</span>
+                </Tooltip>
+              ),
+              key: 'action',
+              width: '30px',
+              render: (text, record, deleteIndex) =>
+                disEditStyle ? (
+                  <span
+                    style={{
+                      width: '30px',
+                      textAlign: 'center',
+                      display: 'block',
+                      color: '#3e90f7',
+                      marginTop: '8px',
+                      marginBottom: '16px',
+                    }}
+                  >
+                    <Icon
+                      type="close"
                       style={{
-                        width: '30px',
-                        textAlign: 'center',
-                        display: 'block',
-                        color: '#3e90f7',
-                        marginTop: '8px',
-                        marginBottom: '16px',
+                        cursor: 'not-allowed',
+                        color: 'gray',
                       }}
-                    >
-                      <Icon
-                        type="close"
-                        style={{
-                          cursor: 'not-allowed',
-                          color: 'gray',
-                        }}
-                      />
-                    </span>
-                  ) : (
+                    />
+                  </span>
+                ) : (
                     <Popconfirm
                       key={index + text}
                       title="确定要删除该条数据吗?"
@@ -330,522 +330,522 @@ export default class ChildTable extends React.Component {
                       </span>
                     </Popconfirm>
                   ),
-              },
-            ];
-            let Data = [];
-            let MultiObjectSelector = null; //判断是否含有 MultiObjectSelector
-            //子表数据
-              value.Data.records.map(n => {
-                let child = {};
-                if(childMaxCount < 50){
-                    n.map(z => {
-                      child[z.FIELD_NAME] = z.FIELD_VALUE;
-                      child.key = z.key;
-                      child.id = z.id;
-                      child.objectType = z.OBJECT_TYPE; //添加OBJECT_TYPE放便后期删除
-                    });
-                    Data.push(child);
-                } else {
-                  Data = value.Data.records
-                }
+            },
+          ];
+          let Data = [];
+          let MultiObjectSelector = null; //判断是否含有 MultiObjectSelector
+          //子表数据
+          value.Data.records.map(n => {
+            let child = {};
+            if (childMaxCount < 50) {
+              n.map(z => {
+                child[z.FIELD_NAME] = z.FIELD_VALUE;
+                child.key = z.key;
+                child.id = z.id;
+                child.objectType = z.OBJECT_TYPE; //添加OBJECT_TYPE放便后期删除
               });
-            //子表表头
-            if(childMaxCount > 50){
-              value.Columns.fields.map((i, j) => {
-                switch (i.type) {
-                  case 'Text':
-                  case "Number":
-                  case 'MultiObjectSelector':
-                    let columnsText = {
-                      title: (
-                        <Tooltip title={i.value + '[' + i.text + ']'}>
-                          <span>{i.value}</span>
-                        </Tooltip>
-                      ),
-                      dataIndex: i.text,
-                      readOnlyCondition: i.readOnlyCondition, //只读管控
-                      defaultValue: i.defaultValue, //默认值
-                      requiredCondition: i.requiredCondition, //是否必填
-                      key: j + i.value,
-                      text: i.text,
-                      type: i.type,
-                      value: i.value,
-                      render: (text, record, childIndex) => {
-                        return (
-                          <div key={j + text}>
-                              <span
-                              key={i.text}
-                              style={{
-                                  marginTop: '8px',
-                                  marginBottom: '16px',
-                                  display: 'inline-block',
-                              }}
-                              >
-                              {text}
-                              </span>
-                          </div>
-                        );
-                      },
-                    };
-                    if (i.displayCondition) {
-                      //表头添加管控
-                      columns.push(columnsText);
-                    }
-                    break;
-                      case 'Select':
-                      case 'Reference':
-                      case 'ObjectType':
-                          let columnsSelect = {
-                            title: (
-                              <Tooltip title={i.value + '[' + i.text + ']'}>
-                                <span>{i.value}</span>
-                              </Tooltip>
-                            ),
-                            dataIndex: i.text,
-                            readOnlyCondition: i.readOnlyCondition, //只读管控
-                            defaultValue: i.defaultValue, //默认值
-                            requiredCondition: i.requiredCondition, //是否必填
-                            key: j + i.value,
-                            text: i.text,
-                            type: i.type,
-                            value: i.value,
-                            render: (text, record, childIndex) => {
-                              let optionChild = i.options.map(bb => {
-                                return <Select.Option
-                                  value={bb.value}
-                                  key={bb.text}
-                                >
-                                  {bb.text}
-                                </Select.Option>
-                            })
-                              return (
-                                <div key={j + text}>
-                                  <Select className={styles.selectData} disabled={true} defaultValue={text ? text*1 : text}>
-                                      {optionChild}
-                                  </Select>
-                                </div>
-                              );
-                            },
-                          };
-                          if (i.displayCondition) {
-                            //表头添加管控
-                            columns.push(columnsSelect);
-                          }
-                          
-                      break
-                      case 'Date':
-                      case 'DateTime':
-                          let columnsDate = {
-                            title: (
-                              <Tooltip title={i.value + '[' + i.text + ']'}>
-                                <span>{i.value}</span>
-                              </Tooltip>
-                            ),
-                            dataIndex: i.text,
-                            readOnlyCondition: i.readOnlyCondition, //只读管控
-                            defaultValue: i.defaultValue, //默认值
-                            requiredCondition: i.requiredCondition, //是否必填
-                            key: j + i.value,
-                            text: i.text,
-                            type: i.type,
-                            value: i.value,
-                            render: (text, record, childIndex) => {
-                              return (
-                                <div key={j + text}>
-                                    <span
-                                        key={i.text}
-                                        style={{
-                                            marginTop: '8px',
-                                            marginBottom: '16px',
-                                            display: 'inline-block',
-                                        }}
-                                        >
-                                        {text ? (i.type == 'Date' ? moment(text).format('YYYY/MM/DD') : moment(text).format('YYYY/MM/DD HH:mm:ss')) : null}
-                                    </span>
-                                </div>
-                              );
-                            },
-                          };
-                          if (i.displayCondition) {
-                            //表头添加管控
-                            columns.push(columnsDate);
-                          }
-                      break
-                      case 'Textarea':
-                          let columnsTextarea = {
-                            title: (
-                              <Tooltip title={i.value + '[' + i.text + ']'}>
-                                <span>{i.value}</span>
-                              </Tooltip>
-                            ),
-                            dataIndex: i.text,
-                            readOnlyCondition: i.readOnlyCondition, //只读管控
-                            defaultValue: i.defaultValue, //默认值
-                            requiredCondition: i.requiredCondition, //是否必填
-                            key: j + i.value,
-                            text: i.text,
-                            type: i.type,
-                            value: i.value,
-                            render: (text, record, childIndex) => {
-                              return (
-                                <div key={j + text}>
-                                    <span
-                                        key={i.text}
-                                        style={{
-                                            marginTop: '8px',
-                                            marginBottom: '16px',
-                                            display: 'inline-block',
-                                        }}
-                                        >
-                                        <TextArea disabled style={{minWidth:'150px'}} rows={1} defaultValue={text}/>
-                                    </span>
-                                </div>
-                              );
-                            },
-                          };
-                          if (i.displayCondition) {
-                            //表头添加管控
-                            columns.push(columnsTextarea);
-                          }
-                      break
-                }
-              });
-//旧版本
+              Data.push(child);
             } else {
-                value.Columns.fields.map((i, j) => {
-                switch (i.type) {
-                  case 'Text':
-                    let columnsText = {
-                      title: (
-                        <Tooltip title={i.value + '[' + i.text + ']'}>
-                          <span>{i.value}</span>
-                        </Tooltip>
-                      ),
-                      dataIndex: i.text,
-                      readOnlyCondition: i.readOnlyCondition, //只读管控
-                      defaultValue: i.defaultValue, //默认值
-                      requiredCondition: i.requiredCondition, //是否必填
-                      key: j + i.value,
-                      text: i.text,
-                      type: i.type,
-                      value: i.value,
-                      render: (text, record, childIndex) => {
-                        let childRowData = []; //用于记录某行子表的数据
-                        let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                        value.Data.records.map(h => {
-                          h.map(i => {
-                            if (i.key == record.key) {
-                              childRowData = h;
-                            }
-                          });
-                        });
-                        childRowData.map(o => {
-                          if (o.FIELD_NAME == i.text) {
-                            specificData = o;
-                          }
-                        });
-                        if (specificData.DISPLAY_CONDITION == false) return null;
-                        return (
-                          <div key={j + text}>
-                            {disEditStyle ? ( //判断是否是可编辑状态 true为不可编辑
-                              <span
-                                key={text + index}
-                                style={{
-                                  marginTop: '8px',
-                                  marginBottom: '16px',
-                                  display: 'inline-block',
-                                }}
-                              >
-                                {text}
-                              </span>
-                            ) : this.props.tableTemplate.isEditSave == true ||
-                              this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
-                              <Form.Item style={{ width: '100%' }}>
-                                {getFieldDecorator(`${record.key + i.value + childIndex}`, {
-                                  initialValue: specificData.DISPLAY_NAME
-                                    ? specificData.DISPLAY_NAME
-                                    : text,
-                                  rules: [
-                                    {
-                                      required: specificData.REQUIRED_CONDITION,
-                                      message: `${i.value}不能为空`,
-                                    },
-                                    ...formItemValid(i.pattern, i.value),
-                                  ],
-                                })(
-                                  <Input
-                                    style={{
-                                      minWidth: '100px',
-                                      border:
-                                        !this.state.isRegex &&
-                                        this.state.regesKey == record.key + i.value
-                                          ? '1px solid red'
-                                          : '',
-                                    }}
-                                    onBlur={e =>
-                                      this.onChildChang(
-                                        e,
-                                        record,
-                                        specificData,
-                                        'targetValue',
-                                        childIndex,
-                                        index,
-                                        value.Columns, //表头数据
-                                        value
-                                      )
-                                    }
-                                    disabled={
-                                      specificData.READ_ONLY_CONDITION
-                                        ? specificData.READ_ONLY_CONDITION
-                                        : i.readOnlyCondition
-                                    }
-                                  />
-                                )}
-                              </Form.Item>
-                            ) : (
-                              <Form.Item style={{ width: '100%' }}>
-                                {getFieldDecorator(`${record.key + i.value + childIndex}`, {
-                                  initialValue: specificData.DISPLAY_NAME
-                                    ? specificData.DISPLAY_NAME
-                                    : text,
-                                  rules: [
-                                    {
-                                      required: specificData.REQUIRED_CONDITION,
-                                      message: `${i.value}不能为空`,
-                                    },
-                                    ...formItemValid(i.pattern, i.value),
-                                  ],
-                                })(
-                                  <Input
-                                    style={{ minWidth: '100px' }}
-                                    onBlur={e =>
-                                      this.onChildChang(
-                                        e,
-                                        record,
-                                        specificData,
-                                        'targetValue',
-                                        childIndex,
-                                        index,
-                                        value.Columns, //表头数据
-                                        value
-                                      )
-                                    }
-                                    disabled={
-                                      specificData.READ_ONLY_CONDITION
-                                        ? specificData.READ_ONLY_CONDITION
-                                        : i.readOnlyCondition
-                                    }
-                                  />
-                                )}
-                              </Form.Item>
-                            )}
-                          </div>
-                        );
-                      },
-                    };
-                    if (i.displayCondition) {
-                      //表头添加管控
-                      columns.push(columnsText);
-                    }
-                    break;
-                  case 'Number':
-                    let columnsNumber = {
-                      title: (
-                        <Tooltip title={i.value + '[' + i.text + ']'}>
-                          <span>{i.value}</span>
-                        </Tooltip>
-                      ),
-                      dataIndex: i.text,
-                      readOnlyCondition: i.readOnlyCondition,
-                      defaultValue: i.defaultValue, //默认值
-                      requiredCondition: i.requiredCondition, //是否必填
-                      key: j + i.value,
-                      text: i.text,
-                      type: i.type,
-                      value: i.value,
-                      render: (text, record, childIndex) => {
-                        let childRowData = []; //用于记录某行子表的数据
-                        let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                        value.Data.records.map(h => {
-                          h.map(i => {
-                            if (i.key == record.key) {
-                              childRowData = h;
-                            }
-                          });
-                        });
-                        childRowData.map(o => {
-                          if (o.FIELD_NAME == i.text) {
-                            specificData = o;
-                          }
-                        });
-                        if (specificData.DISPLAY_CONDITION == false) return null;
-                        return (
-                          <div key={j + text}>
-                            {disEditStyle ? (
-                              <span
-                                key={text + index}
-                                style={{
-                                  marginTop: '8px',
-                                  marginBottom: '16px',
-                                  width: '100%',
-                                  marginTop: '8px',
-                                  marginBottom: '16px',
-                                  display: 'inline-block',
-                                  textAlign: 'right',
-                                }}
-                              >
-                                {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
-                              </span>
-                            ) : this.props.tableTemplate.isEditSave ||
-                              this.props.tableTemplate.isEditSave == undefined ? (
-                              <Form.Item style={{ width: '100%' }}>
-                                {getFieldDecorator(`${record.key + i.value + childIndex}`, {
-                                  initialValue: specificData.DISPLAY_NAME
-                                    ? specificData.DISPLAY_NAME
-                                    : text,
-                                  rules: [
-                                    {
-                                      required: specificData.REQUIRED_CONDITION,
-                                      message: `${i.value}不能为空`,
-                                    },
-                                    ...formItemValid(i.pattern, i.value),
-                                  ],
-                                })(
-                                  <Input
-                                    type="number"
-                                    onChange={
-                                        e =>
-                                          this.onChildChang(
-                                            e.target.value,
-                                            record,
-                                            specificData,
-                                            'NumberInput',
-                                            childIndex,
-                                            index,
-                                            value.Columns, //表头数据
-                                            value
-                                          )
-                                    }
-                                    onBlur={e => {
-                                      this.autoFocusChange();
-                                    }}
-                                    autoFocus={this.state.autoFocus} //调用rtlink功能会丢失焦点，需要在这里自动获取下
-                                    style={{
-                                      minWidth: '150px',
-                                      textAlign: 'right',
-                                      border:
-                                        !this.state.isRegex &&
-                                        this.state.regesKey == record.key + i.value
-                                          ? '1px solid red'
-                                          : '',
-                                    }}
-                                    disabled={
-                                      specificData.READ_ONLY_CONDITION
-                                        ? specificData.READ_ONLY_CONDITION
-                                        : i.readOnlyCondition
-                                    }
-                                  />
-                                )}
-                              </Form.Item>
-                            ) : (
-                              <Form.Item style={{ width: '100%' }}>
-                                {getFieldDecorator(`${record.key + i.value + childIndex}`, {
-                                  initialValue: specificData.DISPLAY_NAME
-                                    ? specificData.DISPLAY_NAME
-                                    : text,
-                                  rules: [
-                                    {
-                                      required: specificData.REQUIRED_CONDITION,
-                                      message: `${i.value}不能为空`,
-                                    },
-                                    ...formItemValid(i.pattern, i.value),
-                                  ],
-                                })(
-                                  <Input
-                                    // ref={this.ref}
-                                    type="number"
-                                    onChange={
-                                        e =>
-                                          this.onChildChang(
-                                            e.target.value,
-                                            record,
-                                            specificData,
-                                            'NumberInput',
-                                            childIndex,
-                                            index,
-                                            value.Columns, //表头数据
-                                            value
-                                          )
-                                    }
-                                    autoFocus={this.state.autoFocus}
-                                    onBlur={e => {
-                                      this.autoFocusChange();
-                                    }}
-                                    style={{
-                                      minWidth: '150px',
-                                      textAlign: 'right',
-                                      border:
-                                        !this.state.isRegex &&
-                                        this.state.regesKey == record.key + i.value
-                                          ? '1px solid red'
-                                          : '',
-                                    }}
-                                    disabled={i.readOnlyCondition}
-                                  />
-                                )}
-                              </Form.Item>
-                            )}
-                          </div>
-                        );
-                      },
-                    };
-                    if (i.displayCondition) {
-                      columns.push(columnsNumber);
-                    }
-                    break;
-                  case 'MultiObjectSelector':
-                    MultiObjectSelector = i.text;
-                    let columnsMultiObjectSelector = {
-                      title: (
-                        <Tooltip title={i.value + '[' + i.text + ']'}>
-                          <span>{i.value}</span>
-                        </Tooltip>
-                      ),
-                      dataIndex: i.text,
-                      readOnlyCondition: i.readOnlyCondition,
-                      defaultValue: i.defaultValue, //默认值
-                      requiredCondition: i.requiredCondition, //是否必填
-                      key: j + i.value,
-                      text: i.text,
-                      type: i.type,
-                      value: i.value,
-                      render: (text, record, childIndex) => {
-                        let childRowData = []; //用于记录某行子表的数据
-                        let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                        value.Data.records.map(h => {
-                          h.map(i => {
-                            if (i.key == record.key) {
-                              childRowData = h;
-                            }
-                          });
-                        });
-                        childRowData.map(o => {
-                          if (o.FIELD_NAME == i.text) {
-                            specificData = o;
-                          }
-                        });
-                        if (specificData.DISPLAY_CONDITION == false) return null;
-                        return disEditStyle ? (
+              Data = value.Data.records
+            }
+          });
+          //子表表头
+          if (childMaxCount >= 50) {
+            value.Columns.fields.map((i, j) => {
+              switch (i.type) {
+                case 'Text':
+                case "Number":
+                case 'MultiObjectSelector':
+                  let columnsText = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition, //只读管控
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      return (
+                        <div key={j + text}>
                           <span
+                            key={i.text}
                             style={{
                               marginTop: '8px',
                               marginBottom: '16px',
                               display: 'inline-block',
                             }}
                           >
-                            {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
+                            {text}
                           </span>
-                        ) : (
+                        </div>
+                      );
+                    },
+                  };
+                  if (i.displayCondition) {
+                    //表头添加管控
+                    columns.push(columnsText);
+                  }
+                  break;
+                case 'Select':
+                case 'Reference':
+                case 'ObjectType':
+                  let columnsSelect = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition, //只读管控
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      let optionChild = i.options.map(bb => {
+                        return <Select.Option
+                          value={bb.value}
+                          key={bb.text}
+                        >
+                          {bb.text}
+                        </Select.Option>
+                      })
+                      return (
+                        <div key={j + text}>
+                          <Select className={styles.selectData} disabled={true} defaultValue={text ? text * 1 : text}>
+                            {optionChild}
+                          </Select>
+                        </div>
+                      );
+                    },
+                  };
+                  if (i.displayCondition) {
+                    //表头添加管控
+                    columns.push(columnsSelect);
+                  }
+
+                  break
+                case 'Date':
+                case 'DateTime':
+                  let columnsDate = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition, //只读管控
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      return (
+                        <div key={j + text}>
+                          <span
+                            key={i.text}
+                            style={{
+                              marginTop: '8px',
+                              marginBottom: '16px',
+                              display: 'inline-block',
+                            }}
+                          >
+                            {text ? (i.type == 'Date' ? moment(text).format('YYYY/MM/DD') : moment(text).format('YYYY/MM/DD HH:mm:ss')) : null}
+                          </span>
+                        </div>
+                      );
+                    },
+                  };
+                  if (i.displayCondition) {
+                    //表头添加管控
+                    columns.push(columnsDate);
+                  }
+                  break
+                case 'Textarea':
+                  let columnsTextarea = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition, //只读管控
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      return (
+                        <div key={j + text}>
+                          <span
+                            key={i.text}
+                            style={{
+                              marginTop: '8px',
+                              marginBottom: '16px',
+                              display: 'inline-block',
+                            }}
+                          >
+                            <TextArea disabled style={{ minWidth: '150px' }} rows={1} defaultValue={text} />
+                          </span>
+                        </div>
+                      );
+                    },
+                  };
+                  if (i.displayCondition) {
+                    //表头添加管控
+                    columns.push(columnsTextarea);
+                  }
+                  break
+              }
+            });
+            //旧版本
+          } else {
+            value.Columns.fields.map((i, j) => {
+              switch (i.type) {
+                case 'Text':
+                  let columnsText = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition, //只读管控
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      let childRowData = []; //用于记录某行子表的数据
+                      let specificData = {}; //用于记录具体的数据，方便后期添加管控
+                      value.Data.records.map(h => {
+                        h.map(i => {
+                          if (i.key == record.key) {
+                            childRowData = h;
+                          }
+                        });
+                      });
+                      childRowData.map(o => {
+                        if (o.FIELD_NAME == i.text) {
+                          specificData = o;
+                        }
+                      });
+                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      return (
+                        <div key={j + text}>
+                          {disEditStyle ? ( //判断是否是可编辑状态 true为不可编辑
+                            <span
+                              key={text + index}
+                              style={{
+                                marginTop: '8px',
+                                marginBottom: '16px',
+                                display: 'inline-block',
+                              }}
+                            >
+                              {text}
+                            </span>
+                          ) : this.props.tableTemplate.isEditSave == true ||
+                            this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
+                                <Form.Item style={{ width: '100%' }}>
+                                  {getFieldDecorator(`${record.key + i.value + childIndex}`, {
+                                    initialValue: specificData.DISPLAY_NAME
+                                      ? specificData.DISPLAY_NAME
+                                      : text,
+                                    rules: [
+                                      {
+                                        required: specificData.REQUIRED_CONDITION,
+                                        message: `${i.value}不能为空`,
+                                      },
+                                      ...formItemValid(i.pattern, i.value),
+                                    ],
+                                  })(
+                                    <Input
+                                      style={{
+                                        minWidth: '100px',
+                                        border:
+                                          !this.state.isRegex &&
+                                            this.state.regesKey == record.key + i.value
+                                            ? '1px solid red'
+                                            : '',
+                                      }}
+                                      onBlur={e =>
+                                        this.onChildChang(
+                                          e,
+                                          record,
+                                          specificData,
+                                          'targetValue',
+                                          childIndex,
+                                          index,
+                                          value.Columns, //表头数据
+                                          value
+                                        )
+                                      }
+                                      disabled={
+                                        specificData.READ_ONLY_CONDITION
+                                          ? specificData.READ_ONLY_CONDITION
+                                          : i.readOnlyCondition
+                                      }
+                                    />
+                                  )}
+                                </Form.Item>
+                              ) : (
+                                <Form.Item style={{ width: '100%' }}>
+                                  {getFieldDecorator(`${record.key + i.value + childIndex}`, {
+                                    initialValue: specificData.DISPLAY_NAME
+                                      ? specificData.DISPLAY_NAME
+                                      : text,
+                                    rules: [
+                                      {
+                                        required: specificData.REQUIRED_CONDITION,
+                                        message: `${i.value}不能为空`,
+                                      },
+                                      ...formItemValid(i.pattern, i.value),
+                                    ],
+                                  })(
+                                    <Input
+                                      style={{ minWidth: '100px' }}
+                                      onBlur={e =>
+                                        this.onChildChang(
+                                          e,
+                                          record,
+                                          specificData,
+                                          'targetValue',
+                                          childIndex,
+                                          index,
+                                          value.Columns, //表头数据
+                                          value
+                                        )
+                                      }
+                                      disabled={
+                                        specificData.READ_ONLY_CONDITION
+                                          ? specificData.READ_ONLY_CONDITION
+                                          : i.readOnlyCondition
+                                      }
+                                    />
+                                  )}
+                                </Form.Item>
+                              )}
+                        </div>
+                      );
+                    },
+                  };
+                  if (i.displayCondition) {
+                    //表头添加管控
+                    columns.push(columnsText);
+                  }
+                  break;
+                case 'Number':
+                  let columnsNumber = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition,
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      let childRowData = []; //用于记录某行子表的数据
+                      let specificData = {}; //用于记录具体的数据，方便后期添加管控
+                      value.Data.records.map(h => {
+                        h.map(i => {
+                          if (i.key == record.key) {
+                            childRowData = h;
+                          }
+                        });
+                      });
+                      childRowData.map(o => {
+                        if (o.FIELD_NAME == i.text) {
+                          specificData = o;
+                        }
+                      });
+                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      return (
+                        <div key={j + text}>
+                          {disEditStyle ? (
+                            <span
+                              key={text + index}
+                              style={{
+                                marginTop: '8px',
+                                marginBottom: '16px',
+                                width: '100%',
+                                marginTop: '8px',
+                                marginBottom: '16px',
+                                display: 'inline-block',
+                                textAlign: 'right',
+                              }}
+                            >
+                              {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
+                            </span>
+                          ) : this.props.tableTemplate.isEditSave ||
+                            this.props.tableTemplate.isEditSave == undefined ? (
+                                <Form.Item style={{ width: '100%' }}>
+                                  {getFieldDecorator(`${record.key + i.value + childIndex}`, {
+                                    initialValue: specificData.DISPLAY_NAME
+                                      ? specificData.DISPLAY_NAME
+                                      : text,
+                                    rules: [
+                                      {
+                                        required: specificData.REQUIRED_CONDITION,
+                                        message: `${i.value}不能为空`,
+                                      },
+                                      ...formItemValid(i.pattern, i.value),
+                                    ],
+                                  })(
+                                    <Input
+                                      type="number"
+                                      onChange={
+                                        e =>
+                                          this.onChildChang(
+                                            e.target.value,
+                                            record,
+                                            specificData,
+                                            'NumberInput',
+                                            childIndex,
+                                            index,
+                                            value.Columns, //表头数据
+                                            value
+                                          )
+                                      }
+                                      onBlur={e => {
+                                        this.autoFocusChange();
+                                      }}
+                                      autoFocus={this.state.autoFocus} //调用rtlink功能会丢失焦点，需要在这里自动获取下
+                                      style={{
+                                        minWidth: '150px',
+                                        textAlign: 'right',
+                                        border:
+                                          !this.state.isRegex &&
+                                            this.state.regesKey == record.key + i.value
+                                            ? '1px solid red'
+                                            : '',
+                                      }}
+                                      disabled={
+                                        specificData.READ_ONLY_CONDITION
+                                          ? specificData.READ_ONLY_CONDITION
+                                          : i.readOnlyCondition
+                                      }
+                                    />
+                                  )}
+                                </Form.Item>
+                              ) : (
+                                <Form.Item style={{ width: '100%' }}>
+                                  {getFieldDecorator(`${record.key + i.value + childIndex}`, {
+                                    initialValue: specificData.DISPLAY_NAME
+                                      ? specificData.DISPLAY_NAME
+                                      : text,
+                                    rules: [
+                                      {
+                                        required: specificData.REQUIRED_CONDITION,
+                                        message: `${i.value}不能为空`,
+                                      },
+                                      ...formItemValid(i.pattern, i.value),
+                                    ],
+                                  })(
+                                    <Input
+                                      // ref={this.ref}
+                                      type="number"
+                                      onChange={
+                                        e =>
+                                          this.onChildChang(
+                                            e.target.value,
+                                            record,
+                                            specificData,
+                                            'NumberInput',
+                                            childIndex,
+                                            index,
+                                            value.Columns, //表头数据
+                                            value
+                                          )
+                                      }
+                                      autoFocus={this.state.autoFocus}
+                                      onBlur={e => {
+                                        this.autoFocusChange();
+                                      }}
+                                      style={{
+                                        minWidth: '150px',
+                                        textAlign: 'right',
+                                        border:
+                                          !this.state.isRegex &&
+                                            this.state.regesKey == record.key + i.value
+                                            ? '1px solid red'
+                                            : '',
+                                      }}
+                                      disabled={i.readOnlyCondition}
+                                    />
+                                  )}
+                                </Form.Item>
+                              )}
+                        </div>
+                      );
+                    },
+                  };
+                  if (i.displayCondition) {
+                    columns.push(columnsNumber);
+                  }
+                  break;
+                case 'MultiObjectSelector':
+                  MultiObjectSelector = i.text;
+                  let columnsMultiObjectSelector = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition,
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      let childRowData = []; //用于记录某行子表的数据
+                      let specificData = {}; //用于记录具体的数据，方便后期添加管控
+                      value.Data.records.map(h => {
+                        h.map(i => {
+                          if (i.key == record.key) {
+                            childRowData = h;
+                          }
+                        });
+                      });
+                      childRowData.map(o => {
+                        if (o.FIELD_NAME == i.text) {
+                          specificData = o;
+                        }
+                      });
+                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      return disEditStyle ? (
+                        <span
+                          style={{
+                            marginTop: '8px',
+                            marginBottom: '16px',
+                            display: 'inline-block',
+                          }}
+                        >
+                          {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
+                        </span>
+                      ) : (
                           <span
                             disabled={
                               specificData.READ_ONLY_CONDITION
@@ -858,436 +858,436 @@ export default class ChildTable extends React.Component {
                             {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
                           </span>
                         );
-                      },
-                    };
-                    if (i.displayCondition) {
-                      columns.push(columnsMultiObjectSelector);
-                    }
-                    break;
-                  case 'Select':
-                  case 'Reference':
-                  case 'ObjectType':
-                    let columnsSelect = {
-                      title: (
-                        <Tooltip title={i.value + '[' + i.text + ']'}>
-                          <span>{i.value}</span>
-                        </Tooltip>
-                      ),
-                      dataIndex: i.text,
-                      readOnlyCondition: i.readOnlyCondition,
-                      defaultValue: i.defaultValue, //默认值
-                      requiredCondition: i.requiredCondition, //是否必填
-                      options: i.options,
-                      key: j + i.value,
-                      text: i.text,
-                      type: i.type,
-                      value: i.value,
-                      render: (text, record, childIndex) => {
-                        let childRowData = []; //用于记录某行子表的数据
-                        let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                        let optionChild;
-                        value.Data.records.map(h => {
-                          h.map(z => {
-                            if (z.key == record.key) {
-                              childRowData = h;
+                    },
+                  };
+                  if (i.displayCondition) {
+                    columns.push(columnsMultiObjectSelector);
+                  }
+                  break;
+                case 'Select':
+                case 'Reference':
+                case 'ObjectType':
+                  let columnsSelect = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition,
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    options: i.options,
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      let childRowData = []; //用于记录某行子表的数据
+                      let specificData = {}; //用于记录具体的数据，方便后期添加管控
+                      let optionChild;
+                      value.Data.records.map(h => {
+                        h.map(z => {
+                          if (z.key == record.key) {
+                            childRowData = h;
+                          }
+                        });
+                        childRowData.map(o => {
+                          if (o.FIELD_NAME == i.text) {
+                            specificData = o;
+                          }
+                        });
+                        if (i.type != 'Select') {
+                          const isExist = _.findIndex(
+                            this.props.tableTemplate.selectChildOption,
+                            function (z) {
+                              return (
+                                z.selectKey == specificData.key &&
+                                z.field == specificData.FIELD_NAME
+                              );
                             }
-                          });
-                          childRowData.map(o => {
-                            if (o.FIELD_NAME == i.text) {
-                              specificData = o;
-                            }
-                          });
-                          if (i.type != 'Select') {
-                            const isExist = _.findIndex(
-                              this.props.tableTemplate.selectChildOption,
-                              function(z) {
-                                return (
-                                  z.selectKey == specificData.key &&
-                                  z.field == specificData.FIELD_NAME
-                                );
-                              }
-                            );
-                            if (isExist == -1) {
-                              optionChild = _.get(specificData, 'options', i.options).map((v, s) => {
-                                return (
-                                  <Select.Option
-                                    value={v.value + '--' + v.text + '--' + s + j}
-                                    key={v.text + v.value}
-                                  >
-                                    {v.text}
-                                  </Select.Option>
-                                );
-                              });
-                            } else {
-                              optionChild = this.props.tableTemplate.selectChildOption[
-                                isExist
-                              ].options.map((v, s) => {
-                                return (
-                                  <Select.Option
-                                    value={v.value + '--' + v.text + '--' + s + j}
-                                    key={v.text + v.value}
-                                  >
-                                    {v.text}
-                                  </Select.Option>
-                                );
-                              });
-                            }
+                          );
+                          if (isExist == -1) {
+                            optionChild = _.get(specificData, 'options', i.options).map((v, s) => {
+                              return (
+                                <Select.Option
+                                  value={v.value + '--' + v.text + '--' + s + j}
+                                  key={v.text + v.value}
+                                >
+                                  {v.text}
+                                </Select.Option>
+                              );
+                            });
                           } else {
-                            if (specificData.options) {
-                              optionChild = specificData.options.map((v, s) => {
-                                return (
-                                  <Select.Option value={v.value} key={v.text + v.value + s}>
-                                    {v.text}
-                                  </Select.Option>
-                                );
-                              });
-                            } else {
-                              optionChild = i.options.map((v, s) => {
-                                return (
-                                  <Select.Option value={v.value} key={v.text + v.value + s}>
-                                    {v.text}
-                                  </Select.Option>
-                                );
-                              });
-                            }
+                            optionChild = this.props.tableTemplate.selectChildOption[
+                              isExist
+                            ].options.map((v, s) => {
+                              return (
+                                <Select.Option
+                                  value={v.value + '--' + v.text + '--' + s + j}
+                                  key={v.text + v.value}
+                                >
+                                  {v.text}
+                                </Select.Option>
+                              );
+                            });
+                          }
+                        } else {
+                          if (specificData.options) {
+                            optionChild = specificData.options.map((v, s) => {
+                              return (
+                                <Select.Option value={v.value} key={v.text + v.value + s}>
+                                  {v.text}
+                                </Select.Option>
+                              );
+                            });
+                          } else {
+                            optionChild = i.options.map((v, s) => {
+                              return (
+                                <Select.Option value={v.value} key={v.text + v.value + s}>
+                                  {v.text}
+                                </Select.Option>
+                              );
+                            });
+                          }
+                        }
+                      });
+                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      return (
+                        <div key={j + text}>
+                          {disEditStyle ? (
+                            <span
+                              key={text + index}
+                              style={{
+                                marginTop: '8px',
+                                marginBottom: '16px',
+                                display: 'inline-block',
+                              }}
+                            >
+                              {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
+                            </span>
+                          ) : this.props.tableTemplate.isEditSave ||
+                            this.props.tableTemplate.isEditSave == undefined ? (
+                                <Select
+                                  className={styles.selectData}
+                                  onChange={e =>
+                                    this.onChildChang(
+                                      e,
+                                      record,
+                                      specificData,
+                                      'Select',
+                                      childIndex,
+                                      index,
+                                      value.Columns, //表头数据
+                                      value
+                                    )
+                                  }
+                                  showSearch={true}
+                                  allowClear
+                                  onSearch={e =>
+                                    this.onEditSearch(i, e, specificData.key, value.Columns)
+                                  }
+                                  filterOption={false}
+                                  placeholder="请输入查询内容!"
+                                  style={{ minWidth: '170px' }}
+                                  disabled={
+                                    specificData.READ_ONLY_CONDITION
+                                      ? specificData.READ_ONLY_CONDITION
+                                      : i.readOnlyCondition
+                                  } //精确到字段的管控
+                                  // disabled={i.readOnlyCondition}
+                                  defaultValue={
+                                    specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
+                                  }
+                                >
+                                  {optionChild}
+                                </Select>
+                              ) : (
+                                <Select
+                                  className={styles.selectData}
+                                  onChange={e =>
+                                    this.onChildChang(
+                                      e,
+                                      record,
+                                      specificData,
+                                      'Select',
+                                      childIndex,
+                                      index,
+                                      value.Columns, //表头数据
+                                      value
+                                    )
+                                  }
+                                  showSearch={true}
+                                  allowClear
+                                  onSearch={e =>
+                                    this.onEditSearch(i, e, specificData.key, value.Columns)
+                                  }
+                                  filterOption={false}
+                                  placeholder="请输入查询内容!"
+                                  // onFocus={this.childSelectClick.bind(
+                                  //   this,
+                                  //   specificData,
+                                  //   value.Columns.key
+                                  // )}
+                                  style={{ minWidth: '170px' }}
+                                  defaultValue={
+                                    specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
+                                  }
+                                  disabled={
+                                    specificData.READ_ONLY_CONDITION
+                                      ? specificData.READ_ONLY_CONDITION
+                                      : i.readOnlyCondition
+                                  }
+                                >
+                                  {optionChild}
+                                </Select>
+                              )}
+                        </div>
+                      );
+                    },
+                  };
+                  if (i.displayCondition) {
+                    columns.push(columnsSelect);
+                  }
+                  break;
+                case 'Date':
+                case 'DateTime':
+                  let columnsDate = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition, //只读管控
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      let childRowData = []; //用于记录某行子表的数据
+                      let specificData = {}; //用于记录具体的数据，方便后期添加管控
+                      value.Data.records.map(h => {
+                        h.map(i => {
+                          if (i.key == record.key) {
+                            childRowData = h;
                           }
                         });
-                        if (specificData.DISPLAY_CONDITION == false) return null;
-                        return (
-                          <div key={j + text}>
-                            {disEditStyle ? (
-                              <span
-                                key={text + index}
-                                style={{
-                                  marginTop: '8px',
-                                  marginBottom: '16px',
-                                  display: 'inline-block',
-                                }}
-                              >
-                                {specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text}
-                              </span>
-                            ) : this.props.tableTemplate.isEditSave ||
-                              this.props.tableTemplate.isEditSave == undefined ? (
-                              <Select
-                                className={styles.selectData}
-                                onChange={e =>
-                                  this.onChildChang(
-                                    e,
-                                    record,
-                                    specificData,
-                                    'Select',
-                                    childIndex,
-                                    index,
-                                    value.Columns, //表头数据
-                                    value
-                                  )
-                                }
-                                showSearch={true}
-                                allowClear
-                                onSearch={e =>
-                                  this.onEditSearch(i, e, specificData.key, value.Columns)
-                                }
-                                filterOption={false}
-                                placeholder="请输入查询内容!"
-                                style={{ minWidth: '170px' }}
-                                disabled={
-                                  specificData.READ_ONLY_CONDITION
-                                    ? specificData.READ_ONLY_CONDITION
-                                    : i.readOnlyCondition
-                                } //精确到字段的管控
-                                // disabled={i.readOnlyCondition}
-                                defaultValue={
-                                  specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
-                                }
-                              >
-                                {optionChild}
-                              </Select>
-                            ) : (
-                              <Select
-                                className={styles.selectData}
-                                onChange={e =>
-                                  this.onChildChang(
-                                    e,
-                                    record,
-                                    specificData,
-                                    'Select',
-                                    childIndex,
-                                    index,
-                                    value.Columns, //表头数据
-                                    value
-                                  )
-                                }
-                                showSearch={true}
-                                allowClear
-                                onSearch={e =>
-                                  this.onEditSearch(i, e, specificData.key, value.Columns)
-                                }
-                                filterOption={false}
-                                placeholder="请输入查询内容!"
-                                // onFocus={this.childSelectClick.bind(
-                                //   this,
-                                //   specificData,
-                                //   value.Columns.key
-                                // )}
-                                style={{ minWidth: '170px' }}
-                                defaultValue={
-                                  specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
-                                }
-                                disabled={
-                                  specificData.READ_ONLY_CONDITION
-                                    ? specificData.READ_ONLY_CONDITION
-                                    : i.readOnlyCondition
-                                }
-                              >
-                                {optionChild}
-                              </Select>
-                            )}
-                          </div>
-                        );
-                      },
-                    };
-                    if (i.displayCondition) {
-                      columns.push(columnsSelect);
-                    }
-                    break;
-                  case 'Date':
-                  case 'DateTime':
-                    let columnsDate = {
-                      title: (
-                        <Tooltip title={i.value + '[' + i.text + ']'}>
-                          <span>{i.value}</span>
-                        </Tooltip>
-                      ),
-                      dataIndex: i.text,
-                      readOnlyCondition: i.readOnlyCondition, //只读管控
-                      defaultValue: i.defaultValue, //默认值
-                      requiredCondition: i.requiredCondition, //是否必填
-                      key: j + i.value,
-                      text: i.text,
-                      type: i.type,
-                      value: i.value,
-                      render: (text, record, childIndex) => {
-                        let childRowData = []; //用于记录某行子表的数据
-                        let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                        value.Data.records.map(h => {
-                          h.map(i => {
-                            if (i.key == record.key) {
-                              childRowData = h;
-                            }
-                          });
-                        });
-                        childRowData.map(o => {
-                          if (o.FIELD_NAME == i.text) {
-                            specificData = o;
-                          }
-                        });
-                        if (specificData.DISPLAY_CONDITION == false) return null;
-                        return (
-                          <div key={j + text}>
-                            {disEditStyle ? ( //判断是否是可编辑状态 true为不可编辑
-                              <span
-                                key={text + index}
-                                style={{
-                                  marginTop: '8px',
-                                  marginBottom: '16px',
-                                  display: 'inline-block',
-                                }}
-                              >
-                                {specificData.FIELD_VALUE
-                                  ? moment(specificData.FIELD_VALUE * 1).format('YYYY/MM/DD')
-                                  : null}
-                              </span>
-                            ) : this.props.tableTemplate.isEditSave == true ||
-                              this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
-                              <DatePicker
-                                style={{ minWidth: '200px' }}
-                                onChange={e =>
-                                  this.onChildChang(
-                                    e,
-                                    record,
-                                    specificData,
-                                    'DateInput',
-                                    childIndex,
-                                    index
-                                  )
-                                }
-                                defaultValue={
-                                  specificData.FIELD_VALUE
-                                    ? moment(specificData.FIELD_VALUE * 1)
-                                    : null
-                                }
-                                format={i.type == 'Date' ? 'YYYY/MM/DD' : 'YYYY-MM-DD HH:mm:ss'}
-                                disabled={
-                                  specificData.READ_ONLY_CONDITION
-                                    ? specificData.READ_ONLY_CONDITION
-                                    : i.readOnlyCondition
-                                } //精确到字段的管控
+                      });
+                      childRowData.map(o => {
+                        if (o.FIELD_NAME == i.text) {
+                          specificData = o;
+                        }
+                      });
+                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      return (
+                        <div key={j + text}>
+                          {disEditStyle ? ( //判断是否是可编辑状态 true为不可编辑
+                            <span
+                              key={text + index}
+                              style={{
+                                marginTop: '8px',
+                                marginBottom: '16px',
+                                display: 'inline-block',
+                              }}
+                            >
+                              {specificData.FIELD_VALUE
+                                ? moment(specificData.FIELD_VALUE * 1).format('YYYY/MM/DD')
+                                : null}
+                            </span>
+                          ) : this.props.tableTemplate.isEditSave == true ||
+                            this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
+                                <DatePicker
+                                  style={{ minWidth: '200px' }}
+                                  onChange={e =>
+                                    this.onChildChang(
+                                      e,
+                                      record,
+                                      specificData,
+                                      'DateInput',
+                                      childIndex,
+                                      index
+                                    )
+                                  }
+                                  defaultValue={
+                                    specificData.FIELD_VALUE
+                                      ? moment(specificData.FIELD_VALUE * 1)
+                                      : null
+                                  }
+                                  format={i.type == 'Date' ? 'YYYY/MM/DD' : 'YYYY-MM-DD HH:mm:ss'}
+                                  disabled={
+                                    specificData.READ_ONLY_CONDITION
+                                      ? specificData.READ_ONLY_CONDITION
+                                      : i.readOnlyCondition
+                                  } //精确到字段的管控
                                 // disabled={i.readOnlyCondition} //针对某一列的管控
-                              />
-                            ) : (
-                              <DatePicker
-                                style={{ minWidth: '200px' }}
-                                onChange={e =>
-                                  this.onChildChang(
-                                    e,
-                                    record,
-                                    specificData,
-                                    'DateInput',
-                                    childIndex,
-                                    index
-                                  )
-                                }
-                                defaultValue={
-                                  specificData.FIELD_VALUE
-                                    ? moment(specificData.FIELD_VALUE * 1)
-                                    : null
-                                }
-                                format={i.type == 'Date' ? 'YYYY/MM/DD' : 'YYYY-MM-DD HH:mm:ss'}
-                                disabled={
-                                  specificData.READ_ONLY_CONDITION
-                                    ? specificData.READ_ONLY_CONDITION
-                                    : i.readOnlyCondition
-                                } //精确到字段的管控
+                                />
+                              ) : (
+                                <DatePicker
+                                  style={{ minWidth: '200px' }}
+                                  onChange={e =>
+                                    this.onChildChang(
+                                      e,
+                                      record,
+                                      specificData,
+                                      'DateInput',
+                                      childIndex,
+                                      index
+                                    )
+                                  }
+                                  defaultValue={
+                                    specificData.FIELD_VALUE
+                                      ? moment(specificData.FIELD_VALUE * 1)
+                                      : null
+                                  }
+                                  format={i.type == 'Date' ? 'YYYY/MM/DD' : 'YYYY-MM-DD HH:mm:ss'}
+                                  disabled={
+                                    specificData.READ_ONLY_CONDITION
+                                      ? specificData.READ_ONLY_CONDITION
+                                      : i.readOnlyCondition
+                                  } //精确到字段的管控
                                 // disabled={i.readOnlyCondition}
-                              />
-                            )}
-                          </div>
-                        );
-                      },
-                    };
-                    if (i.displayCondition) {
-                      columns.push(columnsDate);
-                    }
-                    break;
-                  case 'Textarea':
-                    let columnsTextarea = {
-                      title: (
-                        <Tooltip title={i.value + '[' + i.text + ']'}>
-                          <span>{i.value}</span>
-                        </Tooltip>
-                      ),
-                      dataIndex: i.text,
-                      readOnlyCondition: i.readOnlyCondition, //只读管控
-                      defaultValue: i.defaultValue, //默认值
-                      requiredCondition: i.requiredCondition, //是否必填
-                      key: j + i.value,
-                      text: i.text,
-                      type: i.type,
-                      value: i.value,
-                      render: (text, record, childIndex) => {
-                        let childRowData = []; //用于记录某行子表的数据
-                        let specificData = {}; //用于记录具体的数据，方便后期添加管控
-                        value.Data.records.map(h => {
-                          h.map(i => {
-                            if (i.key == record.key) {
-                              childRowData = h;
-                            }
-                          });
-                        });
-                        childRowData.map(o => {
-                          if (o.FIELD_NAME == i.text) {
-                            specificData = o;
+                                />
+                              )}
+                        </div>
+                      );
+                    },
+                  };
+                  if (i.displayCondition) {
+                    columns.push(columnsDate);
+                  }
+                  break;
+                case 'Textarea':
+                  let columnsTextarea = {
+                    title: (
+                      <Tooltip title={i.value + '[' + i.text + ']'}>
+                        <span>{i.value}</span>
+                      </Tooltip>
+                    ),
+                    dataIndex: i.text,
+                    readOnlyCondition: i.readOnlyCondition, //只读管控
+                    defaultValue: i.defaultValue, //默认值
+                    requiredCondition: i.requiredCondition, //是否必填
+                    key: j + i.value,
+                    text: i.text,
+                    type: i.type,
+                    value: i.value,
+                    render: (text, record, childIndex) => {
+                      let childRowData = []; //用于记录某行子表的数据
+                      let specificData = {}; //用于记录具体的数据，方便后期添加管控
+                      value.Data.records.map(h => {
+                        h.map(i => {
+                          if (i.key == record.key) {
+                            childRowData = h;
                           }
                         });
-                        if (specificData.DISPLAY_CONDITION == false) return null;
-                        return (
-                          <div key={j + text}>
-                            {disEditStyle ? ( //判断是否是可编辑状态 true为不可编辑
-                              <span
-                                key={text + index}
-                                style={{
-                                  marginTop: '8px',
-                                  marginBottom: '16px',
-                                  display: 'inline-block',
-                                }}
-                              >
-                                {text}
-                              </span>
-                            ) : this.props.tableTemplate.isEditSave == true ||
-                              this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
-                              <TextArea
-                                rows={1}
-                                style={{ minWidth: '150px' }}
-                                onChange={e =>
-                                  this.onChildChang(
-                                    e,
-                                    record,
-                                    specificData,
-                                    'targetValue',
-                                    childIndex,
-                                    index,
-                                    value.Columns, //表头数据
-                                    value
-                                  )
-                                }
-                                defaultValue={
-                                  specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
-                                }
-                                disabled={
-                                  specificData.READ_ONLY_CONDITION
-                                    ? specificData.READ_ONLY_CONDITION
-                                    : i.readOnlyCondition
-                                } //精确到字段的管控
-                              />
-                            ) : (
-                              <TextArea
-                                rows={1}
-                                style={{ minWidth: '150px' }}
-                                onChange={e =>
-                                  this.onChildChang(
-                                    e,
-                                    record,
-                                    specificData,
-                                    'targetValue',
-                                    childIndex,
-                                    index,
-                                    value.Columns, //表头数据
-                                    value
-                                  )
-                                }
-                                defaultValue={
-                                  specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
-                                }
-                                disabled={
-                                  specificData.READ_ONLY_CONDITION
-                                    ? specificData.READ_ONLY_CONDITION
-                                    : i.readOnlyCondition
-                                } //精确到字段的管控
-                              />
-                            )}
-                          </div>
-                        );
-                      },
-                    };
-                    if (i.displayCondition) {
-                      columns.push(columnsTextarea);
-                    }
-                    break;
-                }
-              });
-            }
-            
-            const TableForm = {
-              MultiObjectSelector,
-              HeaderData: value.Columns,
-              dispatch: this.props.dispatch,
-              data: Data,
-              mask: value.Columns.mask,
-              columns,
-              value, //当前的那条子表数据
-              disEditStyle,
-              ...this.props.tableTemplate,
-            };
-            return (
-              <TabPane tab={_.get(value, 'Columns.title')} key={index}>
-                <div>
-                  <NTableForm getMasterTable={(value)=>this.props.getMasterTable(value)} {...TableForm} />
-                </div>
-              </TabPane>
-            );
-          })
+                      });
+                      childRowData.map(o => {
+                        if (o.FIELD_NAME == i.text) {
+                          specificData = o;
+                        }
+                      });
+                      if (specificData.DISPLAY_CONDITION == false) return null;
+                      return (
+                        <div key={j + text}>
+                          {disEditStyle ? ( //判断是否是可编辑状态 true为不可编辑
+                            <span
+                              key={text + index}
+                              style={{
+                                marginTop: '8px',
+                                marginBottom: '16px',
+                                display: 'inline-block',
+                              }}
+                            >
+                              {text}
+                            </span>
+                          ) : this.props.tableTemplate.isEditSave == true ||
+                            this.props.tableTemplate.isEditSave == undefined ? ( //判断是否是新增的情况 true 为新增
+                                <TextArea
+                                  rows={1}
+                                  style={{ minWidth: '150px' }}
+                                  onChange={e =>
+                                    this.onChildChang(
+                                      e,
+                                      record,
+                                      specificData,
+                                      'targetValue',
+                                      childIndex,
+                                      index,
+                                      value.Columns, //表头数据
+                                      value
+                                    )
+                                  }
+                                  defaultValue={
+                                    specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
+                                  }
+                                  disabled={
+                                    specificData.READ_ONLY_CONDITION
+                                      ? specificData.READ_ONLY_CONDITION
+                                      : i.readOnlyCondition
+                                  } //精确到字段的管控
+                                />
+                              ) : (
+                                <TextArea
+                                  rows={1}
+                                  style={{ minWidth: '150px' }}
+                                  onChange={e =>
+                                    this.onChildChang(
+                                      e,
+                                      record,
+                                      specificData,
+                                      'targetValue',
+                                      childIndex,
+                                      index,
+                                      value.Columns, //表头数据
+                                      value
+                                    )
+                                  }
+                                  defaultValue={
+                                    specificData.DISPLAY_NAME ? specificData.DISPLAY_NAME : text
+                                  }
+                                  disabled={
+                                    specificData.READ_ONLY_CONDITION
+                                      ? specificData.READ_ONLY_CONDITION
+                                      : i.readOnlyCondition
+                                  } //精确到字段的管控
+                                />
+                              )}
+                        </div>
+                      );
+                    },
+                  };
+                  if (i.displayCondition) {
+                    columns.push(columnsTextarea);
+                  }
+                  break;
+              }
+            });
+          }
+
+          const TableForm = {
+            MultiObjectSelector,
+            HeaderData: value.Columns,
+            dispatch: this.props.dispatch,
+            data: Data,
+            mask: value.Columns.mask,
+            columns,
+            value, //当前的那条子表数据
+            disEditStyle,
+            ...this.props.tableTemplate,
+          };
+          return (
+            <TabPane tab={_.get(value, 'Columns.title')} key={index}>
+              <div>
+                <NTableForm getMasterTable={(value) => this.props.getMasterTable(value)} {...TableForm} />
+              </div>
+            </TabPane>
+          );
+        })
         : this.props.tableTemplate.detailColumns.child != undefined
-        ? this.props.tableTemplate.detailColumns.child.map((value, index) => {
+          ? this.props.tableTemplate.detailColumns.child.map((value, index) => {
             let MultiObjectSelector = null;
             let columns = [
               {
@@ -1337,7 +1337,7 @@ export default class ChildTable extends React.Component {
               HeaderData: value,
               value: cacheData,
               mask: value.mask,
-              
+
               dispatch: this.props.dispatch,
               disEditStyle,
               ...this.props.tableTemplate,
@@ -1345,14 +1345,14 @@ export default class ChildTable extends React.Component {
             return (
               <TabPane tab={_.get(value, 'title', '子表')} key={index}>
                 <div>
-                  <NTableForm getMasterTable={(value)=>this.props.getMasterTable(value)} {...TableForm} />
+                  <NTableForm getMasterTable={(value) => this.props.getMasterTable(value)} {...TableForm} />
                 </div>
               </TabPane>
             );
           })
-        : null;
+          : null;
     return (
-      <Tabs 
+      <Tabs
         activeKey={this.props.tableTemplate.defaultActiveKey}
         onChange={this.tabCallback}
       >

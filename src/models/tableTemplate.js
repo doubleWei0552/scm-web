@@ -40,7 +40,7 @@ export default {
     initDetailChildData: {}, // 刚进入详情页面时的子表数据
     initPolicyFormFields: [], // 刚进入详情页时的主表数据
     ChildData: [], // 子表展示数据
-    childMaxCount:null, //子表的所有数据
+    childMaxCount: null, //子表的所有数据
 
     selectDate: {}, // 跳转时选择的数据
     selectDataDelete: [], // 选择要删除的数据
@@ -180,7 +180,7 @@ export default {
           thisComponentUid: result.data.thisComponentUid,
         };
         let childResult
-        if(result.data.childMaxCount > 50){
+        if (result.data.childMaxCount >= 50) {
           childResult = yield call(queryLargeChilddata, childParams);
         } else {
           childResult = yield call(queryDetailChildPage, childParams);
@@ -210,7 +210,7 @@ export default {
           yield put({ type: 'getChildTable' });
         }
         if (callback) callback(childResult);
-      } else if(!payload.ProhibitChildRefresh) {
+      } else if (!payload.ProhibitChildRefresh) {
         // yield put({ type: 'save', payload: { detailData: [], initPolicyFormFields: [] } });
         notification.error({ message: result.message, duration: 3 });
       }
@@ -510,7 +510,7 @@ export default {
         yield put({ type: 'getPagelist', payload: { pageId } });
         yield put({
           type: 'getDetailPage',
-          payload: { pageId, ObjectType: newObjectType, ID: selectDate.ID,ProhibitChildRefresh:true },
+          payload: { pageId, ObjectType: newObjectType, ID: selectDate.ID, ProhibitChildRefresh: true },
         });
         yield put({
           type: 'save',
