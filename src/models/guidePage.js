@@ -31,6 +31,7 @@ export default {
   effects: {
     // 用于保存要发送后端的数据
     *getSaveData({ payload, callback }, { select, put, call }) {
+      console.log('payload',payload)
       let { relatedFieldGroup, data } = payload;
       let sendGuideData = yield select(({ guidePage }) => guidePage.sendGuideData);
       sendGuideData[relatedFieldGroup] = data;

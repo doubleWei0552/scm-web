@@ -80,8 +80,18 @@ export default class NewGuidePage extends React.Component {
       });
     } else {  //table类型的数据点击下一页添加验证
       let req = this.childTable.state.showColumns.req
-      let selectedRow = this.childTable.state.selectedRow
-      if (selectedRow.length) {
+      let NewSelectedRow = this.childTable.state.selectedRow
+      let selectedRowKeys = this.childTable.state.selectedRowKeys
+      let selectedRow = []
+      NewSelectedRow.map((item => {
+        selectedRowKeys.map(jj => {
+          if(item.ID == jj){
+            selectedRow.push(item)
+          }
+        })
+      }))
+      console.log('index筛选的数据',selectedRow,selectedRowKeys)
+      if(selectedRow.length){
         let message = {}
         if (req) {
           let columns = this.childTable.state.showColumns.policyFormFields
@@ -313,7 +323,7 @@ export default class NewGuidePage extends React.Component {
       >
         <div>
           <Spin spinning={this.props.loadingG || this.state.loading || false}>
-            {/* 顶部步骤条 */}
+            {/* 顶部步骤条*/}
             <Steps current={current}>
               {steps.map(item => (
                 <Step key={item.LABEL} title={item.LABEL} />
