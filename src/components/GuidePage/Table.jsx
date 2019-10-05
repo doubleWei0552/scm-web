@@ -138,7 +138,7 @@ export default class TableModulars extends React.Component{
                 })
             }
             setTimeout(()=>{
-                console.log('数据',this.props.guidePage,nextProps.guidePage)
+                console.log('数据',this.props.guidePage,nextProps.guidePage,'test')
                 let { sendGuideData } = nextProps.guidePage
                 let params = nextProps.tableButton.BUTTON_GUIDE[nextProps.current]
                 this.props.dispatch({
