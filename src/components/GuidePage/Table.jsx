@@ -47,6 +47,7 @@ export default class TableModulars extends React.Component{
         showColumns:[], // 当前展示页的子表表头
     }
     UNSAFE_componentWillMount=()=>{
+        console.log('UNSAFE_componentWillMount')
         let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
         let isHaveData = sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP]
         if(isHaveData){
@@ -114,7 +115,18 @@ export default class TableModulars extends React.Component{
         }
         if(this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP != nextProps.tableButton.BUTTON_GUIDE[nextProps.current].RELATED_FIELD_GROUP){
             let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
-            let isHaveData = sendGuideData[nextProps.tableButton.BUTTON_GUIDE[nextProps.current].RELATED_FIELD_GROUP]
+            let { selectedRow,selectedRowKeys } = this.state
+            let CacheData = []
+            selectedRowKeys.map(items => {
+                selectedRow.map(aa => {
+                    if(aa.ID == items){
+                        CacheData.push(aa)
+                    }
+                })
+            })
+            sendGuideData[nextProps.tableButton.BUTTON_GUIDE[nextProps.current].RELATED_FIELD_GROUP] = CacheData
+            let isHaveData = _.cloneDeep(sendGuideData[nextProps.tableButton.BUTTON_GUIDE[nextProps.current].RELATED_FIELD_GROUP])
+            console.log('componentWillReceiveProps',this.state,sendGuideData,isHaveData,CacheData)
             if(isHaveData){
                 let selectedRowKeys = []
                 isHaveData.map(item=>{
@@ -126,6 +138,7 @@ export default class TableModulars extends React.Component{
                 })
             }
             setTimeout(()=>{
+                console.log('数据',this.props.guidePage,nextProps.guidePage,'test')
                 let { sendGuideData } = nextProps.guidePage
                 let params = nextProps.tableButton.BUTTON_GUIDE[nextProps.current]
                 this.props.dispatch({
@@ -177,10 +190,10 @@ export default class TableModulars extends React.Component{
                     }
                 }
             })
-            this.props.dispatch({
-                type:'guidePage/getSaveData',
-                payload:{relatedFieldGroup:relatedFieldGroup,data:this.state.selectedRow}
-            })
+            // this.props.dispatch({
+            //     type:'guidePage/getSaveData',
+            //     payload:{relatedFieldGroup:relatedFieldGroup,data:this.state.selectedRow}
+            // })
         }
     }
 
@@ -220,6 +233,7 @@ export default class TableModulars extends React.Component{
                 stateSelectedRow = selectedRow
             }
         })
+        console.log('选择后的数据',selectedRowKeys,selectedRow)
         this.setState({ selectedRowKeys,selectedRow:stateSelectedRow })
     }
     disabledStartDate = (e, value) => {
@@ -366,6 +380,7 @@ export default class TableModulars extends React.Component{
     };
 
     componentWillUnmount=()=>{
+        console.log('componentWillUnmount',this.state.selectedRow,this.state.selectedRowKeys)
         let {isEdit,selectDate} = this.props.tableTemplate
         let relatedFieldGroup = this.props.guidePage.guidePageColumns.relatedFieldGroup
         this.state.selectedRow.map(item=>{
