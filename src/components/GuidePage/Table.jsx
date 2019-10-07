@@ -124,8 +124,8 @@ export default class TableModulars extends React.Component{
                     }
                 })
             })
-            sendGuideData[nextProps.tableButton.BUTTON_GUIDE[nextProps.current].RELATED_FIELD_GROUP] = CacheData
-            let isHaveData = _.cloneDeep(sendGuideData[nextProps.tableButton.BUTTON_GUIDE[nextProps.current].RELATED_FIELD_GROUP])
+            sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP] = CacheData
+            let isHaveData = _.cloneDeep(sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP])
             console.log('componentWillReceiveProps',this.state,sendGuideData,isHaveData,CacheData)
             if(isHaveData){
                 let selectedRowKeys = []
