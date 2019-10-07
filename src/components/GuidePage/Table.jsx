@@ -608,7 +608,7 @@ export default class TableModulars extends React.Component{
                         );
                         } else if (value.WIDGET_TYPE === 'Number') {
                         return (
-                            <Col span={this.state.expand ? 24 : 10} style={{ textAlign: 'right' }} key={value.SEQUENCE + index} style={{ textAlign: 'left' }}>
+                            <Col span={this.state.expand ? 24 : 10} style={{ textAlign: 'right' }} key={value.SEQUENCE + index}>
                             <Form.Item
                                 label={value.LABEL}
                                 key={value.SEQUENCE + index}
