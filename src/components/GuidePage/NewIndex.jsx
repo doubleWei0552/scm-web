@@ -314,7 +314,7 @@ export default class NewGuidePage extends React.Component {
     return (
       <Modal
         footer={null}
-        width="80%"
+        width="90%"
         maskClosable={false}
         closable={false}
         centered={true}
