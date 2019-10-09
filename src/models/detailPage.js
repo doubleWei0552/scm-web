@@ -8,6 +8,8 @@ import {
   queryDetailSave,
   detailPage,
   childUpdateFields,
+  queryDetailListConfig,
+  queryDetailList,
 } from '@/services/api';
 import _ from 'lodash';
 import router from 'umi/router'
@@ -20,8 +22,8 @@ export default {
   state: {
     detailIdOld:null , //当前详情页的id，用于相同页面之间状态切换时的优化
     PageIdOld:null, //当前详情页的PageId，用于相同页面之间状态切换时的优化
-    detailColumns:[] , //详情页表头方法返回的所有数据
-    detailData: [], // 详情页数据方法返回的所有数据
+    detailColumns:{} , //详情页表头方法返回的所有数据
+    detailData: {}, // 详情页数据方法返回的所有数据
     DetailChildData: {}, // 所有的子表数据
     selectChildOption: [], // 子表下拉显示的数据
 
@@ -30,6 +32,9 @@ export default {
     ChildData: [], //所有子表对应的数据
     editChildData:[], //编辑的子表
     saveChildData:[], //新增的子表
+
+    newChildColumns:{}, //子表新增时的表头所有数据
+    newChildData:{}, //子表新增时的所有数据
   },
 
   effects: {
@@ -54,6 +59,11 @@ export default {
       } else {
         notification.error({ message: result.message, duration: 3 });
       }
+    },
+    // 搜索框下拉框事件
+    *getAutocomplate({ payload, callback }, { select, call, put }) {
+      let result = yield call(queryAutocomplate,payload.value)
+      if(callback) callback (result)
     },
     // 获取详情页数据
     *getDetailPage({ payload,callback }, { call, select, put }) {
@@ -358,17 +368,19 @@ export default {
       if (callback) callback(result);
     },
     // 子表新增弹框表格表头
-    *getDetailListConfig({ payload }, { select, put, call }) {
+    *getDetailListConfig({ payload,callback }, { select, put, call }) {
       const { multiGroupName, multiObjectType } = payload;
       const params = {
         summaryFieldGroupName: multiGroupName,
         objectType: multiObjectType,
       };
       const result = yield call(queryDetailListConfig, params);
-      yield put({ type: 'save', payload: { frameColumns: result.data } });
+      yield put({type:'save',payload:{newChildColumns:result.data}})
+      if(callback) callback(result)
     },
     // 子表新增弹框表格数据
-    *getDetailList({ payload }, { select, put, call }) {
+    *getDetailList({ payload,callback }, { select, put, call }) {
+      console.log('获取数据方法',payload)
       const {
         multiGroupName,
         multiObjectType,
@@ -396,7 +408,8 @@ export default {
         ...searchParams,
       };
       const result = yield call(queryDetailList, params);
-      yield put({ type: 'save', payload: { framePagination: result.data } });
+      yield put({type:'save',payload:{newChildData:result.data}})
+      if(callback) callback(result)
     },
   },
 

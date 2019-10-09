@@ -28,14 +28,17 @@ function onChange(date, dateString) {
     console.log(date, dateString);
   }
 
-@connect(({detailPage,loading})=>({
+@connect(({detailPage,listPage,loading})=>({
     detailPage,
-    loading
+    listPage,
+    loadingG:loading.effects['detailPage/getDetailListConfig'] ||
+            loading.effects['detailPage/getDetailList'],
 }))
 
 export default class NewChildTableSee extends React.Component{
     state={
         ChildData:{}, //子表的数据
+        newChildData:[], //新增的子表数据
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
@@ -70,14 +73,20 @@ export default class NewChildTableSee extends React.Component{
             let idx = _.findIndex(this.props.detailPage.editChildData,item => item.ID == record.ID)
             if(idx < 0){
                 this.props.detailPage.editChildData.push(record)
+            } else {
+                this.props.detailPage.editChildData.splice(idx,1)
+                this.props.detailPage.editChildData.push(record)
             }
         }
     }
 
     openModal=(value)=>{ //新增时的莫态框
         this.setState({
-            [value]: true,
+            [value.objectType]: true,
         });
+        if(this.AddTable){
+            this.AddTable.getData(value,this.state.newChildData)
+        }
     }
     
     handleOk = (value) => {
@@ -91,6 +100,18 @@ export default class NewChildTableSee extends React.Component{
             [value]: false,
         });
     };    
+
+    handleTableSubmit = (object,newData,index) => { //index代表哪个子表
+        let { newChildData } = this.state
+        newData.map(item => {
+            newChildData.push(item)
+            this.props.detailPage.ChildData[index].Data.records.push(item)
+        })
+        this.setState({
+            [object]: false,
+            newChildData,
+        });
+    }
 
     render(){
         let { defaultActiveKey,ChildData } = this.props.detailPage
@@ -367,7 +388,7 @@ export default class NewChildTableSee extends React.Component{
                     style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                     dataSource={dataSource} 
                     columns={columns} />
-                    <Button onClick={()=>this.openModal(item.Columns.objectType)}
+                    <Button onClick={()=>this.openModal(item.Columns)}
                     type='primary' disabled={item.add_d} style={{width:'100%',marginTop:'10px'}}>新增数据</Button>
                     <Modal
                         ref="ListPage"
@@ -384,8 +405,20 @@ export default class NewChildTableSee extends React.Component{
                         <div>
                             {
                                 isHavaMultiObject ? 
-                                <Add_Table detailPage={this.props.detailPage} objectType={item.Columns.objectType} handleCancel={(e)=>this.handleCancel(e)} /> : 
-                                <Add_Form detailPage={this.props.detailPage} objectType={item.Columns.objectType} handleCancel={(e)=>this.handleCancel(e)} key={_.now()} columns_Form={item.Columns.fields}/> 
+                                <Spin spinning={this.props.loadingG || false}>
+                                    <Add_Table dispatch={this.props.dispatch} 
+                                    childColumnsData={item.Columns} 
+                                    ref={dom => (this.AddTable = dom)} 
+                                    detailPage={this.props.detailPage} 
+                                    listPage={this.props.listPage}
+                                    objectType={item.Columns.objectType} 
+                                    handleCancel={(e)=>this.handleCancel(e)} 
+                                    handleTableSubmit={(e,i)=>this.handleTableSubmit(e,i,index)} />  
+                                </Spin> : 
+                                <Add_Form detailPage={this.props.detailPage} 
+                                objectType={item.Columns.objectType} 
+                                handleCancel={(e)=>this.handleCancel(e)} 
+                                key={_.now()} columns_Form={item.Columns.fields}/> 
                             }
                         </div>
                     </Modal>
