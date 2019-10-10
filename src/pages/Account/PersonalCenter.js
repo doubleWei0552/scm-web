@@ -36,31 +36,14 @@ class PersonalCenter extends Component {
     const { login, submitting, homePage } = this.props;
     const { noticeData = [] } = homePage
     const { type, autoLogin } = this.state;
-    console.log('000000000', this.props)
+    console.log(localStorage)
     return (
-      <div>
+      <div style={{borderRadius: '5px',background:'white',padding:'10px',minHeight:'700px'}}>
 
         <h1>个人主页</h1>
-        {/* <div className={styles.content}>
-          <Row gutter={16}>
-            <Col span={12} className={styles.item}>
-              <IframeCard />
-            </Col>
-            <Col span={12} className={styles.item}>
-              <NoticeCard noticeData={noticeData} />
-            </Col>
-            <Col span={12} className={styles.item}>
-              <IframeCard />
-            </Col>
-            <Col span={12} className={styles.item}>
-              <IframeCard />
-            </Col>
-            <Col span={24} className={styles.item}>
-              <IframeCard />
-            </Col>
-          </Row>
-        </div> */}
-
+        <div style={{}}>
+          {/* <h2>欢迎登录-宁波鸿裕工业有限公司供应链系统平台</h2> */}
+        </div>
 
       </div>
     )

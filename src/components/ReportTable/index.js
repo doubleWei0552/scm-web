@@ -8,7 +8,7 @@ import {
   Card,
   Icon,
 } from 'antd';
-
+import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
@@ -36,8 +36,9 @@ class ReportTable extends PureComponent {
       //   height: '100%',
       // }}
       >
+        <CustomerHeader />
         <Card
-          title="报表"
+          title="报表部分"
           extra={<Icon onClick={this.closeReportForm} type="close" />}
           style={{ width: '100%', height: '1000px' }}
           bodyStyle={{ padding: 0 }}
