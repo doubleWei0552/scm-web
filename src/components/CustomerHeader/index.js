@@ -22,9 +22,6 @@ class CustomerHeader extends PureComponent {
   UNSAFE_componentWillReceiveProps(newProps) {
 
   }
-
-
-
   render() {
     const { tableColumns = [], isEdit } = this.props.tableTemplate;
     { this.props.tableTemplate.detailColumns.title }
