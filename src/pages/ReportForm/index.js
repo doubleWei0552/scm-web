@@ -7,7 +7,6 @@ import {
   Card,
   Icon,
 } from 'antd';
-import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 import router from 'umi/router'
 
 @connect(({ tableTemplate, loading }) => ({
@@ -39,7 +38,6 @@ class ReportTable extends PureComponent {
           height: '100%',
         }}
       >
-        <CustomerHeader />
         <Card
           title="报表"
           // extra={<Icon onClick={()=>this.closeReportForm()} type="close" />}

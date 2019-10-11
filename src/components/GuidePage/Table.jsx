@@ -47,7 +47,6 @@ export default class TableModulars extends React.Component{
         showColumns:[], // 当前展示页的子表表头
     }
     UNSAFE_componentWillMount=()=>{
-        console.log('UNSAFE_componentWillMount')
         let sendGuideData = _.get(this.props.guidePage,'sendGuideData')
         let isHaveData = sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP]
         if(isHaveData){
@@ -120,13 +119,18 @@ export default class TableModulars extends React.Component{
             selectedRowKeys.map(items => {
                 selectedRow.map(aa => {
                     if(aa.ID == items){
+                        CacheData.map((bb,gg) => {
+                            if(bb.ID == aa.ID){
+                                CacheData.splice(gg,1)
+                            }
+                        })
                         CacheData.push(aa)
                     }
                 })
             })
+            console.log('CacheData',CacheData)
             sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP] = CacheData
             let isHaveData = _.cloneDeep(sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP])
-            console.log('componentWillReceiveProps',this.state,sendGuideData,isHaveData,CacheData)
             if(isHaveData){
                 let selectedRowKeys = []
                 isHaveData.map(item=>{
@@ -138,8 +142,8 @@ export default class TableModulars extends React.Component{
                 })
             }
             setTimeout(()=>{
-                console.log('数据',this.props.guidePage,nextProps.guidePage,'test')
                 let { sendGuideData } = nextProps.guidePage
+                console.log('sendGuideData',sendGuideData)
                 let params = nextProps.tableButton.BUTTON_GUIDE[nextProps.current]
                 this.props.dispatch({
                     type: 'guidePage/getGuideBean', payload: {
@@ -233,7 +237,6 @@ export default class TableModulars extends React.Component{
                 stateSelectedRow = selectedRow
             }
         })
-        console.log('选择后的数据',selectedRowKeys,selectedRow)
         this.setState({ selectedRowKeys,selectedRow:stateSelectedRow })
     }
     disabledStartDate = (e, value) => {
@@ -380,7 +383,6 @@ export default class TableModulars extends React.Component{
     };
 
     componentWillUnmount=()=>{
-        console.log('componentWillUnmount',this.state.selectedRow,this.state.selectedRowKeys)
         let {isEdit,selectDate} = this.props.tableTemplate
         let relatedFieldGroup = this.props.guidePage.guidePageColumns.relatedFieldGroup
         this.state.selectedRow.map(item=>{
@@ -734,7 +736,7 @@ export default class TableModulars extends React.Component{
                             return <Input
                             type="number"
                             max={text}
-                            style={{ minWidth: '150px',textAlign:'right' }}
+                            style={{ minWidth: '120px',textAlign:'right' }}
                             onChange={(e)=>this.onTableChange(
                                 e.target.value,
                                 item.FIELD_NAME,

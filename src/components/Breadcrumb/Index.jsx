@@ -12,27 +12,6 @@ export default class NewBreadcrumb extends React.Component {
   render() {
     const { isEdit } = this.props.tableTemplate
     return (
-      //新版
-      // <Breadcrumb style={{ height: '35px', lineHeight: '35px' }}>
-      //   {
-      //     _.get(this.props.listPage.tableColumnsData, 'breadCrumbs', []).map((item, index) => {
-      //       if (index == 0) {
-      //         return <Breadcrumb.Item key={index}>
-      //           <Link to="/account/me" key="Home" style={{ marginRight: '5px' }}>
-      //             首页
-      //           </Link>
-      //           / {item}
-      //         </Breadcrumb.Item>
-      //       } else {
-      //           return <Breadcrumb.Item key={index}>
-      //             {item}
-      //           </Breadcrumb.Item>
-      //       }
-      //     })
-      //   }
-      // </Breadcrumb>
-
-    //旧版
       <Breadcrumb style={{ height: '35px', lineHeight: '35px' }}>
       {
         _.get(this.props.tableColumnsData, 'breadCrumbs', []).map((item, index) => {
