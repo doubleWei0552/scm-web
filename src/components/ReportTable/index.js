@@ -7,6 +7,7 @@ import {
   Table,
   Card,
   Icon,
+  Button,
 } from 'antd';
 import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 
@@ -37,9 +38,14 @@ class ReportTable extends PureComponent {
       // }}
       >
         <CustomerHeader />
+        <div style={{margin:'5px 0'}}>
+          <Button onClick={this.closeReportForm}>
+            返回
+          </Button>
+        </div>
         <Card
-          title="报表部分"
-          extra={<Icon onClick={this.closeReportForm} type="close" />}
+          // title="报表部分"
+          // extra={<Icon onClick={this.closeReportForm} type="close" />}
           style={{ width: '100%', height: '1000px' }}
           bodyStyle={{ padding: 0 }}
         >

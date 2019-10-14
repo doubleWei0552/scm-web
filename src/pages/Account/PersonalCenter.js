@@ -23,6 +23,7 @@ class PersonalCenter extends Component {
   state = {
     type: 'account',
     autoLogin: true,
+    
   };
 
   componentDidMount() {
@@ -36,7 +37,6 @@ class PersonalCenter extends Component {
     const { login, submitting, homePage } = this.props;
     const { noticeData = [] } = homePage
     const { type, autoLogin } = this.state;
-    console.log(localStorage)
     return (
       <div style={{borderRadius: '5px',background:'white',padding:'10px',minHeight:'700px'}}>
 

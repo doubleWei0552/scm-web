@@ -7,9 +7,6 @@ import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
 import NewBreadcrumb from '../Breadcrumb/Index'; //面包屑组件
 import styles from './style.less';
 
-
-
-
 @Form.create()
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,

@@ -40,12 +40,13 @@ class ReportTable extends PureComponent {
           //   display: this.props.tableTemplate.reportFormURL ? 'block' : 'none',
           height: '100%',
           padding:'10px',
-          background:'white'
+          background:'white',
+          borderRadius: '5px'
         }}
       >
         <CustomerHeader />
         <Card
-          title="报表"
+          // title="报表"
           // extra={<Icon onClick={()=>this.closeReportForm()} type="close" />}
           style={{ width: '100%', height: '1000px',borderTop:'none' }}
           bodyStyle={{ padding: 0 }}
