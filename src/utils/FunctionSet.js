@@ -10,7 +10,7 @@ export function onRegex(pattern,value){
     }
 }
 
-//获取图片的地址
+//获取图片的地址//集合类型的数据
 export function onGetImageUrl(value){
     if(value.response ? value.response.data.url : value.url){
         if(!(value.response ? value.response.data.url : value.url).includes('http:')){
@@ -22,5 +22,16 @@ export function onGetImageUrl(value){
         } else {
             return value.response ? value.response.data.url : value.url
         }
+    }
+}
+
+//获取图片的地址  //
+export function onGetSingleImageUrl(value){
+    if(value){
+        const { apiUrl: _apiUrl } = window.config;
+        const origin = localStorage.getItem('origin') || '';
+        const apiUrl = process.env.NODE_ENV === 'development' ? _apiUrl : origin;
+        let newUrl = apiUrl.split(':')
+        return `${newUrl[0]}:${newUrl[1]}${value}`
     }
 }

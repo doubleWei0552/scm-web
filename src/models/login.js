@@ -46,6 +46,8 @@ export default {
       localStorage.setItem('mainTitle', result.mainTitle);
       localStorage.setItem('mainLogoImg', result.mainLogoImg);
       localStorage.setItem('helpLink', result.helpLink || '')
+      localStorage.setItem('personalHome', result.personalHome || '')
+      localStorage.setItem('loginBackground', result.loginBackground || '')
     },
 
     *queryRSLogOut({ payload }, { call, put }) {
