@@ -165,7 +165,6 @@ class DetailButtons extends PureComponent {
   // 新增
   detailCreate = () => {
     if(this.props.detailForm){
-      console.log('清空')
       this.props.detailForm.resetFields()
     }
     this.props.dispatch({

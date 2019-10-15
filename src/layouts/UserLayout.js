@@ -9,7 +9,7 @@ import SelectLang from '@/components/SelectLang';
 import styles from './UserLayout.less';
 import logo from '../assets/logo.svg';
 import getPageTitle from '@/utils/getPageTitle';
-import { onGetImageUrl } from "@/utils/FunctionSet";
+import {onGetImageUrl} from '@/utils/FunctionSet';
 
 const links = [
   {
@@ -36,11 +36,18 @@ const copyright = (
 );
 
 class UserLayout extends Component {
+  state={
+    loginBackground:''
+  }
   componentDidMount() {
     const {
       dispatch,
       route: { routes, authority },
     } = this.props;
+    let backgroundImage = localStorage.getItem('loginBackground') ? onGetImageUrl(JSON.parse(localStorage.getItem('loginBackground'))[0]) : ''
+    this.setState({
+      backgroundImage
+    })
     // dispatch({
     //   type: 'menu/getMenuData',
     //   payload: { routes, authority },
@@ -53,6 +60,7 @@ class UserLayout extends Component {
       location: { pathname },
       breadcrumbNameMap,
     } = this.props;
+    let { backgroundImage } = this.state
     let logoImg = JSON.parse(localStorage.getItem('loginLogoImg'))
     if(logoImg){
       let newUrl = onGetImageUrl(logoImg[0])
@@ -64,7 +72,8 @@ class UserLayout extends Component {
         : [];
     return (
       <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
-        <div className={styles.container}>
+        <div style={{backgroundImage: backgroundImage ?  `url(${backgroundImage})` : 'url(https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg)' }} 
+        className={styles.container}>
           {/* <div className={styles.lang}>
             <SelectLang />
           </div> */}
