@@ -31,6 +31,12 @@ class ReportTable extends PureComponent {
       payload: { selectedRowKeys: [] }
     })
   }
+  componentWillReceiveProps = (nextProps) => {
+    let pageId = nextProps.location.query.PageId*1
+    if(this.props.location.query.PageId != nextProps.location.query.PageId){
+      this.props.dispatch({ type: 'tableTemplate/getReportForm',payload:{pageId}});
+    }
+  }
 
   render() {
     let url = _.get(this.props.tableTemplate, 'reportFormURLPage')
