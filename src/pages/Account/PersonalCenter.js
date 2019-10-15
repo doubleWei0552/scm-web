@@ -43,6 +43,7 @@ class PersonalCenter extends Component {
         <h1>个人主页</h1>
         <div style={{}}>
           {/* <h2>欢迎登录-宁波鸿裕工业有限公司供应链系统平台</h2> */}
+          {/* <img style={{width:'100%'}} src="background.jpeg" alt='error'/> */}
         </div>
 
       </div>
