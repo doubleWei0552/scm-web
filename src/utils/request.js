@@ -84,15 +84,39 @@ export default function request(url, options) {
 
 const checkStatus = response => {
   if (response.status === 403) {
-    router.push('/ErrorPage/403');
+    let url = response.url
+    if(url.str.indexOf("/rs/login") != -1){
+      notification.error({
+        message: `登陆接口报错，请重试！`,
+        description: errortext,
+      });
+    } else {
+      router.push('/ErrorPage/403');
+    }
     return false;
   }
   if (response.status === 404) {
-    router.push('/ErrorPage/404');
+    let url = response.url
+    if(url.str.indexOf("/rs/login") != -1){
+      notification.error({
+        message: `登陆接口报错，请重试！`,
+        description: errortext,
+      });
+    } else {
+      router.push('/ErrorPage/404');
+    }
     return false;
   }
   if (response.status === 500) {
-    router.push('/ErrorPage/500');
+    let url = response.url
+    if(url.str.indexOf("/rs/login") != -1){
+      notification.error({
+        message: `登陆接口报错，请重试！`,
+        description: errortext,
+      });
+    } else {
+      router.push('/ErrorPage/500');
+    }
     return false;
   }
   if (response.status === 401) {
