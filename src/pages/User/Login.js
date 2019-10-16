@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
-import { Checkbox, Alert, Icon } from 'antd';
+import { Checkbox, Alert, Icon,notification } from 'antd';
 import Login from '@/components/Login';
 import styles from './Login.less';
 
@@ -25,6 +25,12 @@ class LoginPage extends Component {
 
   componentDidMount = () => {
     this.changeSetting();
+    let status = _.get(this.props.location,'query.status','')
+    if(status == '401'){
+      notification.error({
+        message: `登陆信息已失效，请重新登陆`,
+      });
+    }
   };
 
   onTabChange = type => {

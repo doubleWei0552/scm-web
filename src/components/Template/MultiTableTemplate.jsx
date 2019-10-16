@@ -84,19 +84,14 @@ export default class MultiTableTemplate extends React.Component {
   };
   UNSAFE_componentWillMount = () => {
     const pageId = this.props.location.query.PageId*1;
-    if(pageId){
-      this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId } });
-      this.props.dispatch({
-        type: 'tableTemplate/getPagination',
-        payload: { pageId, current: 1, pageSize: 10 },
-      });
-    }
+    this.props.dispatch({ type: 'tableTemplate/save', payload: { pageId } });
+    this.props.dispatch({
+      type: 'tableTemplate/getPagination',
+      payload: { pageId, current: 1, pageSize: 10 },
+    });
   };
   componentDidMount = () => {
-    const pageId = this.props.location.query.PageId*1;
-    if(pageId){
-      this.props.dispatch({ type: 'tableTemplate/getDetailPageConfig' });
-    }
+    this.props.dispatch({ type: 'tableTemplate/getDetailPageConfig' });
     this.props.dispatch({ type: 'tableTemplate/getSummaryPageConfig' });
   };
   UNSAFE_componentWillReceiveProps = newProps => {

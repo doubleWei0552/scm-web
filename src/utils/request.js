@@ -97,10 +97,10 @@ const checkStatus = response => {
     return false;
   }
   if (response.status === 401) {
-    notification.error({
-      message: `登陆信息已失效，请重新登陆`,
-    });
-    router.push('/user/login');
+    // notification.error({
+    //   message: `登陆信息已失效，请重新登陆`,
+    // });
+    router.push({pathname:'/user/login',query:{status:401}});
     return false;
   }
   if (response.status >= 200 && response.status < 300) {

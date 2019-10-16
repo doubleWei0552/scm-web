@@ -42,6 +42,7 @@ export default class TableModulars extends React.Component{
         page:1, //表格所在的第几页
         pageSize: 10, //表格每页展示多少行
         FieldsValue:{}, //记录搜索条件
+        formData:{}, //处理后的搜索条件
         autoCheck:false, //是否增加修改数据默认选择
         data:_.get(this.props.guidePage.guidePageData,'list',[]), //表格数据
         showColumns:[], // 当前展示页的子表表头
@@ -128,7 +129,6 @@ export default class TableModulars extends React.Component{
                     }
                 })
             })
-            console.log('CacheData',CacheData)
             sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP] = CacheData
             let isHaveData = _.cloneDeep(sendGuideData[this.props.tableButton.BUTTON_GUIDE[this.props.current].RELATED_FIELD_GROUP])
             if(isHaveData){
@@ -214,10 +214,11 @@ export default class TableModulars extends React.Component{
 
     onPageChange = (page, pageSize) => {
         let current = page;
+        let { formData } = this.state
         let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
         this.props.dispatch({
           type: 'guidePage/getButtonGuideData',
-          payload: { pageNum:current, pageSize,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
+          payload: { pageNum:current,searchData:formData, pageSize,params,id:this.props.tableTemplate.isEdit ? this.props.tableTemplate.detailData.thisComponentUid : null },
         });
         this.setState({
             page,
@@ -368,6 +369,10 @@ export default class TableModulars extends React.Component{
             } 
         }
         let params = this.props.tableButton.BUTTON_GUIDE[this.props.current]
+        console.log('搜索参数',formData)
+        this.setState({
+            formData
+        })
         let {page,pageSize} = this.state
         this.props.dispatch({
             type: 'guidePage/getButtonGuideData',
