@@ -100,7 +100,9 @@ class UserLayout extends Component {
               </div>
               {children}
             </div>
-            <GlobalFooter links={links} copyright={copyright} />
+            <GlobalFooter 
+            // links={links} 
+            copyright={copyright} />
           </div>
         </DocumentTitle>
     );

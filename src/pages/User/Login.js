@@ -113,7 +113,7 @@ class LoginPage extends Component {
             /> */}
             <UserName
               name="userName"
-              placeholder={`${formatMessage({ id: 'app.login.userName' })}`}
+              placeholder={'用户名、手机号码或邮箱账号'}
               rules={[
                 {
                   required: true,
@@ -140,9 +140,9 @@ class LoginPage extends Component {
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
               <FormattedMessage id="app.login.remember-me" />
             </Checkbox>
-            <a style={{ float: 'right' }} href="">
+            {/* <a style={{ float: 'right' }} href="">
               <FormattedMessage id="app.login.forgot-password" />
-            </a>
+            </a> */}
           </div>
           <Submit loading={submitting}>
             <FormattedMessage id="app.login.login" />
