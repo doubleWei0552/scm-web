@@ -9,6 +9,14 @@ class HyDeliveryOrderService {
     });
   }
 
+  // /delivery/newMerge/savePurchaseDsTodeliverAndPurchaseDemand
+  async confirmSelect(params) {
+    return request('/delivery/newMerge/savePurchaseDsTodeliverAndPurchaseDemand', {
+      method: 'POST',
+      body: params,
+    });
+  }
+
   // async saveShipmentOrder(params) {
   //   return request('/ShipMent/SaveShipmentOrder', {
   //     method: 'POST',

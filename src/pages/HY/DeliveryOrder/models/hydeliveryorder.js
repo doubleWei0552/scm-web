@@ -12,8 +12,9 @@ export default {
     *getModalList({ payload, callback }, { call, put }) {
       const response = yield call(HyDeliveryOrderService.getModalList, payload);
       console.log('response', response);
-      if (response.length) {
-        callback && callback(response);
+      if (response.status === 'success') {
+        const { data } = response
+        callback && callback(data);
         yield put({
           type: 'save',
           payload: {
@@ -31,6 +32,14 @@ export default {
         });
       }
     },
+    *confirmSelect({ payload, callback }, { call, put }) {
+      const response = yield call(HyDeliveryOrderService.confirmSelect, payload);
+      if (response.status === 'success') {
+        callback && callback(response)
+      } else {
+
+      }
+    }
   },
 
   reducers: {

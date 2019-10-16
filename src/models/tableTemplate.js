@@ -98,24 +98,6 @@ export default {
         payload,
       });
     },
-    // 从菜单打开的报表获取面包屑数据
-    *getReportForm({ payload, callback }, { put, call, select }) {
-      const pageId = payload.pageId
-      const params = { pageId };
-      const result = yield call(querySummaryPageConfig, params);
-      if (result.status == 'success') {
-        yield put({
-          type: 'save',
-          payload: {
-            tableColumns: result.data.columns,
-            currentKey: result.data.key,
-            tableColumnsData: result.data,
-          },
-        });
-      } else {
-        notification.error({ message: result.message, duration: 3 });
-      }
-    },
     // 获取列表页表头数据
     *getSummaryPageConfig({ payload, callback }, { put, call, select }) {
       const pageId = yield select(({ tableTemplate }) => tableTemplate.pageId);

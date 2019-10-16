@@ -25,7 +25,7 @@ import NewBreadcrumb from '@/components/Breadcrumb'; //面包屑组件
 import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 import DetailPage from '@/components/DetailPage/Index'; // 主表详情组件
 import ChildTable from '@/components/HY/DeliveryChildTable/Index'; //子表组件
-import Detailbuttons from '@/components/DetailButtons'; // 详情页头部的按钮栏
+import Detailbuttons from '@/components/HY/DeliveryDetailButtons'; // 详情页头部的按钮栏
 import SkeletonCom from '@/components/Skeleton';
 import { connect } from 'dva';
 import styles from './Index.less';
@@ -134,7 +134,7 @@ export default class DetailsPageModule extends React.Component {
                 }}
               >
                 <div style={{ marginTop: '5px' }}>
-                  <ChildTable getMasterTable={value => this.getMasterTable(value)} />
+                  <ChildTable getMasterTable={value => this.getMasterTable(value)} detailForm={this.DetailPage} />
                 </div>
               </Card>
               {/* </Spin> */}

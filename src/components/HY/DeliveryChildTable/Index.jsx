@@ -62,7 +62,7 @@ export default class ChildTable extends React.Component {
     }
   };
 
-  popconfirmCancel = e => {};
+  popconfirmCancel = e => { };
 
   // // table排序方法  //暂定，根据后端的传参来调用
   // handleChange = (pagination, filters, sorter) => {
@@ -90,35 +90,42 @@ export default class ChildTable extends React.Component {
     let deleteKey = record.key;
     if (record.id) {
       //判断删除元数据还是缓存数据
-      _.remove(this.ChildData, function(n) {
+      _.remove(this.ChildData, function (n) {
         return n.key != deleteKey;
       });
     } else {
-      _.remove(this.props.tableTemplate.ChildData[index].Data.records, function(n, index) {
+      _.remove(this.props.tableTemplate.ChildData[index].Data.records, function (n, index) {
         return index == deleteIndex;
       });
       this.props.dispatch({ type: 'tableTemplate/save' }); //删除缓存数据，刷新页面
     }
   };
 
-  handleAddChild = () => {
+  handleAddChild = () => {//CODE
+    const DELIVERY_CODE = this.props.detailForm ? this.props.detailForm.getFieldValue('CODE') : null
+    const SUPPLIER_ID = this.props.detailForm ? this.props.detailForm.getFieldValue('SUPPLIER_ID') : null
+    console.log('ssssssss', SUPPLIER_ID)
     const div = document.createElement('div');
     document.body.appendChild(div);
     ReactDOM.render(
       <DeliveryModal
         store={window.g_app._store}
-        title="修改密码"
+        title="送货详情"
+        SUPPLIER_ID={SUPPLIER_ID}
+        DELIVERY_CODE={DELIVERY_CODE}
         handleOk={data => this.handleChildListAdd(data)}
       />,
       div
     );
   };
 
+  // 这里需要重新加载详情页
   handleChildListAdd = data => {
-    const { childList } = this.state;
-    this.setState({
-      childList: _.concat(childList, data),
-    });
+    // const { childList } = this.state;
+    // this.setState({
+    //   childList: _.concat(childList, data),
+    // });
+    // window.location.reload();
   };
 
   render() {
@@ -146,23 +153,23 @@ export default class ChildTable extends React.Component {
       },
       {
         title: '产品编码',
-        dataIndex: '',
+        dataIndex: 'PRODUCT_CODE',
       },
       {
         title: '产品名称',
-        dataIndex: '',
+        dataIndex: 'PRODUCT_NAME',
       },
       {
         title: '规格',
-        dataIndex: '',
+        dataIndex: 'SPECIFICATIONS',
       },
       {
         title: '单位',
-        dataIndex: '',
+        dataIndex: 'UNIT_CODE',
       },
       {
         title: '送货量',
-        dataIndex: '',
+        dataIndex: 'UNMATCHQUANTITY',
       },
       {
         title: '收货量',
@@ -227,6 +234,7 @@ export default class ChildTable extends React.Component {
             columns={columns}
             dataSource={childList}
             bordered
+            size="small"
             scroll={{ x: true }}
             // title={() => 'Header'}
             // footer={() => 'Footer'}

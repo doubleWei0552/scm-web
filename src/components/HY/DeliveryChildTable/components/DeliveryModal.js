@@ -67,7 +67,7 @@ class DeliveryModal extends Component {
   };
 
   handleSearch = e => {
-    const { dispatch } = this.props;
+    const { dispatch, SUPPLIER_ID } = this.props;
     console.log('modal', this.props);
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -78,8 +78,8 @@ class DeliveryModal extends Component {
       };
       const { MATERIAL_CODE, QUANTITY, SPEC } = values;
       const data = _.get(values, 'DEMAND_DATE[0]')
-        ? _.assign({}, { MATERIAL_CODE, QUANTITY, SPEC, DEMAND_DATE })
-        : _.assign({}, { MATERIAL_CODE, QUANTITY, SPEC });
+        ? _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, SPEC, DEMAND_DATE })
+        : _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, SPEC });
       dispatch({
         type: 'hydeliveryorder/getModalList',
         payload: data,
@@ -105,19 +105,25 @@ class DeliveryModal extends Component {
     });
   };
 
-  handleSubmit = () => {
+  confirmSelect = () => {
+    const { dispatch, SUPPLIER_ID, DELIVERY_CODE } = this.props;
     const { selectDatas } = this.state;
-    this.setState(
-      {
-        visible: false,
+    dispatch({
+      type: 'hydeliveryorder/confirmSelect',
+      payload: { list: selectDatas, SUPPLIER_ID, DELIVERY_CODE },
+      callback: response => {
+        if (response.status === 'success') {
+          this.setState({
+            visible: false,
+          }, () => this.props.handleOk());
+        }
       },
-      () => this.props.handleOk(selectDatas)
-    );
-  };
+    })
+  }
 
   render() {
     const { title, form, loading, hydeliveryorder } = this.props;
-    const { dataList } = this.state;
+    const { dataList, selectDatas } = this.state;
     const { modalDeliveryOrderList } = hydeliveryorder;
     const { getFieldDecorator } = form;
     console.log('ssssss', dataList);
@@ -194,10 +200,17 @@ class DeliveryModal extends Component {
           title={title}
           destroyOnClose
           visible={this.state.visible}
-          onOk={this.handleSubmit}
           onCancel={this.hideModelHandler}
           className="deliveryModal"
           width={1200}
+          footer={[
+            <Button key="back" onClick={this.hideModelHandler}>
+              关闭
+            </Button>,
+            <Button disabled={!selectDatas.length} key="submit" type="primary" loading={loading} onClick={this.confirmSelect}>
+              确定
+            </Button>,
+          ]}
         >
           <div>
             <div style={{ padding: '10px' }}>
