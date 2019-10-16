@@ -8,8 +8,8 @@ import moment from 'moment'
 import Data from './Data'
 import IframeCard from '@/components/IframeCard'
 import NoticeCard from '@/components/NoticeCard'
+import {onGetImageUrl} from '@/utils/FunctionSet';
 import styles from './style.less'
-
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
@@ -23,44 +23,35 @@ class PersonalCenter extends Component {
   state = {
     type: 'account',
     autoLogin: true,
+    url:'', //首页展示的图片
   };
 
   componentDidMount() {
+    const personalHome = localStorage.getItem('personalHome') ? JSON.parse(localStorage.getItem('personalHome')) : '';
     this.props.dispatch({
       type: 'homePage/queryNoticeList',
       payload: {},
     })
+    if(personalHome[0]){
+      let url = onGetImageUrl(personalHome[0])
+        this.setState({
+          url
+      })
+    }
+    
   }
 
   render() {
     const { login, submitting, homePage } = this.props;
     const { noticeData = [] } = homePage
-    const { type, autoLogin } = this.state;
-    console.log('000000000', this.props)
+    const { type, autoLogin,url } = this.state;
     return (
-      <div>
+      <div style={{borderRadius: '5px',background:'white',padding:'10px',minHeight:'700px'}}>
 
         <h1>个人主页</h1>
-        {/* <div className={styles.content}>
-          <Row gutter={16}>
-            <Col span={12} className={styles.item}>
-              <IframeCard />
-            </Col>
-            <Col span={12} className={styles.item}>
-              <NoticeCard noticeData={noticeData} />
-            </Col>
-            <Col span={12} className={styles.item}>
-              <IframeCard />
-            </Col>
-            <Col span={12} className={styles.item}>
-              <IframeCard />
-            </Col>
-            <Col span={24} className={styles.item}>
-              <IframeCard />
-            </Col>
-          </Row>
-        </div> */}
-
+        <div style={{display:localStorage.getItem('personalHome') ? 'block' : 'none'}}>
+          <img style={{width:'100%'}} src={url ? url : ''} alt='error'/>
+        </div>
 
       </div>
     )

@@ -90,13 +90,13 @@ export default class NewGuidePage extends React.Component {
           }
         })
       }))
-      console.log('index筛选的数据',selectedRow,selectedRowKeys)
       if(selectedRow.length){
         let message = {}
+        let dataIndex 
         if (req) {
           let columns = this.childTable.state.showColumns.policyFormFields
           columns.map(jj => {
-            req.map(gg => {
+            req.map((gg,kk) => {
               if (jj.FIELD_NAME == gg) {
                 message[jj.FIELD_NAME] = jj.LABEL
               }
@@ -105,11 +105,13 @@ export default class NewGuidePage extends React.Component {
         }
         let isContinue = true
         let messageInfo
+        
         selectedRow.map(item => {
-          req.map(ii => {
+          req.map((ii,gg) => {
             if (!item[ii]) {
               isContinue = false
               messageInfo = ii
+              dataIndex = item.ROWNO
             }
           })
         })
@@ -117,7 +119,7 @@ export default class NewGuidePage extends React.Component {
           const current = this.state.current + 1;
           this.setState({ current });
         } else {
-          notification.warning({ message: `${message[messageInfo]}不能为空！`, duration: 3 });
+          notification.warning({ message: `第${dataIndex}项${message[messageInfo]}不能为空！`, duration: 3 });
         }
       }
     }
@@ -314,7 +316,7 @@ export default class NewGuidePage extends React.Component {
     return (
       <Modal
         footer={null}
-        width="80%"
+        width="95%"
         maskClosable={false}
         closable={false}
         centered={true}

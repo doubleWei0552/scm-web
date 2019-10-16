@@ -31,7 +31,6 @@ export default class Editor extends React.Component {
   }
 
   onSaveData = (editorState) =>{
-    console.log('失去焦点',editorState)
     this.props.onRichText(editorState.toHTML())
   }
 

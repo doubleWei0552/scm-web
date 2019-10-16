@@ -7,9 +7,6 @@ import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
 import NewBreadcrumb from '../Breadcrumb/Index'; //面包屑组件
 import styles from './style.less';
 
-
-
-
 @Form.create()
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
@@ -22,9 +19,6 @@ class CustomerHeader extends PureComponent {
   UNSAFE_componentWillReceiveProps(newProps) {
 
   }
-
-
-
   render() {
     const { tableColumns = [], isEdit } = this.props.tableTemplate;
     { this.props.tableTemplate.detailColumns.title }

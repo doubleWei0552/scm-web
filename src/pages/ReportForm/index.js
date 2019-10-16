@@ -8,6 +8,7 @@ import {
   Icon,
 } from 'antd';
 import router from 'umi/router'
+import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
@@ -23,10 +24,18 @@ class ReportTable extends PureComponent {
     // router.goBack()
   };
   componentDidMount = () => {
+    let pageId = this.props.location.query.PageId*1
+    this.props.dispatch({ type: 'tableTemplate/getReportForm',payload:{pageId}});
     this.props.dispatch({
       type: 'tableTemplate/save',
       payload: { selectedRowKeys: [] }
     })
+  }
+  componentWillReceiveProps = (nextProps) => {
+    let pageId = nextProps.location.query.PageId*1
+    if(this.props.location.query.PageId != nextProps.location.query.PageId){
+      this.props.dispatch({ type: 'tableTemplate/getReportForm',payload:{pageId}});
+    }
   }
 
   render() {
@@ -36,12 +45,16 @@ class ReportTable extends PureComponent {
         style={{
           //   display: this.props.tableTemplate.reportFormURL ? 'block' : 'none',
           height: '100%',
+          padding:'10px',
+          background:'white',
+          borderRadius: '5px'
         }}
       >
+        <CustomerHeader />
         <Card
-          title="报表"
+          // title="报表"
           // extra={<Icon onClick={()=>this.closeReportForm()} type="close" />}
-          style={{ width: '100%', height: '1000px' }}
+          style={{ width: '100%', height: '1000px',borderTop:'none' }}
           bodyStyle={{ padding: 0 }}
         >
           <iframe

@@ -43,7 +43,7 @@ export default class ImageUpload extends React.Component {
   };
 
   beforeUpload=(file)=> {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/png' || file.type === 'image/icon';
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/png' || file.type === 'image/icon' || file.type === 'image/svg+xml';
     if (!isJpgOrPng) {
       message.error('只能上传图片格式文件!');
     }
