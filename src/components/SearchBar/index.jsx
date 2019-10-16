@@ -4,8 +4,6 @@ import moment from 'moment';
 import _ from 'lodash';
 import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
 
-
-
 @Form.create()
 @connect(({ tableTemplate, listPage, loading }) => ({
   tableTemplate,
@@ -21,7 +19,6 @@ class SearchBar extends React.Component {
   };
 
   componentDidMount() {
-    //旧版
     const { tableColumns = [], currentKey } = this.props.tableTemplate;
     const searchItems = _.filter(tableColumns, item => item.filterable === true);
     _.map(searchItems, item => {
@@ -34,23 +31,7 @@ class SearchBar extends React.Component {
         this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
       }
     });
-
-    //新版
-    // const { tableColumns = [], currentKey } = this.props.listPage;
-    // const searchItems = _.filter(tableColumns, item => item.filterable === true);
-    // _.map(searchItems, item => {
-    //   if (
-    //     item.widgetType === 'Select' ||
-    //     item.widgetType === 'Reference' ||
-    //     item.widgetType === 'ObjectSelector' || 
-    //     item.widgetType === 'TreeSelector'
-    //   ) {
-    //     this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
-    //   }
-    // });
   }
-
-
 
   componentWillReceiveProps(newProps) {
     //旧版
@@ -68,31 +49,15 @@ class SearchBar extends React.Component {
         }
       });
     }
-
-    //新版
-    // if (newProps.listPage.tableColumns !== this.props.listPage.tableColumns) {
-    //   const { tableColumns = [], currentKey } = newProps.listPage;
-    //   const searchItems = _.filter(tableColumns, item => item.filterable === true);
-    //   _.map(searchItems, item => {
-    //     if (
-    //       item.widgetType === 'Select' ||
-    //       item.widgetType === 'Reference' ||
-    //       item.widgetType === 'ObjectSelector' || 
-    //       item.widgetType === 'TreeSelector'
-    //     ) {
-    //       this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
-    //     }
-    //   });
-    // }
   }
 
   shouldComponentUpdate(newProps, newState) {
-    return true
+    return true;
   }
 
   // 获取搜索栏Options
   getSearchBarOptions = e => {
-    const { SearchOptions } = this.state
+    const { SearchOptions } = this.state;
     //旧版
     let options = [];
     this.props.dispatch({
@@ -103,8 +68,8 @@ class SearchBar extends React.Component {
           options = response.data.options;
           SearchOptions[response.data.field] = response.data.options;
           this.setState({
-            SearchOptions
-          })
+            SearchOptions,
+          });
         }
       },
     });
@@ -273,12 +238,12 @@ class SearchBar extends React.Component {
                           display: expand
                             ? 'flex'
                             : dateIdx === 0
-                              ? index + 1 < count
-                                ? ''
-                                : 'none'
-                              : index < count
-                                ? ''
-                                : 'none',
+                            ? index + 1 < count
+                              ? ''
+                              : 'none'
+                            : index < count
+                            ? ''
+                            : 'none',
                         }}
                         key={value.dataIndex}
                       >
@@ -291,25 +256,29 @@ class SearchBar extends React.Component {
                             allowClear={true}
                             showSearch={value.widgetType !== 'Select' ? true : false}
                             style={{ width: '195px', textOverflow: 'ellipsis' }}
-                            onSearch={(e) => { this.getSearchBarOptions({ key: currentKey, text: value.dataIndex, FIELD_VALUE: e }) }}
+                            onSearch={e => {
+                              this.getSearchBarOptions({
+                                key: currentKey,
+                                text: value.dataIndex,
+                                FIELD_VALUE: e,
+                              });
+                            }}
                             // filterOption={(inputValue, option) =>
                             //   _.includes(option.props.children, inputValue)
                             // }
                             filterOption={false}
-                          // suffixIcon={
-                          //   value.widgetType !== 'Select' && <Icon type="search" />
-                          // }
-                          // onFocus={this.selectClick.bind(this, {
-                          //   text: value.dataIndex,
-                          //   key: currentKey,
-                          //   value: null,
-                          // })}
+                            // suffixIcon={
+                            //   value.widgetType !== 'Select' && <Icon type="search" />
+                            // }
+                            // onFocus={this.selectClick.bind(this, {
+                            //   text: value.dataIndex,
+                            //   key: currentKey,
+                            //   value: null,
+                            // })}
                           >
-
-                            {
-                              SearchOptions[value.dataIndex] &&
-                                SearchOptions[value.dataIndex].length > 0
-                                ? _.map(SearchOptions[value.dataIndex], (item, index) => {
+                            {SearchOptions[value.dataIndex] &&
+                            SearchOptions[value.dataIndex].length > 0
+                              ? _.map(SearchOptions[value.dataIndex], (item, index) => {
                                   return (
                                     <Select.Option
                                       title={item.text}
@@ -320,8 +289,7 @@ class SearchBar extends React.Component {
                                     </Select.Option>
                                   );
                                 })
-                                : null
-                            }
+                              : null}
                           </Select>
                         )}
                       </Form.Item>
@@ -394,8 +362,8 @@ class SearchBar extends React.Component {
                                     this.onEndChange(e, kk);
                                   }}
                                   disabledDate={e => this.disabledEndDate(e, kk)}
-                                // value={this.state[`${kk.FIELD_NAME}-end`]}
-                                // onChange={(e)=>this.onEndChange(e,kk)}
+                                  // value={this.state[`${kk.FIELD_NAME}-end`]}
+                                  // onChange={(e)=>this.onEndChange(e,kk)}
                                 />
                               )}
                             </Form.Item>
@@ -442,12 +410,12 @@ class SearchBar extends React.Component {
                           display: expand
                             ? 'flex'
                             : dateIdx === 0
-                              ? index + 1 < count
-                                ? ''
-                                : 'none'
-                              : index < count
-                                ? ''
-                                : 'none',
+                            ? index + 1 < count
+                              ? ''
+                              : 'none'
+                            : index < count
+                            ? ''
+                            : 'none',
                         }}
                       >
                         {getFieldDecorator(`${value.dataIndex}`, {
@@ -473,12 +441,12 @@ class SearchBar extends React.Component {
                           display: expand
                             ? 'flex'
                             : dateIdx === 0
-                              ? index + 1 < count
-                                ? ''
-                                : 'none'
-                              : index < count
-                                ? ''
-                                : 'none',
+                            ? index + 1 < count
+                              ? ''
+                              : 'none'
+                            : index < count
+                            ? ''
+                            : 'none',
                         }}
                       >
                         {getFieldDecorator(`${value.dataIndex}`, {
@@ -525,7 +493,9 @@ class SearchBar extends React.Component {
                             ? 'not-allowed'
                             : 'pointer',
                       }}
-                      onClick={() => { this.toggle() }}
+                      onClick={() => {
+                        this.toggle();
+                      }}
                     >
                       <Icon type={this.state.expand ? 'up' : 'down'} />
                     </a>
@@ -535,7 +505,7 @@ class SearchBar extends React.Component {
             )}
           </Form>
         </Row>
-      </div >
+      </div>
     );
   }
 }

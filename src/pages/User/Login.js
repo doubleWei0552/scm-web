@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
-import { Checkbox, Alert, Icon } from 'antd';
+import { Checkbox, Alert, Icon, notification } from 'antd';
 import Login from '@/components/Login';
 import styles from './Login.less';
 
@@ -25,6 +25,12 @@ class LoginPage extends Component {
 
   componentDidMount = () => {
     this.changeSetting();
+    let status = _.get(this.props.location, 'query.status', '');
+    if (status == '401') {
+      notification.error({
+        message: `登陆信息已失效，请重新登陆`,
+      });
+    }
   };
 
   onTabChange = type => {
@@ -113,7 +119,7 @@ class LoginPage extends Component {
             /> */}
             <UserName
               name="userName"
-              placeholder={`${formatMessage({ id: 'app.login.userName' })}`}
+              placeholder={'用户名、手机号码或邮箱账号'}
               rules={[
                 {
                   required: true,
@@ -140,9 +146,9 @@ class LoginPage extends Component {
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
               <FormattedMessage id="app.login.remember-me" />
             </Checkbox>
-            <a style={{ float: 'right' }} href="">
+            {/* <a style={{ float: 'right' }} href="">
               <FormattedMessage id="app.login.forgot-password" />
-            </a>
+            </a> */}
           </div>
           <Submit loading={submitting}>
             <FormattedMessage id="app.login.login" />
