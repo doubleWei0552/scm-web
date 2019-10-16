@@ -71,38 +71,38 @@ class UserLayout extends Component {
         ? logoImg
         : [];
     return (
-      <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
-        <div style={{backgroundImage: backgroundImage ?  `url(${backgroundImage})` : 'url(https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg)' }} 
-        className={styles.container}>
-          {/* <div className={styles.lang}>
-            <SelectLang />
-          </div> */}
-          <div className={styles.content}>
-            <div className={styles.top}>
-              <div className={styles.header}>
-                {/* <Link to="/"> */}
-                {/* <img alt="logo" className={styles.logo} src="./logo.png" />
-                <span className={styles.title}>精诚供应链系统</span> */}
-                <img
-                  alt="logo"
-                  className={styles.logo}
-                  src={loginLogo.length > 0 ? loginLogo[0].url : ''}
-                />
-                <span className={styles.title}>
-                  {localStorage.getItem('loginMainTitle') && localStorage.getItem('loginMainTitle') !== 'undefined'
-                    ? localStorage.getItem('loginMainTitle')
-                    : ''}
-                </span>
-                {/* </Link> */}
+        <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
+          <div style={{backgroundImage: backgroundImage ?  `url(${backgroundImage})` : 'url(https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg)' }} 
+          className={styles.container}>
+            {/* <div className={styles.lang}>
+              <SelectLang />
+            </div> */}
+            <div className={styles.content}>
+              <div className={styles.top}>
+                <div className={styles.header}>
+                  {/* <Link to="/"> */}
+                  {/* <img alt="logo" className={styles.logo} src="./logo.png" />
+                  <span className={styles.title}>精诚供应链系统</span> */}
+                  <img
+                    alt="logo"
+                    className={styles.logo}
+                    src={loginLogo.length > 0 ? loginLogo[0].url : ''}
+                  />
+                  <span className={styles.title}>
+                    {localStorage.getItem('loginMainTitle') && localStorage.getItem('loginMainTitle') !== 'undefined'
+                      ? localStorage.getItem('loginMainTitle')
+                      : ''}
+                  </span>
+                  {/* </Link> */}
+                </div>
+                {/* <div className={styles.desc}>上海市最具影响力的 Web 设计规范</div> */}
+                <div style={{ height: '4rem' }} />
               </div>
-              {/* <div className={styles.desc}>上海市最具影响力的 Web 设计规范</div> */}
-              <div style={{ height: '4rem' }} />
+              {children}
             </div>
-            {children}
+            <GlobalFooter links={links} copyright={copyright} />
           </div>
-          <GlobalFooter links={links} copyright={copyright} />
-        </div>
-      </DocumentTitle>
+        </DocumentTitle>
     );
   }
 }
