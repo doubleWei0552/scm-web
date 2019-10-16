@@ -8,7 +8,7 @@ import { urlToList } from '../_utils/pathTools';
 import { getMenuMatches } from './SiderMenuUtils';
 import { isUrl } from '@/utils/utils';
 import styles from './index.less';
-import moment from 'moment'
+import moment from 'moment';
 import IconFont from '@/components/IconFont';
 
 const { SubMenu } = Menu;
@@ -34,7 +34,6 @@ const getIcon = icon => {
   tableTemplate,
   loadingG: loading.models.tableTemplate,
 }))
-
 export default class BaseMenu extends PureComponent {
   state = {
     selectedKey: this.props.location.pathname, // 选中路径
@@ -50,30 +49,30 @@ export default class BaseMenu extends PureComponent {
   UNSAFE_componentWillReceiveProps(newProps) {
     const { location } = newProps;
     const { pathname = '', search = '' } = location;
-    if (pathname.includes('/ErrorPage')) return //去除错误页的情况
-    const index = pathname.lastIndexOf("\/list") || pathname.lastIndexOf("\/detail");
+    if (pathname.includes('/ErrorPage')) return; //去除错误页的情况
+    const index = pathname.lastIndexOf('/list') || pathname.lastIndexOf('/detail');
     const path = index > 0 ? pathname.substring(0, index) : pathname;
     this.setState({
       current: path,
     });
     if (this.props.menuData != newProps.menuData) {
-      let id = this.props.location.pathname.split('/')[1] * 1
-      let pageId = this.props.location.query.PageId * 1
+      let id = this.props.location.pathname.split('/')[1] * 1;
+      let pageId = this.props.location.query.PageId * 1;
       newProps.menuData.map(item => {
         if (item.id == id) {
           item.children.map(ii => {
             if (ii.pageId == pageId) {
-              let newReportUrl = ii.reportUrl + `&userid=${localStorage.getItem('loginData')}`
+              let newReportUrl = ii.reportUrl + `&userid=${localStorage.getItem('loginData')}`;
               this.props.dispatch({
                 type: 'tableTemplate/save',
                 payload: {
-                  reportFormURLPage: newReportUrl
-                }
-              })
+                  reportFormURLPage: newReportUrl,
+                },
+              });
             }
-          })
+          });
         }
-      })
+      });
     }
   }
 
@@ -84,7 +83,7 @@ export default class BaseMenu extends PureComponent {
     return menusData
       .filter(item => item.name && !item.hideInMenu)
       .map(item => this.getSubMenuOrItem(item))
-      .filter(item => item)
+      .filter(item => item);
   };
 
   // Get the currently selected menu
@@ -97,16 +96,16 @@ export default class BaseMenu extends PureComponent {
    * get SubMenu or Item
    */
   getSubMenuOrItem = item => {
-    const { loadingG = false } = this.props
+    const { loadingG = false } = this.props;
     // doc: add hideChildrenInMenu
     const { name, path } = item;
-    const index = path ? path.indexOf("\?") : 0;
+    const index = path ? path.indexOf('?') : 0;
     const keyPath = index > 0 ? path.substring(0, index) : path;
 
     if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
       const { collapsed, loadingG = false } = this.props;
-      // const index = path.lastIndexOf("\/list") || path.lastIndexOf("\/detail");
-      // const keyPath = index > 0 ? path.substring(0, index) : path;
+      const index = path.lastIndexOf('/list') || path.lastIndexOf('/detail');
+      const keyPath = index > 0 ? path.substring(0, index) : path;
       return (
         <SubMenu
           title={
@@ -119,15 +118,21 @@ export default class BaseMenu extends PureComponent {
                 /> */}
                 <i
                   className={`iconfont icon-${item.menuIcon}`}
-                  style={{ fontSize: '1.0rem', marginRight: '10px', fontWeight: 'bold', color: `${localStorage.getItem('primaryColor')}`, opacity: 0.5 }}
+                  style={{
+                    fontSize: '1.0rem',
+                    marginRight: '10px',
+                    fontWeight: 'bold',
+                    color: `${localStorage.getItem('primaryColor')}`,
+                    opacity: 0.5,
+                  }}
                 ></i>
                 {!collapsed && <span>{name}</span>}
 
                 {/* <Icon type="setting" /> */}
               </span>
             ) : (
-                name
-              )
+              name
+            )
           }
           key={keyPath}
         >
@@ -135,7 +140,16 @@ export default class BaseMenu extends PureComponent {
         </SubMenu>
       );
     }
-    return <Menu.Item disabled={loadingG} onClick={() => this.onMenuClick(item)} key={keyPath} path={path}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return (
+      <Menu.Item
+        disabled={loadingG}
+        onClick={() => this.onMenuClick(item)}
+        key={keyPath}
+        path={path}
+      >
+        {this.getMenuItemPath(item)}
+      </Menu.Item>
+    );
   };
 
   // 点击左侧菜单，获取报表路径，并跳转
@@ -143,11 +157,13 @@ export default class BaseMenu extends PureComponent {
     this.props.dispatch({
       type: 'tableTemplate/save',
       payload: {
-        reportFormURLPage: item.reportUrl ? item.reportUrl + `&userid=${localStorage.getItem('loginData')}` : item.reportUrl
-      }
-    })
+        reportFormURLPage: item.reportUrl
+          ? item.reportUrl + `&userid=${localStorage.getItem('loginData')}`
+          : item.reportUrl,
+      },
+    });
     // if(item.reportUrl){
-    router.push(item.path)
+    router.push(item.path);
     // }
   };
 
@@ -192,9 +208,9 @@ export default class BaseMenu extends PureComponent {
   handleClick = e => {
     let path = _.get(e.item.props, 'path');
     if (!path.includes('reportForm')) {
-      const index = path.lastIndexOf("\?");
+      const index = path.lastIndexOf('?');
       if (index > 0) {
-        path = path.substring(0, index) + '/list' + path.substring(index, path.length)
+        path = path.substring(0, index) + '/list' + path.substring(index, path.length);
       }
     }
     const { dispatch } = this.props;
@@ -204,8 +220,8 @@ export default class BaseMenu extends PureComponent {
     router.push(path);
     dispatch({
       type: 'tableTemplate/save',
-      payload: { defaultActiveKey: '0', isError: false }
-    })
+      payload: { defaultActiveKey: '0', isError: false },
+    });
   };
 
   render() {

@@ -67,7 +67,44 @@ export default [
     Routes: ['src/pages/Authorized'],
     routes: [
       { path: '/', redirect: '/user' },
+
       // 动态路由
+      { path: '/2328/deliveryOreer/list', name: '', component: './HY/DeliveryOrder' },
+      // { path: '/2328/deliveryOreer/detail/:detailId', name: '', component: './HY/DeliveryOrderDetail' },
+      {
+        path: '/hy',
+        name: 'rs_paas',
+        icon: 'snippets',
+        routes: [
+          { path: '/hy/:first/:second/:third/list', name: '', component: './HY/QualityAssurance' },
+          // /2328/deliveryOreer
+          { path: '/2328/deliveryOreer', name: '', component: './HY/DeliveryOrder' },
+          {
+            path: '/2328/deliveryOreer/detail/:detailId',
+            name: '',
+            component: './HY/DeliveryOrderDetail',
+          },
+          {
+            path: '/hy/deliveryOrder/detail/:detailId',
+            name: '',
+            component: './HY/DeliveryOrderDetail',
+          },
+
+          { path: '/hy/:first/:second/:third/list', name: '', component: './HY/ListTemplate' },
+
+          {
+            path: '/hy/:first/:second/:third/:fourth/list',
+            name: '',
+            component: './HY/ListTemplate',
+          },
+
+          {
+            path: '/hy/:first/:second/:third/:fourth/:fifth/list',
+            name: '',
+            component: './HY/ListTemplate',
+          },
+        ],
+      },
       {
         path: '/:first',
         name: 'rs_paas',

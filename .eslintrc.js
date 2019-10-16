@@ -24,6 +24,7 @@ module.exports = {
     'no-nested-ternary': 0,
     'consistent-return': 0,
     'no-else-return': 0,
+    'class-methods-use-this': 'off',
     'import/no-unresolved': [2, { ignore: ['^@/', '^umi/'] }],
     'import/no-extraneous-dependencies': [
       2,
