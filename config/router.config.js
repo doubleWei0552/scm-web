@@ -70,7 +70,6 @@ export default [
 
       // 动态路由
       { path: '/2328/deliveryOreer/list', name: '', component: './HY/DeliveryOrder' },
-      // { path: '/2328/deliveryOreer/detail/:detailId', name: '', component: './HY/DeliveryOrderDetail' },
       {
         path: '/5078',
         name: 'rs_paas',

@@ -98,6 +98,22 @@ export default {
         payload,
       });
     },
+    *getReportForm({payload,callback},{put,call,select}){
+      const {pageId} = payload
+      const params = { pageId };
+      const result = yield call(querySummaryPageConfig, params);
+      if (callback) callback(result)
+      if (result.status == 'success') {
+        yield put({
+          type: 'save',
+          payload: {
+            tableColumns: result.data.columns,
+            currentKey: result.data.key,
+            tableColumnsData: result.data,
+          },
+        });
+      } 
+    },
     // 获取列表页表头数据
     *getSummaryPageConfig({ payload, callback }, { put, call, select }) {
       const pageId = yield select(({ tableTemplate }) => tableTemplate.pageId);
