@@ -25,7 +25,8 @@ import styles from '../Index.less';
 const { RangePicker } = DatePicker;
 
 // 个人中心弹窗
-@connect(({ hydeliveryorder, loading }) => ({
+@connect(({ hydeliveryorder, tableTemplate, loading }) => ({
+  tableTemplate,
   hydeliveryorder,
   loading: loading.models.hydeliveryorder,
 }))
@@ -106,6 +107,7 @@ class DeliveryModal extends Component {
   };
 
   confirmSelect = () => {
+    console.log('propssssss', this.props);
     const { dispatch, SUPPLIER_ID, DELIVERY_CODE } = this.props;
     const { selectDatas } = this.state;
     dispatch({
@@ -113,13 +115,20 @@ class DeliveryModal extends Component {
       payload: { list: selectDatas, SUPPLIER_ID, DELIVERY_CODE },
       callback: response => {
         if (response.status === 'success') {
-          this.setState({
-            visible: false,
-          }, () => this.props.handleOk());
+          // dispatch({
+          //   type: 'tableTemplate/getChildTable',
+          //   payload: {}
+          // })
+          this.setState(
+            {
+              visible: false,
+            },
+            () => this.props.handleOk()
+          );
         }
       },
-    })
-  }
+    });
+  };
 
   render() {
     const { title, form, loading, hydeliveryorder } = this.props;
@@ -207,7 +216,13 @@ class DeliveryModal extends Component {
             <Button key="back" onClick={this.hideModelHandler}>
               关闭
             </Button>,
-            <Button disabled={!selectDatas.length} key="submit" type="primary" loading={loading} onClick={this.confirmSelect}>
+            <Button
+              disabled={!selectDatas.length}
+              key="submit"
+              type="primary"
+              loading={loading}
+              onClick={this.confirmSelect}
+            >
               确定
             </Button>,
           ]}

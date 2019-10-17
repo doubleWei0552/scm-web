@@ -16,7 +16,7 @@ import {
 import { connect } from 'dva';
 import ListPage from '@/components/ListPage/Index';
 import ListForm from '@/components/ListPage/ListForm';
-import _ from 'lodash'
+import _ from 'lodash';
 import DeliveryModal from './components/DeliveryModal';
 import styles from './Index.less';
 
@@ -42,7 +42,7 @@ export default class TableForm extends React.Component {
   // modal组件
   showModal = () => {
     //获取主表的最新数据
-    let MainTableData = this.props.getMasterTable()
+    let MainTableData = this.props.getMasterTable();
     this.props.dispatch({
       type: 'tableTemplate/getMainTableData',
       payload: { MainTableData },
@@ -81,7 +81,7 @@ export default class TableForm extends React.Component {
   };
 
   handleOk = e => {
-    let MasterTable = this.props.getMasterTable()
+    let MasterTable = this.props.getMasterTable();
     //table类型的数据新增
     let { frameSelectedRows } = this.state; //弹框选择的数据
     let { MultiObjectSelector, HeaderData, value } = this.props; //子表是否含有mask ，不含有就是null
@@ -240,7 +240,12 @@ export default class TableForm extends React.Component {
       });
       this.props.dispatch({ type: 'tableTemplate/save' }); //刷新model值
     }
-    this.setState({ visible: false, frameSelectedRows: [], frameSelectedRowKeys: [], isEdit: true });
+    this.setState({
+      visible: false,
+      frameSelectedRows: [],
+      frameSelectedRowKeys: [],
+      isEdit: true,
+    });
   };
 
   handleCancel = e => {
@@ -264,17 +269,18 @@ export default class TableForm extends React.Component {
     //   let ind = _.findIndex(frameSelectedRows,item =>item.ID == value.ID)
     //   if(ind < 0) {
     //     frameSelectedRows.push(value)
-    //   } 
+    //   }
     // })
     this.setState({ frameSelectedRowKeys: selectedRowKeys, frameSelectedRows: selectedRows });
   };
 
   // 新的送货弹窗
-  handleAddChild = () => {//CODE
+  handleAddChild = () => {
+    //CODE
     // const DELIVERY_CODE = this.props.detailForm ? this.props.detailForm.getFieldValue('CODE') : null
     // const SUPPLIER_ID = this.props.detailForm ? this.props.detailForm.getFieldValue('SUPPLIER_ID') : null
-    const { DELIVERY_CODE, SUPPLIER_ID } = this.props
-    console.log('ssssssss', this.props)
+    const { DELIVERY_CODE, SUPPLIER_ID } = this.props;
+    console.log('ssssssss', this.props);
     const div = document.createElement('div');
     document.body.appendChild(div);
     ReactDOM.render(
@@ -283,14 +289,22 @@ export default class TableForm extends React.Component {
         title="送货详情"
         SUPPLIER_ID={SUPPLIER_ID}
         DELIVERY_CODE={DELIVERY_CODE}
-        handleOk={data => console.log('重新加载列表页数据')}
+        handleOk={data => this.handleRefreshChildTable()}
       />,
       div
     );
   };
 
+  handleRefreshChildTable = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'tableTemplate/handleRefreshChildTable',
+      payload: {},
+    });
+  };
+
   render() {
-    let add_d = this.props.HeaderData.add_d //新增按钮管控，true为只读
+    let add_d = this.props.HeaderData.add_d; //新增按钮管控，true为只读
     const listPageProps = {
       frameSelectedRowKeys: this.state.frameSelectedRowKeys,
       onSelectChange: this.onSelectChange,
@@ -348,8 +362,8 @@ export default class TableForm extends React.Component {
           {this.props.MultiObjectSelector ? (
             <ListPage {...listPageProps} />
           ) : (
-              <ListForm {...listFormProps} onRef={this.onRef} /> //注:没有mask数据，没有调用handleOk方法
-            )}
+            <ListForm {...listFormProps} onRef={this.onRef} /> //注:没有mask数据，没有调用handleOk方法
+          )}
         </Modal>
       </div>
     );
