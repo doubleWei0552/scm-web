@@ -23,7 +23,8 @@ export default class QualityAssurance extends React.Component {
     this.state = {
       dataList: [],
       paganition: {},
-      selectDatas: []
+      selectDatas: [],
+      searchParams:{},
     };
   }
 
@@ -34,12 +35,18 @@ export default class QualityAssurance extends React.Component {
   };
 
   // 获取分页数据
-  queryDatas = () => {
+  queryDatas = (value) => {
+    console.log('value',value)
+    if(value){
+      this.setState({
+        searchParams:value
+      })
+    }
     const { dispatch } = this.props;
     let pageId = this.props.location.query.PageId * 1;
     dispatch({
       type: 'quality/getDataList',
-      payload: { PageIndex: 1, PageCount: 10 },
+      payload: { PageIndex: 1, PageCount: 10,searchParams:value ? value : this.state.searchParams ? this.state.searchParams : null },
       callback: response => {
         this.setState({
           dataList: response.list,
@@ -376,8 +383,8 @@ export default class QualityAssurance extends React.Component {
               <Button onClick={this.handleResetQuality} type="primary">撤回</Button>
             </div>
           </Col>
-          <Col span={18} style={{background:'pink',margin:'10px 0',zIndex:1000,}}>
-            <SearchBar tableColumns={columns}/>
+          <Col span={18} style={{margin:'10px 0',zIndex:1000,}}>
+            <SearchBar tableColumns={columns} queryDatas={(e)=>this.queryDatas(e)}/>
           </Col>
           <Table
             loading={loading}
