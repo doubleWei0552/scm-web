@@ -116,6 +116,7 @@ class SearchBar extends React.Component {
               tableColumns.map((item,index) => {
                 switch(item.widgetType){
                   case 'Text' :
+                      if(!item.disabled) return
                       return <Col span={expand ? 13 : 9 } key={item.dataIndex} style={{ textAlign: 'left',display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
                       <Form.Item
                         label={item.title}
@@ -136,6 +137,7 @@ class SearchBar extends React.Component {
                     </Col>
                     break
                   case 'Number' :
+                      if(!item.disabled) return
                       return <Col span={expand ? 13 : 9 } key={item.dataIndex} style={{ textAlign: 'left',display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
                       <Form.Item
                         label={item.title}
@@ -170,6 +172,7 @@ class SearchBar extends React.Component {
                           DateType: 'end',
                         },
                       ];
+                      if(!item.disabled) return
                       return Date.map((kk, gg) => {
                         let type = kk.DateType;
                         switch (type) {
@@ -181,7 +184,8 @@ class SearchBar extends React.Component {
                                   {...formItemLayout}
                                   style={{ width: '100%' }}
                                 >
-                                  {getFieldDecorator(`${item.dataIndex}-${kk.DateType}`, {
+                                  {/* {getFieldDecorator(`${kk.DateType}-${item.dataIndex}`, { */}
+                                  {getFieldDecorator(`Start_date`, {
                                     initialValue: null,
                                   })(
                                     <DatePicker
@@ -210,7 +214,8 @@ class SearchBar extends React.Component {
                                   {...formItemLayout}
                                   style={{ width: '100%' }}
                                 >
-                                  {getFieldDecorator(`${item.dataIndex}-${kk.DateType}`, {
+                                  {/* {getFieldDecorator(`${kk.DateType}-${item.dataIndex}`, { */}
+                                  {getFieldDecorator(`end_date`, {
                                     initialValue: null,
                                   })(
                                     <DatePicker
@@ -237,6 +242,7 @@ class SearchBar extends React.Component {
                       });
                     break
                   case 'Select' :
+                      if(!item.disabled) return
                       return <Col span={expand ? 13 : 9 } key={item.dataIndex} 
                       style={{ textAlign: 'left',display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
                       <Form.Item
@@ -280,7 +286,7 @@ class SearchBar extends React.Component {
               })
             }
             {
-              <Col  style={{ textAlign: 'right' }}>
+              <Col span={expand ? 13 : null } style={{ textAlign: 'right' }}>
                 <Form.Item
                   style={{
                     // width: this.state.expand ? 315 : 100,

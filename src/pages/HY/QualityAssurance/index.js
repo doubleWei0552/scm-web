@@ -36,6 +36,7 @@ export default class QualityAssurance extends React.Component {
 
   // 获取分页数据
   queryDatas = (value) => {
+    let { searchParams } = this.state
     console.log('value',value)
     if(value){
       this.setState({
@@ -46,7 +47,7 @@ export default class QualityAssurance extends React.Component {
     let pageId = this.props.location.query.PageId * 1;
     dispatch({
       type: 'quality/getDataList',
-      payload: { PageIndex: 1, PageCount: 10,searchParams:value ? value : this.state.searchParams ? this.state.searchParams : null },
+      payload: { PageIndex: 1, PageCount: 10,searchParams:value ? value : searchParams ? searchParams : null },
       callback: response => {
         this.setState({
           dataList: response.list,
@@ -142,11 +143,12 @@ export default class QualityAssurance extends React.Component {
 
 
   onShowSizeChange = (current, pageSize) => {
+    let { searchParams } = this.state
     const { dispatch } = this.props;
     let pageId = this.props.location.query.PageId * 1;
     dispatch({
       type: 'quality/getDataList',
-      payload: { PageIndex: current, PageCount: pageSize },
+      payload: { PageIndex: current, PageCount: pageSize,searchParams },
       callback: response => {
         this.setState({
           dataList: response.list,
@@ -180,6 +182,7 @@ export default class QualityAssurance extends React.Component {
         key: 'DELIVERY_OREER_CODE',
         widgetType:'Text',
         fixed: 'left',
+        disabled:true,
         className: 'color',
         render: (text, record) => {
           if (record.SH_DATE) {
@@ -204,6 +207,7 @@ export default class QualityAssurance extends React.Component {
         key: 'SERIAL_NUMBER',
         className: 'nocolor',
         widgetType:'Text',
+        disabled:true,
         align: 'center'
       },
       {
@@ -211,12 +215,14 @@ export default class QualityAssurance extends React.Component {
         dataIndex: 'MATERIAL_CODE',
         key: 'MATERIAL_CODE',
         widgetType:'Text',
+        disabled:true,
         className: 'nocolor',
       },
       {
         title: '品名',
         dataIndex: 'MATERIAL_NAME',
         key: 'MATERIAL_NAME',
+        disabled:false,
         widgetType:'Text',
         className: 'nocolor',
       },
@@ -224,6 +230,7 @@ export default class QualityAssurance extends React.Component {
         title: '规格',
         dataIndex: 'MATERIAL_SPEC',
         key: 'MATERIAL_SPEC',
+        disabled:false,
         className: 'nocolor',
         widgetType:'Text',
       },
@@ -231,6 +238,7 @@ export default class QualityAssurance extends React.Component {
         title: '单位',
         dataIndex: 'UNIT_CODE',
         key: 'UNIT_CODE',
+        disabled:false,
         className: 'nocolor',
         widgetType:'Text',
       },
@@ -239,6 +247,7 @@ export default class QualityAssurance extends React.Component {
         dataIndex: 'RECEIVED_NUM',
         key: 'RECEIVED_NUM',
         className: 'nocolor',
+        disabled:false,
         widgetType:'Text',
       },
       {
@@ -246,6 +255,7 @@ export default class QualityAssurance extends React.Component {
         dataIndex: 'SH_DATE',
         key: 'receivedDate',
         widgetType:'Date',
+        disabled:true,
         className: 'nocolor',
         render: text => <span>{text ? moment(text).format('YYYY-MM-DD') : null}</span>
       },
@@ -253,6 +263,7 @@ export default class QualityAssurance extends React.Component {
         title: '检查状态',
         dataIndex: 'QUALITY_STATUS',
         key: 'CheckState',
+        disabled:false,
         className: 'nocolor',
         options:[{text: "待检", value: "0"},
         {text: "合格", value: "1"},
@@ -277,6 +288,7 @@ export default class QualityAssurance extends React.Component {
         dataIndex: 'HG_NUM',
         key: 'QualifiedQuantity',
         widgetType:'Number',
+        disabled:false,
         className: 'nocolor',
         render: (text, record) => (
           <InputNumber
@@ -292,6 +304,7 @@ export default class QualityAssurance extends React.Component {
       {
         title: '验退量',
         dataIndex: 'YT_NUM',
+        disabled:false,
         key: 'YieldTested',
         className: 'nocolor',
         widgetType:'Number',
@@ -310,6 +323,7 @@ export default class QualityAssurance extends React.Component {
         dataIndex: 'CHECK_REASON',
         key: 'ReasonsForRetirement',
         className: 'nocolor',
+        disabled:false,
         widgetType:'Text',
         width: 200,
         render: (text, record) => (
@@ -325,6 +339,7 @@ export default class QualityAssurance extends React.Component {
         title: '质检人员',
         dataIndex: 'STAFF_CODE',
         key: 'QualityInspector',
+        disabled:false,
         className: 'nocolor',
         widgetType:'Text',
       },
@@ -332,6 +347,7 @@ export default class QualityAssurance extends React.Component {
         title: '质检时间',
         dataIndex: 'ZJ_DATA',
         key: 'QualityInspectionTime',
+        disabled:false,
         widgetType:'Date',
         className: 'nocolor',
         render: text => <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : null}</span>
@@ -340,6 +356,7 @@ export default class QualityAssurance extends React.Component {
         title: '收货单号',
         dataIndex: 'TASK_SHEET_CODE',
         key: 'ReceiptAccount',
+        disabled:false,
         className: 'nocolor',
         widgetType:'Text',
       },
@@ -347,6 +364,7 @@ export default class QualityAssurance extends React.Component {
         title: '收货单项次',
         dataIndex: 'SOURCE_SEQ_NUM',
         key: 'ReceiptItem',
+        disabled:false,
         className: 'nocolor',
         widgetType:'Text',
       },
@@ -355,6 +373,7 @@ export default class QualityAssurance extends React.Component {
         dataIndex: 'TB_SDH',
         key: 'AlreadySynchronized',
         align: 'center',
+        disabled:false,
         widgetType:'Select',
         options:[{text: "是", value: "0"},
         {text: "否", value: "1"}],
