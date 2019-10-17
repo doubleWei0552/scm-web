@@ -74,20 +74,6 @@ class SearchBar extends React.Component {
       },
     });
     return options;
-
-    //新版
-    // let options = [];
-    // this.props.dispatch({
-    //   type: 'listPage/getAutocomplate',
-    //   payload: { value: e },
-    //   callback: response => {
-    //     if (response.status === 'success') {
-    //       options = response.data.options;
-    //       SearchOptions[response.data.field] = response.data.options;
-    //     }
-    //   },
-    // });
-    // return options;
   };
 
   toggle = () => {
@@ -177,16 +163,6 @@ class SearchBar extends React.Component {
         }
         return;
       });
-      //新版
-      // this.props.dispatch({
-      //   type: 'listPage/getPagelist',
-      //   payload: { pageId, current: 1, pageSize, searchParams, summarySort },
-      // });
-      // this.props.dispatch({
-      //   type: 'listPage/changeState',
-      //   payload: { searchParams },
-      // });
-      //旧版
       this.props.dispatch({
         type: 'tableTemplate/getPagination',
         payload: { pageId, current: 1, pageSize, searchParams, summarySort },
@@ -199,10 +175,6 @@ class SearchBar extends React.Component {
   };
 
   render() {
-    // tableColumns = { this.props.tableTemplate.tableColumns }
-    //新版
-    // const { tableColumns = [] } = this.props.listPage;
-    //旧版
     const { tableColumns = [], currentKey = '' } = this.props.tableTemplate;
     const { expand, SearchOptions } = this.state;
     const searchItems = _.filter(tableColumns, item => item.filterable === true);
