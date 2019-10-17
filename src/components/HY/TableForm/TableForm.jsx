@@ -304,6 +304,7 @@ export default class TableForm extends React.Component {
   };
 
   render() {
+    const { DELIVERY_CODE, SUPPLIER_ID } = this.props;
     let add_d = this.props.HeaderData.add_d; //新增按钮管控，true为只读
     const listPageProps = {
       frameSelectedRowKeys: this.state.frameSelectedRowKeys,
@@ -332,8 +333,8 @@ export default class TableForm extends React.Component {
         </Spin>
         <Button
           style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
-          type={this.props.disEditStyle ? 'dashed' : 'primary'}
-          disabled={this.props.disEditStyle || add_d}
+          type={!DELIVERY_CODE ? 'dashed' : 'primary'}
+          disabled={DELIVERY_CODE ? false : true}
           onClick={this.handleAddChild}
           icon="plus"
         >
@@ -362,8 +363,8 @@ export default class TableForm extends React.Component {
           {this.props.MultiObjectSelector ? (
             <ListPage {...listPageProps} />
           ) : (
-            <ListForm {...listFormProps} onRef={this.onRef} /> //注:没有mask数据，没有调用handleOk方法
-          )}
+              <ListForm {...listFormProps} onRef={this.onRef} /> //注:没有mask数据，没有调用handleOk方法
+            )}
         </Modal>
       </div>
     );
