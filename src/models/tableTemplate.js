@@ -278,9 +278,7 @@ export default {
         pageId: id,
         thisComponentUid: 821,
       };
-      console.log('childParams', childParams);
       const childResult = yield call(queryDetailChildPage, childParams);
-      console.log('childResult', childResult);
       const initDetailChildData = yield select(
         ({ tableTemplate }) => tableTemplate.initDetailChildData
       );
