@@ -295,6 +295,7 @@ export default {
           payload: { DetailChildData: childResult.data, initDetailChildData: childResult.data },
         });
       }
+      yield put({ type: 'getChildTable' });
     },
 
     // 清空子表数据
