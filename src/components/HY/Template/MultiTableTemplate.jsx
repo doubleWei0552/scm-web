@@ -87,14 +87,6 @@ export default class MultiTableTemplate extends React.Component {
       type: 'tableTemplate/getPagination',
       payload: { pageId, current: 1, pageSize: 10 },
     });
-
-    //新版
-    // this.props.dispatch({ type: 'listPage/save', payload: { pageId } });
-    // this.props.dispatch({
-    //   type: 'listPage/getPagelist',
-    //   payload: { pageId, current: 1, pageSize: 10 },
-    // });
-    // this.props.dispatch({ type: 'listPage/getSummaryPageConfig',payload:{pageId:+pageId} });
   };
   componentDidMount = () => {
     this.props.dispatch({ type: 'tableTemplate/getDetailPageConfig' });
