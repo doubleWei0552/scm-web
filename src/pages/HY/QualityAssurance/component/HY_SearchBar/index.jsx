@@ -30,6 +30,7 @@ class SearchBar extends React.Component {
           values[gg] = moment(values[gg]).valueOf()
         }
       }
+      this.props.queryDatas(values)
       console.log('搜索条件',values)
     });
   };
@@ -120,7 +121,7 @@ class SearchBar extends React.Component {
                         label={item.title}
                         key={item.dataIndex}
                         {...formItemLayout}
-                        style={{ width: '100%',border:'1px solid red' }}
+                        style={{ width: '100%' }}
                       >
                         {getFieldDecorator(`${item.dataIndex}`, {
                           initialValue: '',
@@ -140,7 +141,7 @@ class SearchBar extends React.Component {
                         label={item.title}
                         key={item.dataIndex}
                         {...formItemLayout}
-                        style={{ width: '100%',border:'1px solid red' }}
+                        style={{ width: '100%' }}
                       >
                         {getFieldDecorator(`${item.dataIndex}`, {
                           initialValue: '',
@@ -178,7 +179,7 @@ class SearchBar extends React.Component {
                                 <Form.Item
                                   label={kk.title}
                                   {...formItemLayout}
-                                  style={{ width: '100%',border:'1px solid red' }}
+                                  style={{ width: '100%' }}
                                 >
                                   {getFieldDecorator(`${item.dataIndex}-${kk.DateType}`, {
                                     initialValue: null,
@@ -207,7 +208,7 @@ class SearchBar extends React.Component {
                                 <Form.Item
                                   label={kk.title}
                                   {...formItemLayout}
-                                  style={{ width: '100%',border:'1px solid red' }}
+                                  style={{ width: '100%' }}
                                 >
                                   {getFieldDecorator(`${item.dataIndex}-${kk.DateType}`, {
                                     initialValue: null,
@@ -242,7 +243,7 @@ class SearchBar extends React.Component {
                         label={item.title}
                         key={item.dataIndex}
                         {...formItemLayout}
-                        style={{ width: '100%',border:'1px solid red' }}
+                        style={{ width: '100%' }}
                       >
                         {getFieldDecorator(`${item.dataIndex}`, {
                           initialValue: '',
