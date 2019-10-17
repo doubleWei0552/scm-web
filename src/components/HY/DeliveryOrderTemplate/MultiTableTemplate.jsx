@@ -26,6 +26,8 @@ import _ from 'lodash';
 import { connect } from 'dva';
 import CatchError from '@/components/CatchError';
 import DetailsPageModule from '@/components/HY/DeliveryOrderDetailsPageModule';
+// import DetailsPageModule from '@/components/DetailsPageModule/Index';
+
 import ListPageModule from '@/components/ListPageModule';
 import SkeletonCom from '@/components/Skeleton';
 import moment from 'moment';

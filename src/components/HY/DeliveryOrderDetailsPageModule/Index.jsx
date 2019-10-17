@@ -24,7 +24,9 @@ import ReportTable from '@/components/ReportTable/index'; // 报表组件
 import NewBreadcrumb from '@/components/Breadcrumb'; //面包屑组件
 import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 import DetailPage from '@/components/DetailPage/Index'; // 主表详情组件
-import ChildTable from '@/components/HY/DeliveryChildTable/Index'; //子表组件
+// import ChildTable from '@/components/HY/DeliveryChildTable/Index'; //子表组件
+import ChildTable from '@/components/HY/ChildTable/Index'; //子表组件
+
 import Detailbuttons from '@/components/HY/DeliveryDetailButtons'; // 详情页头部的按钮栏
 import SkeletonCom from '@/components/Skeleton';
 import { connect } from 'dva';

@@ -72,11 +72,11 @@ export default [
       { path: '/2328/deliveryOreer/list', name: '', component: './HY/DeliveryOrder' },
       // { path: '/2328/deliveryOreer/detail/:detailId', name: '', component: './HY/DeliveryOrderDetail' },
       {
-        path: '/hy',
+        path: '/5078',
         name: 'rs_paas',
         icon: 'snippets',
         routes: [
-          { path: '/hy/:first/:second/:third/list', name: '', component: './HY/QualityAssurance' },
+          { path: '/5078/:first/:second/list', name: '', component: './HY/QualityAssurance' },
           // /2328/deliveryOreer
           { path: '/2328/deliveryOreer', name: '', component: './HY/DeliveryOrder' },
           {
