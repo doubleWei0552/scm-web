@@ -9,8 +9,9 @@ import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 
 import styles from './style.less'
 
-@connect(({ quality, loading }) => ({
+@connect(({ quality, loading,tableTemplate }) => ({
   quality,
+  tableTemplate,
   loading: loading.models.quality,
 }))
 
@@ -26,6 +27,8 @@ export default class QualityAssurance extends React.Component {
   }
 
   componentDidMount() {
+    let pageId = this.props.location.query.PageId*1
+    this.props.dispatch({ type: 'tableTemplate/getReportForm',payload:{pageId}}); // 👈拿面包屑数据
     this.queryDatas()
   };
 
@@ -37,7 +40,6 @@ export default class QualityAssurance extends React.Component {
       type: 'quality/getDataList',
       payload: { PageIndex: 1, PageCount: 10 },
       callback: response => {
-        console.log('callback', response)
         this.setState({
           dataList: response.list,
           paganition: response.page
@@ -188,7 +190,6 @@ export default class QualityAssurance extends React.Component {
               <div style={{ padding: '16px', }}>{text}</div>
             )
           }
-
         }
       },
       {
@@ -242,7 +243,7 @@ export default class QualityAssurance extends React.Component {
         className: 'nocolor',
         render: (text, record) => {
           return (
-            <Select defaultValue={text ? text : 0} style={{ width: 120, display: 'block' }} onChange={(value) => this.handleStatusChange(value, record)}>
+            <Select defaultValue={text ? text : '0'} style={{ width: 120, display: 'block' }} onChange={(value) => this.handleStatusChange(value, record)}>
               <Select.Option value={'0'}>待检</Select.Option>
               <Select.Option value={'1'}>合格</Select.Option>
               <Select.Option value={'2'}>验退</Select.Option>
