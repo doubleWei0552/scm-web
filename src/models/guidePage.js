@@ -85,7 +85,7 @@ export default {
         allGuideData[result.data.relatedFieldGroup] = result.data;
         yield put({ type: 'save', payload: { allGuideData } });
       } else {
-        notification.error({ message: '导向页获取数据方法出现错误！', duration: 3 });
+        notification.error({ message: result.message, duration: 3 });
       }
     },
     //获取导向页table类型的表头数据
@@ -98,7 +98,7 @@ export default {
       if (result.status == 'success') {
         yield put({ type: 'save', payload: { guidePageColumns: result.data } });
       } else {
-        notification.error({ message: '导向页table类型获取表头数据方法出现错误！', duration: 3 });
+        notification.error({ message: result.message, duration: 3 });
       }
     },
     //获取导向页table类型的数据
@@ -126,7 +126,7 @@ export default {
       if (result.status == 'success') {
         yield put({ type: 'save', payload: { guidePageData: result.data } });
       } else {
-        notification.error({ message: '导向页table类型获取数据方法出现错误！', duration: 3 });
+        notification.error({ message:result.message, duration: 3 });
       }
     },
     //导向页下一步额外执行的方法
@@ -149,7 +149,7 @@ export default {
       if (result.status == 'success') {
         yield put({ type: 'save', payload: { guidePageData: result.data } });
       } else {
-        notification.error({ message: '导向页table类型获取数据方法出现错误！', duration: 3 });
+        notification.error({ message: result.message, duration: 3 });
       }
       if (callback) callback(result);
     },

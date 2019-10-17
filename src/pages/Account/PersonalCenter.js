@@ -38,7 +38,20 @@ class PersonalCenter extends Component {
           url
       })
     }
-    
+  }
+
+  a = async () =>{
+    await new Promise((resolve,reject)=>{
+      setTimeout(() => {
+        console.log('我是延迟函数返回的')
+        resolve('err')
+      }, 2000)
+    }).then((res)=>{{
+      console.log('成功了',res)
+    }})
+    .catch(()=>{
+      console.log('失败了')
+    })
   }
 
   render() {
@@ -52,7 +65,7 @@ class PersonalCenter extends Component {
         <div style={{display:localStorage.getItem('personalHome') ? 'block' : 'none'}}>
           <img style={{width:'100%'}} src={url ? url : ''} alt='error'/>
         </div>
-
+        {/* <Button onClick={this.a} />  */}
       </div>
     )
 
