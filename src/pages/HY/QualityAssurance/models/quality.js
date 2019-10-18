@@ -1,4 +1,5 @@
 import QualityService from '@/services/hy/quality';
+import { notification } from 'antd';
 
 export default {
   namespace: 'quality',
@@ -14,6 +15,11 @@ export default {
       console.log('response', response);
       if (response.status === 'success') {
         callback && callback(response.data);
+      } else {
+        notification.error({
+          message: `请求错误 ${response.status}: ${response.url}`,
+          description: response.message,
+        });
       }
     },
     *handleQuality({ payload, callback }, { call, put }) {
@@ -21,6 +27,11 @@ export default {
       console.log('response', response);
       if (response.status === 'success') {
         callback && callback(response.data);
+      } else {
+        notification.error({
+          message: `请求错误 ${response.status}: ${response.url}`,
+          description: response.message,
+        });
       }
     },
     *handleResetQuality({ payload, callback }, { call, put }) {
@@ -28,6 +39,11 @@ export default {
       console.log('response', response);
       if (response.status === 'success') {
         callback && callback(response.data);
+      } else {
+        notification.error({
+          message: `请求错误 ${response.status}: ${response.url}`,
+          description: response.message,
+        });
       }
     },
 

@@ -76,6 +76,7 @@ export default [
         name: 'rs_paas',
         icon: 'snippets',
         routes: [
+          { path: '/5078/:first/:second', name: '', component: './HY/QualityAssurance' },
           { path: '/5078/:first/:second/list', name: '', component: './HY/QualityAssurance' },
           // /2328/deliveryOreer
           { path: '/2328/deliveryOreer', name: '', component: './HY/DeliveryOrder' },

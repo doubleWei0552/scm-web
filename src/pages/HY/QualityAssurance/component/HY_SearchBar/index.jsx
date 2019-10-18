@@ -6,7 +6,7 @@ import { Form, Row, Col, Select, Input, Button, Icon, DatePicker } from 'antd';
 import styles from './index.less'
 
 @Form.create()
-@connect(({ loading,quality }) => ({
+@connect(({ loading, quality }) => ({
   quality,
   loadingG: loading.effects['quality/getDataList'],
 }))
@@ -26,12 +26,12 @@ class SearchBar extends React.Component {
         if (values[gg] && typeof values[gg] == 'string') {
           values[gg] = values[gg].replace(/(^\s*)|(\s*$)/g, '');
         }
-        if(values[gg] != null && typeof values[gg] == 'object'){
+        if (values[gg] != null && typeof values[gg] == 'object') {
           values[gg] = moment(values[gg]).valueOf()
         }
       }
       this.props.queryDatas(values)
-      console.log('搜索条件',values)
+      console.log('搜索条件', values)
     });
   };
 
@@ -113,11 +113,11 @@ class SearchBar extends React.Component {
             className="login-form"
           >
             {
-              tableColumns.map((item,index) => {
-                switch(item.widgetType){
-                  case 'Text' :
-                      if(!item.disabled) return
-                      return <Col span={expand ? 13 : 9 } key={item.dataIndex} style={{ textAlign: 'left',display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
+              tableColumns.map((item, index) => {
+                switch (item.widgetType) {
+                  case 'Text':
+                    if (!item.disabled) return
+                    return <Col span={expand ? 13 : 9} key={item.dataIndex} style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
                       <Form.Item
                         label={item.title}
                         key={item.dataIndex}
@@ -136,9 +136,9 @@ class SearchBar extends React.Component {
                       </Form.Item>
                     </Col>
                     break
-                  case 'Number' :
-                      if(!item.disabled) return
-                      return <Col span={expand ? 13 : 9 } key={item.dataIndex} style={{ textAlign: 'left',display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
+                  case 'Number':
+                    if (!item.disabled) return
+                    return <Col span={expand ? 13 : 9} key={item.dataIndex} style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
                       <Form.Item
                         label={item.title}
                         key={item.dataIndex}
@@ -158,93 +158,93 @@ class SearchBar extends React.Component {
                       </Form.Item>
                     </Col>
                     break
-                  case 'Date' :
-                      let Date = [
-                        {
-                          ...item,
-                          title: `起始${item.title}`,
-                          DateType: 'start',
-                        },
-                        {
-                          ...item,
-                          title: `结束${item.title}`,
-                          FIELD_VALUE: null,
-                          DateType: 'end',
-                        },
-                      ];
-                      if(!item.disabled) return
-                      return Date.map((kk, gg) => {
-                        let type = kk.DateType;
-                        switch (type) {
-                          case 'start':
-                            return (
-                              <Col span={expand ? 13 : 9 } style={{ textAlign: 'left',display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }} key={kk.dataIndex + gg}>
-                                <Form.Item
-                                  label={kk.title}
-                                  {...formItemLayout}
-                                  style={{ width: '100%' }}
-                                >
-                                  {/* {getFieldDecorator(`${kk.DateType}-${item.dataIndex}`, { */}
-                                  {getFieldDecorator(`Start_date`, {
-                                    initialValue: null,
-                                  })(
-                                    <DatePicker
-                                      allowClear={true}
-                                      placeholder={`请选择${kk.title}`}
-                                      format="YYYY-MM-DD"
-                                      placeholder={`请选择${kk.title}`}
-                                      showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-                                      style={{ width: '100%' }}
-                                      onChange={e => {
-                                        this.handleChange(e, kk.title);
-                                        this.onStartChange(e, kk);
-                                      }}
-                                      disabledDate={e => this.disabledStartDate(e, kk)}
-                                    />
-                                  )}
-                                </Form.Item>
-                              </Col>
-                            );
-                            break;
-                          case 'end':
-                            return (
-                              <Col span={expand ? 13 : 9 } style={{ textAlign: 'left',display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }} key={kk.dataIndex + gg}>
-                                <Form.Item
-                                  label={kk.title}
-                                  {...formItemLayout}
-                                  style={{ width: '100%' }}
-                                >
-                                  {/* {getFieldDecorator(`${kk.DateType}-${item.dataIndex}`, { */}
-                                  {getFieldDecorator(`end_date`, {
-                                    initialValue: null,
-                                  })(
-                                    <DatePicker
-                                      placeholder={`请选择${kk.title}`}
-                                      format="YYYY-MM-DD"
-                                      showTime={{ defaultValue: moment('23:59:59', 'HH:mm:ss') }}
-                                      style={{ width: '100%' }}
-                                      allowClear={true}
-                                      onChange={e => {
-                                        console.log(e);
-                                        this.handleChange(e, kk.title);
-                                        this.onEndChange(e, kk);
-                                      }}
-                                      disabledDate={e => this.disabledEndDate(e, kk)}
-                                    />
-                                  )}
-                                </Form.Item>
-                              </Col>
-                            );
-                            break;
-                          default:
-                            break;
-                        }
-                      });
+                  case 'Date':
+                    let Date = [
+                      {
+                        ...item,
+                        title: `起始${item.title}`,
+                        DateType: 'start',
+                      },
+                      {
+                        ...item,
+                        title: `结束${item.title}`,
+                        FIELD_VALUE: null,
+                        DateType: 'end',
+                      },
+                    ];
+                    if (!item.disabled) return
+                    return Date.map((kk, gg) => {
+                      let type = kk.DateType;
+                      switch (type) {
+                        case 'start':
+                          return (
+                            <Col span={expand ? 13 : 9} style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }} key={kk.dataIndex + gg}>
+                              <Form.Item
+                                label={kk.title}
+                                {...formItemLayout}
+                                style={{ width: '100%' }}
+                              >
+                                {/* {getFieldDecorator(`${kk.DateType}-${item.dataIndex}`, { */}
+                                {getFieldDecorator(`Start_date`, {
+                                  initialValue: null,
+                                })(
+                                  <DatePicker
+                                    allowClear={true}
+                                    placeholder={`请选择${kk.title}`}
+                                    format="YYYY-MM-DD HH:mm:ss"
+                                    placeholder={`请选择${kk.title}`}
+                                    showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                                    style={{ width: '100%' }}
+                                    onChange={e => {
+                                      this.handleChange(e, kk.title);
+                                      this.onStartChange(e, kk);
+                                    }}
+                                    disabledDate={e => this.disabledStartDate(e, kk)}
+                                  />
+                                )}
+                              </Form.Item>
+                            </Col>
+                          );
+                          break;
+                        case 'end':
+                          return (
+                            <Col span={expand ? 13 : 9} style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }} key={kk.dataIndex + gg}>
+                              <Form.Item
+                                label={kk.title}
+                                {...formItemLayout}
+                                style={{ width: '100%' }}
+                              >
+                                {/* {getFieldDecorator(`${kk.DateType}-${item.dataIndex}`, { */}
+                                {getFieldDecorator(`end_date`, {
+                                  initialValue: null,
+                                })(
+                                  <DatePicker
+                                    placeholder={`请选择${kk.title}`}
+                                    format="YYYY-MM-DD HH:mm:ss"
+                                    showTime={{ defaultValue: moment('23:59:59', 'HH:mm:ss') }}
+                                    style={{ width: '100%' }}
+                                    allowClear={true}
+                                    onChange={e => {
+                                      console.log(e);
+                                      this.handleChange(e, kk.title);
+                                      this.onEndChange(e, kk);
+                                    }}
+                                    disabledDate={e => this.disabledEndDate(e, kk)}
+                                  />
+                                )}
+                              </Form.Item>
+                            </Col>
+                          );
+                          break;
+                        default:
+                          break;
+                      }
+                    });
                     break
-                  case 'Select' :
-                      if(!item.disabled) return
-                      return <Col span={expand ? 13 : 9 } key={item.dataIndex} 
-                      style={{ textAlign: 'left',display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
+                  case 'Select':
+                    if (!item.disabled) return
+                    return <Col span={expand ? 13 : 9} key={item.dataIndex}
+                      style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
                       <Form.Item
                         label={item.title}
                         key={item.dataIndex}
@@ -264,29 +264,29 @@ class SearchBar extends React.Component {
                             onSearch={true}
                           >
                             {_.map(item.options, (ii, jj) => {
-                                  return (
-                                    <Select.Option
-                                      title={ii.text}
-                                      key={ii.value + _.now()}
-                                      value={ii.value}
-                                    >
-                                      {ii.text}
-                                    </Select.Option>
-                                  );
-                                })
+                              return (
+                                <Select.Option
+                                  title={ii.text}
+                                  key={ii.value + _.now()}
+                                  value={ii.value}
+                                >
+                                  {ii.text}
+                                </Select.Option>
+                              );
+                            })
                             }
                           </Select>
                         )}
                       </Form.Item>
                     </Col>
                     break
-                  default :
+                  default:
                     break
                 }
               })
             }
             {
-              <Col span={expand ? 13 : null } style={{ textAlign: 'right' }}>
+              <Col span={expand ? 13 : null} style={{ textAlign: 'right' }}>
                 <Form.Item
                   style={{
                     // width: this.state.expand ? 315 : 100,
@@ -305,7 +305,7 @@ class SearchBar extends React.Component {
                         fontSize: 12,
                         cursor: 'pointer',
                       }}
-                      onClick={()=>this.toggle()}
+                      onClick={() => this.toggle()}
                     >
                       <Icon type={this.state.expand ? 'up' : 'down'} />
                     </a>

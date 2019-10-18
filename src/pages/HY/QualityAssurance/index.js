@@ -257,7 +257,7 @@ export default class QualityAssurance extends React.Component {
         widgetType: 'Date',
         disabled: true,
         className: 'nocolor',
-        render: text => <span>{text ? moment(text).format('YYYY-MM-DD') : null}</span>
+        render: text => <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : null}</span>
       },
       {
         title: '检查状态',
@@ -406,6 +406,7 @@ export default class QualityAssurance extends React.Component {
             <SearchBar tableColumns={columns} queryDatas={(e) => this.queryDatas(e)} />
           </Col>
           <Table
+            rowKey={record => record.ID}
             loading={loading}
             rowSelection={rowSelection}
             dataSource={dataList}
