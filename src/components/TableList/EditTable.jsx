@@ -109,116 +109,117 @@ class EditableTable extends React.Component {
 
   componentWillReceiveProps(newProps) {
     // if (this.props.tableTemplate.tableColumns !== newProps.tableTemplate.tableColumns) {
-      let listColumnData = [];
-      _.get(newProps.tableTemplate, 'tableColumns').map((item, index) => {
-        if (item.colorMark) {
-          let list = {
-            ...item,
-            title: (
+    let listColumnData = [];
+    _.get(newProps.tableTemplate, 'tableColumns').map((item, index) => {
+      if (item.colorMark) {
+        let list = {
+          ...item,
+          title: (
+            <div>
+              <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
+                <span>{item.title}</span>
+              </Tooltip>
+            </div>
+          ),
+          sorter: item.sorTable ? true : false,
+          sortDirections: ['descend', 'ascend'],
+          editable: true,
+          ellipsis: true,
+          width: 200,
+          ...this.getColumnSearchProps(item.dataIndex),
+          onCell: record => ({
+            record,
+            inputType: item.dataIndex === 'age' ? 'number' : 'text',
+            dataIndex: item.dataIndex,
+            title: item.title,
+            editing: this.isEditing(record),
+          }),
+          // fixed: index === 0,
+          render: (text, record) => {
+            if (!text) return;
+            let color = text.split('-')[0];
+            let newText = text.split('-')[text.split('-').length - 1];
+            return (
               <div>
-                <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-                  <span>{item.title}</span>
-                </Tooltip>
+                <span>
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      background: color,
+                      width: '6px',
+                      height: '6px',
+                      marginRight: '5px',
+                      marginBottom: '2px',
+                      borderRadius: '50%',
+                    }}
+                  />
+                  {newText}
+                </span>
               </div>
-            ),
-            sorter: item.sorTable ? true : false,
-            sortDirections: ['descend', 'ascend'],
-            editable: true,
-            width: 200,
-            ...this.getColumnSearchProps(item.dataIndex),
-            onCell: record => ({
-              record,
-              inputType: item.dataIndex === 'age' ? 'number' : 'text',
-              dataIndex: item.dataIndex,
-              title: item.title,
-              editing: this.isEditing(record),
-            }),
-            // fixed: index === 0,
-            render: (text, record) => {
-              if (!text) return;
-              let color = text.split('-')[0];
-              let newText = text.split('-')[text.split('-').length - 1];
-              return (
-                <div>
-                  <span>
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        background: color,
-                        width: '6px',
-                        height: '6px',
-                        marginRight: '5px',
-                        marginBottom: '2px',
-                        borderRadius: '50%',
-                      }}
-                    />
-                    {newText}
-                  </span>
-                </div>
-              );
-            },
-          };
-          listColumnData.push(list);
-        } else {
-          let column = {
-            ...item,
-            title: (
-              <div>
-                <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-                  <span>{item.title}</span>
-                </Tooltip>
-              </div>
-            ),
-            editable: true,
-            sorter: item.sorTable ? true : false,
-            sortDirections: ['descend', 'ascend'],
-            width: 200,
-            // fixed: index === 0,
-            ...this.getColumnSearchProps(item.dataIndex),
-            onCell: record => ({
-              record,
-              inputType: item.dataIndex === 'age' ? 'number' : 'text',
-              dataIndex: item.dataIndex,
-              title: item.title,
-              editing: this.isEditing(record),
-            }),
-            render: (text, record) => {
-              return <div>{this.renderColumn(text, item, record)}</div>;
-            },
-          };
-          listColumnData.push(column);
-        }
-      });
-      // listColumnData.push({
-      //   title: 'operation',
-      //   dataIndex: 'operation',
-      //   width: 200,
-      //   render: (text, record) => {
-      //     const { editingKey } = this.state;
-      //     const editable = this.isEditing(record);
-      //     return editable ? (
-      //       <span>
-      //         <EditableContext.Consumer>
-      //           {form => (
-      //             <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
-      //               Save
-      //           </a>
-      //           )}
-      //         </EditableContext.Consumer>
-      //         <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
-      //           <a>Cancel</a>
-      //         </Popconfirm>
-      //       </span>
-      //     ) : (
-      //         <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
-      //           Edit
-      //     </a>
-      //       );
-      //   },
-      // });
-      this.setState({
-        columns: listColumnData,
-      });
+            );
+          },
+        };
+        listColumnData.push(list);
+      } else {
+        let column = {
+          ...item,
+          title: (
+            <div>
+              <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
+                <span>{item.title}</span>
+              </Tooltip>
+            </div>
+          ),
+          editable: true,
+          sorter: item.sorTable ? true : false,
+          sortDirections: ['descend', 'ascend'],
+          width: 200,
+          // fixed: index === 0,
+          ...this.getColumnSearchProps(item.dataIndex),
+          onCell: record => ({
+            record,
+            inputType: item.dataIndex === 'age' ? 'number' : 'text',
+            dataIndex: item.dataIndex,
+            title: item.title,
+            editing: this.isEditing(record),
+          }),
+          render: (text, record) => {
+            return <div>{this.renderColumn(text, item, record)}</div>;
+          },
+        };
+        listColumnData.push(column);
+      }
+    });
+    // listColumnData.push({
+    //   title: 'operation',
+    //   dataIndex: 'operation',
+    //   width: 200,
+    //   render: (text, record) => {
+    //     const { editingKey } = this.state;
+    //     const editable = this.isEditing(record);
+    //     return editable ? (
+    //       <span>
+    //         <EditableContext.Consumer>
+    //           {form => (
+    //             <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
+    //               Save
+    //           </a>
+    //           )}
+    //         </EditableContext.Consumer>
+    //         <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
+    //           <a>Cancel</a>
+    //         </Popconfirm>
+    //       </span>
+    //     ) : (
+    //         <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
+    //           Edit
+    //     </a>
+    //       );
+    //   },
+    // });
+    this.setState({
+      columns: listColumnData,
+    });
     // }
   }
 

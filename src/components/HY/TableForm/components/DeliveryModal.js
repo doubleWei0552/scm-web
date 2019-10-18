@@ -108,7 +108,9 @@ class DeliveryModal extends Component {
 
   confirmSelect = () => {
     console.log('propssssss', this.props);
-    const { dispatch, SUPPLIER_ID, DELIVERY_CODE } = this.props;
+
+    const { dispatch, SUPPLIER_ID, DELIVERY_CODE, tableTemplate } = this.props;
+    const uid = _.get(tableTemplate, 'detailData.thisComponentUid')
     const { selectDatas } = this.state;
     dispatch({
       type: 'hydeliveryorder/confirmSelect',
@@ -123,7 +125,7 @@ class DeliveryModal extends Component {
             {
               visible: false,
             },
-            () => this.props.handleOk()
+            () => this.props.handleOk(uid)
           );
         }
       },

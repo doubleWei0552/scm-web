@@ -87,7 +87,7 @@ export default {
   },
   subscriptions: {
     setup({ history, dispatch }) {
-      return history.listen(({ pathname }) => {});
+      return history.listen(({ pathname }) => { });
     },
   },
   effects: {
@@ -98,8 +98,8 @@ export default {
         payload,
       });
     },
-    *getReportForm({payload,callback},{put,call,select}){
-      const {pageId} = payload
+    *getReportForm({ payload, callback }, { put, call, select }) {
+      const { pageId } = payload
       const params = { pageId };
       const result = yield call(querySummaryPageConfig, params);
       if (callback) callback(result)
@@ -112,7 +112,7 @@ export default {
             tableColumnsData: result.data,
           },
         });
-      } 
+      }
     },
     // 获取列表页表头数据
     *getSummaryPageConfig({ payload, callback }, { put, call, select }) {
@@ -269,14 +269,12 @@ export default {
     // 获取子表数据
     *handleRefreshChildTable({ payload, callback }, { call, put, select }) {
       console.log('ssssssss1', payload);
+
       const id = yield select(({ tableTemplate }) => tableTemplate.pageId);
-      console.log('ssssssss1id', id);
-      // const uid = yield select(
-      //   ({ tableTemplate }) => tableTemplate.DetailPage.data.thisComponentUid
-      // );
+      const { uid } = payload
       const childParams = {
         pageId: id,
-        thisComponentUid: 821,
+        thisComponentUid: uid,
       };
       const childResult = yield call(queryDetailChildPage, childParams);
       const initDetailChildData = yield select(
@@ -653,7 +651,7 @@ export default {
       const selectChildOption = yield select(
         ({ tableTemplate }) => tableTemplate.selectChildOption
       );
-      const isExist = _.findIndex(selectChildOption, function(o) {
+      const isExist = _.findIndex(selectChildOption, function (o) {
         return o.selectKey == result.data.selectKey && o.field == result.data.field;
       });
       if (isExist == -1) {
@@ -697,7 +695,7 @@ export default {
       const selectChildOption = yield select(
         ({ tableTemplate }) => tableTemplate.selectChildOption
       );
-      const isExist = _.findIndex(selectChildOption, function(o) {
+      const isExist = _.findIndex(selectChildOption, function (o) {
         return o.selectKey == result.data.selectKey && o.field == result.data.field;
       });
       if (isExist == -1) {
@@ -742,7 +740,7 @@ export default {
         ({ tableTemplate }) => tableTemplate.selectChildOption
       );
       // console.log('子表的下拉数据',selectChildOption)
-      const isExist = _.findIndex(selectChildOption, function(o) {
+      const isExist = _.findIndex(selectChildOption, function (o) {
         return o.selectKey == result.data.selectKey && o.field == result.data.field;
       });
       // console.log('是否存在',isExist)

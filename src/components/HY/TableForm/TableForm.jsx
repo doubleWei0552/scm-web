@@ -289,17 +289,17 @@ export default class TableForm extends React.Component {
         title="送货详情"
         SUPPLIER_ID={SUPPLIER_ID}
         DELIVERY_CODE={DELIVERY_CODE}
-        handleOk={data => this.handleRefreshChildTable()}
+        handleOk={id => this.handleRefreshChildTable(id)}
       />,
       div
     );
   };
 
-  handleRefreshChildTable = () => {
+  handleRefreshChildTable = (id) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'tableTemplate/handleRefreshChildTable',
-      payload: {},
+      payload: { uid: id },
     });
   };
 
