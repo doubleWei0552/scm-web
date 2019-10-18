@@ -10,6 +10,7 @@ import IframeCard from '@/components/IframeCard'
 import NoticeCard from '@/components/NoticeCard'
 import {onGetImageUrl} from '@/utils/FunctionSet';
 import styles from './style.less'
+import { resolve } from 'q';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
@@ -40,20 +41,6 @@ class PersonalCenter extends Component {
     }
   }
 
-  a = async () =>{
-    await new Promise((resolve,reject)=>{
-      setTimeout(() => {
-        console.log('我是延迟函数返回的')
-        resolve('err')
-      }, 2000)
-    }).then((res)=>{{
-      console.log('成功了',res)
-    }})
-    .catch(()=>{
-      console.log('失败了')
-    })
-  }
-
   render() {
     const { login, submitting, homePage } = this.props;
     const { noticeData = [] } = homePage
@@ -65,7 +52,6 @@ class PersonalCenter extends Component {
         <div style={{display:localStorage.getItem('personalHome') ? 'block' : 'none'}}>
           <img style={{width:'100%'}} src={url ? url : ''} alt='error'/>
         </div>
-        {/* <Button onClick={this.a} />  */}
       </div>
     )
 
