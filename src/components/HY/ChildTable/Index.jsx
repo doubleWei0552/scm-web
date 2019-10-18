@@ -1286,6 +1286,7 @@ export default class ChildTable extends React.Component {
                   {...TableForm}
                   DELIVERY_CODE={this.props.detailForm ? this.props.detailForm.getFieldValue('CODE') : null}
                   SUPPLIER_ID={this.props.detailForm ? this.props.detailForm.getFieldValue('SUPPLIER_ID') : null}
+                  PURCHASE_TYPE={this.props.detailForm ? this.props.detailForm.getFieldValue('PURCHASE_TYPE') : null}
                 />
               </div>
             </TabPane>
@@ -1355,6 +1356,7 @@ export default class ChildTable extends React.Component {
                     {...TableForm}
                     DELIVERY_CODE={this.props.detailForm ? this.props.detailForm.getFieldValue('CODE') : null}
                     SUPPLIER_ID={this.props.detailForm ? this.props.detailForm.getFieldValue('SUPPLIER_ID') : null}
+                    PURCHASE_TYPE={this.props.detailForm ? this.props.detailForm.getFieldValue('PURCHASE_TYPE') : null}
                   />
                 </div>
               </TabPane>

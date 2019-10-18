@@ -279,7 +279,7 @@ export default class TableForm extends React.Component {
     //CODE
     // const DELIVERY_CODE = this.props.detailForm ? this.props.detailForm.getFieldValue('CODE') : null
     // const SUPPLIER_ID = this.props.detailForm ? this.props.detailForm.getFieldValue('SUPPLIER_ID') : null
-    const { DELIVERY_CODE, SUPPLIER_ID } = this.props;
+    const { DELIVERY_CODE, SUPPLIER_ID, PURCHASE_TYPE } = this.props;
     console.log('ssssssss', this.props);
     const div = document.createElement('div');
     document.body.appendChild(div);
@@ -289,6 +289,7 @@ export default class TableForm extends React.Component {
         title="送货详情"
         SUPPLIER_ID={SUPPLIER_ID}
         DELIVERY_CODE={DELIVERY_CODE}
+        PURCHASE_TYPE={PURCHASE_TYPE}
         handleOk={id => this.handleRefreshChildTable(id)}
       />,
       div

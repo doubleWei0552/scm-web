@@ -68,7 +68,7 @@ class DeliveryModal extends Component {
   };
 
   handleSearch = e => {
-    const { dispatch, SUPPLIER_ID } = this.props;
+    const { dispatch, SUPPLIER_ID, PURCHASE_TYPE } = this.props;
     console.log('modal', this.props);
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -79,8 +79,8 @@ class DeliveryModal extends Component {
       };
       const { MATERIAL_CODE, QUANTITY, SPEC } = values;
       const data = _.get(values, 'DEMAND_DATE[0]')
-        ? _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, SPEC, DEMAND_DATE })
-        : _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, SPEC });
+        ? _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, SPEC, PURCHASE_TYPE, DEMAND_DATE })
+        : _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, PURCHASE_TYPE, SPEC });
       dispatch({
         type: 'hydeliveryorder/getModalList',
         payload: data,
