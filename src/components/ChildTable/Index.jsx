@@ -575,7 +575,7 @@ export default class ChildTable extends React.Component {
                                   })(
                                     <Input
                                       style={{
-                                        minWidth: '100px',
+                                        minWidth: '150px',
                                         border:
                                           !this.state.isRegex &&
                                             this.state.regesKey == record.key + i.value
@@ -617,7 +617,7 @@ export default class ChildTable extends React.Component {
                                     ],
                                   })(
                                     <Input
-                                      style={{ minWidth: '100px' }}
+                                      style={{ minWidth: '150px' }}
                                       onBlur={e =>
                                         this.onChildChang(
                                           e,
