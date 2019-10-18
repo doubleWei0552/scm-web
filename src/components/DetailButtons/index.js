@@ -235,10 +235,17 @@ class DetailButtons extends PureComponent {
   // 返回
   editBack = () => {
     this.props.detailForm && this.props.detailForm.resetFields(); // 待测
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); // 新增时，清空输入框内的内容
     this.props.dispatch({
       type: 'tableTemplate/changeState',
       payload: { isEdit: false, buttonType: true, disEditStyle: true },
+    });
+    this.props.dispatch({
+      type: 'tableTemplate/getDetailPage',
+      payload: {
+        ObjectType: this.props.tableTemplate.detailColumns.objectType,
+        pageId: this.props.tableTemplate.pageId,
+        ProhibitChildRefresh:false, //禁止子表刷新
+      },
     });
   };
 
@@ -252,6 +259,7 @@ class DetailButtons extends PureComponent {
         type: 'tableTemplate/changeState',
         payload: { isEdit: false, buttonType: false, disEditStyle: true },
       });
+      // this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
     } else {
       this.props.dispatch({
         type: 'tableTemplate/getDetailPage',
@@ -277,7 +285,21 @@ class DetailButtons extends PureComponent {
         payload: { isEditSave: false, isEdit: true, buttonType: true, disEditStyle: true },
       });
     }
-    this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
+    this.props.dispatch({
+      type: 'tableTemplate/getDetailPage',
+      payload: {
+        ID:
+            JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+              ? this.props.tableTemplate.selectDate.ID
+              : this.props.tableTemplate.ID,
+          ObjectType:
+            JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+              ? this.props.tableTemplate.selectDate.ObjectType
+              : this.props.tableTemplate.objectType,
+          pageId: this.props.tableTemplate.pageId,
+        ProhibitChildRefresh:false, //禁止子表刷新
+      },
+    });
   };
 
   // 保存
