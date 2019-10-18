@@ -303,7 +303,7 @@ class SearchBar extends React.Component {
                       style={{
                         marginLeft: 8,
                         fontSize: 12,
-                        cursor: this.state.expand ? 'not-allowed' : 'pointer',
+                        cursor: 'pointer',
                       }}
                       onClick={()=>this.toggle()}
                     >
