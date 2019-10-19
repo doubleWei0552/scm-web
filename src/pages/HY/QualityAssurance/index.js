@@ -1,12 +1,15 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 import MultiTableTemplate from '@/components/HY/DeliveryOrderTemplate/MultiTableTemplate';
 import router from 'umi/router';
 import CatchError from '@/components/CatchError';
 import { connect } from 'dva';
 import moment from 'moment'
-import { Card, Table, Button, Select, Checkbox, InputNumber, Input, Pagination, Col } from 'antd';
+import { Card, Table, Button, Select, Checkbox, InputNumber, Input, Pagination, Col, Alert, Form } from 'antd';
 import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 import SearchBar from '@/pages/HY/QualityAssurance/component/HY_SearchBar'; //搜索栏
+import { notification } from 'antd';
+
 
 import styles from './style.less'
 
@@ -25,6 +28,7 @@ export default class QualityAssurance extends React.Component {
       paganition: {},
       selectDatas: [],
       searchParams: {},
+      reasons: []
     };
   }
 
@@ -66,6 +70,9 @@ export default class QualityAssurance extends React.Component {
     if (value == 1) {
       record.HG_NUM = record.RECEIVED_NUM;
       record.YT_NUM = 0
+    } else if (value == 2) {
+      record.HG_NUM = 0;
+      record.YT_NUM = record.RECEIVED_NUM;
     }
 
     const index = _.findIndex(dataList, data => data.ID === record.ID);
@@ -104,18 +111,40 @@ export default class QualityAssurance extends React.Component {
 
   // 验退理由
   handleReasonChange = (e, record) => {
-    const { dataList } = this.state;
+    let { dataList, reasons } = this.state;
     record.CHECK_REASON = e.target.value;
+    // if (record.CHECK_REASON) {
+    //   _.remove(reasons, reason => reason == record.ID)
+    // }
+    console.log('reasons', reasons)
     const index = _.findIndex(dataList, data => data.ID === record.ID);
     dataList[index] = record;
     this.setState({
       dataList,
+      reasons,
     });
   }
 
   // 审核
   handleQuality = () => {
     const { selectDatas } = this.state
+    let aaa = [];
+    _.map(selectDatas, data => {
+      if (data.QUALITY_STATUS == '2' && !data.CHECK_REASON) {
+        aaa.push(data.ID)
+      }
+    })
+    if (aaa.length > 0) {
+      // alert('"检验状态为验退时，验退理由不能为空！"')
+      notification.error({
+        message: "验退理由不能为空，请检查！",
+        // description: response.message,
+      });
+      this.setState({
+        reasons: aaa
+      })
+      return
+    }
     const { dispatch } = this.props
     dispatch({
       type: 'quality/handleQuality',
@@ -123,6 +152,9 @@ export default class QualityAssurance extends React.Component {
       callback: response => {
         console.log('callback', response)
         this.queryDatas()
+        this.setState({
+          reasons: []
+        })
       }
     });
   }
@@ -161,7 +193,7 @@ export default class QualityAssurance extends React.Component {
 
   render() {
     const { loading } = this.props;
-    let { dataList, paganition } = this.state;
+    let { dataList, paganition, reasons, selectDatas = [] } = this.state;
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         this.setState({
@@ -295,7 +327,7 @@ export default class QualityAssurance extends React.Component {
             min={0}
             max={record.QUANTITY}
             step={1}
-            disabled={!record.QUALITY_STATUS || record.QUALITY_STATUS === 0 || record.QUALITY_STATUS === 1 || record.QUALITY_STATUS === 9}
+            disabled={!record.QUALITY_STATUS || record.QUALITY_STATUS === '0' || record.QUALITY_STATUS === '1' || record.QUALITY_STATUS === '9'}
             value={record.HG_NUM}
             onChange={e => this.handleNumberChange(e, record)}
           />
@@ -326,14 +358,32 @@ export default class QualityAssurance extends React.Component {
         disabled: false,
         widgetType: 'Text',
         width: 200,
-        render: (text, record) => (
-          <Input
-            value={record.CHECK_REASON}
-            // disabled
-            style={{ width: '200px' }}
-            onChange={e => this.handleReasonChange(e, record)}
-          />
-        ),
+        render: (text, record) => {
+          if (_.includes(reasons, record.ID)) {
+            return (
+              <Form.Item
+                validateStatus="error"
+                help="验退理由不能为空！"
+              >
+                <Input
+                  value={record.CHECK_REASON}
+                  disabled={record.TB_SDH && record.QUALITY_STATUS === "1"}
+                  style={{ width: '200px' }}
+                  onChange={e => this.handleReasonChange(e, record)}
+                />
+              </Form.Item>
+            )
+          } else {
+            return (
+              <Input
+                value={record.CHECK_REASON}
+                disabled={record.TB_SDH && record.QUALITY_STATUS === "1"}
+                style={{ width: '200px' }}
+                onChange={e => this.handleReasonChange(e, record)}
+              />
+            )
+          }
+        },
       },
       {
         title: '质检人员',
@@ -396,10 +446,19 @@ export default class QualityAssurance extends React.Component {
           <CustomerHeader />
           <Col span={6} style={{ lineHeight: '41px', whiteSpace: 'nowrap', zIndex: 1 }}>
             <div style={{ margin: '10px 0' }}>
-              <Button onClick={() => this.handleQuality()} style={{ marginRight: '1rem' }} type="primary">
+              <Button
+                disabled={selectDatas.length == 0}
+                onClick={() => this.handleQuality()}
+                style={{ marginRight: '1rem' }} type="primary">
                 审核
               </Button>
-              <Button onClick={this.handleResetQuality} type="primary">撤回</Button>
+              <Button
+                disabled={selectDatas.length == 0}
+                onClick={this.handleResetQuality}
+                type="primary"
+              >
+                撤回
+              </Button>
             </div>
           </Col>
           <Col span={18} style={{ margin: '10px 0', zIndex: 1000, }}>
