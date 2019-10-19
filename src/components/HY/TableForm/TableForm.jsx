@@ -22,7 +22,7 @@ import styles from './Index.less';
 
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
-  loadingG: loading.effects['tableTemplate/childUpdateFields'],
+  loadingG: false,
 }))
 export default class TableForm extends React.Component {
   state = {
@@ -296,7 +296,7 @@ export default class TableForm extends React.Component {
     );
   };
 
-  handleRefreshChildTable = (id) => {
+  handleRefreshChildTable = id => {
     const { dispatch } = this.props;
     dispatch({
       type: 'tableTemplate/handleRefreshChildTable',
@@ -364,8 +364,8 @@ export default class TableForm extends React.Component {
           {this.props.MultiObjectSelector ? (
             <ListPage {...listPageProps} />
           ) : (
-              <ListForm {...listFormProps} onRef={this.onRef} /> //注:没有mask数据，没有调用handleOk方法
-            )}
+            <ListForm {...listFormProps} onRef={this.onRef} /> //注:没有mask数据，没有调用handleOk方法
+          )}
         </Modal>
       </div>
     );
