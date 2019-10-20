@@ -36,7 +36,7 @@ class DetailButtons extends PureComponent {
     }
   };
 
-  handleClickItem = item => {};
+  handleClickItem = item => { };
 
   //详情页按钮，按钮组版本
   editButton = () => {

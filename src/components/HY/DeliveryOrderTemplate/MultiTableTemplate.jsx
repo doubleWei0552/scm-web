@@ -28,7 +28,7 @@ import CatchError from '@/components/CatchError';
 import DetailsPageModule from '@/components/HY/DeliveryOrderDetailsPageModule';
 // import DetailsPageModule from '@/components/DetailsPageModule/Index';
 
-import ListPageModule from '@/components/ListPageModule';
+import ListPageModule from '@/components/HY/ListPageModule';
 import SkeletonCom from '@/components/Skeleton';
 import moment from 'moment';
 import styles from './SingleTableTemplate.less';

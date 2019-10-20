@@ -69,6 +69,8 @@ export default [
       { path: '/', redirect: '/user' },
 
       // 动态路由
+      { path: '/165/deliveryOreer', name: '', component: './HY/DeliveryOrder' },
+      { path: '/165/deliveryOreer/list', name: '', component: './HY/DeliveryOrder' },
       { path: '/2328/deliveryOreer', name: '', component: './HY/DeliveryOrder' },
       { path: '/2328/deliveryOreer/list', name: '', component: './HY/DeliveryOrder' },
       { path: '/5082/:first/:second', name: '', component: './HY/QualityAssurance' },

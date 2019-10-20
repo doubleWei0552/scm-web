@@ -194,6 +194,9 @@ export default class QualityAssurance extends React.Component {
   render() {
     const { loading } = this.props;
     let { dataList, paganition, reasons, selectDatas = [] } = this.state;
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    const { roleId } = userData;
+    console.log('roleID', roleId)
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         this.setState({

@@ -27,7 +27,7 @@ import CustomerHeader from '@/components/CustomerHeader'; //头部组件
 import DetailPage from '@/components/DetailPage/Index'; // 主表详情组件
 import ChildTable from '@/components/ChildTable/Index'; //子表组件
 import Detailbuttons from '@/components/DetailButtons'; // 详情页头部的按钮栏
-import TableButtons from '@/components/TableButtons'; // 列表页头部的按钮栏
+import TableButtons from '@/components/HY/TableButtons'; // 列表页头部的按钮栏
 import SearchBar from '@/components/SearchBar/index'; //搜索栏
 import TableList from '@/components/HY/TableList/EditTable'; //列表表格
 import TestTableList from '@/components/TableList/TestIndex'; //测试页面
