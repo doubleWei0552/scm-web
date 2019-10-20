@@ -140,6 +140,11 @@ class DeliveryModal extends Component {
     console.log('ssssss', dataList);
     const columns = [
       {
+        title: '料号',
+        dataIndex: 'PRODUCT_CODE',
+        fixed: 'left'
+      },
+      {
         title: '采购订单',
         className: 'column-money',
         dataIndex: 'PURCHASE_ORDER_CODE',
@@ -153,13 +158,12 @@ class DeliveryModal extends Component {
         dataIndex: 'DELIVERY_DATE',
         render: text => <span>{moment(text).format('YYYY-MM-DD')}</span>,
       },
-      {
-        title: '料号',
-        dataIndex: 'PRODUCT_CODE',
-      },
+
       {
         title: '品名',
         dataIndex: 'PRODUCT_NAME',
+        // width: 232,
+        // render: text => <div style={{ width: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{text}</div>
       },
       {
         title: '规格',
@@ -172,14 +176,17 @@ class DeliveryModal extends Component {
       {
         title: '采购量',
         dataIndex: 'QUANTITY',
+        fixed: 'right',
       },
       {
         title: '未交量',
         dataIndex: 'UNDELIVEREDQUANTITY',
+        fixed: 'right',
       },
       {
         title: '数量',
         dataIndex: 'UNMATCHQUANTITY',
+        fixed: 'right',
         render: (text, record) => (
           <InputNumber
             min={0}

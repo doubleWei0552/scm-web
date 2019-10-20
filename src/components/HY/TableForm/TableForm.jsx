@@ -364,8 +364,8 @@ export default class TableForm extends React.Component {
           {this.props.MultiObjectSelector ? (
             <ListPage {...listPageProps} />
           ) : (
-            <ListForm {...listFormProps} onRef={this.onRef} /> //注:没有mask数据，没有调用handleOk方法
-          )}
+              <ListForm {...listFormProps} onRef={this.onRef} /> //注:没有mask数据，没有调用handleOk方法
+            )}
         </Modal>
       </div>
     );
