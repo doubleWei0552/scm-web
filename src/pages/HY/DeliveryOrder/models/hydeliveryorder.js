@@ -1,4 +1,5 @@
 import HyDeliveryOrderService from '@/services/hy/deliveryorder';
+import { notification } from 'antd'
 
 export default {
   namespace: 'hydeliveryorder',
@@ -37,7 +38,10 @@ export default {
       if (response.status === 'success') {
         callback && callback(response)
       } else {
-
+        notification.error({
+          message: `请求错误`,
+          description: response.message,
+        });
       }
     }
   },
