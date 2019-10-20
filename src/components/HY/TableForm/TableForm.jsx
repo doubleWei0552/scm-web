@@ -316,9 +316,23 @@ export default class TableForm extends React.Component {
       handleCancel: this.handleCancel,
       ...this.props,
     };
+
+    const { Data } = this.state
+    let total = 0;
+    let itemTotal = 0;
+    _.map(Data, data => {
+      total += data.QUANTITY;
+      itemTotal += data.ITEM_QUANTITY;
+    })
+
+    console.log('this.state.data', this.state.Data)
     return (
       <div className={styles.childTable}>
         <Spin spinning={this.props.loadingG || false}>
+          <div style={{ paddingBottom: '5px' }}>
+            <span style={{ fontSize: '16px', display: 'inline-block', }}>总送货量：</span> <span style={{ fontSize: '18px', fontWeight: 'bold' }}>{total}</span>
+            <span style={{ fontSize: '16px', display: 'inline-block', paddingLeft: '16px' }}>总件数：</span> <span style={{ fontSize: '18px', fontWeight: 'bold' }}>{itemTotal}</span>
+          </div>
           <Table
             style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
             className={

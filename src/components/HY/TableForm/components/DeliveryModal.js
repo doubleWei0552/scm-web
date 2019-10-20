@@ -148,6 +148,7 @@ class DeliveryModal extends Component {
         title: '采购订单',
         className: 'column-money',
         dataIndex: 'PURCHASE_ORDER_CODE',
+        width: 200,
       },
       {
         title: '采购项次',
@@ -156,6 +157,7 @@ class DeliveryModal extends Component {
       {
         title: '需求日期',
         dataIndex: 'DELIVERY_DATE',
+        width: 150,
         render: text => <span>{moment(text).format('YYYY-MM-DD')}</span>,
       },
 
@@ -172,20 +174,24 @@ class DeliveryModal extends Component {
       {
         title: '单位',
         dataIndex: 'UNIT_CODE',
+        width: 100,
       },
       {
         title: '采购量',
         dataIndex: 'QUANTITY',
         fixed: 'right',
+        width: 100,
       },
       {
         title: '未交量',
         dataIndex: 'UNDELIVEREDQUANTITY',
         fixed: 'right',
+        width: 100,
       },
       {
         title: '数量',
         dataIndex: 'UNMATCHQUANTITY',
+        width: 150,
         fixed: 'right',
         render: (text, record) => (
           <InputNumber
@@ -194,6 +200,7 @@ class DeliveryModal extends Component {
             step={1}
             value={record.UNMATCHQUANTITY}
             onChange={e => this.handleNumberChange(e, record)}
+            style={{ width: 'auto' }}
           />
         ),
       },
