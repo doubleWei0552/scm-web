@@ -123,7 +123,7 @@ class EditableTable extends React.Component {
           ),
           sorter: item.sorTable ? true : false,
           sortDirections: ['descend', 'ascend'],
-          editable: true,
+          editable: false,
           width: 200,
           ...this.getColumnSearchProps(item.dataIndex),
           onCell: record => ({
@@ -131,7 +131,7 @@ class EditableTable extends React.Component {
             inputType: item.dataIndex === 'age' ? 'number' : 'text',
             dataIndex: item.dataIndex,
             title: item.title,
-            editing: true,
+            editing: false,
           }),
           // fixed: index === 0,
           render: (text, record) => {
@@ -169,7 +169,7 @@ class EditableTable extends React.Component {
               </Tooltip>
             </div>
           ),
-          editable: true,
+          editable: false,
           sorter: item.sorTable ? true : false,
           sortDirections: ['descend', 'ascend'],
           width: 200,
@@ -189,33 +189,33 @@ class EditableTable extends React.Component {
         listColumnData.push(column);
       }
     });
-    listColumnData.push({
-      title: 'operation',
-      dataIndex: 'operation',
-      width: 200,
-      render: (text, record) => {
-        const { editingKey } = this.state;
-        const editable = this.isEditing(record);
-        return editable ? (
-          <span>
-            <EditableContext.Consumer>
-              {form => (
-                <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
-                  Save
-                </a>
-              )}
-            </EditableContext.Consumer>
-            <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
-        ) : (
-          <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
-            Edit
-          </a>
-        );
-      },
-    });
+    // listColumnData.push({
+    //   title: 'operation',
+    //   dataIndex: 'operation',
+    //   width: 200,
+    //   render: (text, record) => {
+    //     const { editingKey } = this.state;
+    //     const editable = this.isEditing(record);
+    //     return editable ? (
+    //       <span>
+    //         <EditableContext.Consumer>
+    //           {form => (
+    //             <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
+    //               Save
+    //             </a>
+    //           )}
+    //         </EditableContext.Consumer>
+    //         <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
+    //           <a>Cancel</a>
+    //         </Popconfirm>
+    //       </span>
+    //     ) : (
+    //       <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
+    //         Edit
+    //       </a>
+    //     );
+    //   },
+    // });
     this.setState({
       columns: listColumnData,
     });
