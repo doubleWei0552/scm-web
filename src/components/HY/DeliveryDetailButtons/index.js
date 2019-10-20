@@ -28,15 +28,15 @@ let editAndDeleteButton = {
 class DetailButtons extends PureComponent {
   state = {};
 
-  componentWillReceiveProps = (newProps) => {
+  componentWillReceiveProps = newProps => {
     if (newProps.tableTemplate.isNewSave != this.props.tableTemplate.isNewSave) {
       if (this.props.detailForm) {
-        this.props.detailForm.resetFields()
+        this.props.detailForm.resetFields();
       }
     }
-  }
+  };
 
-  handleClickItem = item => { };
+  handleClickItem = item => {};
 
   //详情页按钮，按钮组版本
   editButton = () => {
@@ -55,7 +55,6 @@ class DetailButtons extends PureComponent {
     // });
 
     buttons.map(item => {
-
       if (item.FIELD_NAME === 'DELETE') {
         editAndDeleteButton['DELETE'] = item;
       } else if (item.FIELD_NAME === 'EDIT') {
@@ -64,7 +63,7 @@ class DetailButtons extends PureComponent {
         editAndDeleteButton['ADD'] = item;
       } else {
         if (!item.DISPLAY_CONDITION) {
-          return
+          return;
         }
         // buttonData.push(item);
         const index = _.findIndex(buttonList, l => l.groupName === item.BUTTON_GROUP);
@@ -165,7 +164,7 @@ class DetailButtons extends PureComponent {
   // 新增
   detailCreate = () => {
     if (this.props.detailForm) {
-      this.props.detailForm.resetFields()
+      this.props.detailForm.resetFields();
     }
     this.props.dispatch({
       type: 'tableTemplate/changeState',
@@ -265,7 +264,7 @@ class DetailButtons extends PureComponent {
               ? this.props.tableTemplate.selectDate.ObjectType
               : this.props.tableTemplate.objectType,
           pageId: this.props.tableTemplate.pageId,
-          ProhibitChildRefresh: true, //禁止子表刷新
+          ProhibitChildRefresh: false, //禁止子表刷新
         },
       });
       // this.setState({
@@ -283,6 +282,7 @@ class DetailButtons extends PureComponent {
   // 保存
   onEditSave() {
     const { isNewSave, isEditSave } = this.props.tableTemplate;
+    console.log(isNewSave, isEditSave);
     let fileList = _.get(this.props.tableTemplate, 'fileList');
     let fileKey = _.get(this.props.tableTemplate, 'fileKey');
     this.props.detailForm.validateFields((err, fieldValues) => {
@@ -312,7 +312,7 @@ class DetailButtons extends PureComponent {
         if (isNewSave) {
           for (let i in this.state) {
             if (!this.state[i]) {
-              this.state[i] = ''
+              this.state[i] = '';
             }
           }
           this.props.dispatch({
@@ -320,9 +320,9 @@ class DetailButtons extends PureComponent {
             payload: { value: this.state, type: 'save' },
             callback: res => {
               if (res.status == 'success') {
-                this.props.renderDataWhenSave(res.data)
+                this.props.renderDataWhenSave(res.data);
               }
-            }
+            },
             //   if (res.status == 'success') {
             // this.props.detailForm.resetFields();
             // this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
@@ -357,6 +357,7 @@ class DetailButtons extends PureComponent {
               payload: { value: this.state, type: 'edit' },
               callback: res => {
                 if (res.status == 'success') {
+                  this.props.detailForm.resetFields();
                   this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); //清除子表的缓存数据
                   this.props.dispatch({
                     type: 'tableTemplate/changeState',
@@ -371,6 +372,7 @@ class DetailButtons extends PureComponent {
               payload: { value: this.state, type: 'save' },
               callback: res => {
                 if (res.status == 'success') {
+                  this.props.detailForm.resetFields();
                   this.props.dispatch({ type: 'tableTemplate/save', payload: { ChildData: [] } }); // 清除子表的缓存数据
                   this.props.dispatch({
                     type: 'tableTemplate/changeState',
@@ -383,7 +385,7 @@ class DetailButtons extends PureComponent {
         }
       }
     });
-  };
+  }
 
   //详情页的自定义按钮事件
   onButtonEvent = e => {

@@ -52,7 +52,7 @@ class DetailPage extends React.Component {
   };
 
   componentDidMount() {
-    this.props.onRef(this)
+    this.props.onRef(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -60,24 +60,29 @@ class DetailPage extends React.Component {
     const { tableTemplate } = newProps;
     const { policyFormFields = [] } = _.get(tableTemplate, 'detailData');
     // if (_.isEmpty(detailOptions)) {
-      _.map(policyFormFields, field => {
-        if (field.WIDGET_TYPE === 'Select' || field.WIDGET_TYPE === 'Reference' || field.WIDGET_TYPE === 'ObjectSelector' || field.WIDGET_TYPE === 'MultiObjectSelector') {
-          detailOptions[field.FIELD_NAME] = field.options
-        }
-      })
-      this.setState({
-        detailOptions
-      })
+    _.map(policyFormFields, field => {
+      if (
+        field.WIDGET_TYPE === 'Select' ||
+        field.WIDGET_TYPE === 'Reference' ||
+        field.WIDGET_TYPE === 'ObjectSelector' ||
+        field.WIDGET_TYPE === 'MultiObjectSelector'
+      ) {
+        detailOptions[field.FIELD_NAME] = field.options;
+      }
+    });
+    this.setState({
+      detailOptions,
+    });
     // }
   }
 
   shouldComponentUpdate(newProps, newState) {
-    return true
+    return true;
   }
 
-  onEditSearch = (value,field) => {
-    if(field.WIDGET_TYPE == 'Reference'){
-      const { detailOptions } = this.state
+  onEditSearch = (value, field) => {
+    if (field.WIDGET_TYPE == 'Reference') {
+      const { detailOptions } = this.state;
       this.props.dispatch({
         type: 'tableTemplate/getAutocomplate',
         payload: { value },
@@ -85,17 +90,17 @@ class DetailPage extends React.Component {
           if (response.status === 'success') {
             detailOptions[response.data.field] = response.data.options;
             this.setState({
-              detailOptions
-            })
+              detailOptions,
+            });
           }
-        }
+        },
       });
     }
   };
 
   //树状选择
   onTreeSelector = (value, field) => {
-    let isHave = this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME)
+    let isHave = this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME);
     const { FIELD_NAME, OBJECT_TYPE } = field;
     const fieldValues = this.props.form.getFieldsValue();
     fieldValues[field.FIELD_NAME] = value;
@@ -140,7 +145,7 @@ class DetailPage extends React.Component {
   };
 
   onNumberChange = (e, field) => {
-    let isHave = this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME)
+    let isHave = this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME);
     const { FIELD_NAME, OBJECT_TYPE } = field;
     const fieldValues = this.props.form.getFieldsValue();
     fieldValues[field.FIELD_NAME] = e;
@@ -179,10 +184,10 @@ class DetailPage extends React.Component {
         },
       });
     }
-  }
+  };
 
   handleSelect = (e, field) => {
-    let isHave = this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME)
+    let isHave = this.props.tableTemplate.detailColumns.rtLinks.includes(field.FIELD_NAME);
     const { FIELD_NAME, OBJECT_TYPE } = field;
     const fieldValues = this.props.form.getFieldsValue();
     fieldValues[field.FIELD_NAME] = e;
@@ -266,11 +271,11 @@ class DetailPage extends React.Component {
         });
       }
     }
-    if (fn) fn()
-  }
+    if (fn) fn();
+  };
 
   render() {
-    const { SHOW_PARENT } = TreeSelectCom
+    const { SHOW_PARENT } = TreeSelectCom;
     const { tableTemplate } = this.props;
     const { currentKey } = tableTemplate;
     const { getFieldDecorator } = this.props.form;
@@ -292,12 +297,18 @@ class DetailPage extends React.Component {
     });
     let tabFields = [];
     _.map(policyFormFields, (field, index) => {
-      const i = _.findIndex(tabFields, item => _.get(item, 'tabName') === field.PAGE_FIELD_TAB_NAME);
+      const i = _.findIndex(
+        tabFields,
+        item => _.get(item, 'tabName') === field.PAGE_FIELD_TAB_NAME
+      );
       if (i > -1) {
         tabFields[i].fields.push(field);
       } else {
         if (field.PAGE_FIELD_TAB_SORT || field.PAGE_FIELD_TAB_SORT === 0) {
-          tabFields[field.PAGE_FIELD_TAB_SORT] = { tabName: field.PAGE_FIELD_TAB_NAME, fields: [field] };
+          tabFields[field.PAGE_FIELD_TAB_SORT] = {
+            tabName: field.PAGE_FIELD_TAB_NAME,
+            fields: [field],
+          };
         } else {
           tabFields.push({ tabName: field.PAGE_FIELD_TAB_NAME, fields: [field] });
         }
@@ -321,7 +332,7 @@ class DetailPage extends React.Component {
             className={tabFields.length > 1 ? 'showTabBar' : 'hideTabBar'}
           >
             {_.map(tabFields, (item, index) => {
-              if (!item) return
+              if (!item) return;
               let gFields = [];
               _.map(item.fields, (itm, index) => {
                 const i = _.findIndex(
@@ -396,7 +407,11 @@ class DetailPage extends React.Component {
 
                             case 'Text':
                               return (
-                                <Col span={10} offset={1} key={i}>
+                                <Col
+                                  span={10}
+                                  offset={1}
+                                  key={`${_.get(field, 'FIELD_VALUE')}${_.now()}`}
+                                >
                                   <Form.Item
                                     label={
                                       <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
@@ -407,7 +422,7 @@ class DetailPage extends React.Component {
                                     style={{ width: '100%' }}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
-                                      initialValue: field.FIELD_VALUE || '',
+                                      initialValue: _.get(field, 'FIELD_VALUE'),
                                       rules: [
                                         {
                                           required: field.REQUIRED_CONDITION,
@@ -420,9 +435,10 @@ class DetailPage extends React.Component {
                                         disabled={
                                           this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }
+                                        value={_.get(field, 'FIELD_VALUE')}
                                         // placeholder={`请输入${field.LABEL}`}
                                         onChange={e => e.preventDefault()}
-                                      // style={{ width: '165px', textOverflow: 'ellipsis' }}
+                                        // style={{ width: '165px', textOverflow: 'ellipsis' }}
                                       />
                                     )}
                                   </Form.Item>
@@ -436,96 +452,126 @@ class DetailPage extends React.Component {
                             case 'MultiObjectSelector':
                               return (
                                 <Col span={10} offset={1} key={i}>
-                                  {
-                                    field.IS_MULTI ?
-                                      <Form.Item //判断是不是多选
-                                        label={
-                                          <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
-                                            {field.LABEL}
-                                          </Tooltip>
-                                        }
-                                        style={{ width: '100%' }}
-                                        {...formItemLayout}
-                                      >
-                                        {getFieldDecorator(`${field.FIELD_NAME}`, {
-                                          initialValue: _.get(field, 'FIELD_VALUE') ? _.get(field, 'FIELD_VALUE') : [],
-                                          rules: [
-                                            {
-                                              required: field.REQUIRED_CONDITION,
-                                              message: `${field.LABEL}不能为空`,
-                                            },
-                                            ...formItemValid(field.PATTERN, field.LABEL),
-                                          ],
-                                        })(
-                                          <Select
-                                            // placeholder={`请选择${field.LABEL}`}
-                                            mode="multiple"
-                                            showSearch={field.widgetType !== 'Select' ? true : false}
-                                            filterOption={false}
-                                            allowClear
-                                            onSearch={e => this.onEditSearch({ key: currentKey, text: field.FIELD_NAME, FIELD_VALUE: e },field)}
-                                            onSelect={e => this.handleSelect(e, field)}
-                                            // filterOption={(inputValue, option) =>
-                                            //   _.includes(option.props.children, inputValue)
-                                            // }
-                                            disabled={
-                                              this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                            }
-                                          >
-                                            {_.map(detailOptions[field.FIELD_NAME] ? detailOptions[field.FIELD_NAME] : field.options, (v, i) => {
+                                  {field.IS_MULTI ? (
+                                    <Form.Item //判断是不是多选
+                                      label={
+                                        <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                          {field.LABEL}
+                                        </Tooltip>
+                                      }
+                                      style={{ width: '100%' }}
+                                      {...formItemLayout}
+                                    >
+                                      {getFieldDecorator(`${field.FIELD_NAME}`, {
+                                        initialValue: _.get(field, 'FIELD_VALUE')
+                                          ? _.get(field, 'FIELD_VALUE')
+                                          : [],
+                                        rules: [
+                                          {
+                                            required: field.REQUIRED_CONDITION,
+                                            message: `${field.LABEL}不能为空`,
+                                          },
+                                          ...formItemValid(field.PATTERN, field.LABEL),
+                                        ],
+                                      })(
+                                        <Select
+                                          // placeholder={`请选择${field.LABEL}`}
+                                          mode="multiple"
+                                          showSearch={field.widgetType !== 'Select' ? true : false}
+                                          filterOption={false}
+                                          allowClear
+                                          onSearch={e =>
+                                            this.onEditSearch(
+                                              {
+                                                key: currentKey,
+                                                text: field.FIELD_NAME,
+                                                FIELD_VALUE: e,
+                                              },
+                                              field
+                                            )
+                                          }
+                                          onSelect={e => this.handleSelect(e, field)}
+                                          // filterOption={(inputValue, option) =>
+                                          //   _.includes(option.props.children, inputValue)
+                                          // }
+                                          disabled={
+                                            this.props.disabled ? true : field.READ_ONLY_CONDITION
+                                          }
+                                        >
+                                          {_.map(
+                                            detailOptions[field.FIELD_NAME]
+                                              ? detailOptions[field.FIELD_NAME]
+                                              : field.options,
+                                            (v, i) => {
                                               return (
                                                 <Option value={v.value} key={v.value + _.now()}>
                                                   {v.text}
                                                 </Option>
                                               );
-                                            })}
-                                          </Select>
-                                        )}
-                                      </Form.Item> :
-                                      <Form.Item
-                                        label={
-                                          <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
-                                            {field.LABEL}
-                                          </Tooltip>
-                                        }
-                                        style={{ width: '100%' }}
-                                        {...formItemLayout}
-                                      >
-                                        {getFieldDecorator(`${field.FIELD_NAME}`, {
-                                          initialValue: field.FIELD_VALUE,
-                                          rules: [
-                                            {
-                                              required: field.REQUIRED_CONDITION,
-                                              message: `${field.LABEL}不能为空`,
-                                            },
-                                            ...formItemValid(field.PATTERN, field.LABEL),
-                                          ],
-                                        })(
-                                          <Select
-                                            placeholder={`请选择${field.LABEL}`}
-                                            showSearch={field.widgetType !== 'Select' ? true : false}
-                                            allowClear
-                                            filterOption={false}
-                                            onSearch={e => this.onEditSearch({ key: currentKey, text: field.FIELD_NAME, FIELD_VALUE: e },field)}
-                                            onSelect={e => this.handleSelect(e, field)}
-                                            filterOption={(inputValue, option) =>
-                                              _.includes(option.props.children, inputValue)
                                             }
-                                            disabled={
-                                              this.props.disabled ? true : field.READ_ONLY_CONDITION
-                                            }
-                                          >
-                                            {_.map(detailOptions[field.FIELD_NAME] ? detailOptions[field.FIELD_NAME] : field.options, (v, i) => {
+                                          )}
+                                        </Select>
+                                      )}
+                                    </Form.Item>
+                                  ) : (
+                                    <Form.Item
+                                      label={
+                                        <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                          {field.LABEL}
+                                        </Tooltip>
+                                      }
+                                      style={{ width: '100%' }}
+                                      {...formItemLayout}
+                                    >
+                                      {getFieldDecorator(`${field.FIELD_NAME}`, {
+                                        initialValue: field.FIELD_VALUE,
+                                        rules: [
+                                          {
+                                            required: field.REQUIRED_CONDITION,
+                                            message: `${field.LABEL}不能为空`,
+                                          },
+                                          ...formItemValid(field.PATTERN, field.LABEL),
+                                        ],
+                                      })(
+                                        <Select
+                                          placeholder={`请选择${field.LABEL}`}
+                                          showSearch={field.widgetType !== 'Select' ? true : false}
+                                          allowClear
+                                          filterOption={false}
+                                          onSearch={e =>
+                                            this.onEditSearch(
+                                              {
+                                                key: currentKey,
+                                                text: field.FIELD_NAME,
+                                                FIELD_VALUE: e,
+                                              },
+                                              field
+                                            )
+                                          }
+                                          onSelect={e => this.handleSelect(e, field)}
+                                          filterOption={(inputValue, option) =>
+                                            _.includes(option.props.children, inputValue)
+                                          }
+                                          disabled={
+                                            this.props.disabled ? true : field.READ_ONLY_CONDITION
+                                          }
+                                        >
+                                          {_.map(
+                                            detailOptions[field.FIELD_NAME]
+                                              ? detailOptions[field.FIELD_NAME]
+                                              : field.options,
+                                            (v, i) => {
                                               return (
                                                 <Option value={v.value} key={v.value + v.value}>
                                                   {v.text}
                                                 </Option>
                                               );
-                                            })}
-                                          </Select>
-                                        )}
-                                      </Form.Item>
-                                  }
+                                            }
+                                          )}
+                                        </Select>
+                                      )}
+                                    </Form.Item>
+                                  )}
                                 </Col>
                               );
                               break;
@@ -676,7 +722,9 @@ class DetailPage extends React.Component {
                                         disabled={
                                           this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }
-                                        onChange={(e) => this.onNumberChange(e ? e.valueOf() : null, field)}
+                                        onChange={e =>
+                                          this.onNumberChange(e ? e.valueOf() : null, field)
+                                        }
                                         format={
                                           field.WIDGET_TYPE == 'Date' ? dateFormat : dateTimeFormat
                                         }
@@ -712,7 +760,7 @@ class DetailPage extends React.Component {
                                     })(
                                       <InputNumber
                                         onBlur={this.onInputBlur}
-                                        onChange={(e) => this.onNumberChange(e, field)}
+                                        onChange={e => this.onNumberChange(e, field)}
                                         disabled={
                                           this.props.disabled ? true : field.READ_ONLY_CONDITION
                                         }
@@ -761,7 +809,7 @@ class DetailPage extends React.Component {
                                   <Form.Item
                                     // label={<Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>{field.LABEL}</Tooltip>}
                                     style={{ width: '100%' }}
-                                  // {...formItemLayout}
+                                    // {...formItemLayout}
                                   >
                                     {getFieldDecorator(`${field.FIELD_NAME}`, {
                                       initialValue: _.get(field, 'FIELD_VALUE'),
@@ -826,8 +874,8 @@ class DetailPage extends React.Component {
                             case 'TreeSelector':
                               return (
                                 <Col span={10} offset={1} key={i}>
-                                  {
-                                    field.IS_MULTI ? <Form.Item  //判断是不是多选
+                                  {field.IS_MULTI ? (
+                                    <Form.Item //判断是不是多选
                                       label={
                                         <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
                                           {field.LABEL}
@@ -846,7 +894,8 @@ class DetailPage extends React.Component {
                                           ...formItemValid(field.PATTERN, field.LABEL),
                                         ],
                                       })(
-                                        <TreeSelectCom key={field.FIELD_NAME}
+                                        <TreeSelectCom
+                                          key={field.FIELD_NAME}
                                           defaultData={field.FIELD_VALUE}
                                           treeData={field.children}
                                           treeCheckable={true}
@@ -865,44 +914,44 @@ class DetailPage extends React.Component {
                                           }
                                         />
                                       )}
-                                    </Form.Item> :
-                                      <Form.Item
-                                        label={
-                                          <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
-                                            {field.LABEL}
-                                          </Tooltip>
-                                        }
-                                        style={{ width: '100%' }}
-                                        {...formItemLayout}
-                                      >
-                                        {getFieldDecorator(`${field.FIELD_NAME}`, {
-                                          initialValue: _.get(field, 'FIELD_VALUE'),
-                                          rules: [
-                                            {
-                                              required: field.REQUIRED_CONDITION,
-                                              message: `${field.LABEL}不能为空`,
-                                            },
-                                            ...formItemValid(field.PATTERN, field.LABEL),
-                                          ],
-                                        })(
-                                          <TreeSelectCom
-                                            defaultData={field.FIELD_VALUE}
-                                            treeData={field.children}
-                                            onChange={e => this.onTreeSelector(e, field)}
-                                            style={{ width: '100%' }}
-                                            treeDefaultExpandAll
-                                            showCheckedStrategy={SHOW_PARENT}
-                                            filterTreeNode={(inputValue, treeNode) => {
-                                              _.includes(treeNode.props.children, inputValue)
-                                            }
-                                            }
-                                            disabled={
-                                              this.props.disabled ? true : item.READ_ONLY_CONDITION
-                                            }
-                                          />
-                                        )}
-                                      </Form.Item>
-                                  }
+                                    </Form.Item>
+                                  ) : (
+                                    <Form.Item
+                                      label={
+                                        <Tooltip title={field.LABEL + '[' + field.FIELD_NAME + ']'}>
+                                          {field.LABEL}
+                                        </Tooltip>
+                                      }
+                                      style={{ width: '100%' }}
+                                      {...formItemLayout}
+                                    >
+                                      {getFieldDecorator(`${field.FIELD_NAME}`, {
+                                        initialValue: _.get(field, 'FIELD_VALUE'),
+                                        rules: [
+                                          {
+                                            required: field.REQUIRED_CONDITION,
+                                            message: `${field.LABEL}不能为空`,
+                                          },
+                                          ...formItemValid(field.PATTERN, field.LABEL),
+                                        ],
+                                      })(
+                                        <TreeSelectCom
+                                          defaultData={field.FIELD_VALUE}
+                                          treeData={field.children}
+                                          onChange={e => this.onTreeSelector(e, field)}
+                                          style={{ width: '100%' }}
+                                          treeDefaultExpandAll
+                                          showCheckedStrategy={SHOW_PARENT}
+                                          filterTreeNode={(inputValue, treeNode) => {
+                                            _.includes(treeNode.props.children, inputValue);
+                                          }}
+                                          disabled={
+                                            this.props.disabled ? true : item.READ_ONLY_CONDITION
+                                          }
+                                        />
+                                      )}
+                                    </Form.Item>
+                                  )}
                                 </Col>
                               );
                             case 'Attachment': //附件

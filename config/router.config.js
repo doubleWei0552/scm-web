@@ -71,11 +71,14 @@ export default [
       // 动态路由
       { path: '/2328/deliveryOreer', name: '', component: './HY/DeliveryOrder' },
       { path: '/2328/deliveryOreer/list', name: '', component: './HY/DeliveryOrder' },
+      { path: '/5082/:first/:second', name: '', component: './HY/QualityAssurance' },
+      { path: '/5082/:first/:second/list', name: '', component: './HY/QualityAssurance' },
       {
         path: '/5078',
         name: 'rs_paas',
         icon: 'snippets',
         routes: [
+          ///5082/QualityAssurance/detailedOrderD/list
           { path: '/5078/:first/:second', name: '', component: './HY/QualityAssurance' },
           { path: '/5078/:first/:second/list', name: '', component: './HY/QualityAssurance' },
           // /2328/deliveryOreer
