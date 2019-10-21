@@ -280,7 +280,6 @@ export default class TableForm extends React.Component {
     // const DELIVERY_CODE = this.props.detailForm ? this.props.detailForm.getFieldValue('CODE') : null
     // const SUPPLIER_ID = this.props.detailForm ? this.props.detailForm.getFieldValue('SUPPLIER_ID') : null
     const { DELIVERY_CODE, SUPPLIER_ID, PURCHASE_TYPE } = this.props;
-    console.log('ssssssss', this.props);
     const div = document.createElement('div');
     document.body.appendChild(div);
     ReactDOM.render(
@@ -324,8 +323,6 @@ export default class TableForm extends React.Component {
       total += data.QUANTITY;
       itemTotal += data.ITEM_QUANTITY;
     })
-
-    console.log('this.state.data', this.state.Data)
     return (
       <div className={styles.childTable}>
         <Spin spinning={this.props.loadingG || false}>
