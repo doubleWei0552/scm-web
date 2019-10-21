@@ -262,6 +262,22 @@ export default class QualityAssurance extends React.Component {
         className: 'nocolor',
       },
       {
+        title: '供应商',
+        dataIndex: 'SUPPLIER_ID',
+        key: 'SUPPLIER_ID',
+        disabled: false,
+        widgetType: 'Text',
+        className: 'nocolor',
+      },
+      {
+        title: '仓库',
+        dataIndex: 'WAREHOUSE_ID',
+        key: 'WAREHOUSE_ID',
+        disabled: false,
+        widgetType: 'Text',
+        className: 'nocolor',
+      },
+      {
         title: '规格',
         dataIndex: 'MATERIAL_SPEC',
         key: 'MATERIAL_SPEC',
