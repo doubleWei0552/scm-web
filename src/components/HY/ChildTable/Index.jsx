@@ -104,6 +104,21 @@ export default class ChildTable extends React.Component {
     });
   };
 
+  stopScrollFun = (evt) => {   //禁止滚轮事件
+    console.log('evt',evt)
+      evt = evt || window.event;  
+        if(evt.preventDefault) {  
+        // Firefox  
+          evt.preventDefault();  
+          evt.stopPropagation();  
+        } else {  
+          // IE  
+          evt.cancelBubble=true;  
+          evt.returnValue = false;  
+      }  
+      return false;  
+    }  
+
   //新的子表编辑
   onChildChang = (e, record, specificData, type, childIndex, index, Columns, Data) => {
     //获取主表数据
@@ -246,7 +261,7 @@ export default class ChildTable extends React.Component {
         if (isIndex3) {
           this.props.dispatch({
             type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheData], MasterTable } },
+            payload: { params: { list: [cacheData], MasterTable }},
             callback: res => {
               if (res.status == 'success') {
                 // this.specificData.inputNumberRef.onFocus()
@@ -592,6 +607,7 @@ export default class ChildTable extends React.Component {
                                   })(
                                     <Input
                                       style={{
+                                        padding:null,
                                         minWidth: '100px',
                                         border:
                                           !this.state.isRegex &&
@@ -634,7 +650,7 @@ export default class ChildTable extends React.Component {
                                     ],
                                   })(
                                     <Input
-                                      style={{ minWidth: '100px' }}
+                                      style={{ minWidth: '100px',padding:null }}
                                       onBlur={e =>
                                         this.onChildChang(
                                           e,
@@ -726,11 +742,17 @@ export default class ChildTable extends React.Component {
                                         required: specificData.REQUIRED_CONDITION,
                                         message: `${i.value}不能为空`,
                                       },
-                                      ...formItemValid(i.pattern, i.value),
+                                      { pattern: '^[0-9]{1}([0-9]|[.])*$', 
+                                      message: '只支持数字录入'},
                                     ],
                                   })(
                                     <Input
-                                      type="number"
+                                      // onmousewheel={e => this.stopScrollFun(e)}  
+                                      // onDOMMouseScroll={e => this.stopScrollFun(e)}
+                                      // type="number"
+                                      // onWheel={
+                                      //   (e)=>this.stopScrollFun(e)
+                                      // }
                                       onChange={e =>
                                         this.onChildChang(
                                           e.target.value,
@@ -775,12 +797,17 @@ export default class ChildTable extends React.Component {
                                         required: specificData.REQUIRED_CONDITION,
                                         message: `${i.value}不能为空`,
                                       },
-                                      ...formItemValid(i.pattern, i.value),
+                                      { pattern: '^[0-9]{1}([0-9]|[.])*$', 
+                                      message: '只支持数字录入'},
                                     ],
                                   })(
                                     <Input
-                                      // ref={this.ref}
-                                      type="number"
+                                      // type="number"
+                                      // onWheel={
+                                      //   (e)=>this.stopScrollFun(e)
+                                      // }
+                                      // onmousewheel={e => this.stopScrollFun(e)}  
+                                      // onDOMMouseScroll={e => this.stopScrollFun(e)}
                                       onChange={e =>
                                         this.onChildChang(
                                           e.target.value,
@@ -1303,7 +1330,7 @@ export default class ChildTable extends React.Component {
           return (
             <TabPane tab={_.get(value, 'Columns.title')} key={index}>
               <div>
-                <NTableForm
+                <NTableForm 
                   getMasterTable={value => this.props.getMasterTable(value)}
                   {...TableForm}
                   DELIVERY_CODE={
@@ -1406,7 +1433,7 @@ export default class ChildTable extends React.Component {
           })
           : null;
     return (
-      <Tabs activeKey={this.props.tableTemplate.defaultActiveKey} onChange={this.tabCallback}>
+      <Tabs className={styles.NTableForm} activeKey={this.props.tableTemplate.defaultActiveKey} onChange={this.tabCallback}>
         {editChildFiles}
       </Tabs>
     );

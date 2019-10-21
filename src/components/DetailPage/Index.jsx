@@ -275,7 +275,6 @@ class DetailPage extends React.Component {
   };
 
   render() {
-    console.log('this.props', this.props)
     const { SHOW_PARENT } = TreeSelectCom;
     const { tableTemplate } = this.props;
     const { currentKey } = tableTemplate;
