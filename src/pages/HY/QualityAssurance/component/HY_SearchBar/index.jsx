@@ -252,7 +252,7 @@ class SearchBar extends React.Component {
                         style={{ width: '100%' }}
                       >
                         {getFieldDecorator(`${item.dataIndex}`, {
-                          initialValue: '',
+                          initialValue: undefined,
                         })(
                           <Select
                             placeholder={`请选择${item.title}`}

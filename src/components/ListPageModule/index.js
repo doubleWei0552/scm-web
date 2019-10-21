@@ -114,75 +114,7 @@ export default class DetailsPageModule extends React.Component {
     }
   };
   render() {
-    //test  👇-------------------------------
-    let listColumnData = [];
-    _.get(this.props.tableTemplate, 'tableColumns').map((item, index) => {
-      if (item.colorMark) {
-        let list = {
-          ...item,
-          title: (
-            <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-              <span>{item.title}</span>
-            </Tooltip>
-          ),
-          width: 200,
-          sorter: item.sorTable ? true : false,
-          sortDirections: ['descend', 'ascend'],
-          render: (text, record) => {
-            if (!text) return;
-            let color = text.split('-')[0];
-            let newText = text.split('-')[text.split('-').length - 1];
-            return (
-              <span>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    background: color,
-                    width: '6px',
-                    height: '6px',
-                    marginRight: '5px',
-                    marginBottom: '2px',
-                    borderRadius: '50%',
-                  }}
-                />
-                {newText}
-              </span>
-            );
-          },
-        };
-        // if(index == 0){
-        //   delete list.width
-        // }
-        listColumnData.push(list);
-      } else {
-        let column = {
-          ...item,
-          title: (
-            <Tooltip title={item.title + '[' + item.dataIndex + ']'}>
-              <span>{item.title}</span>
-            </Tooltip>
-          ),
-          width: 200,
-          sorter: item.sorTable ? true : false,
-          sortDirections: ['descend', 'ascend'],
-          render: (text, record) => this.renderColumn(text, item, record),
-        };
-        // if(index == 0){
-        //   delete column.width
-        // }
-        listColumnData.push(column);
-      }
-    });
     const { selectedRowKeys, isSkeleton } = this.state;
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User',
-        name: record.name,
-      }),
-    };
-    ///test  👆--------------------------------
     const { isEdit } = this.props.tableTemplate;
     return (
       <div style={{ display: isEdit ? 'none' : 'block' }} className={styles.SingleTable}>
@@ -213,7 +145,7 @@ export default class DetailsPageModule extends React.Component {
                 }}
               />
               <div>
-                <TableList onJump={this.onJump} columns={listColumnData} />
+                <TableList onJump={this.onJump} />
               </div>
             </div>
           )}

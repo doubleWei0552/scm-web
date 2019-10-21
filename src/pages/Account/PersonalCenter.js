@@ -10,7 +10,6 @@ import IframeCard from '@/components/IframeCard'
 import NoticeCard from '@/components/NoticeCard'
 import {onGetImageUrl} from '@/utils/FunctionSet';
 import styles from './style.less'
-import { resolve } from 'q';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 

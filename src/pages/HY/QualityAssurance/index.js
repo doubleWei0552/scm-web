@@ -298,7 +298,7 @@ export default class QualityAssurance extends React.Component {
         title: '检查状态',
         dataIndex: 'QUALITY_STATUS',
         key: 'CheckState',
-        disabled: false,
+        disabled: true,
         className: 'nocolor',
         options: [{ text: "待检", value: "0" },
         { text: "合格", value: "1" },
