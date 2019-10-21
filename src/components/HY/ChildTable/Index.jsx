@@ -280,6 +280,7 @@ export default class ChildTable extends React.Component {
               ),
               key: 'action',
               width: '30px',
+              fixed: 'left',
               render: (text, record, deleteIndex) =>
                 disEditStyle ? (
                   <span
@@ -369,6 +370,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       return (
                         <div key={j + text}>
@@ -408,6 +410,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let optionChild = i.options.map(bb => {
                         return (
@@ -451,6 +454,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       return (
                         <div key={j + text}>
@@ -492,6 +496,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       return (
                         <div key={j + text}>
@@ -540,6 +545,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -674,6 +680,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -828,6 +835,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -891,6 +899,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -1077,6 +1086,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -1185,6 +1195,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
+                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
