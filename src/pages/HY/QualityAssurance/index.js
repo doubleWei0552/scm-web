@@ -28,7 +28,8 @@ export default class QualityAssurance extends React.Component {
       paganition: {},
       selectDatas: [],
       searchParams: {},
-      reasons: []
+      reasons: [],
+      selectedRowKeys: [],
     };
   }
 
@@ -63,9 +64,12 @@ export default class QualityAssurance extends React.Component {
 
   // 状态
   handleStatusChange = (value, record) => {
-    console.log(`selected ${value}`);
-    const { dataList } = this.state;
 
+    // console.log(`selected ${value}`, this.rowSelection.selectedRowKeys);
+    let { dataList, selectedRowKeys, selectDatas } = this.state;
+    this.setState({
+      selectedRowKeys: _.concat(selectedRowKeys, [record.ID])
+    })
     record.QUALITY_STATUS = value
     if (value == 1) {
       record.HG_NUM = record.RECEIVED_NUM;
@@ -75,11 +79,21 @@ export default class QualityAssurance extends React.Component {
       record.YT_NUM = record.RECEIVED_NUM;
     }
 
-    const index = _.findIndex(dataList, data => data.ID === record.ID);
 
+    const index = _.findIndex(dataList, data => data.ID === record.ID);
+    const idx = _.findIndex(selectDatas, data => data.ID === record.ID);
+    if (idx > -1) {
+      selectDatas[idx] = record
+
+    } else {
+      selectDatas.push(record)
+      selectedRowKeys.push(record.ID)
+    }
     dataList[index] = record;
     this.setState({
       dataList,
+      selectDatas,
+      selectedRowKeys,
     });
   };
 
@@ -96,32 +110,51 @@ export default class QualityAssurance extends React.Component {
   };
 
   handleNumberChange = (e, record) => {
-    const { dataList } = this.state;
+    let { dataList, selectedRowKeys, selectDatas } = this.state;
     console.log('eeeee', e);
     const value = e || 0;
     record.HG_NUM =
       value * 1 < record.RECEIVED_NUM * 1 ? value * 1 : record.RECEIVED_NUM * 1;
     const index = _.findIndex(dataList, data => data.ID === record.ID);
+    const idx = _.findIndex(selectDatas, data => data.ID === record.ID);
     record.YT_NUM = record.RECEIVED_NUM - record.HG_NUM;
     dataList[index] = record;
+    if (idx > -1) {
+      selectDatas[idx] = record
+
+    } else {
+      selectDatas.push(record)
+      selectedRowKeys.push(record.ID)
+    }
     this.setState({
       dataList,
+      selectedRowKeys,
+      selectDatas
     });
   }
 
   // 验退理由
   handleReasonChange = (e, record) => {
-    let { dataList, reasons } = this.state;
+    let { dataList, reasons, selectedRowKeys, selectDatas } = this.state;
     record.CHECK_REASON = e.target.value;
     // if (record.CHECK_REASON) {
     //   _.remove(reasons, reason => reason == record.ID)
     // }
     console.log('reasons', reasons)
     const index = _.findIndex(dataList, data => data.ID === record.ID);
+    const idx = _.findIndex(selectDatas, data => data.ID === record.ID);
     dataList[index] = record;
+    if (idx > -1) {
+      selectDatas[idx] = record
+    } else {
+      selectDatas.push(record)
+      selectedRowKeys.push(record.ID)
+    }
     this.setState({
       dataList,
       reasons,
+      selectedRowKeys,
+      selectDatas
     });
   }
 
@@ -191,16 +224,20 @@ export default class QualityAssurance extends React.Component {
 
   }
 
+
+
   render() {
     const { loading } = this.props;
-    let { dataList, paganition, reasons, selectDatas = [] } = this.state;
+    let { dataList, paganition, reasons, selectDatas = [], selectedRowKeys } = this.state;
     const userData = JSON.parse(localStorage.getItem('userData'))
     const { roleId } = userData;
     console.log('roleID', roleId)
     const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
+      selectedRowKeys,
+      onChange: (key, selectedRows) => {
         this.setState({
           selectDatas: selectedRows,
+          selectedRowKeys: key,
         });
       },
       getCheckboxProps: record => ({
@@ -324,7 +361,7 @@ export default class QualityAssurance extends React.Component {
         widgetType: 'Select',
         render: (text, record) => {
           return (
-            <Select defaultValue={text ? text : '0'} style={{ width: 120, display: 'block' }} onChange={(value) => this.handleStatusChange(value, record)}>
+            <Select defaultValue={text ? text : '0'} style={{ width: 120, display: 'block' }} onChange={(value) => this.handleStatusChange(value, record, rowSelection)}>
               <Select.Option value={'0'}>待检</Select.Option>
               <Select.Option value={'1'}>合格</Select.Option>
               <Select.Option value={'2'}>验退</Select.Option>
