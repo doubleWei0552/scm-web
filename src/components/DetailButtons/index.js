@@ -234,6 +234,7 @@ class DetailButtons extends PureComponent {
 
   // 返回
   editBack = () => {
+    let { selectDate } = this.props.tableTemplate
     this.props.detailForm && this.props.detailForm.resetFields(); // 待测
     this.props.dispatch({
       type: 'tableTemplate/changeState',
@@ -242,6 +243,7 @@ class DetailButtons extends PureComponent {
     this.props.dispatch({
       type: 'tableTemplate/getDetailPage',
       payload: {
+        ID:selectDate.ID,
         ObjectType: this.props.tableTemplate.detailColumns.objectType,
         pageId: this.props.tableTemplate.pageId,
         ProhibitChildRefresh:false, //禁止子表刷新
