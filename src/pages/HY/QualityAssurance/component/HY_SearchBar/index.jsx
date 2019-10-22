@@ -286,6 +286,46 @@ class SearchBar extends React.Component {
               })
             }
             {
+              <Col span={expand ? 13 : 9} key={'物料'} style={{ textAlign: 'left', display: expand ? 'flex' : expand ? null : 'none' }}>
+                <Form.Item
+                  label='物料'
+                  key={'物料'}
+                  {...formItemLayout}
+                  style={{ width: '100%' }}
+                >
+                  {getFieldDecorator('Materiel', {
+                    initialValue: '',
+                  })(
+                    <Input
+                      allowClear={true}
+                      placeholder={`请输入物料`}
+                      style={{ width: '100%', textOverflow: 'ellipsis' }}
+                    />
+                  )}
+                </Form.Item>
+              </Col>
+            }
+            {
+              <Col span={expand ? 13 : 9} key={'库位'} style={{ textAlign: 'left', display: expand ? 'flex' : expand ? null : 'none' }}>
+                <Form.Item
+                  label='库位'
+                  key={'库位'}
+                  {...formItemLayout}
+                  style={{ width: '100%' }}
+                >
+                  {getFieldDecorator('Storehouse', {
+                    initialValue: '',
+                  })(
+                    <Input
+                      allowClear={true}
+                      placeholder={`请输入库位`}
+                      style={{ width: '100%', textOverflow: 'ellipsis' }}
+                    />
+                  )}
+                </Form.Item>
+              </Col>
+            }
+            {
               <Col span={expand ? 13 : null} style={{ textAlign: 'right' }}>
                 <Form.Item
                   style={{
