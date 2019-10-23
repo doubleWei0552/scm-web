@@ -9,6 +9,7 @@ import Data from './Data'
 import IframeCard from '@/components/IframeCard'
 import NoticeCard from '@/components/NoticeCard'
 import {onGetImageUrl} from '@/utils/FunctionSet';
+import DragDrop from '@/components/DragDrop'
 import styles from './style.less'
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
@@ -46,11 +47,11 @@ class PersonalCenter extends Component {
     const { type, autoLogin,url } = this.state;
     return (
       <div style={{borderRadius: '5px',background:'white',padding:'10px',minHeight:'700px'}}>
-
         <h1>个人主页</h1>
         <div style={{display:localStorage.getItem('personalHome') ? 'block' : 'none'}}>
           <img style={{width:'100%'}} src={url ? url : ''} alt='error'/>
         </div>
+        {/* <DragDrop />  */}
       </div>
     )
 
