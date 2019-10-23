@@ -42,7 +42,6 @@ export default class QualityAssurance extends React.Component {
   // 获取分页数据
   queryDatas = (value) => {
     let { searchParams } = this.state
-    console.log('value', value)
     if (value) {
       this.setState({
         searchParams: value
@@ -64,8 +63,6 @@ export default class QualityAssurance extends React.Component {
 
   // 状态
   handleStatusChange = (value, record) => {
-
-    // console.log(`selected ${value}`, this.rowSelection.selectedRowKeys);
     let { dataList, selectedRowKeys, selectDatas } = this.state;
     this.setState({
       selectedRowKeys: _.concat(selectedRowKeys, [record.ID])
@@ -111,7 +108,6 @@ export default class QualityAssurance extends React.Component {
 
   handleNumberChange = (e, record) => {
     let { dataList, selectedRowKeys, selectDatas } = this.state;
-    console.log('eeeee', e);
     const value = e || 0;
     record.HG_NUM =
       value * 1 < record.RECEIVED_NUM * 1 ? value * 1 : record.RECEIVED_NUM * 1;
@@ -140,7 +136,6 @@ export default class QualityAssurance extends React.Component {
     // if (record.CHECK_REASON) {
     //   _.remove(reasons, reason => reason == record.ID)
     // }
-    console.log('reasons', reasons)
     const index = _.findIndex(dataList, data => data.ID === record.ID);
     const idx = _.findIndex(selectDatas, data => data.ID === record.ID);
     dataList[index] = record;
@@ -183,7 +178,6 @@ export default class QualityAssurance extends React.Component {
       type: 'quality/handleQuality',
       payload: { list: selectDatas },
       callback: response => {
-        console.log('callback', response)
         this.queryDatas()
         this.setState({
           reasons: []
@@ -200,7 +194,6 @@ export default class QualityAssurance extends React.Component {
       type: 'quality/handleResetQuality',
       payload: { list: selectDatas },
       callback: response => {
-        console.log('callback', response)
         this.queryDatas()
       }
     });
@@ -300,7 +293,7 @@ export default class QualityAssurance extends React.Component {
         title: '供应商',
         dataIndex: 'SUPPLIER_ID',
         key: 'SUPPLIER_ID',
-        disabled: false,
+        disabled: true,
         widgetType: 'Text',
         className: 'nocolor',
       },
@@ -308,7 +301,7 @@ export default class QualityAssurance extends React.Component {
         title: '仓库',
         dataIndex: 'WAREHOUSE_ID',
         key: 'WAREHOUSE_ID',
-        disabled: false,
+        disabled: true,
         widgetType: 'Text',
         className: 'nocolor',
       },
@@ -493,7 +486,6 @@ export default class QualityAssurance extends React.Component {
         },
       },
     ]
-    console.log('dataList',dataList)
     return (
       <div className={styles.qualityPage}>
         <div style={{ borderRadius: '5px', background: 'white', padding: '10px' }}>
