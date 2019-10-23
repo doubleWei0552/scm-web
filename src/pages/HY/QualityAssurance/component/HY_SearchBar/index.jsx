@@ -31,7 +31,6 @@ class SearchBar extends React.Component {
         }
       }
       this.props.queryDatas(values)
-      console.log('搜索条件', values)
     });
   };
 
@@ -225,7 +224,6 @@ class SearchBar extends React.Component {
                                     style={{ width: '100%' }}
                                     allowClear={true}
                                     onChange={e => {
-                                      console.log(e);
                                       this.handleChange(e, kk.title);
                                       this.onEndChange(e, kk);
                                     }}
@@ -285,7 +283,7 @@ class SearchBar extends React.Component {
                 }
               })
             }
-            {
+            {/* {
               <Col span={expand ? 13 : 9} key={'库位'} style={{ textAlign: 'left', display: expand ? 'flex' : expand ? null : 'none' }}>
                 <Form.Item
                   label='库位'
@@ -304,7 +302,7 @@ class SearchBar extends React.Component {
                   )}
                 </Form.Item>
               </Col>
-            }
+            } */}
             {
               <Col span={expand ? 13 : null} style={{ textAlign: 'right' }}>
                 <Form.Item

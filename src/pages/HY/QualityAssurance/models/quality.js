@@ -12,7 +12,6 @@ export default {
   effects: {
     *getDataList({ payload, callback }, { call, put }) {
       const response = yield call(QualityService.getDatalList, payload);
-      console.log('response', response);
       if (response.status === 'success') {
         callback && callback(response.data);
       } else {
@@ -24,7 +23,6 @@ export default {
     },
     *handleQuality({ payload, callback }, { call, put }) {
       const response = yield call(QualityService.handleQuality, payload);
-      console.log('response', response);
       if (response.status === 'success') {
         callback && callback(response.data);
       } else {
@@ -36,7 +34,6 @@ export default {
     },
     *handleResetQuality({ payload, callback }, { call, put }) {
       const response = yield call(QualityService.handleResetQuality, payload);
-      console.log('response', response);
       if (response.status === 'success') {
         callback && callback(response.data);
       } else {
