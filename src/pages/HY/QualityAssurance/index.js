@@ -517,7 +517,7 @@ export default class QualityAssurance extends React.Component {
               </Button>
             </div>
           </Col>
-          <Col span={18} style={{ margin: '10px 0', zIndex: 1000, }}>
+          <Col span={18} style={{ margin: '10px 0', zIndex: 100, }}>
             <SearchBar tableColumns={columns} queryDatas={(e) => this.queryDatas(e)} />
           </Col>
           <Table
