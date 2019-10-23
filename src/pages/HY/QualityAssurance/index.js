@@ -356,7 +356,7 @@ export default class QualityAssurance extends React.Component {
         options: [{ text: "待检", value: "0" },
         { text: "合格", value: "1" },
         { text: "验退", value: "2" },
-        { text: "特采", value: "3" },
+        { text: "让步接收", value: "3" },
         { text: "待判", value: "9" }],
         widgetType: 'Select',
         render: (text, record) => {
@@ -365,7 +365,7 @@ export default class QualityAssurance extends React.Component {
               <Select.Option value={'0'}>待检</Select.Option>
               <Select.Option value={'1'}>合格</Select.Option>
               <Select.Option value={'2'}>验退</Select.Option>
-              <Select.Option value={'3'}>特采</Select.Option>
+              <Select.Option value={'3'}>让步接收</Select.Option>
               <Select.Option value={'9'}>待判</Select.Option>
             </Select>
           );
