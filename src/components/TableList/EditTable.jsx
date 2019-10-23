@@ -111,7 +111,8 @@ class EditableTable extends React.Component {
     let widthStandard = {
       Select:150,
       Reference:150,
-      Date:130,
+      TreeSelector:150,
+      Date:120,
       Number:115,
       DataTime:150,
       Text:150,
