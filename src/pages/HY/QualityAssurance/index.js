@@ -160,7 +160,18 @@ export default class QualityAssurance extends React.Component {
 
   // 审核
   handleQuality = () => {
-    const { selectDatas } = this.state
+    const { selectDatas } = this.state;
+
+    const index = _.findIndex(selectDatas, data => data.QUALITY_STATUS === '0')
+
+    if (index > -1) {
+      notification.error({
+        message: "待检状态不能提交审核，请检查！",
+        // description: response.message,
+      });
+      return
+    }
+
     let aaa = [];
     _.map(selectDatas, data => {
       if (data.QUALITY_STATUS == '2' && !data.CHECK_REASON) {

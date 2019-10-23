@@ -28,7 +28,7 @@ class SearchBar extends React.Component {
         item.widgetType === 'ObjectSelector' ||
         item.widgetType === 'TreeSelector'
       ) {
-        this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
+        // this.getSearchBarOptions({ key: currentKey, text: item.dataIndex });
       }
     });
   }
@@ -210,12 +210,12 @@ class SearchBar extends React.Component {
                           display: expand
                             ? 'flex'
                             : dateIdx === 0
-                            ? index + 1 < count
-                              ? ''
-                              : 'none'
-                            : index < count
-                            ? ''
-                            : 'none',
+                              ? index + 1 < count
+                                ? ''
+                                : 'none'
+                              : index < count
+                                ? ''
+                                : 'none',
                         }}
                         key={value.dataIndex}
                       >
@@ -239,28 +239,28 @@ class SearchBar extends React.Component {
                             //   _.includes(option.props.children, inputValue)
                             // }
                             filterOption={false}
-                            // suffixIcon={
-                            //   value.widgetType !== 'Select' && <Icon type="search" />
-                            // }
-                            // onFocus={this.selectClick.bind(this, {
-                            //   text: value.dataIndex,
-                            //   key: currentKey,
-                            //   value: null,
-                            // })}
+                          // suffixIcon={
+                          //   value.widgetType !== 'Select' && <Icon type="search" />
+                          // }
+                          // onFocus={this.selectClick.bind(this, {
+                          //   text: value.dataIndex,
+                          //   key: currentKey,
+                          //   value: null,
+                          // })}
                           >
                             {SearchOptions[value.dataIndex] &&
-                            SearchOptions[value.dataIndex].length > 0
+                              SearchOptions[value.dataIndex].length > 0
                               ? _.map(SearchOptions[value.dataIndex], (item, index) => {
-                                  return (
-                                    <Select.Option
-                                      title={item.text}
-                                      key={item.value + _.now()}
-                                      value={item.value}
-                                    >
-                                      {item.text}
-                                    </Select.Option>
-                                  );
-                                })
+                                return (
+                                  <Select.Option
+                                    title={item.text}
+                                    key={item.value + _.now()}
+                                    value={item.value}
+                                  >
+                                    {item.text}
+                                  </Select.Option>
+                                );
+                              })
                               : null}
                           </Select>
                         )}
@@ -334,8 +334,8 @@ class SearchBar extends React.Component {
                                     this.onEndChange(e, kk);
                                   }}
                                   disabledDate={e => this.disabledEndDate(e, kk)}
-                                  // value={this.state[`${kk.FIELD_NAME}-end`]}
-                                  // onChange={(e)=>this.onEndChange(e,kk)}
+                                // value={this.state[`${kk.FIELD_NAME}-end`]}
+                                // onChange={(e)=>this.onEndChange(e,kk)}
                                 />
                               )}
                             </Form.Item>
@@ -382,12 +382,12 @@ class SearchBar extends React.Component {
                           display: expand
                             ? 'flex'
                             : dateIdx === 0
-                            ? index + 1 < count
-                              ? ''
-                              : 'none'
-                            : index < count
-                            ? ''
-                            : 'none',
+                              ? index + 1 < count
+                                ? ''
+                                : 'none'
+                              : index < count
+                                ? ''
+                                : 'none',
                         }}
                       >
                         {getFieldDecorator(`${value.dataIndex}`, {
@@ -413,12 +413,12 @@ class SearchBar extends React.Component {
                           display: expand
                             ? 'flex'
                             : dateIdx === 0
-                            ? index + 1 < count
-                              ? ''
-                              : 'none'
-                            : index < count
-                            ? ''
-                            : 'none',
+                              ? index + 1 < count
+                                ? ''
+                                : 'none'
+                              : index < count
+                                ? ''
+                                : 'none',
                         }}
                       >
                         {getFieldDecorator(`${value.dataIndex}`, {
