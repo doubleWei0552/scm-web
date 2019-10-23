@@ -221,7 +221,6 @@ export default class QualityAssurance extends React.Component {
         })
       }
     });
-
   }
 
 
@@ -231,7 +230,6 @@ export default class QualityAssurance extends React.Component {
     let { dataList, paganition, reasons, selectDatas = [], selectedRowKeys } = this.state;
     const userData = JSON.parse(localStorage.getItem('userData'))
     const { roleId } = userData;
-    console.log('roleID', roleId)
     const rowSelection = {
       selectedRowKeys,
       onChange: (key, selectedRows) => {
@@ -468,7 +466,7 @@ export default class QualityAssurance extends React.Component {
       },
       {
         title: '收货单项次',
-        dataIndex: 'SOURCE_SEQ_NUM',
+        dataIndex: 'TASK_SERIAL_NUMBER',
         key: 'ReceiptItem',
         disabled: false,
         className: 'nocolor',
@@ -495,7 +493,7 @@ export default class QualityAssurance extends React.Component {
         },
       },
     ]
-
+    console.log('dataList',dataList)
     return (
       <div className={styles.qualityPage}>
         <div style={{ borderRadius: '5px', background: 'white', padding: '10px' }}>

@@ -108,6 +108,14 @@ class EditableTable extends React.Component {
   componentDidMount() { }
 
   componentWillReceiveProps(newProps) {
+    let widthStandard = {
+      Select:150,
+      Reference:150,
+      Date:130,
+      Number:115,
+      DataTime:150,
+      Text:150,
+    }
     // if (this.props.tableTemplate.tableColumns !== newProps.tableTemplate.tableColumns) {
     let listColumnData = [];
     _.get(newProps.tableTemplate, 'tableColumns').map((item, index) => {
@@ -125,7 +133,7 @@ class EditableTable extends React.Component {
           sortDirections: ['descend', 'ascend'],
           editable: true,
           ellipsis: true,
-          width: 200,
+          width: widthStandard[item.widgetType] || 200,
           ...this.getColumnSearchProps(item.dataIndex),
           onCell: record => ({
             record,
@@ -173,7 +181,7 @@ class EditableTable extends React.Component {
           editable: true,
           sorter: item.sorTable ? true : false,
           sortDirections: ['descend', 'ascend'],
-          width: 200,
+          width: widthStandard[item.widgetType] || 200,
           // fixed: index === 0,
           ...this.getColumnSearchProps(item.dataIndex),
           onCell: record => ({
@@ -190,53 +198,14 @@ class EditableTable extends React.Component {
         listColumnData.push(column);
       }
     });
-    // listColumnData.push({
-    //   title: 'operation',
-    //   dataIndex: 'operation',
-    //   width: 200,
-    //   render: (text, record) => {
-    //     const { editingKey } = this.state;
-    //     const editable = this.isEditing(record);
-    //     return editable ? (
-    //       <span>
-    //         <EditableContext.Consumer>
-    //           {form => (
-    //             <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
-    //               Save
-    //           </a>
-    //           )}
-    //         </EditableContext.Consumer>
-    //         <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
-    //           <a>Cancel</a>
-    //         </Popconfirm>
-    //       </span>
-    //     ) : (
-    //         <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
-    //           Edit
-    //     </a>
-    //       );
-    //   },
-    // });
     this.setState({
       columns: listColumnData,
     });
-    // }
   }
 
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
-        {/* <Input
-          ref={node => {
-            this.searchInput = node;
-          }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-          style={{ width: 188, marginBottom: 8, display: 'block' }}
-        /> */}
-
         <Radio.Group
           onChange={e => this.setState({ fixedValue: e.target.value, fixedIndex: dataIndex })}
           value={this.state.fixedIndex === dataIndex ? this.state.fixedValue : null}
@@ -504,7 +473,6 @@ class EditableTable extends React.Component {
       <div className={styles.tableListMain2}>
         <EditableContext.Provider value={this.props.form}>
           <Table
-            // key={_.now()}
             components={components}
             bordered
             rowSelection={rowSelection}
