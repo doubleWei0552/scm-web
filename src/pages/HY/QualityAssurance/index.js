@@ -157,11 +157,19 @@ export default class QualityAssurance extends React.Component {
   handleQuality = () => {
     const { selectDatas } = this.state;
 
-    const index = _.findIndex(selectDatas, data => data.QUALITY_STATUS === '0')
+    const index1 = _.findIndex(selectDatas, data => data.QUALITY_STATUS === '0')
+    const index2 = _.findIndex(selectDatas, data => data.TB_SDH === '1')
 
-    if (index > -1) {
+    if (index1 > -1) {
       notification.error({
         message: "待检状态不能提交审核，请检查！",
+        // description: response.message,
+      });
+      return
+    }
+    if (index2 > -1) {
+      notification.error({
+        message: "已同步状态不能提交审核，请检查！",
         // description: response.message,
       });
       return
@@ -169,7 +177,7 @@ export default class QualityAssurance extends React.Component {
 
     let aaa = [];
     _.map(selectDatas, data => {
-      if (data.QUALITY_STATUS == '2' && !data.CHECK_REASON) {
+      if ((data.QUALITY_STATUS == '2' || data.QUALITY_STATUS == '3') && !data.CHECK_REASON) {
         aaa.push(data.ID)
       }
     })
@@ -201,6 +209,14 @@ export default class QualityAssurance extends React.Component {
   handleResetQuality = () => {
     const { selectDatas } = this.state
     const { dispatch } = this.props
+    const index2 = _.findIndex(selectDatas, data => data.TB_SDH !== '1')
+    if (index2 > -1) {
+      notification.error({
+        message: "未同步状态不能提交撤回，请检查！",
+        // description: response.message,
+      });
+      return
+    }
     dispatch({
       type: 'quality/handleResetQuality',
       payload: { list: selectDatas },
@@ -363,7 +379,11 @@ export default class QualityAssurance extends React.Component {
         widgetType: 'Select',
         render: (text, record) => {
           return (
-            <Select defaultValue={text ? text : '0'} style={{ width: 120, display: 'block' }} onChange={(value) => this.handleStatusChange(value, record, rowSelection)}>
+            <Select
+              defaultValue={text ? text : '0'} style={{ width: 120, display: 'block' }}
+              onChange={(value) => this.handleStatusChange(value, record, rowSelection)}
+              disabled={record.TB_SDH === '1'}
+            >
               <Select.Option value={'0'}>待检</Select.Option>
               <Select.Option value={'1'}>合格</Select.Option>
               <Select.Option value={'2'}>验退</Select.Option>
@@ -385,7 +405,13 @@ export default class QualityAssurance extends React.Component {
             min={0}
             max={record.QUANTITY}
             step={1}
-            disabled={!record.QUALITY_STATUS || record.QUALITY_STATUS === '0' || record.QUALITY_STATUS === '1' || record.QUALITY_STATUS === '9'}
+            disabled={
+              !record.QUALITY_STATUS ||
+              record.QUALITY_STATUS === '0' ||
+              record.QUALITY_STATUS === '1' ||
+              record.QUALITY_STATUS === '9' ||
+              record.TB_SDH === '1'
+            }
             value={record.HG_NUM}
             onChange={e => this.handleNumberChange(e, record)}
           />
@@ -425,7 +451,7 @@ export default class QualityAssurance extends React.Component {
               >
                 <Input
                   value={record.CHECK_REASON}
-                  disabled={record.TB_SDH && record.QUALITY_STATUS === "1"}
+                  disabled={record.TB_SDH === '1' || record.QUALITY_STATUS === '1'}
                   style={{ width: '200px' }}
                   onChange={e => this.handleReasonChange(e, record)}
                 />
@@ -435,7 +461,7 @@ export default class QualityAssurance extends React.Component {
             return (
               <Input
                 value={record.CHECK_REASON}
-                disabled={record.TB_SDH && record.QUALITY_STATUS === "1"}
+                disabled={record.TB_SDH === '1' || record.QUALITY_STATUS === "1"}
                 style={{ width: '200px' }}
                 onChange={e => this.handleReasonChange(e, record)}
               />
@@ -483,13 +509,13 @@ export default class QualityAssurance extends React.Component {
         align: 'center',
         disabled: false,
         widgetType: 'Select',
-        options: [{ text: "是", value: "0" },
-        { text: "否", value: "1" }],
+        options: [{ text: "是", value: "1" },
+        { text: "否", value: "0" }],
         // className: 'nocolor',
         render: (text, record) => {
           return (
             <Checkbox
-              checked={text}
+              checked={text == '1' ? true : false}
               disabled
               onChange={() => this.onCheckboxChange(text, record, 'AlreadySynchronized')}
             />
