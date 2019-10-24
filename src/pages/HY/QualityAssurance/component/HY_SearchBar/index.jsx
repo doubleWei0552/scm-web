@@ -169,12 +169,9 @@ class SearchBar extends React.Component {
                       >
                         {getFieldDecorator(`${item.dataIndex}`, {
                           // initialValue: undefined,
-                          rules: [
-                            { type: 'array' }
-                          ]
                         })(
                           <Select
-                            mode="multiple"
+                            mode={ item.isMultiple ? "multiple" : null}
                             placeholder={`请选择${item.title}`}
                             allowClear={true}
                             style={{ width: '205px', textOverflow: 'ellipsis' }}
