@@ -23,6 +23,9 @@ class SearchBar extends React.Component {
     this.props.form.validateFields((err, values) => {
       for (let gg in values) {
         //去除前后的空格
+        if (_.isArray(values[gg])) {
+          break
+        }
         if (values[gg] && typeof values[gg] == 'string') {
           values[gg] = values[gg].replace(/(^\s*)|(\s*$)/g, '');
         }
@@ -168,22 +171,26 @@ class SearchBar extends React.Component {
                       // style={{ width: '36px' }}
                       >
                         {getFieldDecorator(`${item.dataIndex}`, {
-                          initialValue: undefined,
+                          // initialValue: undefined,
+                          rules: [
+                            { type: 'array' }
+                          ]
                         })(
                           <Select
+                            mode="multiple"
                             placeholder={`请选择${item.title}`}
                             allowClear={true}
                             style={{ width: '205px', textOverflow: 'ellipsis' }}
-                            filterOption={(inputValue, option) =>
-                              _.includes(option.props.children, inputValue)
-                            }
-                            onSearch={true}
+                          // filterOption={(inputValue, option) =>
+                          //   _.includes(option.props.children, inputValue)
+                          // }
+                          // onSearch={true}
                           >
                             {_.map(item.options, (ii, jj) => {
                               return (
                                 <Select.Option
                                   title={ii.text}
-                                  key={ii.value + _.now()}
+                                  key={jj}
                                   value={ii.value}
                                 >
                                   {ii.text}
