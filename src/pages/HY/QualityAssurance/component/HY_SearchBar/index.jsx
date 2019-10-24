@@ -23,9 +23,6 @@ class SearchBar extends React.Component {
     this.props.form.validateFields((err, values) => {
       for (let gg in values) {
         //去除前后的空格
-        if (_.isArray(values[gg])) {
-          break
-        }
         if (values[gg] && typeof values[gg] == 'string') {
           values[gg] = values[gg].replace(/(^\s*)|(\s*$)/g, '');
         }
