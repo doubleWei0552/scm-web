@@ -20,7 +20,7 @@ import styles from './Index.less';
 
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
-  loadingG: loading.effects['tableTemplate/childUpdateFields'],
+  // loadingG: loading.effects['tableTemplate/childUpdateFields'],
 }))
 export default class TableForm extends React.Component {
   state = {
