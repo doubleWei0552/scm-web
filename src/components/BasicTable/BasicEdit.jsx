@@ -1,6 +1,7 @@
 import React from 'react'
 import { Breadcrumb,Button,DatePicker, Select,Input,Row, Col,Table,Modal } from 'antd';
 import router from 'umi/router';
+import _ from 'lodash'
 
 export default class BasicEdit extends React.Component{
     static defaultProps = {
@@ -121,7 +122,7 @@ export default class BasicEdit extends React.Component{
             return <Breadcrumb.Item key={index}>{value.title}</Breadcrumb.Item>
         })
         const BasicDataEdit = this.props.Search.map((value,index)=>{
-            if(JSON.stringify(this.props.table.DetailPage) != "{}"){ 
+            if(!_.isEmpty(this.props.table.DetailPage)){ 
             if(value.type === 'Select'){
                 let state  //组件的管控
                 this.props.table.DetailPage.data.policyFormFields.map((j,k)=>{

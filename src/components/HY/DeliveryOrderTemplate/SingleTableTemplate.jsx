@@ -198,18 +198,16 @@ export default class SingleTableTemplate extends React.Component {
   };
   detailEdit = () => {
     this.setState({ disEditStyle: false, buttonType: false });
-    if (JSON.stringify(this.props.tableTemplate.selectDate) == '{}') {
+    if (_.isEmpty(this.props.tableTemplate.selectDate)) {
       this.setState({ isNewSave: false, isEditSave: false });
     }
     this.props.dispatch({
       type: 'tableTemplate/getDetailPage',
       payload: {
-        ID:
-          JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+        ID: !_.isEmpty(this.props.tableTemplate.selectDate)
             ? this.props.tableTemplate.selectDate.ID
             : this.props.tableTemplate.ID,
-        ObjectType:
-          JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+        ObjectType: !isEmpty(this.props.tableTemplate.selectDate)
             ? this.props.tableTemplate.selectDate.ObjectType
             : this.props.tableTemplate.objectType,
         pageId: this.props.tableTemplate.pageId,
