@@ -356,15 +356,7 @@ export default class QualityAssurance extends React.Component {
         disabled: false,
         widgetType: 'Text',
       },
-      {
-        title: '收货日期',
-        dataIndex: 'SH_DATE',
-        key: 'receivedDate',
-        widgetType: 'Date',
-        disabled: true,
-        className: 'nocolor',
-        render: text => <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : null}</span>
-      },
+
       {
         title: '检查状态',
         dataIndex: 'QUALITY_STATUS',
@@ -469,13 +461,15 @@ export default class QualityAssurance extends React.Component {
           }
         },
       },
+
       {
-        title: '质检人员',
-        dataIndex: 'STAFF_CODE',
-        key: 'QualityInspector',
-        disabled: false,
+        title: '收货日期',
+        dataIndex: 'SH_DATE',
+        key: 'receivedDate',
+        widgetType: 'Date',
+        disabled: true,
         className: 'nocolor',
-        widgetType: 'Text',
+        render: text => <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : null}</span>
       },
       {
         title: '质检时间',
@@ -485,6 +479,14 @@ export default class QualityAssurance extends React.Component {
         widgetType: 'Date',
         className: 'nocolor',
         render: text => <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : null}</span>
+      },
+      {
+        title: '质检人员',
+        dataIndex: 'STAFF_CODE',
+        key: 'QualityInspector',
+        disabled: false,
+        className: 'nocolor',
+        widgetType: 'Text',
       },
       {
         title: '收货单号',
@@ -527,8 +529,8 @@ export default class QualityAssurance extends React.Component {
       <div className={styles.qualityPage}>
         <div style={{ borderRadius: '5px', background: 'white', padding: '10px' }}>
           <CustomerHeader />
-          <Col span={6} style={{ lineHeight: '41px', whiteSpace: 'nowrap', zIndex: 1 }}>
-            <div style={{ margin: '10px 0' }}>
+          <Col span={24} style={{ lineHeight: '41px', whiteSpace: 'nowrap', zIndex: 1, display: 'flex' }}>
+            <div style={{ margin: '10px 0', display: 'inline-block' }}>
               <Button
                 disabled={selectDatas.length == 0}
                 onClick={() => this.handleQuality()}
@@ -543,10 +545,11 @@ export default class QualityAssurance extends React.Component {
                 撤回
               </Button>
             </div>
-          </Col>
-          <Col span={18} style={{ margin: '10px 0', zIndex: 100, }}>
             <SearchBar tableColumns={columns} queryDatas={(e) => this.queryDatas(e)} />
           </Col>
+          {/* <Col span={18} style={{ margin: '10px 0', zIndex: 100, }}>
+            
+          </Col> */}
           <Table
             rowKey={record => record.ID}
             loading={loading}

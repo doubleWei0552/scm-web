@@ -103,10 +103,10 @@ class SearchBar extends React.Component {
     const { expand } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
-      <div>
+      <div style={{ display: 'inline-block', margin: '10px 0' }}>
         <Row>
           <Form
-            style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end' }}
+            style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}
             onSubmit={this.handleSearch}
             layout="inline"
             className="login-form"
@@ -116,12 +116,12 @@ class SearchBar extends React.Component {
                 switch (item.widgetType) {
                   case 'Text':
                     if (!item.disabled) return
-                    return <Col span={expand ? 13 : 9} key={item.dataIndex} style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
+                    return <div key={item.dataIndex} style={{ textAlign: 'left', display: 'flex' }}>
                       <Form.Item
                         label={item.title}
                         key={item.dataIndex}
                         {...formItemLayout}
-                        style={{ width: '100%' }}
+                      // style={{ width: }}
                       >
                         {getFieldDecorator(`${item.dataIndex}`, {
                           initialValue: '',
@@ -129,15 +129,15 @@ class SearchBar extends React.Component {
                           <Input
                             allowClear={true}
                             placeholder={`请输入${item.title}`}
-                            style={{ width: '100%', textOverflow: 'ellipsis' }}
+                            style={{ width: '205px', textOverflow: 'ellipsis' }}
                           />
                         )}
                       </Form.Item>
-                    </Col>
+                    </div>
                     break
                   case 'Number':
                     if (!item.disabled) return
-                    return <Col span={expand ? 13 : 9} key={item.dataIndex} style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
+                    return <div key={item.dataIndex} style={{ textAlign: 'left', display: 'flex' }}>
                       <Form.Item
                         label={item.title}
                         key={item.dataIndex}
@@ -155,7 +155,46 @@ class SearchBar extends React.Component {
                           />
                         )}
                       </Form.Item>
-                    </Col>
+                    </div>
+                    break
+                  case 'Select':
+                    if (!item.disabled) return
+                    return <div key={item.dataIndex}
+                      style={{ textAlign: 'left', display: 'flex' }}>
+                      <Form.Item
+                        label={item.title}
+                        key={item.dataIndex}
+                        {...formItemLayout}
+                      // style={{ width: '36px' }}
+                      >
+                        {getFieldDecorator(`${item.dataIndex}`, {
+                          initialValue: undefined,
+                        })(
+                          <Select
+                            placeholder={`请选择${item.title}`}
+                            allowClear={true}
+                            style={{ width: '205px', textOverflow: 'ellipsis' }}
+                            filterOption={(inputValue, option) =>
+                              _.includes(option.props.children, inputValue)
+                            }
+                            onSearch={true}
+                          >
+                            {_.map(item.options, (ii, jj) => {
+                              return (
+                                <Select.Option
+                                  title={ii.text}
+                                  key={ii.value + _.now()}
+                                  value={ii.value}
+                                >
+                                  {ii.text}
+                                </Select.Option>
+                              );
+                            })
+                            }
+                          </Select>
+                        )}
+                      </Form.Item>
+                    </div>
                     break
                   case 'Date':
                     let Date = [
@@ -177,11 +216,11 @@ class SearchBar extends React.Component {
                       switch (type) {
                         case 'start':
                           return (
-                            <Col span={expand ? 13 : 9} style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }} key={kk.dataIndex + gg}>
+                            <div style={{ textAlign: 'left', display: 'flex', marginRight: '10px' }} key={kk.dataIndex + gg}>
                               <Form.Item
                                 label={kk.title}
                                 {...formItemLayout}
-                                style={{ width: '100%' }}
+                              // style={{ width: '100%' }}
                               >
                                 {/* {getFieldDecorator(`${kk.DateType}-${item.dataIndex}`, { */}
                                 {getFieldDecorator(`Start_date`, {
@@ -202,16 +241,16 @@ class SearchBar extends React.Component {
                                   />
                                 )}
                               </Form.Item>
-                            </Col>
+                            </div>
                           );
                           break;
                         case 'end':
                           return (
-                            <Col span={expand ? 13 : 9} style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }} key={kk.dataIndex + gg}>
+                            <div style={{ textAlign: 'left', display: 'flex', width: '316px' }} key={kk.dataIndex + gg}>
                               <Form.Item
                                 label={kk.title}
                                 {...formItemLayout}
-                                style={{ width: '100%' }}
+                              // style={{ width: '100%', }}
                               >
                                 {/* {getFieldDecorator(`${kk.DateType}-${item.dataIndex}`, { */}
                                 {getFieldDecorator(`end_date`, {
@@ -231,7 +270,7 @@ class SearchBar extends React.Component {
                                   />
                                 )}
                               </Form.Item>
-                            </Col>
+                            </div>
                           );
                           break;
                         default:
@@ -239,45 +278,7 @@ class SearchBar extends React.Component {
                       }
                     });
                     break
-                  case 'Select':
-                    if (!item.disabled) return
-                    return <Col span={expand ? 13 : 9} key={item.dataIndex}
-                      style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
-                      <Form.Item
-                        label={item.title}
-                        key={item.dataIndex}
-                        {...formItemLayout}
-                        style={{ width: '100%' }}
-                      >
-                        {getFieldDecorator(`${item.dataIndex}`, {
-                          initialValue: undefined,
-                        })(
-                          <Select
-                            placeholder={`请选择${item.title}`}
-                            allowClear={true}
-                            style={{ width: '100%', textOverflow: 'ellipsis' }}
-                            filterOption={(inputValue, option) =>
-                              _.includes(option.props.children, inputValue)
-                            }
-                            onSearch={true}
-                          >
-                            {_.map(item.options, (ii, jj) => {
-                              return (
-                                <Select.Option
-                                  title={ii.text}
-                                  key={ii.value + _.now()}
-                                  value={ii.value}
-                                >
-                                  {ii.text}
-                                </Select.Option>
-                              );
-                            })
-                            }
-                          </Select>
-                        )}
-                      </Form.Item>
-                    </Col>
-                    break
+
                   default:
                     break
                 }
@@ -304,7 +305,7 @@ class SearchBar extends React.Component {
               </Col>
             } */}
             {
-              <Col span={expand ? 13 : null} style={{ textAlign: 'right' }}>
+              <div style={{ textAlign: 'right' }}>
                 <Form.Item
                   style={{
                     // width: this.state.expand ? 315 : 100,
@@ -316,7 +317,7 @@ class SearchBar extends React.Component {
                     <Icon type="search" />
                   </Button>
 
-                  <span style={{ display: 'inlineblock', padding: '8px' }}>
+                  {/* <span style={{ display: 'inlineblock', padding: '8px' }}>
                     <a
                       style={{
                         marginLeft: 8,
@@ -327,13 +328,13 @@ class SearchBar extends React.Component {
                     >
                       <Icon type={this.state.expand ? 'up' : 'down'} />
                     </a>
-                  </span>
+                  </span> */}
                 </Form.Item>
-              </Col>
+              </div>
             }
           </Form>
         </Row>
-      </div>
+      </div >
     );
   }
 }
