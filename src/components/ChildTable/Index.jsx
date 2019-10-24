@@ -62,17 +62,6 @@ export default class ChildTable extends React.Component {
   popconfirmCancel = e => {
   };
 
-  // // table排序方法  //暂定，根据后端的传参来调用
-  // handleChange = (pagination, filters, sorter) => {
-  //     let obj = {
-  //     descend:'DESC',
-  //     ascend:'ASC',
-  //     undefined:null,
-  //     }
-  //     let {searchParams,pageId} = this.props.tableTemplate
-  //     let value = sorter.field ? sorter.field + ' ' + obj[sorter.order] : null
-  // };
-
   //子表事件
   onChildDelete = record => {
     let id = record.id;
@@ -104,6 +93,21 @@ export default class ChildTable extends React.Component {
       autoFocus: false,
     });
   };
+
+  
+  TimeOut = null
+  childRTLink = (params) => {
+    this.props.dispatch({
+      type: 'tableTemplate/childUpdateFields',
+      payload: { params },
+      // callback: res => {
+      //   if (res.status == 'success') {
+          // this.specificData.inputNumberRef.onFocus()
+          // this.ref.current.props.autoFocus = true
+        // }
+      // },
+    });
+  }
 
   //新的子表编辑
   onChildChang = (e, record, specificData, type, childIndex, index, Columns, Data) => {
@@ -138,14 +142,10 @@ export default class ChildTable extends React.Component {
 
         let isIndex = Columns.rtLinks.includes(specificData.FIELD_NAME);
         if (isIndex) {
-          this.props.dispatch({
-            type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheNumberData], MasterTable } },
-            callback: res => {
-              if (res.status == 'success') {
-              }
-            },
-          });
+          this.TimeOut = setTimeout(() => {
+            if(this.TimeOut) clearTimeout(this.TimeOut)
+            this.childRTLink({ list: [cacheNumberData], MasterTable })
+          }, 500);
         }
         break;
       case 'DateInput':
@@ -184,16 +184,10 @@ export default class ChildTable extends React.Component {
         cacheNumberData.fieldGroupName = Columns.fieldGroupName;
         let isIndex2 = Columns.rtLinks.includes(specificData.FIELD_NAME);
         if (isIndex2) {
-          this.props.dispatch({
-            type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheNumberData], MasterTable } },
-            callback: res => {
-              if (res.status == 'success') {
-                // this.specificData.inputNumberRef.onFocus()
-                // this.ref.current.props.autoFocus = true
-              }
-            },
-          });
+          if(this.TimeOut) clearTimeout(this.TimeOut)
+          this.TimeOut = setTimeout(() => {
+            this.childRTLink({ list: [cacheNumberData], MasterTable })
+          }, 500);
         }
 
         this.setState({
@@ -238,16 +232,11 @@ export default class ChildTable extends React.Component {
 
         let isIndex3 = Columns.rtLinks.includes(specificData.FIELD_NAME);
         if (isIndex3) {
-          this.props.dispatch({
-            type: 'tableTemplate/childUpdateFields',
-            payload: { params: { list: [cacheData], MasterTable } },
-            callback: res => {
-              if (res.status == 'success') {
-              }
-            },
-          });
+          if(this.TimeOut) clearTimeout(this.TimeOut)
+          this.TimeOut = setTimeout(() => {
+            this.childRTLink({ list: [cacheData], MasterTable })
+          }, 500);
         }
-
         break;
     }
   };
