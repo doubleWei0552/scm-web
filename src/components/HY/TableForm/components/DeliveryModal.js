@@ -244,7 +244,6 @@ class DeliveryModal extends Component {
         render: (text, record) => (
           <InputNumber
             min={0}
-
             step={1}
             value={record.Carton}
             onChange={e => this.handleCartonChange(e, record)}
