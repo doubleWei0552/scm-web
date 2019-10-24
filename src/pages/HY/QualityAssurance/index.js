@@ -30,6 +30,7 @@ export default class QualityAssurance extends React.Component {
       searchParams: {},
       reasons: [],
       selectedRowKeys: [],
+      pageSize: 10,//一页多少条
     };
   }
 
@@ -41,7 +42,7 @@ export default class QualityAssurance extends React.Component {
 
   // 获取分页数据
   queryDatas = (value) => {
-    let { searchParams } = this.state
+    let { searchParams, pageSize } = this.state
     if (value) {
       this.setState({
         searchParams: value
@@ -51,7 +52,7 @@ export default class QualityAssurance extends React.Component {
     let pageId = this.props.location.query.PageId * 1;
     dispatch({
       type: 'quality/getDataList',
-      payload: { PageIndex: 1, PageCount: 10, searchParams: value ? value : searchParams ? searchParams : null },
+      payload: { PageIndex: 1, PageCount: pageSize, searchParams: value ? value : searchParams ? searchParams : null },
       callback: response => {
         this.setState({
           dataList: response.list,
@@ -237,7 +238,8 @@ export default class QualityAssurance extends React.Component {
       callback: response => {
         this.setState({
           dataList: response.list,
-          paganition: response.page
+          paganition: response.page,
+          pageSize,
         })
       }
     });
@@ -247,7 +249,7 @@ export default class QualityAssurance extends React.Component {
 
   render() {
     const { loading } = this.props;
-    let { dataList, paganition, reasons, selectDatas = [], selectedRowKeys } = this.state;
+    let { dataList, paganition, reasons, selectDatas = [], selectedRowKeys, pageSize } = this.state;
     const userData = JSON.parse(localStorage.getItem('userData'))
     const { roleId } = userData;
     const rowSelection = {
@@ -563,6 +565,7 @@ export default class QualityAssurance extends React.Component {
           />
           <Pagination
             showSizeChanger
+            pageSize={pageSize}
             onShowSizeChange={(current, pageSize) => this.onShowSizeChange(current, pageSize)}
             defaultCurrent={1}
             total={paganition.totalPage}
