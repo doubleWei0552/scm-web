@@ -200,12 +200,12 @@ class DetailButtons extends PureComponent {
     this.props.dispatch({
       type: 'tableTemplate/getDetailPage',
       payload: {
-        ID: !isEmpty(this.props.tableTemplate.selectDate)
-            ? this.props.tableTemplate.selectDate.ID
-            : this.props.tableTemplate.ID,
-        ObjectType: !isEmpty(this.props.tableTemplate.selectDate)
-            ? this.props.tableTemplate.selectDate.ObjectType
-            : this.props.tableTemplate.objectType,
+        ID: !_.isEmpty(this.props.tableTemplate.selectDate)
+          ? this.props.tableTemplate.selectDate.ID
+          : this.props.tableTemplate.ID,
+        ObjectType: !_.isEmpty(this.props.tableTemplate.selectDate)
+          ? this.props.tableTemplate.selectDate.ObjectType
+          : this.props.tableTemplate.objectType,
         pageId: this.props.tableTemplate.pageId,
         ProhibitChildRefresh: true, //禁止子表刷新
       },
@@ -254,11 +254,11 @@ class DetailButtons extends PureComponent {
         type: 'tableTemplate/getDetailPage',
         payload: {
           ID: !_.isEmpty(this.props.tableTemplate.selectDate)
-              ? this.props.tableTemplate.selectDate.ID
-              : this.props.tableTemplate.ID,
+            ? this.props.tableTemplate.selectDate.ID
+            : this.props.tableTemplate.ID,
           ObjectType: !_.isEmpty(this.props.tableTemplate.selectDate)
-              ? this.props.tableTemplate.selectDate.ObjectType
-              : this.props.tableTemplate.objectType,
+            ? this.props.tableTemplate.selectDate.ObjectType
+            : this.props.tableTemplate.objectType,
           pageId: this.props.tableTemplate.pageId,
           ProhibitChildRefresh: false, //禁止子表刷新
         },

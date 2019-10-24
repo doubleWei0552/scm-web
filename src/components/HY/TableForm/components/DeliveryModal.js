@@ -19,6 +19,7 @@ import {
   notification,
 } from 'antd';
 
+
 const FormItem = Form.Item;
 import styles from '../Index.less';
 
@@ -38,6 +39,7 @@ class DeliveryModal extends Component {
       loading: false,
       dataList: [],
       selectDatas: [],
+      selectedRowKeys: [],
     };
   }
 
@@ -87,6 +89,8 @@ class DeliveryModal extends Component {
         callback: response => {
           this.setState({
             dataList: response,
+            selectedRowKeys: [],
+            selectDatas: [],
           });
         },
       });
@@ -106,12 +110,37 @@ class DeliveryModal extends Component {
     });
   };
 
-  confirmSelect = () => {
-    console.log('propssssss', this.props);
+  // 箱规
+  handleCartonChange = (e, record) => {
+    let { dataList, selectDatas } = this.state;
+    _.map(dataList, data => {
+      if (data.PRODUCT_CODE === record.PRODUCT_CODE) {
+        data.Carton = e
+      }
+    })
+    _.map(selectDatas, data => {
+      if (data.PRODUCT_CODE === record.PRODUCT_CODE) {
+        data.Carton = e
+      }
+    })
+    this.setState({
+      dataList,
+      selectDatas
+    })
+  }
 
+  confirmSelect = () => {
     const { dispatch, SUPPLIER_ID, DELIVERY_CODE, tableTemplate } = this.props;
     const uid = _.get(tableTemplate, 'detailData.thisComponentUid')
     const { selectDatas } = this.state;
+    const index = _.findIndex(selectDatas, data => !data.Carton)
+    if (index > -1) {
+      notification.error({
+        message: "提交的项次中箱规不能为空，请检查！",
+        // description: response.message,
+      });
+      return
+    }
     dispatch({
       type: 'hydeliveryorder/confirmSelect',
       payload: { list: selectDatas, SUPPLIER_ID, DELIVERY_CODE },
@@ -123,7 +152,10 @@ class DeliveryModal extends Component {
           // })
           this.setState(
             {
-              visible: false,
+              visible: true,
+              selectDatas: [],
+              dataList: [],
+              selectedRowKeys: []
             },
             () => this.props.handleOk(uid)
           );
@@ -134,7 +166,7 @@ class DeliveryModal extends Component {
 
   render() {
     const { title, form, loading, hydeliveryorder } = this.props;
-    const { dataList, selectDatas } = this.state;
+    const { dataList, selectDatas, selectedRowKeys } = this.state;
     const { modalDeliveryOrderList } = hydeliveryorder;
     const { getFieldDecorator } = form;
     console.log('ssssss', dataList);
@@ -204,13 +236,31 @@ class DeliveryModal extends Component {
           />
         ),
       },
+      {
+        title: '箱规',
+        dataIndex: 'Carton',
+        width: 150,
+        fixed: 'right',
+        render: (text, record) => (
+          <InputNumber
+            min={0}
+
+            step={1}
+            value={record.Carton}
+            onChange={e => this.handleCartonChange(e, record)}
+            style={{ width: 'auto' }}
+          />
+        ),
+      },
     ];
 
     const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
+      selectedRowKeys,
+      onChange: (keys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         this.setState({
           selectDatas: selectedRows,
+          selectedRowKeys: keys,
         });
       },
       getCheckboxProps: record => ({
