@@ -362,6 +362,7 @@ export default class QualityAssurance extends React.Component {
         dataIndex: 'QUALITY_STATUS',
         key: 'CheckState',
         disabled: true,
+        isMultiple:true,
         className: 'nocolor',
         options: [{ text: "待检", value: "0" },
         { text: "合格", value: "1" },

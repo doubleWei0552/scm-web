@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { Table, Button, Input, message, Popconfirm, Divider, InputNumber, Select, Icon } from 'antd';
 // import isEqual from 'lodash/isEqual';
 import styles from './Index.less';
+import _ from 'lodash'
 
 class TableForm extends PureComponent {
   index = 0;
@@ -51,7 +52,7 @@ class TableForm extends PureComponent {
         newDataRow[i] = null
       }
     }
-    if (JSON.stringify(newDataRow) == '{}') {
+    if (_isEmpty(newDataRow)) {
       newDataRow.key = Math.random()
     }
     newData.push(newDataRow)

@@ -29,7 +29,7 @@ class SearchBar extends React.Component {
         if (values[gg] && typeof values[gg] == 'string') {
           values[gg] = values[gg].replace(/(^\s*)|(\s*$)/g, '');
         }
-        if (values[gg] != null && typeof values[gg] == 'object') {
+        if (values[gg] != null && !(values[gg] instanceof Array) && typeof values[gg] == 'object') {
           values[gg] = moment(values[gg]).valueOf()
         }
       }
@@ -285,32 +285,11 @@ class SearchBar extends React.Component {
                       }
                     });
                     break
-
                   default:
                     break
                 }
               })
             }
-            {/* {
-              <Col span={expand ? 13 : 9} key={'库位'} style={{ textAlign: 'left', display: expand ? 'flex' : expand ? null : 'none' }}>
-                <Form.Item
-                  label='库位'
-                  key={'库位'}
-                  {...formItemLayout}
-                  style={{ width: '100%' }}
-                >
-                  {getFieldDecorator('Storehouse', {
-                    initialValue: '',
-                  })(
-                    <Input
-                      allowClear={true}
-                      placeholder={`请输入库位`}
-                      style={{ width: '100%', textOverflow: 'ellipsis' }}
-                    />
-                  )}
-                </Form.Item>
-              </Col>
-            } */}
             {
               <div style={{ textAlign: 'right' }}>
                 <Form.Item
