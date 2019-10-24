@@ -143,17 +143,10 @@ export default class ChildTable extends React.Component {
             payload: { params: { list: [cacheNumberData], MasterTable } },
             callback: res => {
               if (res.status == 'success') {
-                // this.specificData.inputNumberRef.onFocus()
-                // this.ref.current.props.autoFocus = true
               }
             },
           });
         }
-
-        // this.props.dispatch({
-        //   type: 'tableTemplate/childUpdateFields',
-        //   payload: { params: { list: [cacheData2],MasterTable } },
-        // });
         break;
       case 'DateInput':
         this.props.tableTemplate.ChildData[index].Data.records[childIndex].map(p => {
@@ -250,16 +243,10 @@ export default class ChildTable extends React.Component {
             payload: { params: { list: [cacheData], MasterTable } },
             callback: res => {
               if (res.status == 'success') {
-                // this.specificData.inputNumberRef.onFocus()
-                // this.ref.current.props.autoFocus = true
               }
             },
           });
         }
-        // this.props.dispatch({
-        //   type: 'tableTemplate/childUpdateFields',
-        //   payload: { params: { list: [cacheData],MasterTable } },
-        // });
 
         break;
     }
