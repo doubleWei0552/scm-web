@@ -171,6 +171,7 @@ class SearchBar extends React.Component {
                           initialValue: undefined,
                         })(
                           <Select
+                            mode= {item.isMultiple ? 'multiple' : null}
                             placeholder={`请选择${item.title}`}
                             allowClear={true}
                             style={{ width: '205px', textOverflow: 'ellipsis' }}
@@ -278,75 +279,11 @@ class SearchBar extends React.Component {
                       }
                     });
                     break
-<<<<<<< HEAD
-
-=======
-                  case 'Select':
-                    if (!item.disabled) return
-                    return <Col span={expand ? 13 : 9} key={item.dataIndex}
-                      style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
-                      <Form.Item
-                        label={item.title}
-                        key={item.dataIndex}
-                        {...formItemLayout}
-                        style={{ width: '100%' }}
-                      >
-                        {getFieldDecorator(`${item.dataIndex}`, {
-                          initialValue: undefined,
-                        })(
-                          <Select
-                            mode= {item.isMultiple ? 'multiple' : null}
-                            placeholder={`请选择${item.title}`}
-                            allowClear={true}
-                            style={{ width: '100%', textOverflow: 'ellipsis' }}
-                            filterOption={(inputValue, option) =>
-                              _.includes(option.props.children, inputValue)
-                            }
-                            onSearch={true}
-                          >
-                            {_.map(item.options, (ii, jj) => {
-                              return (
-                                <Select.Option
-                                  title={ii.text}
-                                  key={ii.value + _.now()}
-                                  value={ii.value}
-                                >
-                                  {ii.text}
-                                </Select.Option>
-                              );
-                            })
-                            }
-                          </Select>
-                        )}
-                      </Form.Item>
-                    </Col>
-                    break
->>>>>>> 免检页面状态支持多选
                   default:
                     break
                 }
               })
             }
-            {/* {
-              <Col span={expand ? 13 : 9} key={'库位'} style={{ textAlign: 'left', display: expand ? 'flex' : expand ? null : 'none' }}>
-                <Form.Item
-                  label='库位'
-                  key={'库位'}
-                  {...formItemLayout}
-                  style={{ width: '100%' }}
-                >
-                  {getFieldDecorator('Storehouse', {
-                    initialValue: '',
-                  })(
-                    <Input
-                      allowClear={true}
-                      placeholder={`请输入库位`}
-                      style={{ width: '100%', textOverflow: 'ellipsis' }}
-                    />
-                  )}
-                </Form.Item>
-              </Col>
-            } */}
             {
               <div style={{ textAlign: 'right' }}>
                 <Form.Item
