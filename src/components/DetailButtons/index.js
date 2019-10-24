@@ -192,7 +192,7 @@ class DetailButtons extends PureComponent {
       type: 'tableTemplate/changeState',
       payload: { buttonType: false, disEditStyle: false, isEditSave: false },
     });
-    if (JSON.stringify(this.props.tableTemplate.selectDate) == '{}') {
+    if (_.isEmpty(this.props.tableTemplate.selectDate)) {
       this.props.dispatch({
         type: 'tableTemplate/changeState',
         payload: { isEditSave: false, isNewSave: false },
@@ -201,12 +201,10 @@ class DetailButtons extends PureComponent {
     this.props.dispatch({
       type: 'tableTemplate/getDetailPage',
       payload: {
-        ID:
-          JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+        ID: !_.isEmpty(this.props.tableTemplate.selectDate)
             ? this.props.tableTemplate.selectDate.ID
             : this.props.tableTemplate.ID,
-        ObjectType:
-          JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+        ObjectType: !_.isEmpty(this.props.tableTemplate.selectDate)
             ? this.props.tableTemplate.selectDate.ObjectType
             : this.props.tableTemplate.objectType,
         pageId: this.props.tableTemplate.pageId,
@@ -266,12 +264,10 @@ class DetailButtons extends PureComponent {
       this.props.dispatch({
         type: 'tableTemplate/getDetailPage',
         payload: {
-          ID:
-            JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+          ID: !_.isEmpty(this.props.tableTemplate.selectDate)
               ? this.props.tableTemplate.selectDate.ID
               : this.props.tableTemplate.ID,
-          ObjectType:
-            JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+          ObjectType: !_.isEmpty(this.props.tableTemplate.selectDate)
               ? this.props.tableTemplate.selectDate.ObjectType
               : this.props.tableTemplate.objectType,
           pageId: this.props.tableTemplate.pageId,
@@ -290,12 +286,10 @@ class DetailButtons extends PureComponent {
     this.props.dispatch({
       type: 'tableTemplate/getDetailPage',
       payload: {
-        ID:
-            JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+        ID: !_.isEmpty(this.props.tableTemplate.selectDate)
               ? this.props.tableTemplate.selectDate.ID
               : this.props.tableTemplate.ID,
-          ObjectType:
-            JSON.stringify(this.props.tableTemplate.selectDate) != '{}'
+          ObjectType: !_.isEmpty(this.props.tableTemplate.selectDate)
               ? this.props.tableTemplate.selectDate.ObjectType
               : this.props.tableTemplate.objectType,
           pageId: this.props.tableTemplate.pageId,

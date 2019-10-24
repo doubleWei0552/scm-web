@@ -54,7 +54,6 @@ class PersonalCenter extends Component {
         {/* <DragDrop />  */}
       </div>
     )
-
   }
 }
 
