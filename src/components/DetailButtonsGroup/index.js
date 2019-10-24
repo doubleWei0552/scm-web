@@ -347,7 +347,8 @@ export default class DetailButtonGroup extends React.Component {
                             ? (this.dom4 = dom)
                             : (this.ddom = dom);
                 }}
-                key={firstButton.ID}
+                // key={firstButton.ID}
+                key={Math.random()}
               >
                 <Button
                   style={{

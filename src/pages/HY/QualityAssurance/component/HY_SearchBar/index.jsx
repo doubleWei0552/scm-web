@@ -26,7 +26,7 @@ class SearchBar extends React.Component {
         if (values[gg] && typeof values[gg] == 'string') {
           values[gg] = values[gg].replace(/(^\s*)|(\s*$)/g, '');
         }
-        if (values[gg] != null && typeof values[gg] == 'object') {
+        if (values[gg] != null && !(values[gg] instanceof Array) && typeof values[gg] == 'object') {
           values[gg] = moment(values[gg]).valueOf()
         }
       }
@@ -278,7 +278,50 @@ class SearchBar extends React.Component {
                       }
                     });
                     break
+<<<<<<< HEAD
 
+=======
+                  case 'Select':
+                    if (!item.disabled) return
+                    return <Col span={expand ? 13 : 9} key={item.dataIndex}
+                      style={{ textAlign: 'left', display: expand ? 'flex' : index + 1 < 3 ? null : 'none' }}>
+                      <Form.Item
+                        label={item.title}
+                        key={item.dataIndex}
+                        {...formItemLayout}
+                        style={{ width: '100%' }}
+                      >
+                        {getFieldDecorator(`${item.dataIndex}`, {
+                          initialValue: undefined,
+                        })(
+                          <Select
+                            mode= {item.isMultiple ? 'multiple' : null}
+                            placeholder={`请选择${item.title}`}
+                            allowClear={true}
+                            style={{ width: '100%', textOverflow: 'ellipsis' }}
+                            filterOption={(inputValue, option) =>
+                              _.includes(option.props.children, inputValue)
+                            }
+                            onSearch={true}
+                          >
+                            {_.map(item.options, (ii, jj) => {
+                              return (
+                                <Select.Option
+                                  title={ii.text}
+                                  key={ii.value + _.now()}
+                                  value={ii.value}
+                                >
+                                  {ii.text}
+                                </Select.Option>
+                              );
+                            })
+                            }
+                          </Select>
+                        )}
+                      </Form.Item>
+                    </Col>
+                    break
+>>>>>>> 免检页面状态支持多选
                   default:
                     break
                 }
