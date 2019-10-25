@@ -284,8 +284,8 @@ class DeliveryModal extends Component {
                       rules: [],
                     })(<Input placeholder="请输入物料编码" />)}
                   </Form.Item>
-                  <Form.Item label="规格" style={{ marginBottom: 5, marginRight: '10px' }}>
-                    {getFieldDecorator(`SPEC`, {
+                  <Form.Item label="品名" style={{ marginBottom: 5, marginRight: '10px' }}>
+                    {getFieldDecorator(`PRODUCT_NAME`, {
                       rules: [],
                     })(<Input placeholder="请输入规格" />)}
                   </Form.Item>
