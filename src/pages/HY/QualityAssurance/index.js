@@ -75,6 +75,9 @@ export default class QualityAssurance extends React.Component {
     } else if (value == 2) {
       record.HG_NUM = 0;
       record.YT_NUM = record.RECEIVED_NUM;
+    } else if (value == '9') {
+      record.HG_NUM = 0;
+      record.YT_NUM = 0;
     }
 
 

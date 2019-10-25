@@ -40,6 +40,7 @@ class DeliveryModal extends Component {
       dataList: [],
       selectDatas: [],
       selectedRowKeys: [],
+      Carton: '',
     };
   }
 
@@ -111,35 +112,26 @@ class DeliveryModal extends Component {
   };
 
   // 箱规
-  handleCartonChange = (e, record) => {
-    let { dataList, selectDatas } = this.state;
-    _.map(dataList, data => {
-      if (data.PRODUCT_CODE === record.PRODUCT_CODE) {
-        data.Carton = e
-      }
-    })
-    _.map(selectDatas, data => {
-      if (data.PRODUCT_CODE === record.PRODUCT_CODE) {
-        data.Carton = e
-      }
-    })
+  handleCartonChange = (e) => {
     this.setState({
-      dataList,
-      selectDatas
+      Carton: e.target.value
     })
   }
 
   confirmSelect = () => {
     const { dispatch, SUPPLIER_ID, DELIVERY_CODE, tableTemplate } = this.props;
     const uid = _.get(tableTemplate, 'detailData.thisComponentUid')
-    const { selectDatas } = this.state;
-    const index = _.findIndex(selectDatas, data => !data.Carton)
-    if (index > -1) {
+    const { selectDatas, Carton } = this.state;
+    if (!Carton) {
       notification.error({
-        message: "提交的项次中箱规不能为空，请检查！",
+        message: "表头箱规不能为空，请检查！",
         // description: response.message,
       });
       return
+    } else {
+      _.map(selectDatas, data => {
+        data.Carton = Carton
+      })
     }
     dispatch({
       type: 'hydeliveryorder/confirmSelect',
@@ -155,7 +147,8 @@ class DeliveryModal extends Component {
               visible: true,
               selectDatas: [],
               dataList: [],
-              selectedRowKeys: []
+              selectedRowKeys: [],
+              Carton: ''
             },
             () => this.props.handleOk(uid)
           );
@@ -236,21 +229,7 @@ class DeliveryModal extends Component {
           />
         ),
       },
-      {
-        title: '箱规',
-        dataIndex: 'Carton',
-        width: 150,
-        fixed: 'right',
-        render: (text, record) => (
-          <InputNumber
-            min={0}
-            step={1}
-            value={record.Carton}
-            onChange={e => this.handleCartonChange(e, record)}
-            style={{ width: 'auto' }}
-          />
-        ),
-      },
+
     ];
 
     const rowSelection = {
@@ -296,22 +275,25 @@ class DeliveryModal extends Component {
             <div style={{ padding: '10px' }}>
               <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
                 <Row gutter={6} style={{ display: 'flex' }}>
-                  <Form.Item label="物料编码" style={{ marginBottom: 5, marginRight: '16px' }}>
+                  <Form.Item label="物料编码" style={{ marginBottom: 5, marginRight: '10px' }}>
                     {getFieldDecorator(`MATERIAL_CODE`, {
                       rules: [],
                     })(<Input placeholder="请输入物料编码" />)}
                   </Form.Item>
-                  <Form.Item label="规格" style={{ marginBottom: 5, marginRight: '16px' }}>
+                  <Form.Item label="规格" style={{ marginBottom: 5, marginRight: '10px' }}>
                     {getFieldDecorator(`SPEC`, {
                       rules: [],
                     })(<Input placeholder="请输入规格" />)}
                   </Form.Item>
-                  <Form.Item label="数量" style={{ marginBottom: 5, marginRight: '16px' }}>
+                  <Form.Item label="数量" style={{ marginBottom: 5, marginRight: '10px' }}>
                     {getFieldDecorator(`QUANTITY`, {
                       rules: [],
                     })(<Input placeholder="请输入数量" />)}
                   </Form.Item>
-                  <Form.Item label="需求日期" style={{ marginBottom: 5, marginRight: '16px' }}>
+                  <Form.Item label="箱规" style={{ marginBottom: 5, marginRight: '10px' }}>
+                    <Input placeholder="请输入箱规" onChange={this.handleCartonChange} />
+                  </Form.Item>
+                  <Form.Item label="需求日期" style={{ marginBottom: 5, marginRight: '10px' }}>
                     {getFieldDecorator('DEMAND_DATE', {
                       rules: [{ type: 'array', message: '请选择需求日期' }],
                     })(<RangePicker />)}
