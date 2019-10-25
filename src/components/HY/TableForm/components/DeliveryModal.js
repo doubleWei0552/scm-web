@@ -80,10 +80,10 @@ class DeliveryModal extends Component {
         start: moment(_.get(values, 'DEMAND_DATE[0]')).valueOf(),
         end: moment(_.get(values, 'DEMAND_DATE[1]')).valueOf(),
       };
-      const { MATERIAL_CODE, QUANTITY, SPEC } = values;
+      const { MATERIAL_CODE, QUANTITY, PRODUCT_NAME } = values;
       const data = _.get(values, 'DEMAND_DATE[0]')
-        ? _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, SPEC, PURCHASE_TYPE, DEMAND_DATE })
-        : _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, PURCHASE_TYPE, SPEC });
+        ? _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, PRODUCT_NAME, PURCHASE_TYPE, DEMAND_DATE })
+        : _.assign({}, { SUPPLIER_ID, MATERIAL_CODE, QUANTITY, PURCHASE_TYPE, PRODUCT_NAME });
       dispatch({
         type: 'hydeliveryorder/getModalList',
         payload: data,
