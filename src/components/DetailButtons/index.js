@@ -244,7 +244,7 @@ class DetailButtons extends PureComponent {
         ID:selectDate.ID,
         ObjectType: this.props.tableTemplate.detailColumns.objectType,
         pageId: this.props.tableTemplate.pageId,
-        ProhibitChildRefresh:false, //禁止子表刷新
+        ProhibitChildRefresh:true, //禁止子表刷新
       },
     });
   };
