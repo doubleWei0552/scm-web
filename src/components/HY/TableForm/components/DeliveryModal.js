@@ -122,15 +122,19 @@ class DeliveryModal extends Component {
     const { dispatch, SUPPLIER_ID, DELIVERY_CODE, tableTemplate } = this.props;
     const uid = _.get(tableTemplate, 'detailData.thisComponentUid')
     const { selectDatas, Carton } = this.state;
-    if (!Carton) {
-      notification.error({
-        message: "表头箱规不能为空，请检查！",
-        // description: response.message,
-      });
-      return
-    } else {
+    let materials = []
+    _.map(selectDatas, data => {
+      if (!_.includes(materials, data.PRODUCT_CODE)) {
+        materials.push(data.PRODUCT_CODE)
+      }
+    })
+    if (materials.length === 1) {
       _.map(selectDatas, data => {
         data.Carton = Carton
+      })
+    } else {
+      _.map(selectDatas, data => {
+        data.Carton = null
       })
     }
     dispatch({
@@ -159,7 +163,7 @@ class DeliveryModal extends Component {
 
   render() {
     const { title, form, loading, hydeliveryorder } = this.props;
-    const { dataList, selectDatas, selectedRowKeys } = this.state;
+    const { dataList, selectDatas, selectedRowKeys, Carton } = this.state;
     const { modalDeliveryOrderList } = hydeliveryorder;
     const { getFieldDecorator } = form;
     console.log('ssssss', dataList);
@@ -291,7 +295,7 @@ class DeliveryModal extends Component {
                     })(<Input placeholder="请输入数量" />)}
                   </Form.Item>
                   <Form.Item label="箱规" style={{ marginBottom: 5, marginRight: '10px' }}>
-                    <Input placeholder="请输入箱规" onChange={this.handleCartonChange} />
+                    <Input value={Carton} placeholder="请输入箱规" onChange={this.handleCartonChange} />
                   </Form.Item>
                   <Form.Item label="需求日期" style={{ marginBottom: 5, marginRight: '10px' }}>
                     {getFieldDecorator('DEMAND_DATE', {
