@@ -130,7 +130,7 @@ class DeliveryModal extends Component {
     })
     if (materials.length === 1) {
       _.map(selectDatas, data => {
-        data.Carton = Carton
+        data.Carton = Carton || null
       })
     } else {
       _.map(selectDatas, data => {
