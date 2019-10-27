@@ -304,7 +304,7 @@ export default class TableForm extends React.Component {
   };
 
   render() {
-    const { DELIVERY_CODE, SUPPLIER_ID } = this.props;
+    const { DELIVERY_CODE, SUPPLIER_ID, STATUS } = this.props;
     let add_d = this.props.HeaderData.add_d; //新增按钮管控，true为只读
     const listPageProps = {
       frameSelectedRowKeys: this.state.frameSelectedRowKeys,
@@ -346,7 +346,7 @@ export default class TableForm extends React.Component {
         <Button
           style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
           type={!DELIVERY_CODE ? 'dashed' : 'primary'}
-          disabled={DELIVERY_CODE ? false : true}
+          disabled={!DELIVERY_CODE || STATUS !== 'draft'}
           onClick={this.handleAddChild}
           icon="plus"
         >

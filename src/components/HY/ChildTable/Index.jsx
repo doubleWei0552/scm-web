@@ -94,18 +94,18 @@ export default class ChildTable extends React.Component {
   };
 
   stopScrollFun = (evt) => {   //禁止滚轮事件
-      evt = evt || window.event;  
-        if(evt.preventDefault) {  
-        // Firefox  
-          evt.preventDefault();  
-          evt.stopPropagation();  
-        } else {  
-          // IE  
-          evt.cancelBubble=true;  
-          evt.returnValue = false;  
-      }  
-      return false;  
-    }  
+    evt = evt || window.event;
+    if (evt.preventDefault) {
+      // Firefox  
+      evt.preventDefault();
+      evt.stopPropagation();
+    } else {
+      // IE  
+      evt.cancelBubble = true;
+      evt.returnValue = false;
+    }
+    return false;
+  }
 
   TimeOut = null
   childRTLink = (params) => {
@@ -114,9 +114,9 @@ export default class ChildTable extends React.Component {
       payload: { params },
       // callback: res => {
       //   if (res.status == 'success') {
-          // this.specificData.inputNumberRef.onFocus()
-          // this.ref.current.props.autoFocus = true
-        // }
+      // this.specificData.inputNumberRef.onFocus()
+      // this.ref.current.props.autoFocus = true
+      // }
       // },
     });
   }
@@ -155,7 +155,7 @@ export default class ChildTable extends React.Component {
         let isIndex = Columns.rtLinks.includes(specificData.FIELD_NAME);
         if (isIndex) {
           this.TimeOut = setTimeout(() => {
-            if(this.TimeOut) clearTimeout(this.TimeOut)
+            if (this.TimeOut) clearTimeout(this.TimeOut)
             this.childRTLink({ list: [cacheNumberData], MasterTable })
           }, 500);
         }
@@ -196,7 +196,7 @@ export default class ChildTable extends React.Component {
         cacheNumberData.fieldGroupName = Columns.fieldGroupName;
         let isIndex2 = Columns.rtLinks.includes(specificData.FIELD_NAME);
         if (isIndex2) {
-          if(this.TimeOut) clearTimeout(this.TimeOut)
+          if (this.TimeOut) clearTimeout(this.TimeOut)
           this.TimeOut = setTimeout(() => {
             this.childRTLink({ list: [cacheNumberData], MasterTable })
           }, 500);
@@ -244,7 +244,7 @@ export default class ChildTable extends React.Component {
 
         let isIndex3 = Columns.rtLinks.includes(specificData.FIELD_NAME);
         if (isIndex3) {
-          if(this.TimeOut) clearTimeout(this.TimeOut)
+          if (this.TimeOut) clearTimeout(this.TimeOut)
           this.TimeOut = setTimeout(() => {
             this.childRTLink({ list: [cacheData], MasterTable })
           }, 500);
@@ -360,7 +360,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       return (
                         <div key={j + text}>
@@ -400,7 +400,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let optionChild = i.options.map(bb => {
                         return (
@@ -444,7 +444,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       return (
                         <div key={j + text}>
@@ -486,7 +486,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       return (
                         <div key={j + text}>
@@ -535,7 +535,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -582,7 +582,7 @@ export default class ChildTable extends React.Component {
                                   })(
                                     <Input
                                       style={{
-                                        padding:null,
+                                        padding: null,
                                         minWidth: '100px',
                                         border:
                                           !this.state.isRegex &&
@@ -625,7 +625,7 @@ export default class ChildTable extends React.Component {
                                     ],
                                   })(
                                     <Input
-                                      style={{ minWidth: '100px',padding:null }}
+                                      style={{ minWidth: '100px', padding: null }}
                                       onBlur={e =>
                                         this.onChildChang(
                                           e,
@@ -671,7 +671,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -717,8 +717,10 @@ export default class ChildTable extends React.Component {
                                         required: specificData.REQUIRED_CONDITION,
                                         message: `${i.value}不能为空`,
                                       },
-                                      { pattern: '^[0-9]{1}([0-9]|[.])*$', 
-                                      message: '只支持数字录入'},
+                                      {
+                                        pattern: '^[0-9]{1}([0-9]|[.])*$',
+                                        message: '只支持数字录入'
+                                      },
                                     ],
                                   })(
                                     <Input
@@ -772,8 +774,10 @@ export default class ChildTable extends React.Component {
                                         required: specificData.REQUIRED_CONDITION,
                                         message: `${i.value}不能为空`,
                                       },
-                                      { pattern: '^[0-9]{1}([0-9]|[.])*$', 
-                                      message: '只支持数字录入'},
+                                      {
+                                        pattern: '^[0-9]{1}([0-9]|[.])*$',
+                                        message: '只支持数字录入'
+                                      },
                                     ],
                                   })(
                                     <Input
@@ -837,7 +841,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -901,7 +905,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -1088,7 +1092,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -1197,7 +1201,7 @@ export default class ChildTable extends React.Component {
                     text: i.text,
                     type: i.type,
                     value: i.value,
-                    fixed: (j == 0 || j ==1 ) ? 'left' : false,
+                    fixed: (j == 0 || j == 1) ? 'left' : false,
                     render: (text, record, childIndex) => {
                       let childRowData = []; //用于记录某行子表的数据
                       let specificData = {}; //用于记录具体的数据，方便后期添加管控
@@ -1305,7 +1309,7 @@ export default class ChildTable extends React.Component {
           return (
             <TabPane tab={_.get(value, 'Columns.title')} key={index}>
               <div>
-                <NTableForm 
+                <NTableForm
                   getMasterTable={value => this.props.getMasterTable(value)}
                   {...TableForm}
                   DELIVERY_CODE={
@@ -1319,6 +1323,11 @@ export default class ChildTable extends React.Component {
                   PURCHASE_TYPE={
                     this.props.detailForm
                       ? this.props.detailForm.getFieldValue('PURCHASE_TYPE')
+                      : null
+                  }
+                  STATUS={
+                    this.props.detailForm
+                      ? this.props.detailForm.getFieldValue('STATUS')
                       : null
                   }
                 />
@@ -1399,6 +1408,11 @@ export default class ChildTable extends React.Component {
                     PURCHASE_TYPE={
                       this.props.detailForm
                         ? this.props.detailForm.getFieldValue('PURCHASE_TYPE')
+                        : null
+                    }
+                    STATUS={
+                      this.props.detailForm
+                        ? this.props.detailForm.getFieldValue('STATUS')
                         : null
                     }
                   />
