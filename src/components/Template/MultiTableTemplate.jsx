@@ -47,9 +47,8 @@ let editAndDeleteButton = {
   tableTemplate,
   loadingGG:
     loading.effects['tableTemplate/getDetailPageConfig'] ||
-    loading.effects['tableTemplate/save'] ||
     loading.effects['tableTemplate/getDetailPage'] ||
-    loading.effects['tableTemplate/getTransactionProcess'] ||
+    // loading.effects['tableTemplate/getTransactionProcess'] ||
     loading.effects['tableTemplate/getSummaryPageConfig'],
 }))
 export default class MultiTableTemplate extends React.Component {

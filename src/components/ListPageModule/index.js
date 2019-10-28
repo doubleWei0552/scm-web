@@ -41,7 +41,6 @@ import styles from './Index.less';
   tableTemplate,
   loadingG:
     loading.effects['tableTemplate/getDetailPageConfig'] ||
-    loading.effects['tableTemplate/save'] ||
     loading.effects['tableTemplate/getDetailPage'] ||
     loading.effects['tableTemplate/getSummaryPageConfig'],
 }))
