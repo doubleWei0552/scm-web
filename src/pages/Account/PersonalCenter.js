@@ -9,7 +9,6 @@ import Data from './Data'
 import IframeCard from '@/components/IframeCard'
 import NoticeCard from '@/components/NoticeCard'
 import {onGetImageUrl} from '@/utils/FunctionSet';
-import DragDrop from '@/components/DragDrop'
 import styles from './style.less'
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;

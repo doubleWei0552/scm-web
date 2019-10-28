@@ -573,29 +573,31 @@ export default {
         if (result.message) {
           notification.success({ message: result.message, duration: 3 });
         }
-        const pagination = yield select(({ tableTemplate }) => tableTemplate.pagination);
-        let newSelectDate;
-        let newObjectType;
-        pagination.list.map((value, index) => {
-          if (value.ID == selectDate.ID) {
-            newSelectDate = value;
-            newObjectType = value.ObjectType;
-          }
-        });
-        yield put({ type: 'getPagelist', payload: { pageId } });
-        yield put({
-          type: 'getDetailPage',
-          payload: {
-            pageId,
-            ObjectType: newObjectType,
-            ID: selectDate.ID,
-            ProhibitChildRefresh: true,
-          },
-        });
-        yield put({
-          type: 'save',
-          payload: { selectDate: newSelectDate, objectType: newObjectType, pagination: tableData },
-        });
+        if(!result.executeScript){
+          const pagination = yield select(({ tableTemplate }) => tableTemplate.pagination);
+          let newSelectDate;
+          let newObjectType;
+          pagination.list.map((value, index) => {
+            if (value.ID == selectDate.ID) {
+              newSelectDate = value;
+              newObjectType = value.ObjectType;
+            }
+          });
+          yield put({ type: 'getPagelist', payload: { pageId } });
+          yield put({
+            type: 'getDetailPage',
+            payload: {
+              pageId,
+              ObjectType: newObjectType,
+              ID: selectDate.ID,
+              ProhibitChildRefresh: true,
+            },
+          });
+          yield put({
+            type: 'save',
+            payload: { selectDate: newSelectDate, objectType: newObjectType, pagination: tableData },
+          });
+        }
       } else {
         notification.error({ message: result.message, duration: 3 });
       }
