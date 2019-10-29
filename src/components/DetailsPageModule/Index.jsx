@@ -35,13 +35,6 @@ let child={}
 @Form.create()
 @connect(({ tableTemplate, loading }) => ({
   tableTemplate,
-  loadingG:
-    loading.effects['tableTemplate/getDetailPageConfig'] ||
-    loading.effects['tableTemplate/save'] ||
-    loading.effects['tableTemplate/getDetailSave'] ||
-    loading.effects['tableTemplate/getTransactionProcess'] ||
-    loading.effects['tableTemplate/getSummaryPageConfig'] ||
-    loading.effects['tableTemplate/getDetailPage']
 }))
 
 //详情页模块
@@ -79,16 +72,14 @@ export default class DetailsPageModule extends React.Component {
     return (
       <div>
         {/* 报表部分 */}
-        {this.props.tableTemplate.reportFormURL && (
+        {this.props.tableTemplate.reportFormURL ? (
           <ReportTable />
-        )}
-        {/* 详情页部分 */}
-        {!this.props.tableTemplate.reportFormURL && (
+        ) : (
           <div
             style={{ display: this.props.tableTemplate.isEdit ? 'block' : 'none' }}
             className={styles.SingleTableDetail}
           >
-          <SkeletonCom type='detailPage' loading={this.props.loadingGG || false} />
+          <SkeletonCom type='detailPage' loading={false || this.props.loadingGG } />
           <div style={{ display: isSkeleton ? 'none' : 'block' }}>
             {/* 头部title/面包屑 */}
             <CustomerHeader />
@@ -122,7 +113,6 @@ export default class DetailsPageModule extends React.Component {
                 <ChildTable getMasterTable={(value) => this.getMasterTable(value)} />
               </div>
             </Card>
-            {/* </Spin> */}
           </div>
           </div>
         )}

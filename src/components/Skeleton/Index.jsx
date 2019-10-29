@@ -15,7 +15,7 @@ export default class SkeletonCom extends React.Component{
         }
     }
     render(){
-        let { loading } = this.state
+        let { loading } = this.props
         return (
             <div style={{background:'white'}}>
                 { this.props.type == 'detailPage' ? 
